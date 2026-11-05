@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "map_name": "R_KR_PR_K-city_2025",
+  "vehicle": {
+    "name": "Ioniq5",
+    "wheelbase_m": 3.0
+  },
+  "bind_ip": "0.0.0.0",
+  "cameras": {
+    "left": {
+      "morai_name": "Camera_2",
+      "port": 9096,
+      "host_port": 9196,
+      "xyz_m": [
+        2.6,
+        0.4,
+        1.18
+      ]
+    },
+    "center": {
+      "morai_name": "Camera_4",
+      "port": 9105,
+      "host_port": 9205,
+      "xyz_m": [
+        2.6,
+        0.0,
+        1.18
+      ]
+    },
+    "right": {
+      "morai_name": "Camera_3",
+      "port": 9097,
+      "host_port": 9197,
+      "xyz_m": [
+        2.6,
+        -0.4,
+        1.18
+      ]
+    }
+  },
+  "camera_common": {
+    "rpy_deg": [
+      0.0,
+      2.0,
+      0.0
+    ],
+    "width": 1280,
+    "height": 720,
+    "horizontal_fov_deg": 90,
+    "fps": 30,
+    "compression_ratio": 90
+  },
+  "ego": {
+    "port": 9301,
+    "host_port": 9300,
+    "hz": 50,
+    "format": "normal_ego_152_or_200"
+  },
+  "manual_control": {
+    "enabled": true,
+    "sim_ip": "127.0.0.1",
+    "sim_ctrl_host_port": 9093,
+    "sim_ctrl_destination_port": 9094,
+    "hz": 50,
+    "speed_limit_kph": 20.0,
+    "target_margin_kph": 1.0,
+    "max_accel_mps2": 1.2,
+    "max_throttle": 0.3,
+    "max_ego_age_s": 0.2,
+    "max_wheel_angle_deg": 40.0,
+    "manual_steer_limit_deg": 20.0,
+    "steer_rate_deg_s": 18.0,
+    "steer_return_deg_s": 30.0,
+    "command_left_sign": 1,
+    "window_title_contains": [
+      "Simulator",
+      "PilotNet collection"
+    ],
+    "shutdown_brake_s": 2.0
+  },
+  "recording": {
+    "root": "dataset/raw",
+    "queue_size": 256,
+    "socket_buffer_bytes": 4194304,
+    "max_pending_frames": 6
+  },
+  "quality": {
+    "max_pair_delta_ms": 25.0,
+    "min_match_fraction": 0.95,
+    "min_rate_fraction": 0.85,
+    "max_stream_gap_s": 0.25,
+    "max_interpolation_gap_ms": 50
+  },
+  "preprocessing": {
+    "crop_xyxy": [
+      0,
+      280,
+      1280,
+      700
+    ],
+    "width": 200,
+    "height": 66,
+    "color": "YUV",
+    "sample_hz": 10.0
+  },
+  "experiment": {
+    "target_speed_kph": 20.0,
+    "min_speed_kph": 10.0,
+    "max_speed_kph": 30.0,
+    "weather": "clear",
+    "time_of_day": "12:00",
+    "traffic": "none"
+  }
+}

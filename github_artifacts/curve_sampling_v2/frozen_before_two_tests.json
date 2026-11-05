@@ -1,0 +1,5 @@
+{
+  "checkpoint_sha256": "696fa8b94c572dd831a084d51fec46ef2f2f7c5bf87e2d886f8ca9eee7310a8b",
+  "only_two_closed_loop_trials": true,
+  "retrain_after_test": false
+}

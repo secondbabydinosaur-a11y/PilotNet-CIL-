@@ -1,0 +1,14 @@
+{
+  "checked_utc": "2026-11-05T07:02:30.343791+00:00",
+  "matched": true,
+  "source_sha256": {
+    "runs/pilotnet_center_v1/best.pt": "e84e5294b4c3cd5dfbe3743b9f73403dea47b5d851e9d71ec1426969b62f6563",
+    "runs/pilotnet_three_v1/best.pt": "04a09fcfba5a564ad664df005f530b072460ed16fa5e5c6abaa2525cb3f816ce",
+    "dataset/paired/train.csv": "0f4447053bb4c6b67e5a0b34bf407791461d4d5b5eafd11dfea541933225ebf1",
+    "dataset/paired/val.csv": "d4f56a27c3bec863ae9090db768ccd49de33007a0dcc3e9a55bcadd5d829f0d5",
+    "dataset/paired/test.csv": "2e2b0f539e378802f0de5ba36e14b09641fc67f302552947bdecbdcf4370ffb3",
+    "dataset/paired_three/train.csv": "9660a4f3afd08f581733c8f726f70bcb4a2d995a7e9c65e2c848c173cd07aaa8",
+    "dataset/splits/groups.json": "2133e1e88a2102afaa86964b4c27e90b592cb782961206e9591184db5e972860"
+  },
+  "model_updated_after_test": false
+}

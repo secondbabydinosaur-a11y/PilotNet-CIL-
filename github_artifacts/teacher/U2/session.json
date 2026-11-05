@@ -1,0 +1,193 @@
+{
+  "schema_version": 1,
+  "session_id": "20261105T064506Z_U2_513b83",
+  "course": "U2",
+  "group": "unseen_test_g01",
+  "note": "TEST ONLY: new road, frozen models, automatic PP teacher; never train/validation.",
+  "config": {
+    "schema_version": 1,
+    "map_name": "R_KR_PR_K-city_2025",
+    "vehicle": {
+      "name": "Ioniq5",
+      "wheelbase_m": 3.0
+    },
+    "bind_ip": "0.0.0.0",
+    "cameras": {
+      "left": {
+        "morai_name": "Camera_2",
+        "port": 9096,
+        "host_port": 9196,
+        "xyz_m": [
+          2.6,
+          0.4,
+          1.18
+        ]
+      },
+      "center": {
+        "morai_name": "Camera_4",
+        "port": 9105,
+        "host_port": 9205,
+        "xyz_m": [
+          2.6,
+          0.0,
+          1.18
+        ]
+      },
+      "right": {
+        "morai_name": "Camera_3",
+        "port": 9097,
+        "host_port": 9197,
+        "xyz_m": [
+          2.6,
+          -0.4,
+          1.18
+        ]
+      }
+    },
+    "camera_common": {
+      "rpy_deg": [
+        0.0,
+        2.0,
+        0.0
+      ],
+      "width": 1280,
+      "height": 720,
+      "horizontal_fov_deg": 90,
+      "fps": 30,
+      "compression_ratio": 90
+    },
+    "ego": {
+      "port": 9301,
+      "host_port": 9300,
+      "hz": 50,
+      "format": "normal_ego_152_or_200"
+    },
+    "manual_control": {
+      "enabled": false,
+      "sim_ip": "127.0.0.1",
+      "sim_ctrl_host_port": 9093,
+      "sim_ctrl_destination_port": 9094,
+      "hz": 50,
+      "speed_limit_kph": 20.0,
+      "target_margin_kph": 1.0,
+      "max_accel_mps2": 1.2,
+      "max_throttle": 0.3,
+      "max_ego_age_s": 0.2,
+      "max_wheel_angle_deg": 40.0,
+      "manual_steer_limit_deg": 20.0,
+      "steer_rate_deg_s": 18.0,
+      "steer_return_deg_s": 30.0,
+      "command_left_sign": 1,
+      "window_title_contains": [
+        "Simulator",
+        "PilotNet collection"
+      ],
+      "shutdown_brake_s": 2.0
+    },
+    "recording": {
+      "root": "dataset/unseen_raw",
+      "queue_size": 256,
+      "socket_buffer_bytes": 4194304,
+      "max_pending_frames": 6
+    },
+    "quality": {
+      "max_pair_delta_ms": 25.0,
+      "min_match_fraction": 0.95,
+      "min_rate_fraction": 0.85,
+      "max_stream_gap_s": 0.25,
+      "max_interpolation_gap_ms": 50
+    },
+    "preprocessing": {
+      "crop_xyxy": [
+        0,
+        280,
+        1280,
+        700
+      ],
+      "width": 200,
+      "height": 66,
+      "color": "YUV",
+      "sample_hz": 10.0
+    },
+    "experiment": {
+      "target_speed_kph": 20.0,
+      "min_speed_kph": 10.0,
+      "max_speed_kph": 30.0,
+      "weather": "clear",
+      "time_of_day": "12:00",
+      "traffic": "none"
+    }
+  },
+  "config_source": "/home/kuuve/catkin_ws/src/pilotnet_kasa/config.json",
+  "status": "capture_finished",
+  "validated": false,
+  "started_utc": "2026-11-05T06:45:06.295281+00:00",
+  "clock": "stamp_ns=MORAI sensor sec/nsec; recv_ns=host monotonic_ns; never subtract these clocks",
+  "software": {
+    "python": "3.8.10 (default, Mar 18 2025, 20:04:55) \n[GCC 9.4.0]",
+    "numpy": "1.24.4",
+    "opencv": "3.4.5"
+  },
+  "ego_source_requires_operator_confirmation": true,
+  "control": {
+    "kind": "map_pure_pursuit_expert_v1",
+    "human_steering": false,
+    "teacher": "map Pure Pursuit + speed feedback",
+    "start_pose_xyzyaw": [
+      -25.6997322976268,
+      345.1410420209051,
+      28.33599238787484,
+      3.400401309069773
+    ],
+    "initial_offset_m": 0.0,
+    "initial_yaw_offset_deg": 0.0,
+    "target_speed_kph": 19.0,
+    "lookahead_m": 4.5,
+    "speed_ceiling_kph": 20.0,
+    "end_station_m": 1218.0,
+    "capture_station_m": [
+      970.337,
+      1218.0
+    ],
+    "route_sha256": "6faa1e823edcb13c67e234a2c68fbf3e0a560e3f23ccfeec02d43219c22b9f1b"
+  },
+  "evaluation_only": true,
+  "evaluation_station_m": [
+    978.337,
+    1210.0
+  ],
+  "finished_utc": "2026-11-05T06:45:58.103937+00:00",
+  "elapsed_wall_s": 51.808449221000046,
+  "received": {
+    "left": 1538,
+    "center": 1538,
+    "right": 1538,
+    "ego": 2564,
+    "ego_raw": 2564
+  },
+  "saved": {
+    "left": 1538,
+    "center": 1538,
+    "right": 1538,
+    "ego": 2564,
+    "ego_raw": 2564
+  },
+  "parse_errors": {
+    "left": 0,
+    "center": 0,
+    "right": 0,
+    "ego": 0
+  },
+  "first_errors": [],
+  "fatal_errors": [],
+  "incomplete_evicted": {
+    "left": 0,
+    "center": 0,
+    "right": 0
+  },
+  "unfinished_frames": {
+    "left": 1,
+    "center": 1,
+    "right": 1
+  }
+}

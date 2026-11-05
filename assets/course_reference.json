@@ -1,0 +1,23 @@
+{
+  "map_name": "R_KR_PR_K-city_2025",
+  "source_path": "/home/kuuve/catkin_ws_kasa/src/kcity2026_stack/kcity2026/data/kcity_official/route.csv",
+  "source_sha256": "62bcdb2370ae45663d2be3522e0e54222d5cf1f65aa8344df2fb0b189520da62",
+  "station_definition": "cumulative Euclidean distance of route XY",
+  "sample_step_m": 0.5,
+  "courses": {
+    "A": [
+      0,
+      55
+    ],
+    "D": [
+      650,
+      850
+    ]
+  },
+  "origin_utm_m": [
+    302595,
+    4124145
+  ],
+  "utm_zone": 52,
+  "note": "Copied reference only. Collection does not drive this route."
+}

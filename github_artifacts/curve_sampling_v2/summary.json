@@ -1,0 +1,8 @@
+{
+  "status": "trained",
+  "best_epoch": 27,
+  "best_val_mse": 2.1338298093232924e-08,
+  "epochs_completed": 30,
+  "elapsed_s": 63.43989573399995,
+  "checkpoint": "/home/kuuve/catkin_ws/src/pilotnet_kasa/runs/pilotnet_three_center_weight_v2/best.pt"
+}

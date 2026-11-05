@@ -1,0 +1,8 @@
+{
+  "route_s_m": 0.0023292658369771136,
+  "cte_m": -0.004701538166479748,
+  "heading_error_deg": 5.000148410973907,
+  "requested_offset_m": 0.0,
+  "requested_heading_offset_deg": 5.0,
+  "speed_kph": -0.00023055545170791447
+}

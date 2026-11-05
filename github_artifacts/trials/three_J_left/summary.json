@@ -1,0 +1,18 @@
+{
+  "status": "intervention_cte",
+  "error": null,
+  "control": true,
+  "course": "J",
+  "frames": 185,
+  "telemetry_rows": 185,
+  "elapsed_s": 9.20585363400005,
+  "completion_fraction": 0.5460262191843155,
+  "cte_rmse_m": 0.23762078922426763,
+  "max_abs_cte_m": 0.9111181836095414,
+  "interventions": 1,
+  "collision_metric": null,
+  "collision_note": "not instrumented; no zero-collision claim",
+  "terminal_station_m": 77.50817148908804,
+  "terminal_cte_m": -1.0492753365851748,
+  "checkpoint_sha256": "04a09fcfba5a564ad664df005f530b072460ed16fa5e5c6abaa2525cb3f816ce"
+}

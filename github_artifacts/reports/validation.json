@@ -1,0 +1,9 @@
+{
+  "unit_and_integration_tests": 37,
+  "tests_passed": true,
+  "command": "bash run.sh -m unittest discover -s tests -v",
+  "scope": "synthetic UDP, timestamp interpolation, label provenance, splits, preprocessing, network dimensions/backward, checkpoint, heading geometry, recovery metric",
+  "actual_MORAI_experiments": "reported separately in closed_loop.csv",
+  "latest_test_run": "2026-11-05 Asia/Seoul",
+  "wall_seconds": 16.078
+}

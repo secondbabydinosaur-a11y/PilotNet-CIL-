@@ -1,0 +1,18 @@
+{
+  "checkpoint": "/home/kuuve/catkin_ws/src/pilotnet_kasa/runs/pilotnet_three_v1/best.pt",
+  "checkpoint_sha256": "04a09fcfba5a564ad664df005f530b072460ed16fa5e5c6abaa2525cb3f816ce",
+  "course": "A",
+  "control": true,
+  "initial_offset_m": 0.0,
+  "target_kph": 19.0,
+  "max_cte_m": 1.0,
+  "initial_heading_offset_deg": -5.0,
+  "record_screen": true,
+  "seconds": 90.0,
+  "reference_station_m": [
+    0.0,
+    55.0
+  ],
+  "steering": "CNN only; reference used only for reset and evaluation",
+  "model_camera_mode": "three"
+}

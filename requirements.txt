@@ -1,0 +1,8 @@
+# Collector/preparation only. PyTorch belongs to the later model stage.
+numpy>=1.24,<1.25; python_version < '3.9'
+numpy>=1.24; python_version >= '3.9'
+opencv-python>=4.8,<4.13
+# Optional simulator automation (tools.collection.expert_collect); collection itself needs no gRPC.
+grpcio>=1.48
+protobuf>=4.21,<6; python_version < '3.9'
+protobuf>=4.21; python_version >= '3.9'

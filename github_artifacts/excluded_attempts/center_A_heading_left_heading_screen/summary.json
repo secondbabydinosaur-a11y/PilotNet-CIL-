@@ -1,0 +1,23 @@
+{
+  "status": "failed",
+  "error": "measured initial lateral/heading error differs from requested reset",
+  "control": true,
+  "course": "A",
+  "frames": 0,
+  "telemetry_rows": 0,
+  "elapsed_s": 0.0,
+  "completion_fraction": 0.0,
+  "cte_rmse_m": null,
+  "max_abs_cte_m": 0.00245176284131534,
+  "p95_abs_cte_m": null,
+  "mean_speed_kph": null,
+  "max_speed_kph": null,
+  "inference_mean_ms": null,
+  "inference_p95_ms": null,
+  "interventions": 0,
+  "collision_metric": null,
+  "collision_note": "not instrumented; no zero-collision claim",
+  "terminal_station_m": 0.0011322461520201898,
+  "terminal_cte_m": -0.00245176284131534,
+  "checkpoint_sha256": "e84e5294b4c3cd5dfbe3743b9f73403dea47b5d851e9d71ec1426969b62f6563"
+}

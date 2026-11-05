@@ -1,0 +1,77 @@
+{
+  "settings": {
+    "run_dir": "/home/kuuve/catkin_ws/src/pilotnet_kasa/runs/pilotnet_center_v1",
+    "epochs": 30,
+    "batch_size": 64,
+    "lr": 0.001,
+    "patience": 8,
+    "seed": 42,
+    "workers": 4,
+    "threads": 4,
+    "device": "auto",
+    "cache": true,
+    "curve_weight": 2.0,
+    "loss_scale": 100.0,
+    "device_used": "cuda"
+  },
+  "data_contract": {
+    "preprocessing": {
+      "crop_xyxy": [
+        0,
+        280,
+        1280,
+        700
+      ],
+      "width": 200,
+      "height": 66,
+      "color": "YUV",
+      "sample_hz": 10.0
+    },
+    "camera_common": {
+      "rpy_deg": [
+        0.0,
+        2.0,
+        0.0
+      ],
+      "width": 1280,
+      "height": 720,
+      "horizontal_fov_deg": 90,
+      "fps": 30,
+      "compression_ratio": 90
+    },
+    "center_camera": {
+      "morai_name": "Camera_4",
+      "port": 9105,
+      "host_port": 9205,
+      "xyz_m": [
+        2.6,
+        0.0,
+        1.18
+      ]
+    },
+    "wheelbase_m": 3.0,
+    "steer_left_sign": 1,
+    "road_wheel_gain": 1.0,
+    "target": "y_curvature_1pm; left negative, right positive",
+    "input": "BCHW YUV float32 0..255; normalization inside model",
+    "source_sha256": {
+      "dataset/splits/groups.json": "2133e1e88a2102afaa86964b4c27e90b592cb782961206e9591184db5e972860",
+      "dataset/paired/summary.json": "6e9eea04d51454139a302a265ca568df76d00e27812adcd9e19c9435ecfd8c30",
+      "dataset/paired/train.csv": "0f4447053bb4c6b67e5a0b34bf407791461d4d5b5eafd11dfea541933225ebf1",
+      "dataset/paired/val.csv": "d4f56a27c3bec863ae9090db768ccd49de33007a0dcc3e9a55bcadd5d829f0d5",
+      "dataset/paired/test.csv": "2e2b0f539e378802f0de5ba36e14b09641fc67f302552947bdecbdcf4370ffb3"
+    }
+  },
+  "environment": {
+    "torch": "2.4.1+cu121",
+    "numpy": "1.24.4",
+    "opencv": "3.4.5",
+    "cuda_runtime": "12.1",
+    "gpu": "NVIDIA GeForce RTX 4080 SUPER"
+  },
+  "counts": {
+    "train": 6611,
+    "val": 1652
+  },
+  "selection": "lowest validation MSE; test unused during training"
+}

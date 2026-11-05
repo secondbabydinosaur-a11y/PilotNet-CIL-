@@ -1,0 +1,15 @@
+{
+  "source": "/home/kuuve/catkin_ws_kasa/src/kcity2026_stack/kcity2026/data/kcity_official/route.csv",
+  "sha256": "62bcdb2370ae45663d2be3522e0e54222d5cf1f65aa8344df2fb0b189520da62",
+  "intervals_s_m": [
+    [
+      0,
+      78
+    ],
+    [
+      625,
+      872
+    ]
+  ],
+  "purpose": "classical teacher only; never a model input"
+}

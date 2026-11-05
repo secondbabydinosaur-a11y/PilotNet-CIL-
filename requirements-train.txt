@@ -1,0 +1,5 @@
+-r requirements.txt
+# 현재 Python 3.8 환경의 학습 버전. GPU wheel은 공식 cu121 index에서 설치한다.
+torch==2.4.1
+matplotlib>=3.7,<3.8; python_version < '3.9'
+matplotlib>=3.7; python_version >= '3.9'

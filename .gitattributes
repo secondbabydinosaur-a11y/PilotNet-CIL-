@@ -1,0 +1,8 @@
+*.mp4 binary
+*.pt binary
+# CSV bytes are part of the frozen checkpoint contract; preserve CRLF exactly.
+*.csv -text whitespace=cr-at-eol
+# Matplotlib generates SVG path lines with harmless trailing whitespace.
+*.svg -whitespace
+*.py text eol=lf
+*.md text eol=lf

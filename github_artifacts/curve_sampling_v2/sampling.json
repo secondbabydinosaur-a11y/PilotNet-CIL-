@@ -1,0 +1,31 @@
+{
+  "source": "original train/val only; no unseen teacher used",
+  "train_samples": 18863,
+  "curve_proxy_samples": 12034,
+  "straight_proxy_samples": 6829,
+  "curve_basis": "uncorrected center teacher curvature, not side recovery targets",
+  "threshold_abs_1pm": 0.003,
+  "curve_weight": 2.0,
+  "straight_weight": 1.0,
+  "raw_curve_proxy_fraction": 0.6379685097810529,
+  "expected_sampled_curve_proxy_fraction": 0.7789753050457974,
+  "paper": "https://arxiv.org/pdf/1604.07316",
+  "paper_section": "5.1 Data Selection",
+  "paper_specifies_numeric_ratio": false,
+  "weight_2_is_our_choice": true,
+  "caveat": "center steering includes teacher corrections; proxy rather than independently annotated road geometry",
+  "tests": [
+    {
+      "course": "U2",
+      "heading_deg": 0,
+      "offset_m": 0
+    },
+    {
+      "course": "U1",
+      "heading_deg": 0,
+      "offset_m": 0
+    }
+  ],
+  "interpretation": "post-baseline exploratory comparison on the same already-tested held-out roads",
+  "v1_expected_sampled_center_curve_proxy_fraction": 0.6824512534818942
+}

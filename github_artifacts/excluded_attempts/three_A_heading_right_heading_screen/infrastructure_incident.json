@@ -1,0 +1,7 @@
+{
+  "kind": "simulator_native_crash",
+  "evidence": "Unity Player.log: SIGSEGV, vk::Image::CacheInvalidate / GfxDeviceVK::UpdateAsyncReadbackData; gRPC 7789 connection refused; Simulator process exited at 2026-11-05 15:38 KST",
+  "exclude_from_model_success_denominator": true,
+  "retry_same_frozen_model_and_condition": true,
+  "original_summary_preserved": true
+}

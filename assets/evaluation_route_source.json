@@ -1,0 +1,6 @@
+{
+  "source": "/home/kuuve/catkin_ws_kasa/src/kcity2026_stack/kcity2026/data/kcity_official/route.csv",
+  "sha256": "62bcdb2370ae45663d2be3522e0e54222d5cf1f65aa8344df2fb0b189520da62",
+  "station": "cumulative planar XY distance",
+  "use": "reset and evaluation only, never CNN steering"
+}

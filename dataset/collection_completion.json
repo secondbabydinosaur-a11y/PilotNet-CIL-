@@ -1,0 +1,24 @@
+{
+  "completed_local": "2026-11-04 Asia/Seoul",
+  "runs": 36,
+  "groups": 6,
+  "A_runs": 18,
+  "D_runs": 18,
+  "camera_images": {
+    "left": 34377,
+    "center": 34379,
+    "right": 34377
+  },
+  "ego_samples": 57186,
+  "all_capture_checks_passed": true,
+  "performed": "raw collection and inspection only",
+  "not_performed": [
+    "data preprocessing",
+    "train/val/test splitting",
+    "neural network design",
+    "training",
+    "model evaluation"
+  ],
+  "source_kind": "map_pure_pursuit_expert_v1",
+  "human_steering": false
+}

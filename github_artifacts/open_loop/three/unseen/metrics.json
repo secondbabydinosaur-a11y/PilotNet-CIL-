@@ -1,0 +1,87 @@
+{
+  "evaluation": "open_loop_unseen_road_center_images",
+  "split": "test_only_unseen",
+  "checkpoint_sha256": "04a09fcfba5a564ad664df005f530b072460ed16fa5e5c6abaa2525cb3f816ce",
+  "selected_epoch": 28,
+  "metrics": {
+    "samples": 830,
+    "mse_1pm2": 5.548298354582081e-05,
+    "rmse_1pm": 0.0074486900556957536,
+    "mae_1pm": 0.0055952601403436875,
+    "p95_abs_error_1pm": 0.017005925870034844,
+    "r2": 0.05720611506878037,
+    "bicycle_steer_mae_deg": 0.9609494467084978
+  },
+  "zero_curvature_baseline": {
+    "samples": 830,
+    "mse_1pm2": 7.646197280299426e-05,
+    "rmse_1pm": 0.008744253701888702,
+    "mae_1pm": 0.00470525967931631,
+    "p95_abs_error_1pm": 0.022164905164390795,
+    "r2": -0.2992790902981306,
+    "bicycle_steer_mae_deg": 0.8079976584727655
+  },
+  "by_course": {
+    "U1": {
+      "samples": 385,
+      "mse_1pm2": 3.5015498744711515e-05,
+      "rmse_1pm": 0.005917389521124286,
+      "mae_1pm": 0.005057007040492166,
+      "p95_abs_error_1pm": 0.010143104326562022,
+      "r2": -71.88745993339344,
+      "bicycle_steer_mae_deg": 0.8691013129479879
+    },
+    "U2": {
+      "samples": 445,
+      "mse_1pm2": 7.319080747487044e-05,
+      "rmse_1pm": 0.008555162621182045,
+      "mae_1pm": 0.006060939788529835,
+      "p95_abs_error_1pm": 0.018643634021282194,
+      "r2": 0.07957755979306402,
+      "bicycle_steer_mae_deg": 1.0404135624338826
+    }
+  },
+  "by_session": {
+    "20261105T064225Z_U1_f3cd4f": {
+      "samples": 385,
+      "mse_1pm2": 3.5015498744711515e-05,
+      "rmse_1pm": 0.005917389521124286,
+      "mae_1pm": 0.005057007040492166,
+      "p95_abs_error_1pm": 0.010143104326562022,
+      "r2": -71.88745993339344,
+      "bicycle_steer_mae_deg": 0.8691013129479879
+    },
+    "20261105T064506Z_U2_513b83": {
+      "samples": 445,
+      "mse_1pm2": 7.319080747487044e-05,
+      "rmse_1pm": 0.008555162621182045,
+      "mae_1pm": 0.006060939788529835,
+      "p95_abs_error_1pm": 0.018643634021282194,
+      "r2": 0.07957755979306402,
+      "bicycle_steer_mae_deg": 1.0404135624338826
+    }
+  },
+  "zero_curvature_baseline_by_course": {
+    "U1": {
+      "samples": 385,
+      "mse_1pm2": 4.909672123386301e-07,
+      "rmse_1pm": 0.0007006905253666773,
+      "mae_1pm": 0.0005234751429731199,
+      "p95_abs_error_1pm": 0.001365257473662494,
+      "r2": -0.021986100464912894,
+      "bicycle_steer_mae_deg": 0.08997839859093157
+    },
+    "U2": {
+      "samples": 445,
+      "mse_1pm2": 0.00014218969674097723,
+      "rmse_1pm": 0.011924332129766313,
+      "mae_1pm": 0.008323208098399744,
+      "p95_abs_error_1pm": 0.02401947118341923,
+      "r2": -0.788128757720693,
+      "bicycle_steer_mae_deg": 1.4292053327525545
+    }
+  },
+  "scope": "new roads, same K-City map and clear/noon conditions; one teacher run per road",
+  "test_manifest_sha256": "e125a1d073c6f4122989f584ba7824072235fbdfcb60748be12a2bb4490f4ca5",
+  "model_updated": false
+}

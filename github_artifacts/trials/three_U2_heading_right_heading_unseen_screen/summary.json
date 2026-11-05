@@ -1,0 +1,23 @@
+{
+  "status": "intervention_cte",
+  "error": null,
+  "control": true,
+  "course": "U2",
+  "frames": 168,
+  "telemetry_rows": 168,
+  "elapsed_s": 8.355275927000548,
+  "completion_fraction": 0.14180711346128985,
+  "cte_rmse_m": 0.4159103515361433,
+  "max_abs_cte_m": 1.0342801135402484,
+  "p95_abs_cte_m": 0.6304558059023968,
+  "mean_speed_kph": 14.159732330752723,
+  "max_speed_kph": 18.869544982910156,
+  "inference_mean_ms": 0.6278200598802396,
+  "inference_p95_ms": 1.2829167999999997,
+  "interventions": 1,
+  "collision_metric": null,
+  "collision_note": "not instrumented; no zero-collision claim",
+  "terminal_station_m": 1011.4340499183684,
+  "terminal_cte_m": 1.0342801135402484,
+  "checkpoint_sha256": "04a09fcfba5a564ad664df005f530b072460ed16fa5e5c6abaa2525cb3f816ce"
+}

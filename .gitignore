@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.venv/
+dataset/raw/*/
+dataset/unseen_raw/
+dataset/setup/
+dataset/rejected/
+dataset/processed/
+runs/
+results/
+*.log
+.~lock.*#
