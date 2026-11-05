@@ -8,5 +8,19 @@ dataset/rejected/
 dataset/processed/
 runs/
 results/
+# 공개 결과는 대표 영상과 요약 표만 추적한다. 전체 검수 아카이브는 로컬 보존.
+github_artifacts/
+!results/
+results/*
+!results/README.md
+!results/video_sources.json
+!results/curve_sampling.json
+!results/videos/
+!results/videos/*.mp4
+!results/images/
+!results/images/*.jpg
+!results/images/course_map.png
+!results/metrics/
+!results/metrics/*.csv
 *.log
 .~lock.*#

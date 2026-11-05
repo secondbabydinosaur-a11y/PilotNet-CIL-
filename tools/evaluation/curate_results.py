@@ -1,0 +1,183 @@
+"""로컬 실험 아카이브에서 대표 비교 영상 7개와 읽기 쉬운 결과 표만 만든다.
+
+학습/시뮬레이터 실행은 하지 않는다. 별도 실험의 실제 녹화를 원래 속도로
+나란히 보여 주며, 짧은 영상이 끝난 뒤 고정 화면임을 표시한다.
+"""
+from concurrent.futures import ThreadPoolExecutor
+import csv
+import hashlib
+import json
+from pathlib import Path
+import shutil
+import subprocess
+import tempfile
+
+from data_utils import BASE, read_csv, read_json, write_json
+
+ARCHIVE = BASE / "github_artifacts"
+OUTPUT = BASE / "results"
+FONT = Path("/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc")
+MODELS = {"center": "가운데 카메라로 학습", "three": "카메라 3개로 학습"}
+COURSES = {"A": "학습한 직선", "D": "학습한 곡선", "J": "교차로",
+           "U1": "학습하지 않은 직선", "U2": "학습하지 않은 곡선"}
+CONDITIONS = {"nominal": "중앙에서 방향 0°", "left": "왼쪽으로 0.3m 치우쳐 출발",
+              "right": "오른쪽으로 0.3m 치우쳐 출발", "heading_left": "진행 방향을 왼쪽으로 5° 틀어 출발",
+              "heading_right": "진행 방향을 오른쪽으로 5° 틀어 출발"}
+
+
+def digest(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def duration(path):
+    return float(subprocess.check_output(["ffprobe", "-v", "error", "-show_entries", "format=duration",
+        "-of", "default=noprint_wrappers=1:nokey=1", str(path)], text=True))
+
+
+def result_name(status):
+    return {"completed": "완주", "intervention_cte": "횡오차 1m 초과로 종료",
+            "intervention_heading": "방향 오차로 종료", "intervention_sensor": "센서 수신 중단",
+            "timeout": "시간 초과"}.get(status, status)
+
+
+def text_file(directory, name, value):
+    path = directory / name
+    path.write_text(value, encoding="utf-8")
+    return path
+
+
+def overlay(text_path, size, y, color="white", extra=""):
+    return "drawtext=fontfile={}:textfile={}:fontsize={}:fontcolor={}:x=20:y={}{}".format(
+        FONT, text_path, size, color, y, extra)
+
+
+def encode(sources, output, directory):
+    """한 장면: single 또는 side by side. sources는 표시 문구와 원본 경로다."""
+    paired = len(sources) == 2
+    width, height, viewport = (960, 760, 600) if paired else (1280, 800, 660)
+    lengths = [duration(item["source"]) for item in sources]
+    filters, command = [], ["ffmpeg", "-hide_banner", "-loglevel", "error", "-nostdin", "-y", "-filter_complex_threads", "2"]
+    for source in sources:
+        command += ["-threads", "2", "-i", str(source["source"])]
+    for i, (source, seconds) in enumerate(zip(sources, lengths)):
+        label = text_file(directory, "label_" + str(i), source["model"])
+        description = text_file(directory, "condition_" + str(i), source["condition"])
+        result = text_file(directory, "result_" + str(i), "결과: " + source["result"])
+        chain = ("[{}:v]fps=20,scale={}:{}:force_original_aspect_ratio=decrease,"
+                 "pad={}:{}:(ow-iw)/2:88+({}-ih)/2:color=0x101827,setsar=1,").format(
+                     i, width, viewport, width, height, viewport)
+        chain += ",".join([overlay(label, 30, 10), overlay(description, 21, 52),
+                            overlay(result, 22, height-58, "0xffd166")])
+        if seconds < max(lengths) - .05:
+            note = text_file(directory, "ended_" + str(i), "시험 종료 · 마지막 화면 고정")
+            chain += ",tpad=stop_mode=clone:stop_duration={:.4f},{}".format(
+                max(lengths)-seconds, overlay(note, 18, height-28, "0xff8b8b", ":enable='gte(t,{:.4f})'".format(seconds)))
+        chain += "[pane{}]".format(i)
+        filters.append(chain)
+    if paired:
+        filters.append("[pane0][pane1]hstack=inputs=2[out]")
+    else:
+        filters.append("[pane0]null[out]")
+    command += ["-filter_complex", ";".join(filters), "-map", "[out]", "-an", "-c:v", "libx264",
+                "-preset", "veryfast", "-crf", "23", "-threads", "4", "-pix_fmt", "yuv420p",
+                "-movflags", "+faststart", str(output)]
+    subprocess.run(command, check=True)
+
+
+def write_csv(path, rows):
+    with path.open("w", newline="", encoding="utf-8-sig") as stream:
+        writer = csv.DictWriter(stream, fieldnames=list(rows[0]))
+        writer.writeheader();writer.writerows(rows)
+
+
+def tables(rows):
+    output = OUTPUT / "metrics"
+    output.mkdir(exist_ok=True)
+    open_rows = []
+    for r in read_csv(ARCHIVE / "reports/open_loop.csv"):
+        if r["course"] != "all":
+            continue
+        open_rows.append({"학습에 사용한 카메라": MODELS[r["mode"]],
+            "평가 도로": "학습한 도로의 다른 주행" if r["cohort"] == "seen" else "학습하지 않은 도로",
+            "이미지 수": r["samples"], "곡률 RMSE (1/m)": r["rmse_1pm"], "곡률 MAE (1/m)": r["mae_1pm"]})
+    write_csv(output / "open_loop.csv", open_rows)
+    trials = []
+    for r in rows:
+        if r["cohort"] == "base_nominal_gui_rerun":
+            continue  # 같은 정상 출발을 GUI 녹화로 반복한 6회는 중복 합산하지 않는다.
+        trials.append({"학습에 사용한 카메라": MODELS[r["mode"]], "도로": COURSES[r["course"]],
+            "출발 조건": CONDITIONS[r["trial"]], "결과": result_name(r["status"]),
+            "진행률 (%)": round(100*float(r["completion_fraction"]), 2),
+            "횡오차 RMSE (m)": r["cte_rmse_m"], "최대 횡오차 (m)": r["max_abs_cte_m"],
+            "복귀 여부": "해당 없음 (정상 출발)" if r["trial"] == "nominal" else
+                         "복귀" if r["recovered"] == "True" else "미복귀",
+            "복귀 시간 (s)": "" if r["trial"] == "nominal" else r["recovery_time_s"]})
+    write_csv(output / "driving_trials.csv", trials)
+    extra = []
+    for r in read_csv(ARCHIVE / "curve_sampling_v2/comparison.csv"):
+        extra.append({"학습 조건": "기존 카메라 3개 학습" if r["version"] == "v1_target_weight" else "곡선 비중을 높인 카메라 3개 학습",
+            "도로": COURSES[r["course"]], "출발 조건": CONDITIONS["nominal"], "결과": result_name(r["status"]),
+            "진행률 (%)": round(100*float(r["completion_fraction"]), 2), "횡오차 RMSE (m)": r["cte_rmse_m"]})
+    write_csv(output / "curve_sampling_comparison.csv", extra)
+
+
+def main():
+    if not FONT.exists():
+        raise RuntimeError("Korean font needed: " + str(FONT))
+    (OUTPUT / "videos").mkdir(parents=True, exist_ok=True)
+    (OUTPUT / "images").mkdir(exist_ok=True)
+    rows = read_csv(ARCHIVE / "reports/closed_loop.csv")
+    def driving(mode, course, trial="nominal"):
+        cohort = ("base_nominal_gui_rerun" if trial == "nominal" and course in ("A", "D", "J") else
+                  "seen_heading" if course in ("A", "D") else "unseen_lateral")
+        r = next(r for r in rows if r["mode"] == mode and r["course"] == course and r["trial"] == trial and r["cohort"] == cohort)
+        return dict(source=ARCHIVE / r["morai_video"], model=MODELS[mode],
+                    condition=COURSES[course] + " · " + CONDITIONS[trial], result=result_name(r["status"]))
+    definitions = [
+        ("01_teacher", "학습 데이터 원본", [[dict(source=ARCHIVE / ("teacher/0{}_teacher_{}.mp4".format(i, name)),
+            model="지도 PP 자동 teacher", condition=condition, result="학습에 사용한 주행 원본 · 사람 운전 아님")]
+            for i, name, condition in ((1, "straight", "직선 수집"), (2, "curves", "곡선 수집"))]),
+        ("02_training_roads", "학습한 도로에서 카메라 1개와 3개 비교", [[driving(m, c) for m in ("center", "three")] for c in ("A", "D")]),
+        ("03_heading_recovery", "방향을 오른쪽으로 5° 틀어 출발했을 때 복귀 비교", [[driving(m, "D", "heading_right") for m in ("center", "three")]]),
+        ("04_new_road_straight", "학습하지 않은 직선에서 비교", [[driving(m, "U1") for m in ("center", "three")]]),
+        ("05_new_road_curve", "학습하지 않은 곡선에서 비교", [[driving(m, "U2") for m in ("center", "three")]]),
+        ("06_more_curve_training", "곡선 비중을 높여 다시 학습한 결과", [[dict(source=ARCHIVE / "curve_sampling_v2" / c / "morai_screen.mp4",
+            model="카메라 3개 · 곡선 비중 증가 학습", condition=COURSES[c] + " · 중앙에서 방향 0°",
+            result=result_name(next(r for r in read_json(ARCHIVE / "curve_sampling_v2/results.json") if r["course"] == c)["status"]))] for c in ("U2", "U1")]),
+        ("07_intersection", "카메라 3개 학습 모델의 교차로 주행", [[driving("three", "J")]]),
+    ]
+    def create(definition):
+        name, title, chapters = definition
+        destination = OUTPUT / "videos" / (name + ".mp4")
+        with tempfile.TemporaryDirectory(prefix="pilotnet_selected_") as tmp:
+            directory = Path(tmp)
+            parts = []
+            for i, sources in enumerate(chapters):
+                part_dir = directory / str(i);part_dir.mkdir()
+                part = directory / (str(i) + ".mp4")
+                encode(sources, part, part_dir)
+                parts.append(part)
+            if len(parts) == 1:
+                shutil.copy2(str(parts[0]), str(destination))
+            else:
+                listing = directory / "concat.txt"
+                listing.write_text("".join("file '{}'\n".format(p) for p in parts))
+                subprocess.run(["ffmpeg", "-v", "error", "-nostdin", "-y", "-f", "concat", "-safe", "0",
+                    "-i", str(listing), "-c", "copy", "-movflags", "+faststart", str(destination)], check=True)
+        preview = OUTPUT / "images" / (name + ".jpg")
+        subprocess.run(["ffmpeg", "-v", "error", "-threads", "2", "-y", "-ss", "2", "-i", str(destination),
+            "-frames:v", "1", "-vf", "scale=960:-2", str(preview)], check=True)
+        print("SELECTED", title, flush=True)
+        return dict(title=title, video=str(destination.relative_to(OUTPUT)), duration_s=duration(destination),
+            sha256=digest(destination), chapters=[[dict(**{k:v for k,v in item.items() if k != "source"},
+                original_file=str(item["source"].relative_to(BASE)), original_sha256=digest(item["source"])) for item in sources] for sources in chapters])
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        sources = list(pool.map(create, definitions))
+    write_json(OUTPUT / "video_sources.json", dict(editing="separate runs side by side at original speed; ended video freezes with an explicit label",
+        originals_preserved_locally=True, videos=sources))
+    tables(rows)
+    print("CURATED", len(sources), "videos", flush=True)
+
+
+if __name__ == "__main__":
+    main()
