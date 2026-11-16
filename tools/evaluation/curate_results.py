@@ -1,7 +1,7 @@
-"""PilotNet 교차로 사례 영상 1개와 기존 새 도로 평가 표를 로컬 아카이브에서 만든다.
+"""기존 새 도로 비교 영상 3개에 교차로 사례 1개를 더해 결과를 만든다.
 
-학습/시뮬레이터 실행은 하지 않는다. 좌회전 평가 경로에서 직진 방향으로
-진행한 실제 MORAI 녹화를 원래 속도로 보여 준다.
+학습/시뮬레이터 실행은 하지 않는다. 별도 실험의 실제 녹화를 원래 속도로
+나란히 보여 주며, 짧은 영상이 끝난 뒤 고정 화면임을 표시한다.
 """
 from concurrent.futures import ThreadPoolExecutor
 import csv
@@ -98,7 +98,7 @@ def evaluation_scope():
                 raise ValueError("public test overlaps a training capture")
     return dict(held_out_sections=sections,
                 training_capture_station_ranges=protocol["training_capture_station_ranges"],
-                description="U1/U2 are held-out road tests; J is a separate intersection demonstration",
+                description="U1/U2 are held-out road tests; J is an additional intersection demonstration",
                 intersection_demonstration=dict(course="J", reference_station_m=[40., 108.],
                     expected_route="left turn", observed_behavior="continued towards straight; CTE intervention",
                     overlaps_training_capture=True,
@@ -158,8 +158,20 @@ def main():
     rows = read_csv(ARCHIVE / "reports/closed_loop.csv")
     intersection = next(r for r in rows if r["mode"] == "three" and r["course"] == "J"
                         and r["trial"] == "nominal" and r["cohort"] == "base_nominal_gui_rerun")
+    def driving(mode, course, trial="nominal"):
+        if course not in COURSES:
+            raise ValueError("only held-out roads belong in public test videos")
+        cohort = "unseen_heading" if trial.startswith("heading_") else "unseen_lateral"
+        r = next(r for r in rows if r["mode"] == mode and r["course"] == course and r["trial"] == trial and r["cohort"] == cohort)
+        return dict(source=ARCHIVE / r["morai_video"], model=MODELS[mode],
+                    condition=COURSES[course] + " · " + CONDITIONS[trial], result=result_name(r["status"]))
     definitions = [
-        ("01_intersection", "PilotNet 교차로 사례: 좌회전 경로에서 직진 방향으로 진행", [[dict(
+        ("01_new_road_straight", "학습하지 않은 직선에서 비교", [[driving(m, "U1") for m in ("center", "three")]]),
+        ("02_new_road_curve", "학습하지 않은 곡선에서 비교", [[driving(m, "U2") for m in ("center", "three")]]),
+        ("03_more_curve_training", "곡선 비중을 높여 다시 학습한 결과", [[dict(source=ARCHIVE / "curve_sampling_v2" / c / "morai_screen.mp4",
+            model="카메라 3개 · 곡선 비중 증가 학습", condition=COURSES[c] + " · 중앙에서 방향 0°",
+            result=result_name(next(r for r in read_json(ARCHIVE / "curve_sampling_v2/results.json") if r["course"] == c)["status"]))] for c in ("U2", "U1")]),
+        ("04_intersection", "PilotNet 교차로 사례: 좌회전 경로에서 직진 방향으로 진행", [[dict(
             source=ARCHIVE / intersection["morai_video"], model=MODELS["three"],
             condition="교차로 · " + CONDITIONS["nominal"], result=result_name(intersection["status"]))]]),
     ]
@@ -206,7 +218,7 @@ def main():
                     destination.parent.mkdir(parents=True, exist_ok=True)
                     shutil.move(str(old), str(destination))
     write_json(index, dict(evaluation_scope=scope,
-        editing="actual MORAI window recording at original speed; explanatory labels added",
+        editing="actual MORAI recordings at original speed; separate runs are placed side by side for comparisons and frozen endings are labeled",
         originals_preserved_locally=True, videos=sources))
     tables(rows)
     print("CURATED", len(sources), "videos", flush=True)

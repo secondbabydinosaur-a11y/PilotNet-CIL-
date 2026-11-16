@@ -38,8 +38,8 @@ GitHub에는 이미지 대신 분할 목록과 이미지–곡률 연결 CSV를 
 
 모델·기존 분할의 SHA256과 학습/시험 구간의 비중첩은 `verify_frozen()`으로 확인한다.
 [고정 당시 프로토콜](evaluation_protocol.json)은 과거 내부 점검 조건도 포함한 원본 기록이다.
-새 도로 정량 평가는 위 U1/U2에 한정한다. 공개 영상은 별도로 복구한 교차로 J 사례다.
-J(s40~108m)는 학습 구간과 일부 겹치므로 새 도로 일반화 시험으로 해석하지 않는다. [도로 지도](../results/images/course_map.png)
+새 도로 정량 평가는 위 U1/U2에 한정한다. 교차로 J(s40~108m) 사례 영상은 별도로 추가했다.
+J는 학습 수집 구간과 일부 겹치므로 새 도로 일반화 시험과 구분한다. [도로 지도](../results/images/course_map.png)
 
 ## 학습
 
@@ -99,10 +99,8 @@ bash run.sh -m tools.evaluation.run_matrix --repeats 1 --record-screen
 
 ## 결과 파일 구성
 
-공개 영상은 [results/](../results/README.md)의 **교차로 J 사례 1개**다.
-좌회전 평가 경로에서 카메라 3개 학습 모델이 직진 방향으로 진행하다 중단된 실제 MORAI 기록을 복구했다.
-U1/U2의 모든 성공·실패 조건은 기존 요약 CSV에 보존하며, 교차로 영상 수치는 별도 `intersection_example.csv`에 기록한다.
-`curate_results`를 다시 실행해도 교차로 영상 1개와 이 평가 표 구성을 유지한다.
+공개 결과는 [results/](../results/README.md)의 기존 새 도로 영상 3개, 추가 교차로 사례 영상 1개와 평가 표다.
+U1/U2의 모든 성공·실패 조건은 기존 요약 CSV에 남긴다. 교차로 영상 수치는 별도 `intersection_example.csv`에 기록한다.
 원본 주행별 로그와 전체 영상은 로컬 `runs/`, `github_artifacts/`에 보존한다.
 
 ```bash
