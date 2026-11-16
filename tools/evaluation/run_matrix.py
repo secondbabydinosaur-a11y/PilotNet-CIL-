@@ -1,4 +1,4 @@
-"""두 고정 모델을 동일한 코스·초기 위치·헤딩 조건에서 순차 시험한다."""
+"""두 고정 모델을 학습하지 않은 U1/U2 도로의 같은 출발 조건에서 시험한다."""
 import argparse
 from pathlib import Path
 import socket
@@ -34,9 +34,14 @@ def main():
     parser.add_argument("--record-screen", action="store_true")
     parser.add_argument("--conditions", nargs="+", choices=tuple(CONDITIONS),
                         help="explicit conditions; otherwise --repeats selects nominal or 3 lateral conditions")
-    parser.add_argument("--courses", nargs="+", choices=tuple(Reference.limits), default=["A", "D", "J"])
-    parser.add_argument("--tag", default="", choices=("", "unseen"))
+    parser.add_argument("--courses", nargs="+", choices=("U1", "U2"), default=["U1", "U2"],
+                        help="held-out roads only: U1 straight, U2 curve and connecting straight")
+    parser.add_argument("--tag", default="unseen", choices=("", "unseen"))
     args = parser.parse_args()
+    # 제어를 시작하기 전에 기존 모델/분할 해시와 학습 구간 비중첩을 확인한다.
+    # collect_unseen이 park를 가져오므로 순환 import를 피하려고 여기서 읽는다.
+    from tools.collection.collect_unseen import verify_frozen
+    verify_frozen()
     root = BASE / "runs/closed_loop"
     root.mkdir(parents=True, exist_ok=True)
     (root / "logs").mkdir(exist_ok=True)
@@ -53,7 +58,7 @@ def main():
         courses={name: list(Reference.limits[name]) for name in args.courses},
         conditions={name: dict(offset_m=CONDITIONS[name][0], heading_deg=CONDITIONS[name][1])
                     for name in trials}, target_speed_kph=19., intervention_cte_m=1.,
-        intersection_note="unseen geometry and missing intent are both factors; failure is not architectural impossibility",
+        evaluation_scope="held-out U1/U2 roads; same K-City map and weather",
         control="CNN steering, fixed-speed feedback; map only resets and measures"))
     try:
         for trial in trials:
@@ -103,6 +108,7 @@ def main():
                         name, result["status"], result["cte_rmse_m"], result["completion_fraction"]), flush=True)
     finally:
         park()
+        verify_frozen()
         print("Simulator parked: P / Keyboard; collection speed limiter disabled.", flush=True)
 
 

@@ -1,4 +1,4 @@
-"""원본 teacher 영상과 6개 모델 주행 영상을 발표용 결과 폴더에 모은다."""
+"""과거 학습 도로의 내부 점검 기록을 로컬에 복원한다. 공개 시험은 curate_results 사용."""
 import argparse
 import csv
 import html
@@ -68,7 +68,7 @@ def plots(output, matrix, open_loop):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output", type=Path, default=BASE / "results/pilotnet_comparison_20261105")
+    parser.add_argument("--output", type=Path, default=BASE / "runs/legacy_results/pilotnet_comparison_20261105")
     parser.add_argument("--teachers-only", action="store_true")
     args = parser.parse_args()
     output = args.output.resolve()
@@ -108,7 +108,7 @@ def main():
         comparison_notes=["Both models run on center camera at inference.",
             "Three-camera train labels use our PP-delta 2s approximation, not the unpublished NVIDIA formula.",
             "Same A/D roads are repeated across groups. Test scores are not unseen-road generalization.",
-            "Junction J is unseen during training. Failure cannot isolate missing intent from unseen geometry.",
+            "J overlaps training capture stations 40-65m; it is an internal diagnostic, not a disjoint-road test.",
             "An unconditional PilotNet may traverse a junction; it cannot select arbitrary user intent from identical images alone.",
             "Both use 30 epochs; three-camera training has more images and optimizer steps.",
             "Collision ground truth was not instrumented; CTE intervention threshold is 1m.",

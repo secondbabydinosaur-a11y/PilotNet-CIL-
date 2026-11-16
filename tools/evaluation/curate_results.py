@@ -1,4 +1,4 @@
-"""로컬 실험 아카이브에서 대표 비교 영상 7개와 읽기 쉬운 결과 표만 만든다.
+"""학습하지 않은 도로의 대표 영상 3개와 결과 표를 로컬 아카이브에서 만든다.
 
 학습/시뮬레이터 실행은 하지 않는다. 별도 실험의 실제 녹화를 원래 속도로
 나란히 보여 주며, 짧은 영상이 끝난 뒤 고정 화면임을 표시한다.
@@ -18,8 +18,7 @@ ARCHIVE = BASE / "github_artifacts"
 OUTPUT = BASE / "results"
 FONT = Path("/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc")
 MODELS = {"center": "가운데 카메라로 학습", "three": "카메라 3개로 학습"}
-COURSES = {"A": "학습한 직선", "D": "학습한 곡선", "J": "교차로",
-           "U1": "학습하지 않은 직선", "U2": "학습하지 않은 곡선"}
+COURSES = {"U1": "학습하지 않은 직선", "U2": "학습하지 않은 곡선"}
 CONDITIONS = {"nominal": "중앙에서 방향 0°", "left": "왼쪽으로 0.3m 치우쳐 출발",
               "right": "오른쪽으로 0.3m 치우쳐 출발", "heading_left": "진행 방향을 왼쪽으로 5° 틀어 출발",
               "heading_right": "진행 방향을 오른쪽으로 5° 틀어 출발"}
@@ -90,21 +89,34 @@ def write_csv(path, rows):
         writer.writeheader();writer.writerows(rows)
 
 
+def evaluation_scope():
+    protocol = read_json(BASE / "docs/evaluation_protocol.json")
+    sections = {course: protocol["held_out_sections"][course] for course in COURSES}
+    for start, end in sections.values():
+        for low, high in protocol["training_capture_station_ranges"]:
+            if start - 8 <= high and end + 8 >= low:
+                raise ValueError("public test overlaps a training capture")
+    return dict(held_out_sections=sections,
+                training_capture_station_ranges=protocol["training_capture_station_ranges"],
+                description="new road segments on the same K-City map and weather")
+
+
 def tables(rows):
+    evaluation_scope()
     output = OUTPUT / "metrics"
     output.mkdir(exist_ok=True)
     open_rows = []
     for r in read_csv(ARCHIVE / "reports/open_loop.csv"):
-        if r["course"] != "all":
+        if r["course"] != "all" or r["cohort"] != "unseen":
             continue
         open_rows.append({"학습에 사용한 카메라": MODELS[r["mode"]],
-            "평가 도로": "학습한 도로의 다른 주행" if r["cohort"] == "seen" else "학습하지 않은 도로",
+            "평가 도로": "학습하지 않은 도로",
             "이미지 수": r["samples"], "곡률 RMSE (1/m)": r["rmse_1pm"], "곡률 MAE (1/m)": r["mae_1pm"]})
     write_csv(output / "open_loop.csv", open_rows)
     trials = []
     for r in rows:
-        if r["cohort"] == "base_nominal_gui_rerun":
-            continue  # 같은 정상 출발을 GUI 녹화로 반복한 6회는 중복 합산하지 않는다.
+        if r["course"] not in COURSES or r["cohort"] not in ("unseen_lateral", "unseen_heading"):
+            continue  # 새 도로의 모든 출발 조건을 포함하고, 기존 도로 기록은 로컬에 보존한다.
         trials.append({"학습에 사용한 카메라": MODELS[r["mode"]], "도로": COURSES[r["course"]],
             "출발 조건": CONDITIONS[r["trial"]], "결과": result_name(r["status"]),
             "진행률 (%)": round(100*float(r["completion_fraction"]), 2),
@@ -115,6 +127,8 @@ def tables(rows):
     write_csv(output / "driving_trials.csv", trials)
     extra = []
     for r in read_csv(ARCHIVE / "curve_sampling_v2/comparison.csv"):
+        if r["course"] not in COURSES:
+            continue
         extra.append({"학습 조건": "기존 카메라 3개 학습" if r["version"] == "v1_target_weight" else "곡선 비중을 높인 카메라 3개 학습",
             "도로": COURSES[r["course"]], "출발 조건": CONDITIONS["nominal"], "결과": result_name(r["status"]),
             "진행률 (%)": round(100*float(r["completion_fraction"]), 2), "횡오차 RMSE (m)": r["cte_rmse_m"]})
@@ -122,29 +136,27 @@ def tables(rows):
 
 
 def main():
+    scope = evaluation_scope()
     if not FONT.exists():
         raise RuntimeError("Korean font needed: " + str(FONT))
     (OUTPUT / "videos").mkdir(parents=True, exist_ok=True)
     (OUTPUT / "images").mkdir(exist_ok=True)
+    index = OUTPUT / "video_sources.json"
+    previous = read_json(index) if index.exists() else dict(videos=[])
     rows = read_csv(ARCHIVE / "reports/closed_loop.csv")
     def driving(mode, course, trial="nominal"):
-        cohort = ("base_nominal_gui_rerun" if trial == "nominal" and course in ("A", "D", "J") else
-                  "seen_heading" if course in ("A", "D") else "unseen_lateral")
+        if course not in COURSES:
+            raise ValueError("only held-out roads belong in public test videos")
+        cohort = "unseen_heading" if trial.startswith("heading_") else "unseen_lateral"
         r = next(r for r in rows if r["mode"] == mode and r["course"] == course and r["trial"] == trial and r["cohort"] == cohort)
         return dict(source=ARCHIVE / r["morai_video"], model=MODELS[mode],
                     condition=COURSES[course] + " · " + CONDITIONS[trial], result=result_name(r["status"]))
     definitions = [
-        ("01_teacher", "학습 데이터 원본", [[dict(source=ARCHIVE / ("teacher/0{}_teacher_{}.mp4".format(i, name)),
-            model="지도 PP 자동 teacher", condition=condition, result="학습에 사용한 주행 원본 · 사람 운전 아님")]
-            for i, name, condition in ((1, "straight", "직선 수집"), (2, "curves", "곡선 수집"))]),
-        ("02_training_roads", "학습한 도로에서 카메라 1개와 3개 비교", [[driving(m, c) for m in ("center", "three")] for c in ("A", "D")]),
-        ("03_heading_recovery", "방향을 오른쪽으로 5° 틀어 출발했을 때 복귀 비교", [[driving(m, "D", "heading_right") for m in ("center", "three")]]),
-        ("04_new_road_straight", "학습하지 않은 직선에서 비교", [[driving(m, "U1") for m in ("center", "three")]]),
-        ("05_new_road_curve", "학습하지 않은 곡선에서 비교", [[driving(m, "U2") for m in ("center", "three")]]),
-        ("06_more_curve_training", "곡선 비중을 높여 다시 학습한 결과", [[dict(source=ARCHIVE / "curve_sampling_v2" / c / "morai_screen.mp4",
+        ("01_new_road_straight", "학습하지 않은 직선에서 비교", [[driving(m, "U1") for m in ("center", "three")]]),
+        ("02_new_road_curve", "학습하지 않은 곡선에서 비교", [[driving(m, "U2") for m in ("center", "three")]]),
+        ("03_more_curve_training", "곡선 비중을 높여 다시 학습한 결과", [[dict(source=ARCHIVE / "curve_sampling_v2" / c / "morai_screen.mp4",
             model="카메라 3개 · 곡선 비중 증가 학습", condition=COURSES[c] + " · 중앙에서 방향 0°",
             result=result_name(next(r for r in read_json(ARCHIVE / "curve_sampling_v2/results.json") if r["course"] == c)["status"]))] for c in ("U2", "U1")]),
-        ("07_intersection", "카메라 3개 학습 모델의 교차로 주행", [[driving("three", "J")]]),
     ]
     def create(definition):
         name, title, chapters = definition
@@ -173,7 +185,23 @@ def main():
                 original_file=str(item["source"].relative_to(BASE)), original_sha256=digest(item["source"])) for item in sources] for sources in chapters])
     with ThreadPoolExecutor(max_workers=2) as pool:
         sources = list(pool.map(create, definitions))
-    write_json(OUTPUT / "video_sources.json", dict(editing="separate runs side by side at original speed; ended video freezes with an explicit label",
+    # 이전 공개 목록에서 빠진 영상만 로컬로 옮긴다. 재생성해도 예전 코스가 남지 않는다.
+    current_paths = {item["video"] for item in sources}
+    retired = [OUTPUT / item["video"] for item in previous["videos"]
+               if item["video"] not in current_paths]
+    if retired:
+        (BASE / "runs").mkdir(exist_ok=True)
+        backup = Path(tempfile.mkdtemp(prefix="retired_public_videos_", dir=str(BASE / "runs")))
+        for path in retired:
+            if path.parent != OUTPUT / "videos":
+                raise ValueError("unexpected video path in previous public index")
+            for old in (path, OUTPUT / "images" / (path.stem + ".jpg")):
+                if old.exists():
+                    destination = backup / old.relative_to(OUTPUT)
+                    destination.parent.mkdir(parents=True, exist_ok=True)
+                    shutil.move(str(old), str(destination))
+    write_json(index, dict(evaluation_scope=scope,
+        editing="separate runs side by side at original speed; ended video freezes with an explicit label",
         originals_preserved_locally=True, videos=sources))
     tables(rows)
     print("CURATED", len(sources), "videos", flush=True)

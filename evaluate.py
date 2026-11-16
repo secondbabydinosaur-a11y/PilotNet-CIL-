@@ -1,4 +1,8 @@
-"""고정된 기록 이미지로 open-loop 평가. 예측 CSV·지표 JSON·그림을 저장한다."""
+"""기존 A/D 도로의 내부 검증. 새 도로의 공개 시험은 tools.evaluation.evaluate_unseen 사용.
+
+여기의 test는 같은 도로의 다른 수집 그룹이며, 새 도로 일반화 시험이 아니다.
+예측 CSV·지표 JSON·그림을 로컬에 저장한다.
+"""
 import argparse
 import csv
 from pathlib import Path
@@ -47,7 +51,8 @@ def make_plots(target, prediction, rows, report, output):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--checkpoint", type=Path, required=True)
-    parser.add_argument("--split", choices=("val", "test"), default="test")
+    parser.add_argument("--split", choices=("val", "test"), default="val",
+                        help="internal A/D split; legacy test is another recording of the training roads")
     parser.add_argument("--output", type=Path)
     parser.add_argument("--batch-size", type=int, default=128)
     parser.add_argument("--workers", type=int, default=4)

@@ -15,6 +15,7 @@ def main():
         ("-m", "tools.evaluation.run_matrix", "--courses", "U1", "U2", "--conditions",
          "heading_left", "heading_right", "--record-screen", "--tag", "unseen"),
         ("-m", "tools.evaluation.build_github_artifacts"),
+        ("-m", "tools.evaluation.curate_results"),
     )
     for args in commands:
         print("RUN", " ".join(args), flush=True)
