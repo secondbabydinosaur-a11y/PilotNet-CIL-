@@ -1,0 +1,363 @@
+{
+  "schema_version": 1,
+  "status": "evaluation_routes_prepared_not_executed",
+  "coordinate_frame": "MGeo local XY metres; +X east, +Y north; origin UTM52N [302595,4124145,0]",
+  "vehicle_pose_frame": "rear axle; map yaw atan2(dy,dx)",
+  "scope": "held-out roads on the same K-City map; no new town claim",
+  "map_use": "reset, navigation command, route progress and CTE evaluation only; CNN determines steering",
+  "no_training_or_model_updates": true,
+  "routes": {
+    "U2": {
+      "name_ko": "PilotNet 실패 곡선 재시험",
+      "split": "test",
+      "reference_interval_s_m": [
+        978.337,
+        1210.0
+      ],
+      "source_links": [
+        "A2256W000054",
+        "A2256W000846",
+        "A2256W000411"
+      ],
+      "initial_yaw_deg_map": 1.6858322446228784,
+      "navigation": [
+        {
+          "link_id": "A2256W000054",
+          "entry_s_m": 0.0,
+          "exit_s_m": 6.3747817173515795,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": null
+        }
+      ],
+      "route_csv": "routes/test/U2.csv",
+      "length_m": 231.663,
+      "start_xyz_m": [
+        -17.71084751642881,
+        345.54869121994534,
+        28.341939962156278
+      ],
+      "end_xyz_m": [
+        62.85242730647906,
+        165.24216831091871,
+        28.262584072037274
+      ],
+      "route_sha256": "53f00de17afb99bd31109245b56b47f6a070796cc919953f28681c102ef54554",
+      "max_segment_m": 0.5000000004033308,
+      "map_use": "reset, navigation command and evaluation only; never steering",
+      "collection_overlap_checks": {
+        "train": {
+          "nearest_sample_m": 68.82133617183223,
+          "conservative_test_polyline_distance_lower_bound_m": 68.57133617183223,
+          "within_20m_guard": false
+        },
+        "validation": {
+          "nearest_sample_m": 66.27587570948074,
+          "conservative_test_polyline_distance_lower_bound_m": 66.02587570948074,
+          "within_20m_guard": false
+        },
+        "prepared_train": {
+          "nearest_sample_m": 68.82205148635103,
+          "conservative_test_polyline_distance_lower_bound_m": 68.57205148635103,
+          "within_20m_guard": false
+        },
+        "prepared_val": {
+          "nearest_sample_m": 66.27839042343687,
+          "conservative_test_polyline_distance_lower_bound_m": 66.02839042343687,
+          "within_20m_guard": false
+        }
+      }
+    },
+    "J_left": {
+      "name_ko": "PilotNet 교차로 J 좌회전",
+      "split": "test",
+      "source_links": [
+        "A2256W000748",
+        "A2256W000182",
+        "A2256W000329"
+      ],
+      "same_approach_group": "pilotnet_J_node_736",
+      "junction_command": "left",
+      "shared_reference_approach_s_m": [
+        40.0,
+        72.62896869677363
+      ],
+      "exit_road_length_after_junction_m": 13.045754095234056,
+      "initial_yaw_deg_map": 60.68315668556433,
+      "navigation": [
+        {
+          "link_id": "A2256W000182",
+          "entry_s_m": 32.62896869734406,
+          "exit_s_m": 54.95424590521342,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 91.341
+        }
+      ],
+      "reference_interval_s_m": [
+        40.0,
+        108.0
+      ],
+      "route_csv": "routes/test/J_left.csv",
+      "length_m": 68.0,
+      "start_xyz_m": [
+        -112.23180493009114,
+        -393.382812557171,
+        28.545002889143227
+      ],
+      "end_xyz_m": [
+        -113.6104184033681,
+        -339.78671769285586,
+        28.400577112696414
+      ],
+      "route_sha256": "7ebb5e816520cbd12bccbfe36dfa411d0ec77136d7f41542669dc56aa14694f1",
+      "max_segment_m": 0.4999999999014553,
+      "map_use": "reset, navigation command and evaluation only; never steering",
+      "collection_overlap_checks": {
+        "train": {
+          "nearest_sample_m": 114.41301793874969,
+          "conservative_test_polyline_distance_lower_bound_m": 114.16301793874969,
+          "within_20m_guard": false
+        },
+        "validation": {
+          "nearest_sample_m": 121.72194370733912,
+          "conservative_test_polyline_distance_lower_bound_m": 121.47194370733912,
+          "within_20m_guard": false
+        },
+        "prepared_train": {
+          "nearest_sample_m": 114.41318008941853,
+          "conservative_test_polyline_distance_lower_bound_m": 114.16318008941853,
+          "within_20m_guard": false
+        },
+        "prepared_val": {
+          "nearest_sample_m": 134.7492282044997,
+          "conservative_test_polyline_distance_lower_bound_m": 134.4992282044997,
+          "within_20m_guard": false
+        }
+      }
+    },
+    "J_straight": {
+      "name_ko": "PilotNet 교차로 J 직진",
+      "split": "test",
+      "source_links": [
+        "A2256W000748",
+        "A2256W000338",
+        "A2256W000335"
+      ],
+      "same_approach_group": "pilotnet_J_node_736",
+      "junction_command": "straight",
+      "shared_reference_approach_s_m": [
+        40.0,
+        72.62896869677363
+      ],
+      "exit_road_length_after_junction_m": 13.045754095234056,
+      "initial_yaw_deg_map": 60.68315668556433,
+      "navigation": [
+        {
+          "link_id": "A2256W000338",
+          "entry_s_m": 32.62896869685615,
+          "exit_s_m": 53.86121511274337,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 0.098
+        }
+      ],
+      "route_csv": "routes/test/J_straight.csv",
+      "length_m": 66.90696920797741,
+      "start_xyz_m": [
+        -112.23180493009114,
+        -393.382812557171,
+        28.545002889143227
+      ],
+      "end_xyz_m": [
+        -79.72767651469194,
+        -334.9028480812179,
+        28.503913477152416
+      ],
+      "route_sha256": "fee9466e84abd768a9cf3276a1465fc1fa5affe02a0457531d5117969e892f21",
+      "max_segment_m": 0.4999999999014553,
+      "map_use": "reset, navigation command and evaluation only; never steering",
+      "collection_overlap_checks": {
+        "train": {
+          "nearest_sample_m": 104.42242691257727,
+          "conservative_test_polyline_distance_lower_bound_m": 104.17242691257727,
+          "within_20m_guard": false
+        },
+        "validation": {
+          "nearest_sample_m": 121.72194370733912,
+          "conservative_test_polyline_distance_lower_bound_m": 121.47194370733912,
+          "within_20m_guard": false
+        },
+        "prepared_train": {
+          "nearest_sample_m": 104.42257621188645,
+          "conservative_test_polyline_distance_lower_bound_m": 104.17257621188645,
+          "within_20m_guard": false
+        },
+        "prepared_val": {
+          "nearest_sample_m": 134.7492282044997,
+          "conservative_test_polyline_distance_lower_bound_m": 134.4992282044997,
+          "within_20m_guard": false
+        }
+      }
+    },
+    "J_right": {
+      "name_ko": "PilotNet 교차로 J 우회전",
+      "split": "test",
+      "source_links": [
+        "A2256W000748",
+        "A2256W000078",
+        "A2256W000324"
+      ],
+      "same_approach_group": "pilotnet_J_node_736",
+      "junction_command": "right",
+      "shared_reference_approach_s_m": [
+        40.0,
+        72.62896869677363
+      ],
+      "exit_road_length_after_junction_m": 13.045754095234056,
+      "initial_yaw_deg_map": 60.68315668556433,
+      "navigation": [
+        {
+          "link_id": "A2256W000078",
+          "entry_s_m": 32.628968696877564,
+          "exit_s_m": 47.70227653950879,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -89.986
+        }
+      ],
+      "route_csv": "routes/test/J_right.csv",
+      "length_m": 60.74803063474285,
+      "start_xyz_m": [
+        -112.23180493009114,
+        -393.382812557171,
+        28.545002889143227
+      ],
+      "end_xyz_m": [
+        -71.7274014480567,
+        -366.55645456665036,
+        28.49903257305615
+      ],
+      "route_sha256": "0820e44fc7dd45833ead9dc27c5ff394f14cefa4b825c3b3c2de3f0824aaf254",
+      "max_segment_m": 0.4999999999014553,
+      "map_use": "reset, navigation command and evaluation only; never steering",
+      "collection_overlap_checks": {
+        "train": {
+          "nearest_sample_m": 129.12187812367213,
+          "conservative_test_polyline_distance_lower_bound_m": 128.87187812367213,
+          "within_20m_guard": false
+        },
+        "validation": {
+          "nearest_sample_m": 121.72194370733912,
+          "conservative_test_polyline_distance_lower_bound_m": 121.47194370733912,
+          "within_20m_guard": false
+        },
+        "prepared_train": {
+          "nearest_sample_m": 129.12203033409227,
+          "conservative_test_polyline_distance_lower_bound_m": 128.87203033409227,
+          "within_20m_guard": false
+        },
+        "prepared_val": {
+          "nearest_sample_m": 134.7492282044997,
+          "conservative_test_polyline_distance_lower_bound_m": 134.4992282044997,
+          "within_20m_guard": false
+        }
+      }
+    },
+    "P2Q": {
+      "name_ko": "북서쪽 외곽의 미학습 주행",
+      "split": "test",
+      "length_m": 636.100112,
+      "start_xyz_m": [
+        -382.354682,
+        91.409543,
+        28.714318
+      ],
+      "end_xyz_m": [
+        -183.858428,
+        563.735308,
+        28.395163
+      ],
+      "initial_yaw_deg_map": 90.65894455484035,
+      "source_links": [
+        "A2256W000402",
+        "A2256W000110",
+        "A2256W000109",
+        "A2256W000394"
+      ],
+      "reference_interval_s_m": null,
+      "max_link_endpoint_gap_m": 0.0,
+      "route_csv": "routes/test/P2Q.csv",
+      "minimum_radius_from_3m_chords_m": 16.754253064201055,
+      "navigation": [
+        {
+          "link_id": "A2256W000109",
+          "entry_s_m": 512.079012,
+          "exit_s_m": 562.750567,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -21.61
+        }
+      ],
+      "route_sha256": "88222984ff51db733f350db57e0413421b9dddc987d620d37871728914a5d4d7",
+      "max_segment_m": 0.5000009559441143,
+      "map_use": "reset, navigation command and evaluation only; never steering",
+      "collection_overlap_checks": {
+        "train": {
+          "nearest_sample_m": 142.6136698901758,
+          "conservative_test_polyline_distance_lower_bound_m": 142.3636698901758,
+          "within_20m_guard": false
+        },
+        "validation": {
+          "nearest_sample_m": 78.84058685357397,
+          "conservative_test_polyline_distance_lower_bound_m": 78.59058685357397,
+          "within_20m_guard": false
+        },
+        "prepared_train": {
+          "nearest_sample_m": 142.6140823095426,
+          "conservative_test_polyline_distance_lower_bound_m": 142.3640823095426,
+          "within_20m_guard": false
+        },
+        "prepared_val": {
+          "nearest_sample_m": 78.84061045731139,
+          "conservative_test_polyline_distance_lower_bound_m": 78.59061045731139,
+          "within_20m_guard": false
+        }
+      }
+    }
+  },
+  "command_policy": "current junction first, upcoming within18m, exit hold6m, otherwise follow_road",
+  "command_numbers": {
+    "follow_road": 0,
+    "left": 1,
+    "straight": 2,
+    "right": 3
+  },
+  "source_sha256": {
+    "pilotnet/assets/evaluation_route.csv": "6faa1e823edcb13c67e234a2c68fbf3e0a560e3f23ccfeec02d43219c22b9f1b",
+    "pilotnet/docs/evaluation_protocol.json": "a100307918e45801ce36218c1126e45888fda6eea7357814236a1a099842b5fd",
+    "routes/plan.json": "796c4b9a423953bdf27d8924f920d672b363657965753d4272983906f8f2bbab",
+    "MGeo/link_set.json": "c5a3cb6736e09092e2e67ebd5d67292c82a576e76f87aca39f8f1d89dc8739c9",
+    "data/collection_completion.json": "ca7629dc38d408db454305d18504080dc531e6665ac628f51d2b6e4c037af6aa",
+    "data/prepared/train.csv": "978d861f60d55995f85079a281987bc2ddf8e79be445adfd3749723c7c72f206",
+    "data/prepared/val.csv": "6a977f475e0ea5d356ca47e8dcdf3bd1630e1475ebaa20caaba3e2e86e562872"
+  },
+  "notes": [
+    "U2 and J_left preserve the exact frozen PilotNet reference intervals.",
+    "J_straight/right share the same approach and map-junction topology, then stop13.046m after the chosen junction exit.",
+    "J has map related_signal='straight' on all exits; commands use physical exit geometry.",
+    "Overlap checks use all accepted raw Ego positions and prepared training/validation positions; test polyline sampled every0.25m with0.25m conservative subtraction.",
+    "Spatial separation does not guarantee no common visual backgrounds.",
+    "P2Q CSV is preserved byte-for-byte."
+  ]
+}

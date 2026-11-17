@@ -1,0 +1,15 @@
+route,split,condition,session,valid_driving_s,left_images,center_images,right_images,max_abs_cte_m,p95_abs_cte_m,max_speed_kph,noise_episodes,decoded_images,bad_images
+T1,train,normal,data/raw/20261116T073638Z_T1_normal_cbb9c1,80.785,2550,2550,2550,0.1926,0.0801,18.971,0,7650,0
+T2,train,normal,data/raw/20261116T073900Z_T2_normal_eb1d50,58.821,1932,1932,1932,0.1754,0.1182,18.968,0,5796,0
+T3,train,normal,data/raw/20261116T074320Z_T3_normal_7cb09f,81.224,2605,2605,2605,0.2294,0.1362,18.968,0,7815,0
+T4,train,normal,data/raw/20261116T075719Z_T4_normal_038650,118.896,3721,3721,3721,0.0917,0.0773,19.21,0,11163,0
+T6,train,normal,data/raw/20261116T075933Z_T6_normal_0765d1,117.749,3701,3701,3701,0.1564,0.0859,18.972,0,11103,0
+CENTRAL_LEFT,train,normal,data/raw/20261116T080147Z_CENTRAL_LEFT_normal_7c4062,25.825,945,945,945,0.1541,0.1386,18.924,0,2835,0
+CENTRAL_STRAIGHT,train,normal,data/raw/20261116T080223Z_CENTRAL_STRAIGHT_normal_ac0ea3,19.606,760,760,760,0.0815,0.0749,18.924,0,2280,0
+CENTRAL_RIGHT,train,normal,data/raw/20261116T080253Z_CENTRAL_RIGHT_normal_cf2042,21.144,802,802,802,0.0956,0.0766,18.924,0,2406,0
+V1,validation,normal,data/raw/20261116T080324Z_V1_normal_a154cb,102.953,3257,3257,3257,0.2028,0.1365,18.948,0,9771,0
+V2,validation,normal,data/raw/20261116T080521Z_V2_normal_18468a,52.183,1735,1735,1735,0.0871,0.0772,18.909,0,5205,0
+T4,train,perturbation_and_recovery,data/raw/20261116T080625Z_T4_noise_c03ef0,118.932,3722,3722,3722,0.181,0.0849,19.217,5,11166,0
+T6,train,perturbation_and_recovery,data/raw/20261116T080839Z_T6_noise_538cb3,117.754,3702,3702,3702,0.1806,0.1298,18.972,5,11106,0
+T2,train,perturbation_and_recovery,data/raw/20261116T081054Z_T2_noise_5d73b3,58.797,1933,1933,1933,0.1974,0.1485,18.967,2,5799,0
+T1,train,perturbation_and_recovery,data/raw/20261116T081204Z_T1_noise_9de591,80.731,2550,2550,2550,0.2012,0.1362,18.974,3,7650,0

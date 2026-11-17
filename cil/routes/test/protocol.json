@@ -1,0 +1,33 @@
+{
+  "status": "revised_by_user_before_restart",
+  "checkpoint_manifest": "checkpoints/selected.json",
+  "course_order": [
+    "U2",
+    "J_straight",
+    "J_left",
+    "J_right",
+    "P2Q"
+  ],
+  "repetitions_per_condition": 1,
+  "initial_offset_m": 0,
+  "initial_heading_offset_deg": 0,
+  "speed_cap_kph": 20,
+  "longitudinal_control": "model throttle/brake; simulator cap at20km/h",
+  "cte_intervention_m": 7.0,
+  "heading_intervention_deg": null,
+  "stale_ego_s": 0.2,
+  "stale_camera_s": 0.25,
+  "stall_timeout_s": 12,
+  "maximum_time_s": 240,
+  "completion_definition": "reference station reaches final1m while absCTE<7m; same as PilotNet; brake afterward",
+  "recording": [
+    "actual MORAI window",
+    "annotated center camera"
+  ],
+  "scope": "one run per condition; same map, held-out roads; no claim of statistical success rate",
+  "model_updates_after_test": false,
+  "collision_metric": "not instrumented",
+  "revision_reason": "User requested observing trajectory trends; restart all courses with a 7m CTE threshold. Align endpoint condition with PilotNet; heading alone does not stop observation.",
+  "cte_comparison": "greater than or equal",
+  "supersedes": "local historical protocols in runs/closed_loop_protocol_history"
+}

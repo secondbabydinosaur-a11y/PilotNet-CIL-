@@ -1,0 +1,102 @@
+{
+  "experiment": "CIL baseline training and validation",
+  "run_name": "cil_baseline_20261117T223956Z",
+  "status": "completed",
+  "evaluation_scope": "validation used for model selection; independent test and closed-loop evaluation pending",
+  "completed_epochs": 27,
+  "selected_epoch": 19,
+  "stop_reason": "early_stopping",
+  "elapsed_seconds": 913.3433950670005,
+  "train_samples": 26893,
+  "validation_samples": 1549,
+  "train_cameras": [
+    "center",
+    "left",
+    "right"
+  ],
+  "validation_camera": "center",
+  "command_names": [
+    "follow_road",
+    "left",
+    "straight",
+    "right"
+  ],
+  "validation_command_counts": {
+    "follow_road": 1049,
+    "left": 251,
+    "straight": 162,
+    "right": 87
+  },
+  "hyperparameters": {
+    "lr": 0.0002,
+    "batch_size": 120,
+    "aux_weight": 0.05,
+    "epochs": 30,
+    "patience": 8,
+    "workers": 4,
+    "seed": 7
+  },
+  "optimizer": "Adam",
+  "control_order": [
+    "steer",
+    "throttle",
+    "brake"
+  ],
+  "steering_unit": "normalized_-1_1",
+  "preprocess": {
+    "crop": [
+      0,
+      280,
+      1280,
+      720
+    ],
+    "image_size_wh": [
+      200,
+      88
+    ],
+    "color": "RGB",
+    "pixel_range": [
+      0,
+      1
+    ],
+    "speed_scale_kph": 20.0
+  },
+  "selection_criterion": "minimum validation mean_command_mse",
+  "selected_validation_metrics": {
+    "loss": 0.0063369322398026924,
+    "control_mse": 0.005413822545937526,
+    "mean_command_mse": 0.005748044699430466,
+    "steer_mae": 0.08350235968828201,
+    "throttle_mae": 0.02426019124686718,
+    "brake_mae": 0.0023482320830225945,
+    "speed_mae_kph": 1.5067136110683808,
+    "command_0_mse": 0.005073945038020611,
+    "command_1_mse": 0.005572066642343998,
+    "command_2_mse": 0.007876505143940449,
+    "command_3_mse": 0.004469661973416805
+  },
+  "source_sha256": {
+    "train.csv": "978d861f60d55995f85079a281987bc2ddf8e79be445adfd3749723c7c72f206",
+    "val.csv": "6a977f475e0ea5d356ca47e8dcdf3bd1630e1475ebaa20caaba3e2e86e562872",
+    "dataset.py": "e855f92a7fdbf7f9262b1b0e806bf73a73e8269e8dbbf60975c92112f66e2a87",
+    "model.py": "70d5490f49d2f7854bbf83aed1a6f6a6f8dbd69cc16da80d949cef3fd3457e34",
+    "config.json": "11ee5834956cf6bbb258202c504beaaac2a54b6732f049cc8b1d9359de3a7138",
+    "train.py": "196bff48b718f9b1272f109764514a224c59057829d04c696aea9ad322cdbdc8"
+  },
+  "best_checkpoint_sha256": "f4350250d2edb3d40ac6cad795ef1ea42429d394efc2e2e30d76ae5fd1bcf93f",
+  "checks": {
+    "history_summary_checkpoint_epochs_match": true,
+    "history_checkpoint_metrics_match": true,
+    "checkpoint_settings_match": true,
+    "checkpoint_sha256_matches_summary": true,
+    "validation_csv_sha256_matches_training": true,
+    "macro_and_natural_control_mse_consistent": true,
+    "saved_model_reload_validation_reproduced": true
+  },
+  "local_checkpoint": "cil/checkpoints/cil_baseline_20261117T223956Z/best.pt",
+  "runtime": {
+    "torch_version": "2.4.1+cu121",
+    "cuda_version": "12.1",
+    "gpu_name": "NVIDIA GeForce RTX 4080 SUPER"
+  }
+}

@@ -1,0 +1,191 @@
+{
+  "status": "completed",
+  "generated_at_utc": "2026-11-17T23:15:29.263624+00:00",
+  "evaluation_scope": "hyperparameter selection on the same fixed validation; not an independent test or closed-loop evaluation",
+  "baseline_run": "cil_baseline_20261117T223956Z",
+  "runs": [
+    {
+      "run_name": "cil_baseline_20261117T223956Z",
+      "run_status": "completed",
+      "stop_reason": "early_stopping",
+      "lr": 0.0002,
+      "weight_decay": 0.0,
+      "conv_dropout": 0.2,
+      "fc_dropout": 0.5,
+      "completed_epochs": 27,
+      "best_epoch": 19,
+      "val_macro_mse": 0.005748044699430466,
+      "overall_control_mse": 0.005413822545937526,
+      "steer_mae": 0.08350235968828201,
+      "throttle_mae": 0.02426019124686718,
+      "brake_mae": 0.0023482320830225945,
+      "aux_speed_mae_kph": 1.5067136110683808,
+      "selected": true,
+      "macro_mse_reduction_vs_baseline_percent": 0.0
+    },
+    {
+      "run_name": "cil_tune_lr_l2_20261118",
+      "run_status": "stopped_by_user",
+      "stop_reason": "user_requested_move_on",
+      "lr": 0.0001,
+      "weight_decay": 0.0001,
+      "conv_dropout": 0.2,
+      "fc_dropout": 0.5,
+      "completed_epochs": 23,
+      "best_epoch": 17,
+      "val_macro_mse": 0.0058942935429513454,
+      "overall_control_mse": 0.0049210696777580165,
+      "steer_mae": 0.07582175731658936,
+      "throttle_mae": 0.03746369853615761,
+      "brake_mae": 0.001899268594570458,
+      "aux_speed_mae_kph": 1.4512329889621327,
+      "selected": false,
+      "macro_mse_reduction_vs_baseline_percent": -2.5443233511279155
+    },
+    {
+      "run_name": "cil_tune_stronger_dropout_20261118",
+      "run_status": "completed",
+      "stop_reason": "early_stopping",
+      "lr": 0.0001,
+      "weight_decay": 0.0001,
+      "conv_dropout": 0.25,
+      "fc_dropout": 0.6,
+      "completed_epochs": 16,
+      "best_epoch": 6,
+      "val_macro_mse": 0.005771197029389441,
+      "overall_control_mse": 0.003984748663018795,
+      "steer_mae": 0.06481426954269409,
+      "throttle_mae": 0.03927786275744438,
+      "brake_mae": 0.003283105092123151,
+      "aux_speed_mae_kph": 3.38965734256476,
+      "selected": false,
+      "macro_mse_reduction_vs_baseline_percent": -0.4027861850355708
+    },
+    {
+      "run_name": "cil_tune_mild_l2_20261118",
+      "run_status": "stopped_by_user",
+      "stop_reason": "user_requested_move_on",
+      "lr": 0.0002,
+      "weight_decay": 1e-05,
+      "conv_dropout": 0.2,
+      "fc_dropout": 0.5,
+      "completed_epochs": 10,
+      "best_epoch": 6,
+      "val_macro_mse": 0.006393507472239435,
+      "overall_control_mse": 0.005766135327195721,
+      "steer_mae": 0.07216957211494446,
+      "throttle_mae": 0.03711467236280441,
+      "brake_mae": 0.002490011742338538,
+      "aux_speed_mae_kph": 1.8421903527729584,
+      "selected": false,
+      "macro_mse_reduction_vs_baseline_percent": -11.229258061840115
+    }
+  ],
+  "selected_run": "cil_baseline_20261117T223956Z",
+  "selected_checkpoint": "checkpoints/cil_baseline_20261117T223956Z/best.pt",
+  "selected_checkpoint_sha256": "f4350250d2edb3d40ac6cad795ef1ea42429d394efc2e2e30d76ae5fd1bcf93f",
+  "selection_criterion": "minimum validation mean_command_mse; ties keep first input run",
+  "baseline_defaults_for_missing_settings": {
+    "weight_decay": 0.0,
+    "conv_dropout": 0.2,
+    "fc_dropout": 0.5
+  },
+  "validation_command_counts": {
+    "follow_road": 1049,
+    "left": 251,
+    "straight": 162,
+    "right": 87
+  },
+  "verified_fixed_settings": {
+    "architecture": "cil_branched_architecture",
+    "command_names": [
+      "follow_road",
+      "left",
+      "straight",
+      "right"
+    ],
+    "control_order": [
+      "steer",
+      "throttle",
+      "brake"
+    ],
+    "steering_unit": "normalized_-1_1",
+    "preprocess": {
+      "crop": [
+        0,
+        280,
+        1280,
+        720
+      ],
+      "image_size_wh": [
+        200,
+        88
+      ],
+      "color": "RGB",
+      "pixel_range": [
+        0,
+        1
+      ],
+      "speed_scale_kph": 20.0
+    },
+    "train_samples": 26893,
+    "val_samples": 1549,
+    "train_commands": [
+      18139,
+      2488,
+      3549,
+      2717
+    ],
+    "batch_size": 120,
+    "aux_weight": 0.05,
+    "sampling": "equal commands per batch, with replacement",
+    "seed": 7,
+    "workers": 4
+  },
+  "verified_fixed_sha256": {
+    "train.csv": "978d861f60d55995f85079a281987bc2ddf8e79be445adfd3749723c7c72f206",
+    "val.csv": "6a977f475e0ea5d356ca47e8dcdf3bd1630e1475ebaa20caaba3e2e86e562872",
+    "model.py": "70d5490f49d2f7854bbf83aed1a6f6a6f8dbd69cc16da80d949cef3fd3457e34",
+    "dataset.py": "e855f92a7fdbf7f9262b1b0e806bf73a73e8269e8dbbf60975c92112f66e2a87"
+  },
+  "train_source_hash_may_differ": true,
+  "sources": {
+    "cil_baseline_20261117T223956Z": {
+      "history.csv": "6f563b9eb25e9422b444dea36578255f1c0e3eee5a87b667ee1f88754f86dc39",
+      "settings.json": "e64b9e9bd759da223081f47ca4fa24ff2016080aef2a3a196220b7b08ec86d1b",
+      "summary.json": "4be39942e90a68e9b0add711a2b978909531edcd113ee8cbd6fe7086b715f914",
+      "best.pt": "f4350250d2edb3d40ac6cad795ef1ea42429d394efc2e2e30d76ae5fd1bcf93f"
+    },
+    "cil_tune_lr_l2_20261118": {
+      "history.csv": "8b7383ea6f6e606056db7a89733d8f9a5bd3f99498ad3eb9edc742c6934912c8",
+      "settings.json": "cb17b1eace1e2c9b63cfe81c6689e3fbe536e82d9219809da29a96373125b792",
+      "summary.json": "2e5637490b4364678be7ba4d3e0237c15ee6caaf4e8c539fae47236cce5c7069",
+      "best.pt": "5382f0e4fead9ed1451a4e1225c1816b05647a1fc20f43ebc87052b787f6d0b8"
+    },
+    "cil_tune_stronger_dropout_20261118": {
+      "history.csv": "e33c480b63c8a552e87dda1571e2f1206b564c0d1de4b58717d74b8070d3f35e",
+      "settings.json": "8768a5a0cb577d79adca9a585101877abbd18e04de1d2fee87a8ec7cade7d3a2",
+      "summary.json": "ad50501c37572a4eeb4d93d25be87d252673e8289308aef06829d814008599c0",
+      "best.pt": "a00873c5ed3739e7b6ccc6ef780a533c7bf715b68e5d66be5ba78ec10dc5518f"
+    },
+    "cil_tune_mild_l2_20261118": {
+      "history.csv": "1f28b683c22331fa8e60d54990ed9a631ae73de6b55a74a9396b7a90cdef5b71",
+      "settings.json": "0cf590adf090a5c7a1c5f608f23232574c1640494ea5c3d9beb5d05c9858fe79",
+      "summary.json": "9604b467481baba764572f45686eb27c6ff16451a046eb345498bb92a149b73f",
+      "best.pt": "ef01c9f55ffa89e03ac48f8759eb0b6be54b36d3abf0a906bf42a8242a2aecf2"
+    }
+  },
+  "outputs": [
+    "results/metrics/hyperparameter_comparison.csv",
+    "results/metrics/hyperparameter_comparison.json",
+    "results/images/hyperparameter_comparison.png"
+  ],
+  "notes": [
+    "Steering MAE is in normalized control units, not degrees, radians or road-following error.",
+    "Auxiliary speed MAE is for actual speed predicted from images, expressed in km/h.",
+    "Training errors use different dropout settings and should not be interpreted as directly comparable validation errors.",
+    "No model or image was re-evaluated. Public selected.json and original run records were not changed."
+  ],
+  "paths_relative_to": "cil/",
+  "source_report": "runs/cil_hparam_tuning/comparison.json"
+}

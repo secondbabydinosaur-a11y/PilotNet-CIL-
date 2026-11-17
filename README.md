@@ -1,96 +1,108 @@
-# PilotNet으로 K-City 주행하기
+# PilotNet & Conditional Imitation Learning
 
-MORAI에서 수집한 이미지로 PilotNet을 학습하고, **학습에 사용하지 않은 도로**에서 평가한 프로젝트다.
-**가운데 카메라로 학습한 모델**과 **좌·중·우 카메라 3개로 학습한 모델**을 비교했다.
-두 모델 모두 실제 주행할 때는 **가운데 카메라 한 장**을 입력으로 사용한다. CIL은 아직 구현하지 않았다.
+MORAI K-City에서 이미지 기반 모방학습 주행을 구현하는 프로젝트다.
+**PilotNet 구현·실험은 `pilotnet/`, CIL 구현·실험은 `cil/`에 각각 보관한다.**
 
-[대표 영상 4개](results/README.md) · [시험별 결과](results/metrics/driving_trials.csv) · [코드 실행 방법](docs/reproduction.md)
+| 모델 | 현재 상태 | 코드·실험 안내 | 결과 |
+|---|---|---|---|
+| **PilotNet** | 학습 및 미학습 도로의 open-loop·closed-loop 평가 완료 | [PilotNet 안내](pilotnet/README.md) | [대표 영상 4개와 평가 표](pilotnet/results/README.md) |
+| **CIL** | 학습·open-loop·MORAI 5조건 평가 완료, 19 epoch 고정 | [CIL 안내](cil/README.md) | [실제 영상 5개·궤적·평가 표](cil/results/README.md) |
 
-## 학습 도로와 시험 도로
+## PilotNet 실제 주행 결과
 
-| 용도 | 도로 | K-City 기준 경로의 진행거리 |
-|---|---|---|
-| 학습 데이터 수집 | 직선 | 0~65m |
-| 학습 데이터 수집 | 곡선 | 640~866m |
-| **시험 전용** | 새 직선 200m | **1300~1500m** |
-| **시험 전용** | 새 곡선과 연결 직선 약 232m | **978.337~1210m** |
+[![학습하지 않은 직선에서 가운데 카메라 학습과 카메라 3개 학습 비교](pilotnet/results/images/01_new_road_straight.jpg)](pilotnet/results/videos/01_new_road_straight.mp4)
 
-시험 도로의 이미지는 학습과 validation에 넣지 않았다.
-기존 비교 영상 3개와 정량 평가 표는 위 두 시험 도로의 결과다. 교차로 사례 영상은 별도로 추가했다.
-같은 K-City 맵·차량·맑은 낮 조건에서 도로 구간을 바꿨다. [도로 위치 보기](results/images/course_map.png)
+왼쪽은 가운데 카메라로 학습한 모델, 오른쪽은 좌·중·우 카메라 3개로 학습한 모델이다.
+두 모델 모두 주행할 때는 가운데 카메라 한 장을 사용한다. 같은 미학습 직선의 정상 출발에서
+가운데 카메라 모델은 횡오차 기준을 넘었고, 카메라 3개 모델은 완주했다.
 
-## 실제 MORAI 주행 비교
+| 영상 | 확인할 내용 |
+|---|---|
+| [미학습 직선 비교](pilotnet/results/videos/01_new_road_straight.mp4) | 가운데 카메라 학습과 카메라 3개 학습의 주행 비교 |
+| [미학습 곡선 비교](pilotnet/results/videos/02_new_road_curve.mp4) | 두 모델 모두 횡오차 기준을 넘어 종료된 사례 |
+| [곡선 비중을 높인 추가 학습](pilotnet/results/videos/03_more_curve_training.mp4) | 기존 모델을 보존하고 수행한 탐색 실험 |
+| [교차로 사례](pilotnet/results/videos/04_intersection.mp4) | 좌회전 평가 경로에서 직진 방향으로 진행한 사례 |
 
-[![학습하지 않은 직선에서 카메라 1개 학습과 3개 학습 비교](results/images/01_new_road_straight.jpg)](results/videos/01_new_road_straight.mp4)
+PilotNet 공개 영상은 목표속도 19km/h, **횡오차 7m 이상 시 중단**하는 조건으로 다시 기록했다.
+영상에 해당하는 정상 출발 7회만 재실행했으며, 모델 가중치는 그대로 유지했다.
+7m는 추종 경향을 관찰하기 위한 종료 기준이다. 종점 도달을 차선 유지나 안전성의 증명으로 해석하지 않는다.
+교차로 J는 PilotNet 학습 구간과 일부 겹치므로 미학습 도로 정량 평가와 구분한다.
+실험 조건과 한계는 [PilotNet 상세 안내](pilotnet/README.md)에 정리했다.
 
-왼쪽은 가운데 카메라로 학습한 모델, 오른쪽은 카메라 3개로 학습한 모델이다.
-같은 새 직선에서 정상 출발했을 때, 가운데 카메라 모델은 횡오차 기준을 넘었고 카메라 3개 모델은 완주했다.
-영상을 누르면 실제 MORAI 창 녹화를 볼 수 있다.
-
-| 정상 출발 시험 | 가운데 카메라로 학습 | 카메라 3개로 학습 |
-|---|---|---|
-| 새 직선 200m | 횡오차 초과로 종료 | 완주 |
-| 새 곡선과 연결 직선 약 232m | 횡오차 초과로 종료 | 횡오차 초과로 종료 |
-
-목표속도는 19km/h다. 기준 경로에서 횡오차가 1m를 넘으면 시험을 종료했다.
-조건별 한 번의 실행 결과이며, 좌우 0.3m 치우침과 헤딩 ±5° 출발 결과도 [주행 평가 표](results/metrics/driving_trials.csv)에 남겼다.
-정상 출발 비교와 추가 학습 실험 영상 3개에 교차로 사례를 더해 [영상 4개](results/README.md)를 제공한다.
-
-추가로 **카메라 3개·곡선 비중 증가 학습**을 별도 진행했다.
-곡선 샘플의 추출 기대 비중을 약 68.2%에서 77.9%로 높였지만, 새 직선은 완주하고 새 곡선은 중단됐다.
-기존 모델을 보존한 채 정상 출발로 곡선·직선 각 1회만 시험했다.
-이 추가 실험은 baseline 결과를 본 뒤 같은 시험 도로에서 진행한 탐색 비교다. [추가 실험 비교](results/metrics/curve_sampling_comparison.csv)
-
-## 교차로 사례에서 CIL로
-
-[![PilotNet이 좌회전 평가 경로에서 직진 방향으로 진행하는 실제 MORAI 영상](results/images/04_intersection.jpg)](results/videos/04_intersection.mp4)
-
-카메라 3개로 학습한 모델이 좌회전 평가 경로에서 직진 방향으로 진행하다가 횡오차 기준을 넘어 중단됐다.
-PilotNet에는 원하는 진행 방향을 지정하는 입력이 없다. 다음 CIL 구현에서는 명령을 입력해
-같은 교차로에서 좌회전·직진·우회전을 선택하는 주행을 확인할 계획이다.
-
-이 교차로 J(s40~108m)는 학습 수집 구간(s0~65m)과 일부 겹치므로, 위 새 도로 정량 평가와 별도의 사례로 기록한다.
-[교차로 기록 수치](results/metrics/intersection_example.csv)
-
-## 기록 이미지에서의 예측 오차
-
-학습하지 않은 두 도로에서 수집한 **동일한 가운데 카메라 이미지 830장**으로 평가했다.
-
-| 지표 | 가운데 카메라로 학습 | 카메라 3개로 학습 |
-|---|---:|---:|
-| 곡률 RMSE (1/m) | 0.009216 | 0.007449 |
-| 곡률 MAE (1/m) | 0.005665 | 0.005595 |
-
-낮을수록 좋다. 이미지 예측 오차와 실제 완주 여부를 함께 확인한다.
-자세한 수치는 [이미지 평가 표](results/metrics/open_loop.csv)에 있다.
-
-## 코드 구조
+## 저장소 구조
 
 ```text
-model.py          PilotNet CNN 구조
-dataset.py        이미지 로딩·전처리·정답 연결
-train.py          학습과 validation 모델 선택
-evaluate.py       학습 도로의 내부 검증
-drive.py          MORAI 실시간 추론·조향·녹화
-learning/         학습과 실시간 주행 보조 코드
-tools/            수집·데이터 준비·새 도로 평가 도구
-checkpoints/      학습된 모델 3개와 학습 설정
-results/          대표 영상 4개와 요약 표
-docs/             수집 절차와 재현 방법
+.
+├── README.md                    # 두 모델의 전체 안내와 대표 결과
+├── requirements.txt             # 공통 수집·통신 환경
+├── requirements-train.txt       # PyTorch·학습·평가 환경
+├── run.sh                       # 실행할 모델을 명시하는 공통 실행기
+│
+├── pilotnet/                    # 기존 PilotNet 구현과 실험 전체
+│   ├── README.md
+│   ├── config.json
+│   ├── model.py
+│   ├── dataset.py
+│   ├── train.py
+│   ├── evaluate.py
+│   ├── drive.py
+│   ├── learning/                # PilotNet 학습·실시간 주행 보조 코드
+│   ├── tools/                   # PilotNet 수집·정답 생성·평가 도구
+│   ├── tests/
+│   ├── dataset/                 # PilotNet 분할·정답 CSV와 로컬 원본
+│   ├── checkpoints/             # 공개한 학습 모델 3개
+│   ├── results/                 # 기존 대표 영상 4개·그림·평가 표
+│   ├── docs/                    # 수집 절차·고정 시험 조건·재현 방법
+│   └── assets/                  # PilotNet 경로와 센서 API 자료
+│
+└── cil/                         # CIL 구현과 실험을 위한 별도 공간
+    ├── README.md
+    ├── assets/training_routes.png
+    ├── config.json              # CIL 센서·명령·통신 설정
+    ├── morai.py                 # 카메라·Ego 수신과 제어 송신
+    ├── collect.py               # Teacher 정상·교란·복귀 수집
+    ├── prepare.py               # 시각 매칭·좌우 정답 보정·고정 분할 CSV 생성
+    ├── dataset.py               # 학습 중 영상 전처리·증강·텐서 로딩
+    ├── model.py                 # 이미지·현재 속도와 명령별 제어 branch
+    ├── train.py                 # 명령별 균형 배치·학습·validation·모델 저장
+    ├── evaluate.py              # 저장 모델의 이미지별 예측·Validation 오차 분석
+    ├── tools/                   # 수집 검사·학습 요약·진단·하이퍼파라미터 비교
+    ├── tests/                   # 통신·수집·정답 준비·학습 로직 검사
+    ├── routes/                  # 학습·validation·시험 경로
+    │   ├── train/
+    │   ├── val/
+    │   └── test/
+    ├── data/                    # CIL 전용 원본·정답 데이터 (로컬)
+    ├── runs/                    # CIL 실행·학습 기록 (로컬)
+    ├── checkpoints/             # CIL 학습 가중치 (로컬)
+    └── results/                 # 실제 실험 후 선정할 공개 결과
 ```
 
-- [수집·센서 설정](docs/collection.md)
-- [학습과 새 도로 평가 실행](docs/reproduction.md)
-- [모델별 가중치와 학습 기록](checkpoints/README.md)
+CIL은 초기 학습과 하이퍼파라미터 비교를 마쳤고, 기존 Baseline의 19 epoch 모델을 유지한다.
+비교 후보 두 개는 사용자 요청으로 중지했으며 완료한 epoch의 기록만 남겼다.
+다음은 선택 모델의 Validation 재평가다. 미학습 시험 구역과 MORAI 실제 주행은 아직 평가하지 않았다.
+파일별 역할과 작성 순서는 [CIL 안내](cil/README.md)에 있다.
+원본 센서 기록과 전체 실행 아카이브는 로컬에 보관하고, GitHub에는 코드·경로·선정한 결과를 올린다.
 
-## 데이터 구성
+## 실행 위치
 
-원본은 **지도 Pure Pursuit 자동 teacher**로 수집했다.
-이미지와 실제 조향 피드백을 시각으로 맞춘 뒤 자전거 모델로 곡률 정답을 만들었다.
-기존 수집 그룹은 4:1:1로 나눴다. 이때 만든 `dataset/paired/test.csv`는 학습 도로의 다른 주행이므로
-내부 점검용으로 보존한다. 공개 시험에는 별도로 수집한 `dataset/unseen_paired/test.csv`를 사용한다.
-새 도로의 teacher 기록은 시험에만 사용했다.
+저장소 루트에서 실행할 모델 이름을 먼저 지정한다.
 
-원본 JPEG와 과거 내부 점검 영상은 로컬에 보관한다. GitHub에는 분할·정답 CSV와 새 도로의 대표 결과를 제공한다.
-좌우 카메라의 복귀 정답은 우리 구현의 PP-delta 근사다. 원 논문의 전체 증강을 그대로 재현한 것은 아니다.
-논문: [End to End Learning for Self-Driving Cars](https://arxiv.org/abs/1604.07316).
+```bash
+# PilotNet 데이터·모델 입출력 확인
+bash run.sh pilotnet check_model.py
+
+# PilotNet 기존 테스트
+bash run.sh pilotnet -m unittest discover -s tests -v
+```
+
+공통 실행기는 해당 모델 폴더로 이동한 뒤 Python을 실행한다.
+직접 `pilotnet/` 폴더로 이동해서 기존 `bash run.sh ...` 명령을 사용해도 된다.
+CIL 수신 점검은 `bash run.sh cil morai.py`로 실행한다. [PilotNet 실행·재현 안내](pilotnet/docs/reproduction.md)
+
+## 논문
+
+- PilotNet: [End to End Learning for Self-Driving Cars](https://arxiv.org/abs/1604.07316)
+- CIL: [End-to-end Driving via Conditional Imitation Learning](https://arxiv.org/abs/1710.02410)
+
+원 논문의 구조와 절차를 참고하며, MORAI 환경에 맞게 선택한 설정과 실험 범위는 모델별 안내에 기록한다.

@@ -1,0 +1,290 @@
+{
+  "generated_utc": "2026-11-17T23:45:25.507103+00:00",
+  "scope": "seven new nominal controlled trials only; no previous 1m-threshold trials reused",
+  "evaluation_scope": {
+    "held_out_sections": {
+      "U1": [
+        1300.0,
+        1500.0
+      ],
+      "U2": [
+        978.337,
+        1210.0
+      ]
+    },
+    "training_capture_station_ranges": [
+      [
+        0,
+        65
+      ],
+      [
+        640,
+        866
+      ]
+    ],
+    "intersection_demonstration": {
+      "course": "J",
+      "reference_station_m": [
+        40.0,
+        108.0
+      ],
+      "overlaps_training_capture": true
+    }
+  },
+  "cte_intervention_threshold_m": 7.0,
+  "cte_intervention_definition": "abs(cte_m) >= max_cte_m",
+  "standalone_heading_intervention": false,
+  "initial_condition": "nominal",
+  "editing": "actual MORAI recordings at original speed; paired clips freeze the earlier ending with an explicit label; curve-weighted clips concatenate U2 then U1",
+  "interpretation": "route completion is not proof of lane compliance or zero collisions; lower CTE thresholds from old trials are not mixed in these current tables",
+  "originals_preserved_locally": true,
+  "previous_results_backup": "runs/publication_backups/20261117T234515Z_254062",
+  "unchanged_open_loop_sha256": "c81ec7315cc2cc918374a87b5a3f448101bf31b35a59fda0ad24949e504bb281",
+  "videos": [
+    {
+      "title": "학습하지 않은 직선에서 비교",
+      "video": "videos/01_new_road_straight.mp4",
+      "duration_s": 43.35,
+      "sha256": "b12a99959ecb6b8525970d841f503b8090cbb3fa9da6fbf08d5ad56d63d471d4",
+      "chapters": [
+        [
+          {
+            "model": "가운데 카메라로 학습",
+            "model_mode": "center",
+            "course": "U1",
+            "condition": "학습하지 않은 직선 · 정상 출발 · 중단 기준: 횡오차 ≥7m",
+            "original_file": "runs/closed_loop_cte7_public/center_U1/morai_screen.mp4",
+            "original_sha256": "ae8995934251f41b44ba619c1ed2e668fedb7d76d68285c0d3fc16abecfc5476",
+            "run_directory": "runs/closed_loop_cte7_public/center_U1",
+            "checkpoint_sha256": "e84e5294b4c3cd5dfbe3743b9f73403dea47b5d851e9d71ec1426969b62f6563",
+            "settings_sha256": "da5eb3230c0d2254f0c75070c4a489fd143bfe77774465aaa99d388dbf9a67bd",
+            "summary_sha256": "5728fdb3a83cf03dd0cc3412a30c10f68e7aa89d4771ca706a2f1127b2c76c2c",
+            "initial_state_sha256": "197f289cded7a4c700cfb508e8f4305907efd095a2dd60d88a5040c1399c8174",
+            "telemetry_sha256": "059cb9cefed96fead44bef4e53248b26bb595d0d5fdaba77f22b4ac488b43a54",
+            "status": "intervention_cte",
+            "result": "횡오차 7m 이상으로 종료",
+            "initial_condition": "nominal",
+            "initial_offset_m": 0.0,
+            "initial_heading_offset_deg": 0.0,
+            "measured_initial_cte_m": -0.004259695085776945,
+            "measured_initial_heading_deg": 1.848074134613853e-05,
+            "cte_intervention_threshold_m": 7.0,
+            "cte_intervention_definition": "abs(cte_m) >= max_cte_m",
+            "standalone_heading_intervention": false,
+            "target_kph": 19.0,
+            "reference_station_m": [
+              1300.0,
+              1500.0
+            ]
+          },
+          {
+            "model": "카메라 3개로 학습",
+            "model_mode": "three",
+            "course": "U1",
+            "condition": "학습하지 않은 직선 · 정상 출발 · 중단 기준: 횡오차 ≥7m",
+            "original_file": "runs/closed_loop_cte7_public/three_U1/morai_screen.mp4",
+            "original_sha256": "f01004f91fc62c4bf497c5fad9f67ad2e2c24939ff069f1f0885fa2e18177685",
+            "run_directory": "runs/closed_loop_cte7_public/three_U1",
+            "checkpoint_sha256": "04a09fcfba5a564ad664df005f530b072460ed16fa5e5c6abaa2525cb3f816ce",
+            "settings_sha256": "c7c899202432c3c145df341da28d1b2b360907fba58e2a94c7ac6080b8d7fcd4",
+            "summary_sha256": "a3289a627ef4f48f0f313ef477ed668d365961e48b94cb58127c52359521b3db",
+            "initial_state_sha256": "e406e676cf83959c58ac9422334029ec0f94c9c2e40a260afa434641b4e2b232",
+            "telemetry_sha256": "d54e08827503ae53dcfab226d89f2737590c49f459863573a2cb4e1bcfd7f4c9",
+            "status": "completed",
+            "result": "완주 (경로 종점 도달)",
+            "initial_condition": "nominal",
+            "initial_offset_m": 0.0,
+            "initial_heading_offset_deg": 0.0,
+            "measured_initial_cte_m": -0.005182919749839999,
+            "measured_initial_heading_deg": 0.0007203850382211385,
+            "cte_intervention_threshold_m": 7.0,
+            "cte_intervention_definition": "abs(cte_m) >= max_cte_m",
+            "standalone_heading_intervention": false,
+            "target_kph": 19.0,
+            "reference_station_m": [
+              1300.0,
+              1500.0
+            ]
+          }
+        ]
+      ]
+    },
+    {
+      "title": "학습하지 않은 곡선에서 비교",
+      "video": "videos/02_new_road_curve.mp4",
+      "duration_s": 14.0,
+      "sha256": "7201e39ece9887c2ac484a44c625e36072d77659b6989451c2ff91a7ef364c9e",
+      "chapters": [
+        [
+          {
+            "model": "가운데 카메라로 학습",
+            "model_mode": "center",
+            "course": "U2",
+            "condition": "학습하지 않은 곡선 · 정상 출발 · 중단 기준: 횡오차 ≥7m",
+            "original_file": "runs/closed_loop_cte7_public/center_U2/morai_screen.mp4",
+            "original_sha256": "021921a8330e5d0fac3feae3fd80f7635a75eba1df9a1cdbef18ded18d2cee95",
+            "run_directory": "runs/closed_loop_cte7_public/center_U2",
+            "checkpoint_sha256": "e84e5294b4c3cd5dfbe3743b9f73403dea47b5d851e9d71ec1426969b62f6563",
+            "settings_sha256": "10843648e702f907bc05da3abe06c0239d033a8f6c74e3b445a4fb6c5dd8a135",
+            "summary_sha256": "04756b90b07d035195d2a21ce37def56b98cc3b66376c6626e99daeda3006c6e",
+            "initial_state_sha256": "16aa87ca09f75b2fffa8f7fd94fe9ca77489e2b749fcf1d5e64d698d8ecd191b",
+            "telemetry_sha256": "d1426daa40f794b192ee03057b62e0d429801101ad0e7d1718832940424a34cd",
+            "status": "intervention_cte",
+            "result": "횡오차 7m 이상으로 종료",
+            "initial_condition": "nominal",
+            "initial_offset_m": 0.0,
+            "initial_heading_offset_deg": 0.0,
+            "measured_initial_cte_m": -0.0035986347578111652,
+            "measured_initial_heading_deg": -0.0004087512375576807,
+            "cte_intervention_threshold_m": 7.0,
+            "cte_intervention_definition": "abs(cte_m) >= max_cte_m",
+            "standalone_heading_intervention": false,
+            "target_kph": 19.0,
+            "reference_station_m": [
+              978.337,
+              1210.0
+            ]
+          },
+          {
+            "model": "카메라 3개로 학습",
+            "model_mode": "three",
+            "course": "U2",
+            "condition": "학습하지 않은 곡선 · 정상 출발 · 중단 기준: 횡오차 ≥7m",
+            "original_file": "runs/closed_loop_cte7_public/three_U2/morai_screen.mp4",
+            "original_sha256": "3d18823e3146e1b9b33125d2dfe995a9ab1d776f079445d1a38a4e404cf9b676",
+            "run_directory": "runs/closed_loop_cte7_public/three_U2",
+            "checkpoint_sha256": "04a09fcfba5a564ad664df005f530b072460ed16fa5e5c6abaa2525cb3f816ce",
+            "settings_sha256": "a93325466454f4048b2f34f78789c04f54fcdfa50d1623b531fddeb7d10468f4",
+            "summary_sha256": "a4f08b23c5e44bdf521e1084dfb510ce5a8eb90789967948ac16ed68a75dd40d",
+            "initial_state_sha256": "da9b75111d8f097004d9793b806c7850aa612822efb027cba970ab47c7c673f0",
+            "telemetry_sha256": "7740ba330624e6462b06bbb7a565277fac5ef5428f2f0ea3df70f6032628a2b1",
+            "status": "intervention_cte",
+            "result": "횡오차 7m 이상으로 종료",
+            "initial_condition": "nominal",
+            "initial_offset_m": 0.0,
+            "initial_heading_offset_deg": 0.0,
+            "measured_initial_cte_m": -0.003232077317206091,
+            "measured_initial_heading_deg": -0.0004392688156826807,
+            "cte_intervention_threshold_m": 7.0,
+            "cte_intervention_definition": "abs(cte_m) >= max_cte_m",
+            "standalone_heading_intervention": false,
+            "target_kph": 19.0,
+            "reference_station_m": [
+              978.337,
+              1210.0
+            ]
+          }
+        ]
+      ]
+    },
+    {
+      "title": "곡선 비중을 높여 다시 학습한 결과",
+      "video": "videos/03_more_curve_training.mp4",
+      "duration_s": 56.95,
+      "sha256": "38594558bcca87fbe4703089f012bcfc56c067453980a60a18de3a8e1f26dd6f",
+      "chapters": [
+        [
+          {
+            "model": "카메라 3개 · 곡선 비중 증가 학습",
+            "model_mode": "three_curves",
+            "course": "U2",
+            "condition": "학습하지 않은 곡선 · 정상 출발 · 중단 기준: 횡오차 ≥7m",
+            "original_file": "runs/closed_loop_cte7_public/more_curves_U2/morai_screen.mp4",
+            "original_sha256": "1b2d1f7433dde94334086247258de3e717fcfae72fd814c98d6c8b97ff30f23b",
+            "run_directory": "runs/closed_loop_cte7_public/more_curves_U2",
+            "checkpoint_sha256": "696fa8b94c572dd831a084d51fec46ef2f2f7c5bf87e2d886f8ca9eee7310a8b",
+            "settings_sha256": "0761cd5edf022680829e9c2251b4b2aed35f321c5c8c0ebbb1a777e495b73c83",
+            "summary_sha256": "dddf1b34cb6afd2efd82d4dab2460a0596f81eb2a47bbe81e641b478a4b097ee",
+            "initial_state_sha256": "c50f39a65cabad88de89d5a8f3a03d3d077ef71040c620f88bcca6fc97c84cb9",
+            "telemetry_sha256": "36147e5f99ef1076915a488566d80cf71c580bce230be00e1bb4fabc8d1b14a9",
+            "status": "intervention_cte",
+            "result": "횡오차 7m 이상으로 종료",
+            "initial_condition": "nominal",
+            "initial_offset_m": 0.0,
+            "initial_heading_offset_deg": 0.0,
+            "measured_initial_cte_m": -0.003659699608374289,
+            "measured_initial_heading_deg": -0.00828228639380768,
+            "cte_intervention_threshold_m": 7.0,
+            "cte_intervention_definition": "abs(cte_m) >= max_cte_m",
+            "standalone_heading_intervention": false,
+            "target_kph": 19.0,
+            "reference_station_m": [
+              978.337,
+              1210.0
+            ]
+          }
+        ],
+        [
+          {
+            "model": "카메라 3개 · 곡선 비중 증가 학습",
+            "model_mode": "three_curves",
+            "course": "U1",
+            "condition": "학습하지 않은 직선 · 정상 출발 · 중단 기준: 횡오차 ≥7m",
+            "original_file": "runs/closed_loop_cte7_public/more_curves_U1/morai_screen.mp4",
+            "original_sha256": "5c180be0ba24ab70f671d17516ca71159069ece118a5383d72e614f3e9b3b87b",
+            "run_directory": "runs/closed_loop_cte7_public/more_curves_U1",
+            "checkpoint_sha256": "696fa8b94c572dd831a084d51fec46ef2f2f7c5bf87e2d886f8ca9eee7310a8b",
+            "settings_sha256": "86b6051c8df0ed1761916a2f0701841a11b0103bd63096c90d6ca17f684accd8",
+            "summary_sha256": "3e60e5d7bc6ab954e5cd1f6302e02de228532fe8fe2d3a439fd5ffce50847fd5",
+            "initial_state_sha256": "f62638775c3fb1a100125b68e3c50631ddfb17db4fc2449882eb61a4577a2b5a",
+            "telemetry_sha256": "29d48179dacf1a2c00db84cea6900972ac2b1e3ef9d4ea4930f89fdd27185e77",
+            "status": "completed",
+            "result": "완주 (경로 종점 도달)",
+            "initial_condition": "nominal",
+            "initial_offset_m": 0.0,
+            "initial_heading_offset_deg": 0.0,
+            "measured_initial_cte_m": -0.003344220720249904,
+            "measured_initial_heading_deg": 0.0045655998819711385,
+            "cte_intervention_threshold_m": 7.0,
+            "cte_intervention_definition": "abs(cte_m) >= max_cte_m",
+            "standalone_heading_intervention": false,
+            "target_kph": 19.0,
+            "reference_station_m": [
+              1300.0,
+              1500.0
+            ]
+          }
+        ]
+      ]
+    },
+    {
+      "title": "명령 입력 없는 PilotNet의 교차로 주행",
+      "video": "videos/04_intersection.mp4",
+      "duration_s": 13.25,
+      "sha256": "d579e604ab3f8726f1e17ea33f3ba5cde92322b7ae77e1e57cdfac7577b63a31",
+      "chapters": [
+        [
+          {
+            "model": "카메라 3개로 학습",
+            "model_mode": "three",
+            "course": "J",
+            "condition": "교차로 J · 정상 출발 · 중단 기준: 횡오차 ≥7m",
+            "original_file": "runs/closed_loop_cte7_public/three_J/morai_screen.mp4",
+            "original_sha256": "c61e20ab3fba668b063d4252ebea78767ed607f830bfbb432d4e4377ca66f5bb",
+            "run_directory": "runs/closed_loop_cte7_public/three_J",
+            "checkpoint_sha256": "04a09fcfba5a564ad664df005f530b072460ed16fa5e5c6abaa2525cb3f816ce",
+            "settings_sha256": "23c0e4a7ef86ebc7529412859c9da60fac74be28d7ffaa6f6116977e0c584906",
+            "summary_sha256": "98b447a25ad8090c5454d3bdca36261e064c935f3f3cf524199a40578057cd2a",
+            "initial_state_sha256": "c7df3fd2107499a0523977456cd8acc6d4dc89ef994461bd321eb16852463b45",
+            "telemetry_sha256": "61f71ab9167cef885a1a968bc1beb5269b35809fd9bce4c48d68840be85f1500",
+            "status": "intervention_cte",
+            "result": "횡오차 7m 이상으로 종료",
+            "initial_condition": "nominal",
+            "initial_offset_m": 0.0,
+            "initial_heading_offset_deg": 0.0,
+            "measured_initial_cte_m": -0.0019340076853787995,
+            "measured_initial_heading_deg": -0.00011225197056319303,
+            "cte_intervention_threshold_m": 7.0,
+            "cte_intervention_definition": "abs(cte_m) >= max_cte_m",
+            "standalone_heading_intervention": false,
+            "target_kph": 19.0,
+            "reference_station_m": [
+              40.0,
+              108.0
+            ]
+          }
+        ]
+      ]
+    }
+  ]
+}

@@ -1,0 +1,242 @@
+{
+  "status": "completed",
+  "evaluation_scope": "같은 K-City 맵의 학습·Validation 미사용 도로에서 조건별 1회 기록한 시험. 다른 맵 일반화나 반복 시험 성공률을 주장하지 않는다.",
+  "trials": [
+    {
+      "course": "U2",
+      "status": "intervention_cte",
+      "completion_fraction": 0.5006776193218039,
+      "max_abs_cte_m": 7.0163815723279335,
+      "cte_rmse_m": 1.5379354949577115,
+      "mean_speed_kph": 9.714958799279945,
+      "duration_s": 43.855845929007046,
+      "checkpoint": "checkpoints/cil_baseline_20261117T223956Z/best.pt",
+      "checkpoint_sha256": "f4350250d2edb3d40ac6cad795ef1ea42429d394efc2e2e30d76ae5fd1bcf93f",
+      "epoch": 19,
+      "screen_video": "results/videos/01_curve.mp4",
+      "run": "runs/closed_loop/20261117T233158Z_U2_fc301f",
+      "telemetry_rows": 878,
+      "missing_logs": "",
+      "cleanup_errors": "",
+      "error": null,
+      "source_camera_video": "runs/closed_loop/20261117T233158Z_U2_fc301f/center_camera.mp4",
+      "source_screen_video": "runs/closed_loop/20261117T233158Z_U2_fc301f/morai_screen.mp4",
+      "screen_video_sha256": "890745f449d4a20a08e056d2e25e4c91d963a130919ed0fc5cd64c6d684ff849",
+      "preview_image": "results/images/01_curve.jpg",
+      "observation_cte_limit_m": 7.0,
+      "completion_definition": "within 1m route station, 2m endpoint, heading within 15deg; then brake",
+      "reference_length_m": 231.663,
+      "terminal_station_m": 115.98847932494706,
+      "protocol_note": "이전의 엄격한 종점 조건이 남아 있지만, 231.663m 경로의 115.988m 지점에서 CTE 7m 기준을 넘어 중단돼 종점 조건 차이가 종료 결과에 영향을 주지 않았다."
+    },
+    {
+      "course": "J_straight",
+      "status": "completed",
+      "completion_fraction": 0.9860740253283938,
+      "max_abs_cte_m": 2.3575501187768744,
+      "cte_rmse_m": 1.334791461419244,
+      "mean_speed_kph": 13.649894836841108,
+      "duration_s": 17.406741590995807,
+      "checkpoint": "checkpoints/cil_baseline_20261117T223956Z/best.pt",
+      "checkpoint_sha256": "f4350250d2edb3d40ac6cad795ef1ea42429d394efc2e2e30d76ae5fd1bcf93f",
+      "epoch": 19,
+      "screen_video": "results/videos/02_intersection_straight.mp4",
+      "run": "runs/closed_loop/20261117T233511Z_J_straight_2f2083",
+      "telemetry_rows": 349,
+      "missing_logs": "",
+      "cleanup_errors": "",
+      "error": null,
+      "source_camera_video": "runs/closed_loop/20261117T233511Z_J_straight_2f2083/center_camera.mp4",
+      "source_screen_video": "runs/closed_loop/20261117T233511Z_J_straight_2f2083/morai_screen.mp4",
+      "screen_video_sha256": "a981847e8734024406eb728f4cdffe1f89c3db0a6c92e54505b7c03a4ee89fa0",
+      "preview_image": "results/images/02_intersection_straight.jpg",
+      "observation_cte_limit_m": 7.0,
+      "completion_definition": "reference station reaches final1m while absCTE<max_cte; same endpoint condition as PilotNet; then brake",
+      "reference_length_m": 66.90696920797741,
+      "terminal_station_m": 65.97522444945547,
+      "protocol_note": "CTE 7m 미만에서 기준경로 마지막 1m 구간에 도달해 종료 후 제동했다. 헤딩 오차만으로 별도 중단하지 않는다."
+    },
+    {
+      "course": "J_left",
+      "status": "completed",
+      "completion_fraction": 0.9856167488163247,
+      "max_abs_cte_m": 1.3212432577545588,
+      "cte_rmse_m": 0.7358879747790971,
+      "mean_speed_kph": 14.467339228655936,
+      "duration_s": 16.256037818006007,
+      "checkpoint": "checkpoints/cil_baseline_20261117T223956Z/best.pt",
+      "checkpoint_sha256": "f4350250d2edb3d40ac6cad795ef1ea42429d394efc2e2e30d76ae5fd1bcf93f",
+      "epoch": 19,
+      "screen_video": "results/videos/03_intersection_left.mp4",
+      "run": "runs/closed_loop/20261117T233541Z_J_left_09c5c1",
+      "telemetry_rows": 326,
+      "missing_logs": "",
+      "cleanup_errors": "",
+      "error": null,
+      "source_camera_video": "runs/closed_loop/20261117T233541Z_J_left_09c5c1/center_camera.mp4",
+      "source_screen_video": "runs/closed_loop/20261117T233541Z_J_left_09c5c1/morai_screen.mp4",
+      "screen_video_sha256": "cbd75832996c2e665103d3406c4620e888228100f6376c4bb6f0f813b11ca0cc",
+      "preview_image": "results/images/03_intersection_left.jpg",
+      "observation_cte_limit_m": 7.0,
+      "completion_definition": "reference station reaches final1m while absCTE<max_cte; same endpoint condition as PilotNet; then brake",
+      "reference_length_m": 68.0,
+      "terminal_station_m": 67.02193891951008,
+      "protocol_note": "CTE 7m 미만에서 기준경로 마지막 1m 구간에 도달해 종료 후 제동했다. 헤딩 오차만으로 별도 중단하지 않는다."
+    },
+    {
+      "course": "J_right",
+      "status": "intervention_cte",
+      "completion_fraction": 0.7428874604043368,
+      "max_abs_cte_m": 7.005583579469525,
+      "cte_rmse_m": 1.5352992044329719,
+      "mean_speed_kph": 13.843603861759094,
+      "duration_s": 12.85876690398436,
+      "checkpoint": "checkpoints/cil_baseline_20261117T223956Z/best.pt",
+      "checkpoint_sha256": "f4350250d2edb3d40ac6cad795ef1ea42429d394efc2e2e30d76ae5fd1bcf93f",
+      "epoch": 19,
+      "screen_video": "results/videos/04_intersection_right.mp4",
+      "run": "runs/closed_loop/20261117T233613Z_J_right_e36261",
+      "telemetry_rows": 258,
+      "missing_logs": "",
+      "cleanup_errors": "",
+      "error": null,
+      "source_camera_video": "runs/closed_loop/20261117T233613Z_J_right_e36261/center_camera.mp4",
+      "source_screen_video": "runs/closed_loop/20261117T233613Z_J_right_e36261/morai_screen.mp4",
+      "screen_video_sha256": "a0d70c8717f231699e35198386a78b81a0bf3c3dff3b7a1e43d89154907265c8",
+      "preview_image": "results/images/04_intersection_right.jpg",
+      "observation_cte_limit_m": 7.0,
+      "completion_definition": "reference station reaches final1m while absCTE<max_cte; same endpoint condition as PilotNet; then brake",
+      "reference_length_m": 60.74803063474285,
+      "terminal_station_m": 45.128950203,
+      "protocol_note": "종점 도달 전에 CTE 7m 기준을 넘어 중단했다. 헤딩 오차만으로 별도 중단하지 않는다."
+    },
+    {
+      "course": "P2Q",
+      "status": "intervention_cte",
+      "completion_fraction": 0.02729351441164837,
+      "max_abs_cte_m": 7.130102542359076,
+      "cte_rmse_m": 2.6332235855669226,
+      "mean_speed_kph": 10.026487680846808,
+      "duration_s": 6.958913216018118,
+      "checkpoint": "checkpoints/cil_baseline_20261117T223956Z/best.pt",
+      "checkpoint_sha256": "f4350250d2edb3d40ac6cad795ef1ea42429d394efc2e2e30d76ae5fd1bcf93f",
+      "epoch": 19,
+      "screen_video": "results/videos/05_point_to_point.mp4",
+      "run": "runs/closed_loop/20261117T233657Z_P2Q_76247e",
+      "telemetry_rows": 140,
+      "missing_logs": "",
+      "cleanup_errors": "",
+      "error": null,
+      "source_camera_video": "runs/closed_loop/20261117T233657Z_P2Q_76247e/center_camera.mp4",
+      "source_screen_video": "runs/closed_loop/20261117T233657Z_P2Q_76247e/morai_screen.mp4",
+      "screen_video_sha256": "c2313d37e1d632aec008beb144022276a62d0e1926efdecac059b7e3ce270906",
+      "preview_image": "results/images/05_point_to_point.jpg",
+      "observation_cte_limit_m": 7.0,
+      "completion_definition": "reference station reaches final1m while absCTE<max_cte; same endpoint condition as PilotNet; then brake",
+      "reference_length_m": 636.100112,
+      "terminal_station_m": 17.36140757412314,
+      "protocol_note": "종점 도달 전에 CTE 7m 기준을 넘어 중단했다. 헤딩 오차만으로 별도 중단하지 않는다."
+    }
+  ],
+  "provided_courses": [
+    "U2",
+    "J_straight",
+    "J_left",
+    "J_right",
+    "P2Q"
+  ],
+  "missing_courses": [],
+  "trial_count": 5,
+  "endpoint_completed_trials": 2,
+  "checkpoint_sha256": "f4350250d2edb3d40ac6cad795ef1ea42429d394efc2e2e30d76ae5fd1bcf93f",
+  "epoch": 19,
+  "collision_metric": null,
+  "collision_note": "충돌 이벤트를 계측하지 않았다. 종점 도달을 무충돌로 해석하지 않는다.",
+  "has_missing_logs": false,
+  "verified_sources": {
+    "runs/closed_loop/20261117T233158Z_U2_fc301f": {
+      "settings.json": "5aeb284cab3882c882e49d17b537d4083597331fd5095d0d82924436d49fa6b4",
+      "summary.json": "929931820d98b50710e6bbadbb9356512071ee20bb3f9258e8a73593517cee3a",
+      "telemetry.csv": "1c6737efc24dedaa98e9795fb956c9a218c01582773cea2a12b45b0c9e0eb9a4",
+      "reference_route": "53f00de17afb99bd31109245b56b47f6a070796cc919953f28681c102ef54554"
+    },
+    "runs/closed_loop/20261117T233511Z_J_straight_2f2083": {
+      "settings.json": "9406c1a13df5f2648e0c4c9ffa468ef47c22f743f54b39057d143cf129503f8b",
+      "summary.json": "ed5c3bf24b1ebc689f7acc9a292b1cdbcfc2f38ab9e7cf432306fcb3e8e02d1e",
+      "telemetry.csv": "c2c2d8548f6561c9ec3e9498fabe53508bf8e210a26492b86918da115f6b22db",
+      "reference_route": "fee9466e84abd768a9cf3276a1465fc1fa5affe02a0457531d5117969e892f21"
+    },
+    "runs/closed_loop/20261117T233541Z_J_left_09c5c1": {
+      "settings.json": "c3e90896233b9c4b90afb6d9c946b8f550d73c11689ba0cf4ff343208c348957",
+      "summary.json": "faa76d3b44cdbf569a8a78202c377d2ad3a3038b7343408a6bc0e48389d1736a",
+      "telemetry.csv": "ee673a59c26ea6fcb5f26d692a57b0415e9a8619c059e699349965fc7217429a",
+      "reference_route": "7ebb5e816520cbd12bccbfe36dfa411d0ec77136d7f41542669dc56aa14694f1"
+    },
+    "runs/closed_loop/20261117T233613Z_J_right_e36261": {
+      "settings.json": "31765dab1f0337fa95a16c595d64235e52b71cfc9e90e5321835e2e2fa19baab",
+      "summary.json": "073416aeceec4b4f06f7a6172726385c4eaf13ef73ea2da09bda361960eb19b6",
+      "telemetry.csv": "29ea11738f0aef6c25b7020509dfe7fcc6e6ff990311626c3f3e7e50d2e564ce",
+      "reference_route": "0820e44fc7dd45833ead9dc27c5ff394f14cefa4b825c3b3c2de3f0824aaf254"
+    },
+    "runs/closed_loop/20261117T233657Z_P2Q_76247e": {
+      "settings.json": "adfc01a6e5eeb1960567cbfddb69914397693c3f18e5bfdcd5c7c57c99d0df4e",
+      "summary.json": "248408c59d807cb775d6ad9839d4ace67d96089c602a1329199300cb5fbf0fca",
+      "telemetry.csv": "e22e4d830c7d53825f11fe16862a3d66326e0a4509479ed6ad6c40dc4bd953b5",
+      "reference_route": "88222984ff51db733f350db57e0413421b9dddc987d620d37871728914a5d4d7"
+    }
+  },
+  "outputs": [
+    "results/metrics/closed_loop.csv",
+    "results/metrics/closed_loop.json",
+    "results/images/closed_loop_trajectory.png"
+  ],
+  "notes": [
+    "원본 실행 기록·모델·학습 데이터를 변경하지 않았다.",
+    "이 집계는 기록만 읽었으며 추가 학습·차량 제어·모델 재평가를 하지 않았다.",
+    "종료 상태와 정리 오류를 보존하고 누락 영상·로그를 표시했다.",
+    "J 직진과 좌회전은 최대 CTE가 각각 2.358m와 1.321m인 상태로 종점 구간에 도달했다. 차선 유지 성공을 의미하지 않는다.",
+    "U2에는 이전 종점 조건이 남아 있지만 종점 도달 전에 CTE 기준을 넘어 종료해 종점 판정 차이가 결과에 영향을 주지 않았다.",
+    "초기 1m 기준 실행 3개와 종점 인식 조건 점검 실행 1개를 공개 7m 결과에서 제외하고 로컬에 보존했다.",
+    "공개 MP4는 실제 MORAI 창의 원본 녹화를 바이트 그대로 복사한 것이며 원본 영상 SHA256을 기록했다."
+  ],
+  "observation_protocol": {
+    "max_abs_cte_m": 7.0,
+    "cte_threshold_interpretation": "7m는 관찰을 위한 넓은 중단 기준이며 차선 유지 허용 오차가 아니다.",
+    "endpoint_definition": "CTE 한계를 먼저 확인하고 기준경로 마지막 1m 구간에 도달하면 종료 후 제동한다.",
+    "checkpoint_frozen": true,
+    "model_inputs": [
+      "center image",
+      "actual speed",
+      "categorical navigation command"
+    ],
+    "model_outputs": [
+      "steer",
+      "throttle",
+      "brake"
+    ],
+    "used_for_training": false,
+    "same_map": "K-City",
+    "trial_repeats_per_reported_course": 1,
+    "statistical_success_rate_claim": false,
+    "zero_collision_claim": false
+  },
+  "excluded_original_runs": [
+    {
+      "run": "runs/closed_loop/20261117T232948Z_U2_76315e",
+      "reason": "초기 CTE 1m 기준의 실행이므로 공개 7m 관찰 결과에서 제외했다."
+    },
+    {
+      "run": "runs/closed_loop/20261117T233044Z_J_straight_945dea",
+      "reason": "초기 CTE 1m 기준의 실행이므로 공개 7m 관찰 결과에서 제외했다."
+    },
+    {
+      "run": "runs/closed_loop/20261117T233116Z_J_left_26b97d",
+      "reason": "초기 CTE 1m 기준의 실행이므로 공개 7m 관찰 결과에서 제외했다."
+    },
+    {
+      "run": "runs/closed_loop/20261117T233314Z_J_straight_500169",
+      "reason": "이전의 엄격한 종점·헤딩 확인 때문에 종점 도달 후 종료 시점을 놓친 점검 실행이다. 공개 결과에서 제외하고 원본 영상과 로그를 보존했다."
+    }
+  ],
+  "paths_relative_to": "cil/"
+}

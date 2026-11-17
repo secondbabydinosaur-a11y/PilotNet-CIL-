@@ -1,0 +1,7 @@
+scope,command_id,command_name,samples,control_mse,steer_mae_normalized,throttle_mae,brake_mae,aux_speed_mae_kph
+command,0,follow_road,1049,0.005073945038020611,,,,
+command,1,left,251,0.005572066642343998,,,,
+command,2,straight,162,0.007876505143940449,,,,
+command,3,right,87,0.004469661973416805,,,,
+overall_natural_distribution,,,1549,0.005413822545937526,0.08350235968828201,0.02426019124686718,0.0023482320830225945,1.5067136110683808
+equal_weight_command_average,,,,0.005748044699430466,,,,
