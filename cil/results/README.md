@@ -2,7 +2,9 @@
 
 **Baseline best 19 epoch를 고정해 실제 MORAI 주행 5개를 기록했다.**
 입력은 가운데 영상·현재 속도·진행 명령이고, CIL이 조향·가속·브레이크를 예측한다.
-시험 구간은 학습·Validation에서 제외했으며 아래 기록을 재학습에 사용하지 않았다.
+곡선 U2와 교차로 J 세 방향은 학습·Validation에서 제외한 시험 구간이다.
+마지막 대회 경로는 학습한 도로를 포함하는 **연속 명령 주행 시연**이며 미학습 구간만의 시험이 아니다.
+아래 주행 기록으로 데이터나 모델을 다시 학습하지 않았다.
 
 ## 실제 MORAI 영상: CTE 7m 관찰 기준
 
@@ -12,14 +14,18 @@
 | [<img src="images/02_intersection_straight.jpg" width="300" alt="교차로 직진 실제 MORAI 주행">](videos/02_intersection_straight.mp4) | **교차로 직진:** 종점 구간 도달. 최대 CTE **2.358m**. |
 | [<img src="images/03_intersection_left.jpg" width="300" alt="교차로 좌회전 실제 MORAI 주행">](videos/03_intersection_left.mp4) | **교차로 좌회전:** 종점 구간 도달. 최대 CTE **1.321m**. |
 | [<img src="images/04_intersection_right.jpg" width="300" alt="교차로 우회전 실제 MORAI 주행">](videos/04_intersection_right.mp4) | **교차로 우회전:** 약 45/61m에서 CTE 7m 기준을 넘어 중단. 최대 7.006m. |
-| [<img src="images/05_point_to_point.jpg" width="300" alt="미학습 P에서 Q까지 실제 MORAI 주행">](videos/05_point_to_point.mp4) | **미학습 P→Q:** 약 17/636m에서 CTE 7m 기준을 넘어 중단. 최대 7.130m. |
+| [<img src="images/05_competition_route.jpg" width="300" alt="대회 출발점부터 마지막 신호 좌회전까지 실제 MORAI 연속 주행">](videos/05_competition_route.mp4) | **대회 경로 연속 시연:** s0부터 마지막 신호 좌회전 출구 뒤 10m까지 약 **645.1m**. 약 **130.4초**에 종점 구간 도달. 최대 CTE **6.223m**. |
 
 영상은 가운데 카메라 재생을 대신 넣은 것이 아니라 **실제로 실행한 MORAI 창의 원본 녹화**다.
 원본 파일을 그대로 복사했고 [상세 기록](metrics/closed_loop.json)에 각 영상의 SHA256을 남겼다.
 
-7m는 주행을 더 관찰하기 위한 넓은 중단 기준이다. **직진·좌회전의 종점 도달은 차선 유지 성공이 아니다.**
+7m는 주행을 더 관찰하기 위한 넓은 중단 기준이다. **직진·좌회전·대회 연속 시연의 종점 도달은 정밀한 차선 유지 성공을 뜻하지 않는다.**
 충돌 이벤트는 계측하지 않았으므로 무충돌 결과로도 해석하지 않는다. 같은 K-City 맵에서 각 조건 한 번의
 시험이며 통계적 성공률이나 다른 맵에 대한 일반화 성능을 주장하지 않는다.
+
+대회 연속 시연은 기준경로 s644.295m에서 마지막 1m 구간에 도달했다. CTE RMSE는 **2.034m**, 평균속도는 **17.789km/h**다.
+0.5m 간격으로 경로를 검사했을 때 **63.78%가 실제 학습 주행 위치에서 3.5m 이내**였다.
+신호색이나 장애물에 대응하도록 학습한 모델이 아니므로, 이 영상은 명령에 따른 연속 주행을 보여 주며 대회 규정 준수 평가는 아니다.
 
 ![기준경로와 실제 CIL 주행 궤적](images/closed_loop_trajectory.png)
 
@@ -52,7 +58,7 @@ CTE 한계를 먼저 확인하고 기준경로 마지막 1m 구간에 도달하�
 선택 이후 8 epoch 동안 이 점수가 개선되지 않아 조기 종료했다.
 저장한 모델을 다시 불러와 Validation 1,549장 전체의 지표가 재현되는지 확인했다.
 
-Validation은 모델 선택에 사용한 세트다. 위의 미학습 도로 주행 기록과 구분한다.
+Validation은 모델 선택에 사용한 세트다. 위의 미학습 도로 시험 및 학습 도로를 포함한 연속 주행 시연과 구분한다.
 
 - [명령별 Validation 표](metrics/baseline_validation.csv)
 - [학습 조건·수치·검증 요약](metrics/baseline_training_summary.json)

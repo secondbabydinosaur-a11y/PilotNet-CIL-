@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "status": "evaluation_routes_prepared_not_executed",
+  "status": "routes_prepared",
   "coordinate_frame": "MGeo local XY metres; +X east, +Y north; origin UTM52N [302595,4124145,0]",
   "vehicle_pose_frame": "rear axle; map yaw atan2(dy,dx)",
-  "scope": "held-out roads on the same K-City map; no new town claim",
+  "scope": "Each route declares its scope; COMPETITION is a continuous demonstration including training roads.",
   "map_use": "reset, navigation command, route progress and CTE evaluation only; CNN determines steering",
   "no_training_or_model_updates": true,
   "routes": {
@@ -272,68 +272,221 @@
         }
       }
     },
-    "P2Q": {
-      "name_ko": "북서쪽 외곽의 미학습 주행",
-      "split": "test",
-      "length_m": 636.100112,
+    "COMPETITION": {
+      "name_ko": "대회 출발부터 마지막 신호 좌회전까지 연속 주행",
+      "split": "demonstration",
+      "evaluation_scope": "continuous_command_driving_demonstration_including_training_roads",
+      "not_an_unseen_only_test": true,
+      "traffic_light_or_obstacle_compliance_evaluated": false,
+      "route_csv": "routes/test/COMPETITION.csv",
+      "route_sha256": "221a1dff4bd1e1c75c914d9b0d203a2bb8798fddc586064686971730f58fa002",
+      "reference_interval_s_m": [
+        0.0,
+        645.1126073415769
+      ],
+      "length_m": 645.1126073415769,
       "start_xyz_m": [
-        -382.354682,
-        91.409543,
-        28.714318
+        -131.689797551,
+        -428.331022938,
+        28.543960282
       ],
       "end_xyz_m": [
-        -183.858428,
-        563.735308,
-        28.395163
+        2.182847156623155,
+        124.91129710529391,
+        28.45754595906356
       ],
-      "initial_yaw_deg_map": 90.65894455484035,
+      "initial_yaw_deg_map": 61.298115138830774,
       "source_links": [
-        "A2256W000402",
-        "A2256W000110",
-        "A2256W000109",
-        "A2256W000394"
+        "A2256W000748",
+        "A2256W000182",
+        "A2256W000329",
+        "A2256W000236",
+        "A2256W000219",
+        "A2256W000215",
+        "A2256W000213",
+        "A2256W000222",
+        "A2256W000220",
+        "A2256W000202",
+        "A2256W000728",
+        "A2256W000599",
+        "A2256W000207",
+        "A2256W000205",
+        "A2256W000315",
+        "A2256W000318",
+        "A2256W000308",
+        "A2256W000083",
+        "A2256W000304"
       ],
-      "reference_interval_s_m": null,
-      "max_link_endpoint_gap_m": 0.0,
-      "route_csv": "routes/test/P2Q.csv",
-      "minimum_radius_from_3m_chords_m": 16.754253064201055,
       "navigation": [
         {
-          "link_id": "A2256W000109",
-          "entry_s_m": 512.079012,
-          "exit_s_m": 562.750567,
+          "link_id": "A2256W000182",
+          "entry_s_m": 72.62896869734406,
+          "exit_s_m": 94.95424590521343,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 91.341
+        },
+        {
+          "link_id": "A2256W000236",
+          "entry_s_m": 160.0091672707418,
+          "exit_s_m": 186.2857317478893,
           "approach_m": 18.0,
           "exit_hold_m": 6.0,
           "command": "straight",
           "map_related_signal": "straight",
-          "measured_turn_deg": -21.61
+          "measured_turn_deg": 0.225
+        },
+        {
+          "link_id": "A2256W000215",
+          "entry_s_m": 208.45894122659976,
+          "exit_s_m": 237.42279020804668,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 0.258
+        },
+        {
+          "link_id": "A2256W000222",
+          "entry_s_m": 315.9060981422918,
+          "exit_s_m": 346.7418235401587,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 5.429
+        },
+        {
+          "link_id": "A2256W000599",
+          "entry_s_m": 436.7975664415121,
+          "exit_s_m": 462.9416125166634,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 0.0
+        },
+        {
+          "link_id": "A2256W000318",
+          "entry_s_m": 550.618735374533,
+          "exit_s_m": 580.8684254141905,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -89.027
+        },
+        {
+          "link_id": "A2256W000083",
+          "entry_s_m": 609.8768384414985,
+          "exit_s_m": 635.112607341671,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left",
+          "measured_turn_deg": 91.615
         }
       ],
-      "route_sha256": "88222984ff51db733f350db57e0413421b9dddc987d620d37871728914a5d4d7",
-      "max_segment_m": 0.5000009559441143,
-      "map_use": "reset, navigation command and evaluation only; never steering",
+      "map_use": "reset, command selection and evaluation only; never steering",
+      "endpoint_basis": {
+        "last_left_signal_id": "C1256W000052",
+        "signal_position_xyz_m": [
+          -13.2822,
+          98.31819,
+          34.06081
+        ],
+        "stopline_official_s_m": 609.601,
+        "junction_link_id": "A2256W000083",
+        "junction_entry_official_s_m": 609.876838440659,
+        "junction_exit_official_s_m": 635.1126073415769,
+        "exit_road_distance_m": 10.0,
+        "roundabout_entry_official_s_m": 884.622,
+        "remaining_to_roundabout_entry_m": 239.50939265842305
+      },
       "collection_overlap_checks": {
-        "train": {
-          "nearest_sample_m": 142.6136698901758,
-          "conservative_test_polyline_distance_lower_bound_m": 142.3636698901758,
-          "within_20m_guard": false
+        "raw_train": {
+          "minimum_sample_distance_m": 0.0006625239170387721,
+          "reference_samples": 1292,
+          "reference_sample_step_m": 0.5,
+          "fraction_within_distance": {
+            "0.5": 0.6331269349845201,
+            "1.0": 0.6339009287925697,
+            "2.0": 0.6354489164086687,
+            "3.5": 0.6377708978328174,
+            "10.0": 0.6478328173374613,
+            "20.0": 0.663312693498452
+          },
+          "reference_intervals_within_3_5m": [
+            [
+              234.0,
+              645.1126073415769
+            ]
+          ]
         },
-        "validation": {
-          "nearest_sample_m": 78.84058685357397,
-          "conservative_test_polyline_distance_lower_bound_m": 78.59058685357397,
-          "within_20m_guard": false
+        "raw_validation": {
+          "minimum_sample_distance_m": 82.28342768756977,
+          "reference_samples": 1292,
+          "reference_sample_step_m": 0.5,
+          "fraction_within_distance": {
+            "0.5": 0.0,
+            "1.0": 0.0,
+            "2.0": 0.0,
+            "3.5": 0.0,
+            "10.0": 0.0,
+            "20.0": 0.0
+          },
+          "reference_intervals_within_3_5m": []
         },
         "prepared_train": {
-          "nearest_sample_m": 142.6140823095426,
-          "conservative_test_polyline_distance_lower_bound_m": 142.3640823095426,
-          "within_20m_guard": false
+          "minimum_sample_distance_m": 0.004991642706829155,
+          "reference_samples": 1292,
+          "reference_sample_step_m": 0.5,
+          "fraction_within_distance": {
+            "0.5": 0.6331269349845201,
+            "1.0": 0.6339009287925697,
+            "2.0": 0.6354489164086687,
+            "3.5": 0.6377708978328174,
+            "10.0": 0.6478328173374613,
+            "20.0": 0.663312693498452
+          },
+          "reference_intervals_within_3_5m": [
+            [
+              234.0,
+              645.1126073415769
+            ]
+          ]
         },
         "prepared_val": {
-          "nearest_sample_m": 78.84061045731139,
-          "conservative_test_polyline_distance_lower_bound_m": 78.59061045731139,
-          "within_20m_guard": false
+          "minimum_sample_distance_m": 96.22016792739815,
+          "reference_samples": 1292,
+          "reference_sample_step_m": 0.5,
+          "fraction_within_distance": {
+            "0.5": 0.0,
+            "1.0": 0.0,
+            "2.0": 0.0,
+            "3.5": 0.0,
+            "10.0": 0.0,
+            "20.0": 0.0
+          },
+          "reference_intervals_within_3_5m": []
         }
-      }
+      },
+      "reference_matches_official_xyz_max_error_m": 4.999556324492005e-10,
+      "source_sha256": {
+        "official_route.csv": "62bcdb2370ae45663d2be3522e0e54222d5cf1f65aa8344df2fb0b189520da62",
+        "official_mission_tags.json": "8dfa9718ae45896786f955904f3fd9408480616d642e43b0f8b196366cd715f4",
+        "pilotnet/assets/evaluation_route.csv": "6faa1e823edcb13c67e234a2c68fbf3e0a560e3f23ccfeec02d43219c22b9f1b",
+        "MGeo/link_set.json": "c5a3cb6736e09092e2e67ebd5d67292c82a576e76f87aca39f8f1d89dc8739c9",
+        "MGeo/traffic_light_set.json": "66de0cbacd35dbd454a260fe491f1e25d9145fc69b594aca14041863cb597ba7"
+      },
+      "notes": [
+        "Original route geometry is unchanged; only the final endpoint is interpolated.",
+        "Includes roads observed during CIL collection; do not report as held-out generalization.",
+        "Navigation uses actual junction geometry,18m approach and6m exit hold, matching collection policy.",
+        "Signal color, stop-line response and obstacle handling were not learned; this demonstrates command-conditioned route following, not competition-rule compliance."
+      ]
     }
   },
   "command_policy": "current junction first, upcoming within18m, exit hold6m, otherwise follow_road",
@@ -358,6 +511,6 @@
     "J has map related_signal='straight' on all exits; commands use physical exit geometry.",
     "Overlap checks use all accepted raw Ego positions and prepared training/validation positions; test polyline sampled every0.25m with0.25m conservative subtraction.",
     "Spatial separation does not guarantee no common visual backgrounds.",
-    "P2Q CSV is preserved byte-for-byte."
+    "P2Q is excluded from active evaluation by user request; its original route remains only as a historical collection reservation."
   ]
 }

@@ -1,6 +1,6 @@
 {
   "status": "completed",
-  "evaluation_scope": "같은 K-City 맵의 학습·Validation 미사용 도로에서 조건별 1회 기록한 시험. 다른 맵 일반화나 반복 시험 성공률을 주장하지 않는다.",
+  "evaluation_scope": "같은 K-City 맵의 학습·Validation 미사용 도로 시험 4회와 학습 도로가 포함된 대회 경로 연속 시연 1회다. 다른 맵 일반화나 반복 시험 성공률을 주장하지 않는다.",
   "trials": [
     {
       "course": "U2",
@@ -111,31 +111,31 @@
       "protocol_note": "종점 도달 전에 CTE 7m 기준을 넘어 중단했다. 헤딩 오차만으로 별도 중단하지 않는다."
     },
     {
-      "course": "P2Q",
-      "status": "intervention_cte",
-      "completion_fraction": 0.02729351441164837,
-      "max_abs_cte_m": 7.130102542359076,
-      "cte_rmse_m": 2.6332235855669226,
-      "mean_speed_kph": 10.026487680846808,
-      "duration_s": 6.958913216018118,
+      "course": "COMPETITION",
+      "status": "completed",
+      "completion_fraction": 0.9987329477406082,
+      "max_abs_cte_m": 6.223303076085189,
+      "cte_rmse_m": 2.0343656204819447,
+      "mean_speed_kph": 17.78907960565649,
+      "duration_s": 130.40684630098986,
       "checkpoint": "checkpoints/cil_baseline_20261117T223956Z/best.pt",
       "checkpoint_sha256": "f4350250d2edb3d40ac6cad795ef1ea42429d394efc2e2e30d76ae5fd1bcf93f",
       "epoch": 19,
-      "screen_video": "results/videos/05_point_to_point.mp4",
-      "run": "runs/closed_loop/20261117T233657Z_P2Q_76247e",
-      "telemetry_rows": 140,
+      "screen_video": "results/videos/05_competition_route.mp4",
+      "run": "runs/closed_loop/20261118T012205Z_COMPETITION_a4996e",
+      "telemetry_rows": 2609,
       "missing_logs": "",
       "cleanup_errors": "",
       "error": null,
-      "source_camera_video": "runs/closed_loop/20261117T233657Z_P2Q_76247e/center_camera.mp4",
-      "source_screen_video": "runs/closed_loop/20261117T233657Z_P2Q_76247e/morai_screen.mp4",
-      "screen_video_sha256": "c2313d37e1d632aec008beb144022276a62d0e1926efdecac059b7e3ce270906",
-      "preview_image": "results/images/05_point_to_point.jpg",
+      "source_camera_video": "runs/closed_loop/20261118T012205Z_COMPETITION_a4996e/center_camera.mp4",
+      "source_screen_video": "runs/closed_loop/20261118T012205Z_COMPETITION_a4996e/morai_screen.mp4",
+      "screen_video_sha256": "4538cf9e495968304e3a4672f4db7a02d29c52e7a222ce15141a95fefdab5850",
+      "preview_image": "results/images/05_competition_route.jpg",
       "observation_cte_limit_m": 7.0,
       "completion_definition": "reference station reaches final1m while absCTE<max_cte; same endpoint condition as PilotNet; then brake",
-      "reference_length_m": 636.100112,
-      "terminal_station_m": 17.36140757412314,
-      "protocol_note": "종점 도달 전에 CTE 7m 기준을 넘어 중단했다. 헤딩 오차만으로 별도 중단하지 않는다."
+      "reference_length_m": 645.1126073415769,
+      "terminal_station_m": 644.2951639632654,
+      "protocol_note": "학습 도로를 포함한 연속 시연이다. CTE 7m 미만에서 기준경로 마지막 1m 구간에 도달해 종료 후 제동했다. 헤딩 오차만으로 별도 중단하지 않는다."
     }
   ],
   "provided_courses": [
@@ -143,11 +143,11 @@
     "J_straight",
     "J_left",
     "J_right",
-    "P2Q"
+    "COMPETITION"
   ],
   "missing_courses": [],
   "trial_count": 5,
-  "endpoint_completed_trials": 2,
+  "endpoint_completed_trials": 3,
   "checkpoint_sha256": "f4350250d2edb3d40ac6cad795ef1ea42429d394efc2e2e30d76ae5fd1bcf93f",
   "epoch": 19,
   "collision_metric": null,
@@ -178,11 +178,11 @@
       "telemetry.csv": "29ea11738f0aef6c25b7020509dfe7fcc6e6ff990311626c3f3e7e50d2e564ce",
       "reference_route": "0820e44fc7dd45833ead9dc27c5ff394f14cefa4b825c3b3c2de3f0824aaf254"
     },
-    "runs/closed_loop/20261117T233657Z_P2Q_76247e": {
-      "settings.json": "adfc01a6e5eeb1960567cbfddb69914397693c3f18e5bfdcd5c7c57c99d0df4e",
-      "summary.json": "248408c59d807cb775d6ad9839d4ace67d96089c602a1329199300cb5fbf0fca",
-      "telemetry.csv": "e22e4d830c7d53825f11fe16862a3d66326e0a4509479ed6ad6c40dc4bd953b5",
-      "reference_route": "88222984ff51db733f350db57e0413421b9dddc987d620d37871728914a5d4d7"
+    "runs/closed_loop/20261118T012205Z_COMPETITION_a4996e": {
+      "settings.json": "a8e8096f42f27bf2cb59b6ffea1d8d516fd0a0bf521c5f362af47a507af6fd61",
+      "summary.json": "e1e1904fefeed5ff772361161fb8e35c1777ff6b0c15beafa8a4fc10a61a20ce",
+      "telemetry.csv": "7e2cb35d96c8da2bc6e2c6b208f276009a4031999a41a03cef4a491c90b48449",
+      "reference_route": "221a1dff4bd1e1c75c914d9b0d203a2bb8798fddc586064686971730f58fa002"
     }
   },
   "outputs": [
@@ -197,7 +197,9 @@
     "J 직진과 좌회전은 최대 CTE가 각각 2.358m와 1.321m인 상태로 종점 구간에 도달했다. 차선 유지 성공을 의미하지 않는다.",
     "U2에는 이전 종점 조건이 남아 있지만 종점 도달 전에 CTE 기준을 넘어 종료해 종점 판정 차이가 결과에 영향을 주지 않았다.",
     "초기 1m 기준 실행 3개와 종점 인식 조건 점검 실행 1개를 공개 7m 결과에서 제외하고 로컬에 보존했다.",
-    "공개 MP4는 실제 MORAI 창의 원본 녹화를 바이트 그대로 복사한 것이며 원본 영상 SHA256을 기록했다."
+    "공개 MP4는 실제 MORAI 창의 원본 녹화를 바이트 그대로 복사한 것이며 원본 영상 SHA256을 기록했다.",
+    "사용자 요청으로 P→Q 공개 평가를 제외했다. 제외 이유와 보존 위치는 excluded_trials에 기록했다. 기존 U2·J 세 방향 결과는 그대로 유지했다.",
+    "COMPETITION은 출발점부터 마지막 신호 좌회전 출구 뒤 10m까지의 연속 시연이다. 경로 표본의 약 63.78%가 학습 위치에서 3.5m 이내이므로 미학습 도로 일반화 시험으로 집계하지 않는다."
   ],
   "observation_protocol": {
     "max_abs_cte_m": 7.0,
@@ -218,7 +220,14 @@
     "same_map": "K-City",
     "trial_repeats_per_reported_course": 1,
     "statistical_success_rate_claim": false,
-    "zero_collision_claim": false
+    "zero_collision_claim": false,
+    "active_course_scopes": {
+      "U2": "held_out_road_trial",
+      "J_straight": "held_out_road_trial",
+      "J_left": "held_out_road_trial",
+      "J_right": "held_out_road_trial",
+      "COMPETITION": "continuous_command_driving_demonstration_including_training_roads"
+    }
   },
   "excluded_original_runs": [
     {
@@ -238,5 +247,83 @@
       "reason": "이전의 엄격한 종점·헤딩 확인 때문에 종점 도달 후 종료 시점을 놓친 점검 실행이다. 공개 결과에서 제외하고 원본 영상과 로그를 보존했다."
     }
   ],
-  "paths_relative_to": "cil/"
+  "paths_relative_to": "cil/",
+  "excluded_trials": [
+    {
+      "course": "P2Q",
+      "status": "intervention_cte",
+      "completion_fraction": 0.02729351441164837,
+      "max_abs_cte_m": 7.130102542359076,
+      "cte_rmse_m": 2.6332235855669226,
+      "mean_speed_kph": 10.026487680846808,
+      "duration_s": 6.958913216018118,
+      "checkpoint": "checkpoints/cil_baseline_20261117T223956Z/best.pt",
+      "checkpoint_sha256": "f4350250d2edb3d40ac6cad795ef1ea42429d394efc2e2e30d76ae5fd1bcf93f",
+      "epoch": 19,
+      "screen_video": "runs/retired_public_p2q/20261118T011903Z_143197/05_point_to_point.mp4",
+      "run": "runs/closed_loop/20261117T233657Z_P2Q_76247e",
+      "telemetry_rows": 140,
+      "missing_logs": "",
+      "cleanup_errors": "",
+      "error": null,
+      "source_camera_video": "runs/closed_loop/20261117T233657Z_P2Q_76247e/center_camera.mp4",
+      "source_screen_video": "runs/closed_loop/20261117T233657Z_P2Q_76247e/morai_screen.mp4",
+      "screen_video_sha256": "c2313d37e1d632aec008beb144022276a62d0e1926efdecac059b7e3ce270906",
+      "preview_image": "runs/retired_public_p2q/20261118T011903Z_143197/05_point_to_point.jpg",
+      "observation_cte_limit_m": 7.0,
+      "completion_definition": "reference station reaches final1m while absCTE<max_cte; same endpoint condition as PilotNet; then brake",
+      "reference_length_m": 636.100112,
+      "terminal_station_m": 17.36140757412314,
+      "protocol_note": "종점 도달 전에 CTE 7m 기준을 넘어 중단했다. 헤딩 오차만으로 별도 중단하지 않는다.",
+      "exclusion_reason": "user_requested_remove_route_unfamiliar_wide_lane_layout",
+      "exclusion_note": "사용자 요청으로 익숙하지 않은 넓은 차로 구조의 P→Q를 공개 평가에서 제외하고 대회 경로 연속 시연으로 교체한다. 원본 실주행 기록은 보존하며 재학습하지 않는다.",
+      "included_in_evaluation_table": false,
+      "public_media": false,
+      "verified_sources": {
+        "settings.json": "adfc01a6e5eeb1960567cbfddb69914397693c3f18e5bfdcd5c7c57c99d0df4e",
+        "summary.json": "248408c59d807cb775d6ad9839d4ace67d96089c602a1329199300cb5fbf0fca",
+        "telemetry.csv": "e22e4d830c7d53825f11fe16862a3d66326e0a4509479ed6ad6c40dc4bd953b5",
+        "reference_route": "88222984ff51db733f350db57e0413421b9dddc987d620d37871728914a5d4d7"
+      }
+    }
+  ],
+  "course_scopes": {
+    "U2": "held_out_road_trial",
+    "J_straight": "held_out_road_trial",
+    "J_left": "held_out_road_trial",
+    "J_right": "held_out_road_trial",
+    "COMPETITION": "continuous_command_driving_demonstration_including_training_roads"
+  },
+  "competition_demonstration": {
+    "run": "runs/closed_loop/20261118T012205Z_COMPETITION_a4996e",
+    "route_sha256": "221a1dff4bd1e1c75c914d9b0d203a2bb8798fddc586064686971730f58fa002",
+    "reference_interval_s_m": [
+      0.0,
+      645.1126073415769
+    ],
+    "endpoint_basis": {
+      "last_left_signal_id": "C1256W000052",
+      "signal_position_xyz_m": [
+        -13.2822,
+        98.31819,
+        34.06081
+      ],
+      "stopline_official_s_m": 609.601,
+      "junction_link_id": "A2256W000083",
+      "junction_entry_official_s_m": 609.876838440659,
+      "junction_exit_official_s_m": 635.1126073415769,
+      "exit_road_distance_m": 10.0,
+      "roundabout_entry_official_s_m": 884.622,
+      "remaining_to_roundabout_entry_m": 239.50939265842305
+    },
+    "fraction_of_reference_samples_within_3_5m_of_training_positions": 0.6377708978328174,
+    "sample_step_m": 0.5,
+    "not_an_unseen_only_test": true,
+    "traffic_light_or_obstacle_compliance_evaluated": false,
+    "checkpoint_frozen": true,
+    "used_for_training": false,
+    "video_publication": "byte-identical copy of actual MORAI screen recording",
+    "video_bytes": 79744099,
+    "video_sha256": "4538cf9e495968304e3a4672f4db7a02d29c52e7a222ce15141a95fefdab5850"
+  }
 }

@@ -1,6 +1,6 @@
 # Conditional Imitation Learning in MORAI K-City
 
-**현재 단계: Baseline best 19 epoch를 고정해 미학습 도로의 MORAI 주행 5개를 기록했다. CTE 7m 관찰 기준에서 교차로 직진·좌회전은 종점에 도달했고, 곡선·우회전·P→Q는 기준을 넘어 중단됐다. [실제 영상과 결과](results/README.md).**
+**현재 단계: Baseline best 19 epoch를 고정해 미학습 구간 시험 4개와 대회 경로 연속 시연 1개를 기록했다. 대회 경로는 CTE 7m 관찰 기준 안에서 종점 구간에 도달했다. [실제 영상과 결과](results/README.md).**
 
 전방 이미지·현재 속도·진행 명령을 입력하고, 명령에 해당하는 branch에서 조향·가속 페달·브레이크를 예측한다.
 모델 구조는 [CIL 논문](https://arxiv.org/abs/1710.02410)을 참고한다.
@@ -38,6 +38,8 @@ cil/
 ├── tools/                      # 수집 실행을 돕는 도구
 │   ├── simulator.py            # 로컬 MORAI API로 출발점 배치
 │   ├── build_collection_routes.py # 명령별 경로와 시험 구역 분리 검사
+│   ├── build_evaluation_routes.py # 고정한 미학습 시험 경로 생성
+│   ├── build_competition_route.py # 대회 출발~마지막 좌회전의 연속 시연 경로
 │   ├── collect_all.py          # 목적별 수집·검사 및 중단 후 재개
 │   ├── inspect_collection.py   # 시각·이미지·추종·시험 구역 침범 검사
 │   ├── summarize_collection.py # 통과한 원본의 시간·분포·품질 집계
@@ -55,7 +57,7 @@ cil/
 │   ├── plan.json
 │   ├── train/                 # T1~T4·T6와 동일 접근로 좌/직/우 경로
 │   ├── val/                   # V1~V2
-│   └── test/                  # P→Q 후보; 기존 시험 구역은 plan.json에 보존
+│   └── test/                  # 미학습 시험 4개와 학습 도로 포함 COMPETITION 시연
 ├── data/
 │   ├── collection_completion.json # 수집 통과 목록과 현재 진행 상태
 │   ├── raw/                   # 수집한 원본 이미지·차량 상태·teacher 명령
@@ -94,7 +96,8 @@ cil/
 - T5는 차선 없는 넓은 도로로, 15초 통신·추종 점검 기록만 보존하며 학습·validation에서 제외한다. 초기 후보 CSV는 보존한다.
 - Validation: 별도 V1·V2 경로를 사용한다.
 - 기존 시험: U1(s1300~1500m), U2(s978.337~1210m), J(s40~108m 및 세 방향 출구)를 CIL 학습·validation에서 제외한다.
-- 새 시험: 수집에 사용하지 않는 북서쪽 P→Q 경로를 보존한다.
+- 연속 시연: 대회 출발점부터 회전교차로 전 마지막 신호 좌회전 출구 뒤 10m까지의 `COMPETITION` 경로를 사용한다. 학습 도로가 포함된다.
+- P→Q는 사용자 요청으로 공개 평가에서 제외했으며 과거 원본 기록만 로컬에 보존한다.
 - PilotNet 학습 도로는 CIL 학습에 사용할 수 있다. J와 실제로 겹치는 부분은 제외한다.
 
 명령은 일반 곡선의 조향 부호가 아니라, 선택한 교차로 링크의 진입·진출 방향으로 부여한다.
@@ -284,8 +287,9 @@ bash run.sh cil tools/compare_training.py \
 
 ## 실제 MORAI 주행 시험: CTE 7m 관찰 기준
 
-2026-11-18(KST), 학습·Validation에 사용하지 않은 U2·교차로 J의 세 방향·P→Q를 각각 한 번 기록했다.
-선택한 **Baseline 19 epoch의 가중치를 그대로 사용**했으며 시험 기록은 재학습에 사용하지 않았다.
+2026-11-18(KST), 학습·Validation에 사용하지 않은 U2·교차로 J의 세 방향 시험 4개와,
+학습 도로가 포함된 대회 경로 연속 시연 1개를 각각 한 번 기록했다.
+선택한 **Baseline 19 epoch의 가중치를 그대로 사용**했으며 시험·시연 기록은 재학습에 사용하지 않았다.
 입력은 가운데 영상 한 장·현재 속도·진행 명령이고, CIL이 조향·가속·브레이크 세 값을 예측한다.
 지도는 초기 배치·명령 선택·진행률·횡오차 측정에만 사용하며 지도 조향을 섞지 않는다.
 
@@ -295,10 +299,16 @@ bash run.sh cil tools/compare_training.py \
 | J 직진 | 기준경로의 마지막 1m 구간 도달 | 2.358m |
 | J 좌회전 | 기준경로의 마지막 1m 구간 도달 | 1.321m |
 | J 우회전 | 약 45/61m에서 CTE 기준 초과로 중단 | 7.006m |
-| 미학습 P→Q | 약 17/636m에서 CTE 기준 초과로 중단 | 7.130m |
+| 대회 경로 연속 시연 | 약 644.3/645.1m, 기준경로 마지막 1m 구간 도달 | 6.223m |
 
-**7m는 주행을 더 관찰하기 위해 넓힌 중단 기준이다.** 직진·좌회전의 종점 도달을 차선 유지 성공으로
-해석하지 않는다. 충돌 이벤트도 계측하지 않았으므로 무충돌 결과가 아니다. 같은 K-City 맵에서
+[대회 경로 실제 MORAI 녹화](results/videos/05_competition_route.mp4)는 출발점 `s=0`에서
+회전교차로 전 마지막 신호 좌회전 출구 뒤 10m인 `s=645.112607m`까지의 경로다.
+130.4초 동안 평균속도 17.789km/h, CTE RMSE 2.034m를 기록했다.
+경로 표본의 약 **63.78%가 학습 시 실제 차량 위치의 3.5m 이내**여서 미학습 도로만의 평가가 아니다.
+이는 단순 명령 주행 시연이며 신호색·장애물 대응은 평가 범위 밖이다.
+
+**7m는 주행을 더 관찰하기 위해 넓힌 중단 기준이다.** 직진·좌회전과 연속 시연의 종점 도달을
+정밀한 차선 추종 성공으로 해석하지 않는다. 충돌 이벤트도 계측하지 않았으므로 무충돌 결과가 아니다. 같은 K-City 맵에서
 각 조건 한 번의 관찰이며 반복 시험의 통계적 성공률을 주장하지 않는다.
 
 최종 판정은 CTE 기준을 먼저 확인하고, 기준경로의 마지막 1m 구간에 도달하면 종료 후 제동한다.
@@ -306,6 +316,7 @@ bash run.sh cil tools/compare_training.py \
 초기 CTE 1m 실행과 엄격한 종점·헤딩 조건 때문에 종료 시점을 놓친 J 직진의 점검 실행은
 공개 5개 결과에서 제외하고 원본을 보존했다. U2 영상에는 이전 종점 조건이 남아 있지만,
 종점 훨씬 전인 116m 지점에서 CTE 기준을 넘어 종료했으므로 종점 조건 차이가 결과에 영향을 주지 않았다.
+P→Q는 사용자에게 익숙하지 않은 넓은 차로 구조라는 이유로 공개 평가에서 제외하고 대회 경로 시연으로 교체했다.
 
 ```bash
 # 차량 제어 없이 시험 경로·조건 확인
@@ -313,7 +324,11 @@ bash run.sh cil drive.py --course U2 --describe
 
 # 실제 재시험: 초기 배치·CIL 제어·MORAI 창 녹화를 수행한다.
 bash run.sh cil drive.py --course U2 --control --reset --record-screen --max-cte 7
+
+# 대회 출발점부터 마지막 신호 좌회전 출구 뒤까지 연속 시연
+bash run.sh cil drive.py --course COMPETITION --control --reset --record-screen --max-cte 7 --seconds 240
 ```
 
 [실제 MORAI 영상 5개·횡오차·궤적](results/README.md)과 [공개 상세 기록](results/metrics/closed_loop.json)을 보관한다.
-원본 실행별 설정·telemetry·영상은 `runs/closed_loop/`, 검증된 5개 집계는 `runs/closed_loop_summary_cte7/`에 있다.
+원본 실행별 설정·telemetry·영상은 `runs/closed_loop/`에 보관한다. 공개 상세 기록은 미학습 시험과
+학습 도로 포함 시연을 구분하며, 제외한 초기 실행과 P→Q의 원본도 로컬에 보존한다.

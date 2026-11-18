@@ -1,12 +1,12 @@
 {
-  "status": "revised_by_user_before_restart",
+  "status": "applied_to_published_recordings",
   "checkpoint_manifest": "checkpoints/selected.json",
   "course_order": [
     "U2",
     "J_straight",
     "J_left",
     "J_right",
-    "P2Q"
+    "COMPETITION"
   ],
   "repetitions_per_condition": 1,
   "initial_offset_m": 0,
@@ -24,10 +24,10 @@
     "actual MORAI window",
     "annotated center camera"
   ],
-  "scope": "one run per condition; same map, held-out roads; no claim of statistical success rate",
+  "scope": "같은 K-City 맵에서 조건별 1회 관찰한다. U2·J는 학습 미사용 도로이고 COMPETITION은 학습 도로와 겹칠 수 있는 연속 시연이다. 통계적 성공률을 주장하지 않는다.",
   "model_updates_after_test": false,
   "collision_metric": "not instrumented",
-  "revision_reason": "User requested observing trajectory trends; restart all courses with a 7m CTE threshold. Align endpoint condition with PilotNet; heading alone does not stop observation.",
+  "revision_reason": "User requested observing trajectory trends; restart all courses with a 7m CTE threshold. Align endpoint condition with PilotNet; heading alone does not stop observation. 사용자가 익숙하지 않은 넓은 차로 구조의 P→Q를 제외하고 대회 출발점부터 회전교차로 전 마지막 신호 좌회전까지 연속 시연으로 교체하도록 요청했다.",
   "cte_comparison": "greater than or equal",
   "supersedes": "local historical protocols in runs/closed_loop_protocol_history"
 }

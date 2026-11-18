@@ -184,7 +184,7 @@ def wait_sensors(sensors, seconds=10.):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--course", choices=("U2", "J_straight", "J_left", "J_right", "P2Q"), default="U2")
+    parser.add_argument("--course", choices=("U2", "J_straight", "J_left", "J_right", "COMPETITION"), default="U2")
     parser.add_argument("--checkpoint")
     parser.add_argument("--control", action="store_true")
     parser.add_argument("--reset", action="store_true")
@@ -393,7 +393,8 @@ def main():
                    "camera_video": "center_camera.mp4" if video else None,
                    "screen_video": "morai_screen.mp4" if screen else None,
                    "collision_metric": None, "collision_note": "not instrumented; no zero-collision claim",
-                   "test_only": True, "used_for_training": False}
+                   "evaluation_scope": info.get("evaluation_scope", "held-out roads on the same K-City map"),
+                   "test_only": info.get("split") == "test", "used_for_training": False}
         write_json(run / "summary.json", summary)
         print("RESULT", run, json.dumps(summary, ensure_ascii=False), flush=True)
     return 0 if status == "completed" and not cleanup_errors else 1 if status == "failed" or cleanup_errors else 2

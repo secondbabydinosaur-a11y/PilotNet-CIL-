@@ -1,7 +1,8 @@
 """고정된 PilotNet 시험 구간과 MGeo 출구로 CIL 시험 경로만 생성한다.
 
 지도는 초기 배치·명령 선택·진행률 평가에만 사용한다. 신경망의 조향이나
-학습 데이터는 변경하지 않는다. 기존 P2Q CSV와 수집 계획도 그대로 보존한다.
+학습 데이터는 변경하지 않는다. P2Q는 과거 수집 예약 자료로만 보존한다.
+대회 연속 경로는 build_competition_route.py로 추가하며 재생성할 때도 보존한다.
 """
 import csv
 import hashlib
@@ -98,8 +99,9 @@ def main():
     if protocol["held_out_sections"]["U2"] != [978.337, 1210.0]:
         raise ValueError("frozen PilotNet U2 protocol changed")
     output = BASE / "routes/test"
-    p2q_path = BASE / plan["routes"]["P2Q"]["route_csv"]
-    original_p2q_hash = sha256(p2q_path)
+    previous_manifest = output / "manifest.json"
+    previous_routes = json.loads(previous_manifest.read_text()).get("routes", {}) if previous_manifest.exists() else {}
+    competition = previous_routes.get("COMPETITION")  # 연속 시연은 미학습 구간 분리 검사의 대상이 아니다.
     routes, data = {}, {}
 
     data["U2"] = interval(reference, 978.337, 1210.0)
@@ -134,8 +136,6 @@ def main():
                         "navigation": [navigation(data[name], junction, command)]}
         if name == "J_left": routes[name]["reference_interval_s_m"] = [40.0, 108.0]
 
-    data["P2Q"] = np.loadtxt(p2q_path, delimiter=",", skiprows=1)
-    routes["P2Q"] = dict(plan["routes"]["P2Q"])
     raw_xy = {"train": [], "validation": []}
     completion_path = BASE / "data/collection_completion.json"
     completion = json.loads(completion_path.read_text())
@@ -155,7 +155,7 @@ def main():
 
     for name, route in data.items():
         path = output / (name + ".csv")
-        if name != "P2Q": write_route(path, route)
+        write_route(path, route)
         info = routes[name]
         info.update(route_csv=str(path.relative_to(BASE)), length_m=float(route[-1, 0]),
                     start_xyz_m=route[0, 1:4].tolist(), end_xyz_m=route[-1, 1:4].tolist(),
@@ -173,11 +173,13 @@ def main():
         info["collection_overlap_checks"] = separation
         print(name, round(info["length_m"], 3), info["start_xyz_m"], info["initial_yaw_deg_map"],
               [(n["command"], round(n["entry_s_m"], 3), round(n["exit_s_m"], 3)) for n in info.get("navigation", [])])
-    if sha256(p2q_path) != original_p2q_hash:
-        raise ValueError("existing P2Q was modified")
-    manifest = {"schema_version": 1, "status": "evaluation_routes_prepared_not_executed",
+    if competition:
+        if sha256(BASE / competition["route_csv"]) != competition["route_sha256"]:
+            raise ValueError("existing competition demonstration route changed")
+        routes["COMPETITION"] = competition
+    manifest = {"schema_version": 1, "status": "routes_prepared",
                 "coordinate_frame": plan["coordinate_frame"], "vehicle_pose_frame": "rear axle; map yaw atan2(dy,dx)",
-                "scope": "held-out roads on the same K-City map; no new town claim",
+                "scope": "held-out road trials; optional competition demonstration can overlap training roads; no new town claim",
                 "map_use": "reset, navigation command, route progress and CTE evaluation only; CNN determines steering",
                 "no_training_or_model_updates": True, "routes": routes,
                 "command_policy": "current junction first, upcoming within18m, exit hold6m, otherwise follow_road",
@@ -191,7 +193,7 @@ def main():
                           "J has map related_signal='straight' on all exits; commands use physical exit geometry.",
                           "Overlap checks use all accepted raw Ego positions and prepared training/validation positions; test polyline sampled every0.25m with0.25m conservative subtraction.",
                           "Spatial separation does not guarantee no common visual backgrounds.",
-                          "P2Q CSV is preserved byte-for-byte."]}
+                          "P2Q is not an active evaluation route; its CSV remains a historical collection reservation."]}
     (output / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
 
 

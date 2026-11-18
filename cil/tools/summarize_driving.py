@@ -12,7 +12,7 @@ try:
 except ImportError:
     from summarize_training import BASE, file_hash, read_json, require_close
 
-COURSES = ("U2", "J_straight", "J_left", "J_right", "P2Q")  # 사전에 고정한 다섯 시험이다.
+COURSES = ("U2", "J_straight", "J_left", "J_right", "COMPETITION")  # 구간 시험 4개와 대회 경로 연속 시연이다.
 
 
 def resolve_path(value, base):
@@ -157,14 +157,14 @@ def summarize_runs(run_folders, output_folder, base=BASE):
         axis.axis("equal")
         axis.grid(alpha=.25)
         axis.legend(fontsize=7)
-    figure.suptitle("CIL recorded closed-loop trials on held-out roads of the same K-City map")
+    figure.suptitle("CIL: held-out road trials and competition-route continuous driving")
     figure.tight_layout(rect=(0, .04, 1, .93))
     figure.text(.5, .01, "Endpoint reached is not a zero-collision claim. Collision events were not instrumented.", ha="center", fontsize=9)
     figure.savefig(output / "trajectory.png", dpi=180)
     plt.close(figure)
 
     report = {
-        "status": "completed", "evaluation_scope": "recorded trials on held-out roads of the same K-City map; no new town or repeated-trial success-rate claim",
+        "status": "completed", "evaluation_scope": "four held-out road trials and a competition-route demonstration with training-road overlap; no new-town or repeated-trial success-rate claim",
         "trials": rows, "provided_courses": courses, "missing_courses": [course for course in COURSES if course not in courses],
         "trial_count": len(trials), "endpoint_completed_trials": sum(row["status"] == "completed" for row in rows),
         "checkpoint_sha256": rows[0]["checkpoint_sha256"], "epoch": rows[0]["epoch"],

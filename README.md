@@ -6,7 +6,7 @@ MORAI K-City에서 이미지 기반 모방학습 주행을 구현하는 프로�
 | 모델 | 현재 상태 | 코드·실험 안내 | 결과 |
 |---|---|---|---|
 | **PilotNet** | 학습 및 미학습 도로의 open-loop·closed-loop 평가 완료 | [PilotNet 안내](pilotnet/README.md) | [대표 영상 4개와 평가 표](pilotnet/results/README.md) |
-| **CIL** | 학습·open-loop·MORAI 5조건 평가 완료, 19 epoch 고정 | [CIL 안내](cil/README.md) | [실제 영상 5개·궤적·평가 표](cil/results/README.md) |
+| **CIL** | 미학습 구간 4조건 시험·대회 경로 연속 시연, 19 epoch 고정 | [CIL 안내](cil/README.md) | [실제 영상 5개·궤적·평가 표](cil/results/README.md) |
 
 ## PilotNet 실제 주행 결과
 
@@ -28,6 +28,15 @@ PilotNet 공개 영상은 목표속도 19km/h, **횡오차 7m 이상 시 중단*
 7m는 추종 경향을 관찰하기 위한 종료 기준이다. 종점 도달을 차선 유지나 안전성의 증명으로 해석하지 않는다.
 교차로 J는 PilotNet 학습 구간과 일부 겹치므로 미학습 도로 정량 평가와 구분한다.
 실험 조건과 한계는 [PilotNet 상세 안내](pilotnet/README.md)에 정리했다.
+
+## CIL 대회 경로 연속 시연
+
+[실제 MORAI 영상: 대회 출발부터 마지막 신호 좌회전까지](cil/results/videos/05_competition_route.mp4)
+
+Baseline 19 epoch를 고정한 채 대회 출발점에서 회전교차로 전 마지막 신호 좌회전 출구 뒤 10m까지
+약 645.1m를 연속 주행했다. 130.4초 동안 최대 CTE 6.223m를 기록했고, 7m 관찰 기준 안에서 종점의 마지막 1m 구간에 도달했다.
+이 경로는 학습 위치와 3.5m 이내로 가까운 구간이 약 63.78%인 시연이다. 미학습 구간 시험 4개와 구분하며,
+정밀한 차선 추종이나 교통법규 준수 성공을 의미하지 않는다. [조건별 영상과 상세 지표](cil/results/README.md)에 기록했다.
 
 ## 저장소 구조
 
@@ -66,6 +75,7 @@ PilotNet 공개 영상은 목표속도 19km/h, **횡오차 7m 이상 시 중단*
     ├── model.py                 # 이미지·현재 속도와 명령별 제어 branch
     ├── train.py                 # 명령별 균형 배치·학습·validation·모델 저장
     ├── evaluate.py              # 저장 모델의 이미지별 예측·Validation 오차 분석
+    ├── drive.py                 # 가운데 영상·속도·명령 기반 MORAI 제어·녹화
     ├── tools/                   # 수집 검사·학습 요약·진단·하이퍼파라미터 비교
     ├── tests/                   # 통신·수집·정답 준비·학습 로직 검사
     ├── routes/                  # 학습·validation·시험 경로
@@ -75,12 +85,12 @@ PilotNet 공개 영상은 목표속도 19km/h, **횡오차 7m 이상 시 중단*
     ├── data/                    # CIL 전용 원본·정답 데이터 (로컬)
     ├── runs/                    # CIL 실행·학습 기록 (로컬)
     ├── checkpoints/             # CIL 학습 가중치 (로컬)
-    └── results/                 # 실제 실험 후 선정할 공개 결과
+    └── results/                 # 실제 주행 영상·학습 지표·평가 요약
 ```
 
-CIL은 초기 학습과 하이퍼파라미터 비교를 마쳤고, 기존 Baseline의 19 epoch 모델을 유지한다.
-비교 후보 두 개는 사용자 요청으로 중지했으며 완료한 epoch의 기록만 남겼다.
-다음은 선택 모델의 Validation 재평가다. 미학습 시험 구역과 MORAI 실제 주행은 아직 평가하지 않았다.
+CIL은 학습·하이퍼파라미터 비교·Validation 재평가와 MORAI 주행 기록을 마쳤다.
+미학습 도로의 U2·교차로 세 방향 시험 4개와 학습 도로가 포함된 대회 경로 시연 1개를 구분한다.
+선택한 Baseline 19 epoch 가중치는 그대로 유지했고 주행 기록을 재학습에 사용하지 않았다.
 파일별 역할과 작성 순서는 [CIL 안내](cil/README.md)에 있다.
 원본 센서 기록과 전체 실행 아카이브는 로컬에 보관하고, GitHub에는 코드·경로·선정한 결과를 올린다.
 
