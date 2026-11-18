@@ -1,75 +1,27 @@
 # Conditional Imitation Learning in MORAI K-City
 
-**현재 단계: Baseline best 19 epoch를 고정해 미학습 구간 시험 4개와 대회 경로 연속 시연 1개를 기록했다. 대회 경로는 CTE 7m 관찰 기준 안에서 종점 구간에 도달했다. [실제 영상과 결과](results/README.md).**
+가운데 카메라 영상과 현재 속도에서 주행 특징을 추출한다. MGeo 경로에서 얻은 도로 추종·좌회전·직진·우회전 명령으로 출력 분기를 고르고, 그 분기가 조향·가속·제동을 예측한다. 학습과 MORAI 실시간 추론에 같은 전처리를 사용했다. [CIL 논문](https://arxiv.org/abs/1710.02410)
 
-전방 이미지·현재 속도·진행 명령을 입력하고, 명령에 해당하는 branch에서 조향·가속 페달·브레이크를 예측한다.
-모델 구조는 [CIL 논문](https://arxiv.org/abs/1710.02410)을 참고한다.
-기존 [PilotNet 구현과 결과](../pilotnet/README.md)는 별도 폴더에 보관한다.
+교차로 J 시험에서 직진과 좌회전은 종점 구간에 도달했고, 우회전은 횡오차 기준으로 중단됐다. [교차로 비교 데모](../README.md#교차로-주행-데모) · [영상과 주행 지표](results/README.md#주행-영상)
 
-## 파일과 작성 순서
+## 구현과 실행
 
-`config.json`부터 `drive.py`까지 작성했다. 학습·평가·실제 주행 코드를 분리한다.
-`prepare.py`는 원본을 시각 매칭해 입력·정답 CSV를 만든다. `dataset.py`는 학습 중 이 CSV를 읽고 영상을 전처리·증강한다.
+| 작업 | 코드 |
+|---|---|
+| 센서 수신과 차량 제어 송신 | [morai.py](morai.py), [config.json](config.json) |
+| 정상 주행 및 조향 교란·복귀 수집 | [collect.py](collect.py), [수집 도구](tools/) |
+| 시각 맞춤, 복귀 정답 생성, 전처리 | [prepare.py](prepare.py), [dataset.py](dataset.py) |
+| 모델 학습과 저장한 가중치 평가 | [model.py](model.py), [train.py](train.py), [evaluate.py](evaluate.py) |
+| 진행 명령 선택, MORAI 제어, 영상 기록 | [drive.py](drive.py), [경로](routes/) |
 
-| 순서 | 파일 | 역할 |
-|---|---|---|
-| 1 | `config.json` | 센서·포트·명령 코드·수집 설정 |
-| 2 | `morai.py` | 카메라·차량 상태 수신과 차량 제어 명령 송신 |
-| 3 | `collect.py` | teacher 주행·진행 명령·조향 교란·복귀 시범 기록 |
-| 4 | `prepare.py` | 품질 검사·시각 매칭·복귀 정답 생성·데이터 분할 |
-| 5 | `dataset.py` | 이미지·속도·명령·정답 로딩, 전처리·영상 증강 |
-| 6 | `model.py` | 이미지·속도 encoder와 명령별 control branch |
-| 7 | `train.py` | 학습·validation·가중치 저장 |
-| 8 | `evaluate.py` | 저장 모델의 이미지별 예측·Validation 재평가·오차 분석 |
-| 9 | `drive.py` | MORAI closed-loop 주행과 실제 창 영상 기록 |
+아래 명령은 저장소 루트에서 실행한다. `--describe`는 차량을 움직이지 않고 좌회전 시험 경로와 명령 구간을 출력한다.
 
-```text
-cil/
-├── README.md
-├── config.json                 # CIL 전용 설정
-├── morai.py                    # UDP 수신·송신
-├── collect.py                  # Teacher 정상·복귀 수집
-├── prepare.py                  # 정답 보정·고정 train/val 목록 생성
-├── dataset.py                  # 학습 중 영상 전처리·증강·텐서 로딩
-├── model.py                    # 이미지·현재 속도·명령 → 제어값과 보조 속도
-├── train.py                    # 명령별 균형 추출·학습·검증·가중치 저장
-├── evaluate.py                 # 이미지별 예측 CSV·명령별 오차·비교 그래프
-├── drive.py                    # 가운데 영상·속도·명령으로 실제 MORAI 제어
-├── tools/                      # 수집 실행을 돕는 도구
-│   ├── simulator.py            # 로컬 MORAI API로 출발점 배치
-│   ├── build_collection_routes.py # 명령별 경로와 시험 구역 분리 검사
-│   ├── build_evaluation_routes.py # 고정한 미학습 시험 경로 생성
-│   ├── build_competition_route.py # 대회 출발~마지막 좌회전의 연속 시연 경로
-│   ├── collect_all.py          # 목적별 수집·검사 및 중단 후 재개
-│   ├── inspect_collection.py   # 시각·이미지·추종·시험 구역 침범 검사
-│   ├── summarize_collection.py # 통과한 원본의 시간·분포·품질 집계
-│   ├── summarize_training.py   # 완료·사용자 중지 학습의 곡선·Validation 표
-│   ├── diagnose_training.py    # 같은 평가 조건에서 학습·Validation 오차 진단
-│   ├── compare_training.py     # 고정 Validation으로 하이퍼파라미터 비교
-│   ├── recording.py            # 실제 MORAI 창과 가운데 영상 녹화
-│   └── summarize_driving.py    # 저장된 주행 로그의 표·궤적·무결성 확인
-├── tests/                      # 통신·정답 준비·학습 로직 검사
-├── assets/
-│   ├── training_routes.png     # 초기 후보 그림; T5는 현재 점검 전용
-│   └── morai_api.desc          # 로컬 시뮬레이터 API 메시지 정의
-├── routes/
-│   ├── README.md
-│   ├── plan.json
-│   ├── train/                 # T1~T4·T6와 동일 접근로 좌/직/우 경로
-│   ├── val/                   # V1~V2
-│   └── test/                  # 미학습 시험 4개와 학습 도로 포함 COMPETITION 시연
-├── data/
-│   ├── collection_completion.json # 수집 통과 목록과 현재 진행 상태
-│   ├── raw/                   # 수집한 원본 이미지·차량 상태·teacher 명령
-│   └── prepared/              # 입력·정답 쌍의 CSV
-├── runs/                      # 실행 로그·학습 곡선·설정
-├── checkpoints/               # 학습한 CIL 가중치
-└── results/                   # 공개할 영상·이미지·평가 표
+```bash
+python3 -m pip install -r requirements-train.txt
+bash run.sh cil drive.py --course J_left --describe
 ```
 
-원본 `data/raw/`, 정답 `data/prepared/`, `runs/`, `checkpoints/`는 로컬 실험 공간이며 Git에서 제외한다.
-작은 수집 요약과 코드·경로·선정한 결과만 공개 대상으로 둔다.
-루트 실행기 `bash run.sh cil <파일.py>`는 CIL 폴더를 기준으로 실행한다.
+MORAI에서 차량을 제어하려면 센서·포트를 `config.json`에 맞추고 학습한 CIL 가중치를 준비한다. 학습용 원본과 전처리 데이터, 주행 로그, CIL 체크포인트는 로컬에 보관한다. [모델 학습](#초기-모델-학습) · [주행 명령](#morai-주행-시험)
 
 ## 카메라 설정
 
@@ -96,8 +48,7 @@ cil/
 - T5는 차선 없는 넓은 도로로, 15초 통신·추종 점검 기록만 보존하며 학습·validation에서 제외한다. 초기 후보 CSV는 보존한다.
 - Validation: 별도 V1·V2 경로를 사용한다.
 - 기존 시험: U1(s1300~1500m), U2(s978.337~1210m), J(s40~108m 및 세 방향 출구)를 CIL 학습·validation에서 제외한다.
-- 연속 시연: 대회 출발점부터 회전교차로 전 마지막 신호 좌회전 출구 뒤 10m까지의 `COMPETITION` 경로를 사용한다. 학습 도로가 포함된다.
-- P→Q는 사용자 요청으로 공개 평가에서 제외했으며 과거 원본 기록만 로컬에 보존한다.
+- 기존 연속 시연은 대회 출발점부터 마지막 좌회전 출구 뒤 10 m까지의 `COMPETITION` 경로에서 기록했다. 학습 도로가 포함된다. [Point-to-point 기록](results/README.md#point-to-point-주행)
 - PilotNet 학습 도로는 CIL 학습에 사용할 수 있다. J와 실제로 겹치는 부분은 제외한다.
 
 명령은 일반 곡선의 조향 부호가 아니라, 선택한 교차로 링크의 진입·진출 방향으로 부여한다.
@@ -235,7 +186,7 @@ bash run.sh cil -m unittest discover -s tests -p test_training.py -v
 저장 모델을 다시 불러와 가운데 영상 1,549장을 재계산했으며 저장된 검증 지표와 모두 일치했다.
 학습 로직 검사 5개도 통과했다. [학습 곡선과 상세 Validation 표](results/README.md).
 
-## 하이퍼파라미터 비교 종료
+## 하이퍼파라미터 비교
 
 하이퍼파라미터 비교에서는 `model.py`를 유지하고 `train.py`의 `--lr`, `--weight-decay`,
 `--conv-dropout`, `--fc-dropout`, `--epochs`, `--patience`로 학습 조건만 조정한다.
@@ -255,15 +206,14 @@ Dropout은 기존 모듈의 확률만 실행 시 변경하며 층·채널·branc
 | 후보 3: 기본 학습률 + 약한 L2 | 0.0002 | 0.00001 | 0.20 / 0.50 | 40 / 10 |
 
 모델 선택은 기존과 같은 Validation의 명령별 평균 MSE로 했다.
-후보 1·3은 비교를 중지하고 다음 단계로 진행하라는 사용자 요청으로 중단했다.
-중단된 epoch는 제외하고 끝까지 완료한 epoch의 최선 모델만 비교했다.
+후보 1·3은 수동으로 종료했고, 완료한 epoch에서 얻은 최선의 검증 점수를 사용했다.
 
 | 조건 | 완료 / Best epoch | Validation 명령 평균 MSE | 종료 상태 |
 |---|---:|---:|---|
 | **기본 모델** | 27 / **19** | **0.005748** | 조기 종료·선택 유지 |
-| 후보 1: 낮은 학습률 + L2 | 23 / 17 | 0.005894 | 사용자 요청 중지 |
+| 후보 1: 낮은 학습률 + L2 | 23 / 17 | 0.005894 | 수동 중단 |
 | 후보 2: 강한 Dropout | 16 / 6 | 0.005771 | 조기 종료 |
-| 후보 3: 약한 L2 | 10 / 6 | 0.006394 | 사용자 요청 중지 |
+| 후보 3: 약한 L2 | 10 / 6 | 0.006394 | 수동 중단 |
 
 일부 후보의 전체 조향 MAE는 줄었지만, 고정한 선택 기준인 명령 평균 MSE는 기본 모델보다 낮아지지 않았다.
 따라서 **`cil_baseline_20261117T223956Z/best.pt`(19 epoch)를 유지**한다.
@@ -285,50 +235,22 @@ bash run.sh cil tools/compare_training.py \
 가중치는 `checkpoints/cil_baseline_20261117T223956Z/`에 로컬로 보관한다.
 수집·준비 검증 JSON은 각 단계 당시의 상태를 담은 기록이며 학습 완료 상태는 해당 실행의 `summary.json`으로 확인한다.
 
-## 실제 MORAI 주행 시험: CTE 7m 관찰 기준
+## MORAI 주행 시험
 
-2026-11-18(KST), 학습·Validation에 사용하지 않은 U2·교차로 J의 세 방향 시험 4개와,
-학습 도로가 포함된 대회 경로 연속 시연 1개를 각각 한 번 기록했다.
-선택한 **Baseline 19 epoch의 가중치를 그대로 사용**했으며 시험·시연 기록은 재학습에 사용하지 않았다.
-입력은 가운데 영상 한 장·현재 속도·진행 명령이고, CIL이 조향·가속·브레이크 세 값을 예측한다.
-지도는 초기 배치·명령 선택·진행률·횡오차 측정에만 사용하며 지도 조향을 섞지 않는다.
+기본 설정의 19번째 epoch 가중치로 미학습 곡선 U2와 교차로 J의 세 방향을 시험했다. 지도는 초기 배치, 진행 명령 선택, 진행률과 횡오차 측정에 사용했다. 조향·가속·제동은 모델이 예측하며, 실행 중에는 속도 상한과 중단 조건을 적용했다. [시험 조건](routes/test/protocol.json) · [영상과 기록](results/README.md)
 
-| 시험 | 결과 | 최대 횡오차 |
-|---|---|---:|
-| 곡선 U2 | 약 116/232m에서 CTE 기준 초과로 중단 | 7.016m |
-| J 직진 | 기준경로의 마지막 1m 구간 도달 | 2.358m |
-| J 좌회전 | 기준경로의 마지막 1m 구간 도달 | 1.321m |
-| J 우회전 | 약 45/61m에서 CTE 기준 초과로 중단 | 7.006m |
-| 대회 경로 연속 시연 | 약 644.3/645.1m, 기준경로 마지막 1m 구간 도달 | 6.223m |
-
-[대회 경로 실제 MORAI 녹화](results/videos/05_competition_route.mp4)는 출발점 `s=0`에서
-회전교차로 전 마지막 신호 좌회전 출구 뒤 10m인 `s=645.112607m`까지의 경로다.
-130.4초 동안 평균속도 17.789km/h, CTE RMSE 2.034m를 기록했다.
-경로 표본의 약 **63.78%가 학습 시 실제 차량 위치의 3.5m 이내**여서 미학습 도로만의 평가가 아니다.
-이는 단순 명령 주행 시연이며 신호색·장애물 대응은 평가 범위 밖이다.
-
-**7m는 주행을 더 관찰하기 위해 넓힌 중단 기준이다.** 직진·좌회전과 연속 시연의 종점 도달을
-정밀한 차선 추종 성공으로 해석하지 않는다. 충돌 이벤트도 계측하지 않았으므로 무충돌 결과가 아니다. 같은 K-City 맵에서
-각 조건 한 번의 관찰이며 반복 시험의 통계적 성공률을 주장하지 않는다.
-
-최종 판정은 CTE 기준을 먼저 확인하고, 기준경로의 마지막 1m 구간에 도달하면 종료 후 제동한다.
-헤딩 오차만으로 별도 중단하지 않는다. [고정 시험 조건](routes/test/protocol.json)에 기록했다.
-초기 CTE 1m 실행과 엄격한 종점·헤딩 조건 때문에 종료 시점을 놓친 J 직진의 점검 실행은
-공개 5개 결과에서 제외하고 원본을 보존했다. U2 영상에는 이전 종점 조건이 남아 있지만,
-종점 훨씬 전인 116m 지점에서 CTE 기준을 넘어 종료했으므로 종점 조건 차이가 결과에 영향을 주지 않았다.
-P→Q는 사용자에게 익숙하지 않은 넓은 차로 구조라는 이유로 공개 평가에서 제외하고 대회 경로 시연으로 교체했다.
+실제 주행 명령은 센서 설정을 마친 MORAI K-City에서 실행한다. 아래 `--checkpoint` 파일은 직접 학습한 가중치가 있는 경로로 바꾼다. 상대경로는 `cil/` 기준이다.
 
 ```bash
-# 차량 제어 없이 시험 경로·조건 확인
+# 주행 없이 U2 시험 경로 확인
 bash run.sh cil drive.py --course U2 --describe
 
-# 실제 재시험: 초기 배치·CIL 제어·MORAI 창 녹화를 수행한다.
-bash run.sh cil drive.py --course U2 --control --reset --record-screen --max-cte 7
+# 시작점에 차량을 배치하고 U2 주행 녹화
+bash run.sh cil drive.py --course U2 --checkpoint checkpoints/my_run/best.pt \
+  --control --reset --record-screen --max-cte 7
 
-# 대회 출발점부터 마지막 신호 좌회전 출구 뒤까지 연속 시연
-bash run.sh cil drive.py --course COMPETITION --control --reset --record-screen --max-cte 7 --seconds 240
+# 기존 대회 연속 주행 경로 확인
+bash run.sh cil drive.py --course COMPETITION --describe
 ```
 
-[실제 MORAI 영상 5개·횡오차·궤적](results/README.md)과 [공개 상세 기록](results/metrics/closed_loop.json)을 보관한다.
-원본 실행별 설정·telemetry·영상은 `runs/closed_loop/`에 보관한다. 공개 상세 기록은 미학습 시험과
-학습 도로 포함 시연을 구분하며, 제외한 초기 실행과 P→Q의 원본도 로컬에 보존한다.
+횡오차 7 m에 도달하면 중단하고, 그 전에 기준경로의 마지막 1 m 구간에 들어가면 종점 도달로 기록한다. 실행별 설정·차량 상태 로그·녹화는 `runs/closed_loop/`에 저장된다. [Point-to-point 주행 기록](results/README.md#point-to-point-주행)

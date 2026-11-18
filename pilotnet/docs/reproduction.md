@@ -7,7 +7,7 @@ RTX 4080 SUPER다. 의존성은 `requirements.txt`, `requirements-train.txt`에 
 `run.sh`는 이 PC의 CUDA 패키지 경로 충돌을 해당 프로세스 안에서 처리한다.
 
 ```bash
-cd /home/kuuve/catkin_ws/src/pilotnet_kasa/pilotnet
+cd pilotnet  # 저장소 루트에서 시작
 bash run.sh -m unittest discover -s tests -v
 bash run.sh -m tools.evaluation.restore_artifacts
 ```
