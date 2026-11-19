@@ -65,7 +65,7 @@ MORAI K-City 동쪽 외곽의 452.2 m 코스에서 같은 위치에 출발해, �
 
 ### 기존 모델
 
-CIL 논문의 명령별 출력 분기, 네 명령을 균등하게 뽑는 학습 배치, 조향 교란 후 복귀 시범을 MORAI 환경에 적용했다. 기존 모델은 20 km/h 속도 상한에서 첫 우회전 중 경로를 이탈해 **85.6 m(18.9%)**에서 멈췄다. [CIL 논문](https://arxiv.org/abs/1710.02410)
+CIL 논문의 명령별 출력 분기, 네 명령을 균등하게 뽑는 학습 배치, Noise Injection 후 복귀 시범을 MORAI 환경에 적용했다. 기존 모델은 20 km/h 속도 상한에서 첫 우회전 중 경로를 이탈해 **85.6 m(18.9%)**에서 멈췄다. [CIL 논문](https://arxiv.org/abs/1710.02410)
 
 https://github.com/user-attachments/assets/156c8f93-f8c0-4e34-8bc5-36f4f54151ac
 
