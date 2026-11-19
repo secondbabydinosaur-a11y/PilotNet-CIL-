@@ -64,7 +64,7 @@ https://github.com/user-attachments/assets/c0cd68c8-ff82-48b2-9535-f95c82ce94d7
 
 같은 [452.2m 경로](../routes/test/EAST_OUTER_EXTENDED.csv)를 비교했다. 왼쪽 영상은 초기 90분 학습 모델이 첫 우회전에서 멈춘 주행이다. 오른쪽은 급우회전·회전 중 복귀·직진 교차로 시범을 보강한 모델이 후반 좌회전을 통과해 마지막 우회전까지 간 주행이다.
 
-https://github.com/user-attachments/assets/dcbf4f3f-254c-4136-8d31-e7a92845837a
+https://github.com/user-attachments/assets/4e630791-cd46-4c05-bfa6-408bded24454
 
 | 실행 | 속도 상한 | 기준 경로 진행 | 종료 구간 |
 |---|---:|---:|---|
