@@ -1,76 +1,25 @@
-# PilotNet으로 K-City 주행하기
+# PilotNet in MORAI K-City
 
-MORAI에서 수집한 전방 영상으로 곡률을 예측하고, 예측값을 차량 조향으로 바꿔 K-City에서 주행했다. 종방향은 별도의 목표속도 제어기가 맡는다. 가운데 카메라로 학습한 모델과 좌·중·우 카메라 3대로 학습한 모델을 같은 도로에서 비교했다. 주행 시에는 두 모델 모두 가운데 카메라 한 장을 사용한다.
-
-[주행 영상](results/README.md#주행-영상) · [시험별 결과](results/metrics/driving_trials.csv) · [실행 방법](docs/reproduction.md)
-
-## 학습 도로와 시험 도로
-
-| 용도 | 도로 | K-City 기준 경로의 진행거리 |
-|---|---|---|
-| 학습 데이터 수집 | 직선 | 0~65m |
-| 학습 데이터 수집 | 곡선 | 640~866m |
-| **시험 전용** | 새 직선 200m | **1300~1500m** |
-| **시험 전용** | 새 곡선과 연결 직선 약 232m | **978.337~1210m** |
-
-U1·U2의 영상은 시험에만 사용했다. 두 시험 모두 같은 K-City 맵·차량에서 맑은 낮 조건으로 진행했다. [도로 위치](results/images/course_map.png)
+가운데 카메라 이미지 한 장에서 도로 곡률을 예측하고, 예측값을 MORAI 차량의 조향으로 바꾼다. 차량 속도는 별도의 제어기가 맞춘다. 학습에 쓰인 영상과 조향은 기준 경로를 따라가는 Pure Pursuit 제어기로 수집했다. [PilotNet 논문](https://arxiv.org/abs/1604.07316)
 
 ## 3카메라 학습과 주행 결과
 
-PilotNet 논문은 좌·중·우 카메라로 영상을 수집하고, 차선 중심에서 벗어난 영상에 복귀 조향을 붙여 학습한다. MORAI에서는 좌우 카메라의 횡방향 위치와 2초 뒤 수집 차량의 위치를 이용해 Pure Pursuit로 계산한 곡률 차이만큼 정답을 보정했다. [PilotNet 논문 2절](https://arxiv.org/pdf/1604.07316#page=2) · [정답 생성 방법](docs/collection.md)
+가운데 카메라로만 학습한 모델과 좌·중·우 카메라로 학습한 모델을 비교했다. 좌우 영상에는 차량이 경로 중심으로 돌아오는 데 필요한 곡률을 정답으로 붙였다. 주행 중에는 두 모델 모두 가운데 영상 한 장씩을 받는다. [수집과 정답 생성](docs/collection.md)
 
-| 정상 출발 시험 | 가운데 카메라로 학습 | 카메라 3개로 학습 |
-|---|---|---|
-| 미학습 직선 U1, 200 m | 횡오차 기준으로 중단 | 종점 구간 도달 |
-| 미학습 곡선 U2, 약 232 m | 횡오차 기준으로 중단 | 횡오차 기준으로 중단 |
+학습에 사용하지 않은 직선과 곡선에서 각각 주행했다. 같은 시험 이미지에서의 예측 오차, 주행 진행률, 곡선 샘플링을 바꾼 모델의 결과를 한 페이지에 정리했다. [주행 영상과 비교 표](results/README.md)
 
-**곡선 샘플링.** 곡선 프레임을 더 자주 학습하는 방식은 논문 5.1절을 따랐다. 추가 학습에서는 보정 전 가운데 카메라의 교사 주행 곡률로 곡선 프레임을 판별했다. 이 기준에서 곡선에 해당하는 프레임의 추출 기대 비중은 약 68.2%에서 77.9%로 높아졌다. 같은 미학습 직선은 종점 구간에 도달했고, 미학습 곡선에서는 횡오차 기준으로 중단됐다. [PilotNet 논문 5.1절](https://arxiv.org/pdf/1604.07316#page=5) · [샘플링 설정](results/curve_sampling.json) · [주행 결과](results/metrics/curve_sampling_comparison.csv)
+## 실행
 
-공개 주행 기록은 경로 중앙·헤딩 오프셋 0°에서 출발해 목표속도 19 km/h로 주행한 시험이다. 횡오차 7 m에 도달하면 중단하고, 기준경로의 마지막 1 m 구간에 도달하면 종점 도달로 기록했다. [영상과 시험 조건](results/README.md)
+저장소 루트에서 아래 명령으로 의존성을 설치하고 모델·데이터 처리 테스트를 실행할 수 있다. 테스트에는 MORAI 연결이 필요 없다.
 
-## 교차로 사례에서 CIL로
-
-교차로 J의 좌회전 경로에서 3카메라로 학습한 모델이 직진 방향으로 진행하다가 횡오차 기준으로 중단됐다. J는 PilotNet 학습 도로와 일부 겹친다. 이 장면에서 출발해, 진행 명령을 입력으로 받는 CIL을 MORAI에 연결했다. [교차로 주행 비교 데모](../README.md#교차로-주행-데모) · [교차로 기록](results/metrics/intersection_example.csv)
-
-## 기록 이미지에서의 예측 오차
-
-학습하지 않은 두 도로에서 수집한 **동일한 가운데 카메라 이미지 830장**으로 평가했다.
-
-| 지표 | 가운데 카메라로 학습 | 카메라 3개로 학습 |
-|---|---:|---:|
-| 곡률 RMSE (1/m) | 0.009216 | 0.007449 |
-| 곡률 MAE (1/m) | 0.005665 | 0.005595 |
-
-기록 이미지에서의 곡률 오차와 시뮬레이터에서의 종점 도달 여부를 함께 확인했다. [이미지 평가 표](results/metrics/open_loop.csv)
-
-## 코드 구조
-
-이 폴더 전체가 PilotNet 프로젝트다. 각 경로와 CSV의 이미지 경로는 `pilotnet/` 기준이다.
-저장소 루트에서는 `bash run.sh pilotnet ...`으로 실행한다.
-
-```text
-model.py          PilotNet CNN 구조
-dataset.py        이미지 로딩·전처리·정답 연결
-train.py          학습과 validation 모델 선택
-evaluate.py       학습 도로의 내부 검증
-drive.py          MORAI 실시간 추론·조향·녹화
-learning/         학습과 실시간 주행 보조 코드
-tools/            수집·데이터 준비·새 도로 평가 도구
-checkpoints/      학습된 모델 3개와 학습 설정
-results/          대표 영상 4개와 요약 표
-docs/             수집 절차와 재현 방법
+```bash
+python3 -m pip install -r requirements-train.txt
+bash run.sh pilotnet -m unittest discover -s tests -p test_learning.py
 ```
 
-- [수집·센서 설정](docs/collection.md)
-- [학습과 새 도로 평가 실행](docs/reproduction.md)
-- [모델별 가중치와 학습 기록](checkpoints/README.md)
+MORAI 주행에는 K-City와 차량·센서 설정이 필요하다. 저장소에는 학습된 가중치와 데이터 목록이 들어 있다. 학습과 기록 이미지 평가는 목록에서 참조하는 원본 JPEG가 있어야 재현할 수 있다. [MORAI 실행 및 재현](docs/reproduction.md) · [가중치 선택](checkpoints/README.md)
 
-## 데이터 구성
+## 코드 읽기
 
-원본은 **지도 Pure Pursuit 자동 teacher**로 수집했다.
-이미지와 실제 조향 피드백을 시각으로 맞춘 뒤 자전거 모델로 곡률 정답을 만들었다.
-기존 수집 그룹은 4:1:1로 나눴다. 이때 만든 `dataset/paired/test.csv`는 학습 도로의 다른 주행이므로
-내부 점검용으로 보존한다. 공개 시험에는 별도로 수집한 `dataset/unseen_paired/test.csv`를 사용한다.
-새 도로의 teacher 기록은 시험에만 사용했다.
-
-원본 JPEG는 로컬에 보관한다.
+- [model.py](model.py)와 [dataset.py](dataset.py)에서 모델 구조, 이미지 처리, 곡률 정답을 확인할 수 있다.
+- [train.py](train.py)는 모델을 학습하고, [drive.py](drive.py)는 실시간 영상에서 조향을 계산해 MORAI에 보낸다.

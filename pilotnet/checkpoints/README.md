@@ -1,13 +1,11 @@
-# 학습된 모델
+# PilotNet 학습 가중치
 
-| 폴더 | 학습 조건 | 실제 주행 입력 |
-|---|---|---|
-| `center_camera` | 가운데 카메라로 학습 | 가운데 카메라 1장 |
-| `three_cameras` | 좌·중·우 카메라 3개로 학습 | 가운데 카메라 1장 |
-| `three_cameras_more_curves` | 카메라 3개, 곡선 프레임 선택 기준 변경 | 가운데 카메라 1장 |
+각 `best.pt`는 검증 이미지의 예측 오차로 선택한 모델이다. 아래 모델은 모두 주행 중에 가운데 카메라 영상 한 장을 입력으로 받는다.
 
-각 폴더의 `best.pt`는 validation 오차로 선택한 가중치다.
-`settings.json`은 실제 학습 조건, `history.csv`와 `learning_curve.png`는 학습 경과다.
-기존 모델을 덮어쓰지 않고 별도 모델로 추가 실험했다. 이번 저장소 정리에서는 가중치를 변경하지 않았다.
+| 가중치 | 학습에 사용한 데이터 |
+|---|---|
+| [가운데 카메라](center_camera/best.pt) | 가운데 영상 |
+| [3카메라](three_cameras/best.pt) | 좌·중·우 영상과 좌우 영상의 복귀 정답 |
+| [3카메라·곡선 샘플링 변경](three_cameras_more_curves/best.pt) | 같은 3카메라 학습 데이터에서 곡선 프레임을 판별하는 기준 변경 |
 
-모델 구조는 [model.py](../model.py), 실행 절차는 [재현 안내](../docs/reproduction.md)에 있다.
+각 폴더의 `settings.json`과 `history.csv`에 학습 설정과 기록이 있다. [모델별 주행 결과](../results/README.md) · [가중치로 MORAI 실행](../docs/reproduction.md#새-도로-morai-주행-closed-loop)
