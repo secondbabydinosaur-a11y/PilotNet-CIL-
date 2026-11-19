@@ -6,7 +6,7 @@ PilotNet과 Conditional Imitation Learning(CIL) 논문의 모델을 PyTorch로 �
 
 https://github.com/user-attachments/assets/29a55b91-5d2b-4a81-ab3a-1780c281a0f6
 
-같은 교차로 J의 좌회전 경로에서 왼쪽의 PilotNet은 직진 방향으로 진행했고, 오른쪽의 CIL은 `LEFT` 명령을 받아 좌회전했다. 두 번의 MORAI 녹화를 나란히 편집했으며, 먼저 끝난 왼쪽 영상은 마지막 화면에서 멈춘다.
+같은 교차로의 좌회전 경로에서 왼쪽의 PilotNet은 직진 방향으로 진행했고, 오른쪽의 CIL은 `LEFT` 명령을 받아 좌회전했다. 두 번의 MORAI 녹화를 나란히 편집했으며, 먼저 끝난 왼쪽 영상은 마지막 화면에서 멈춘다.
 
 [전체 PilotNet 주행 영상](pilotnet/results/README.md#주행-영상) · [전체 CIL 주행 영상](cil/results/README.md#주행-영상)
 
