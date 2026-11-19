@@ -487,6 +487,1109 @@
         "Navigation uses actual junction geometry,18m approach and6m exit hold, matching collection policy.",
         "Signal color, stop-line response and obstacle handling were not learned; this demonstrates command-conditioned route following, not competition-rule compliance."
       ]
+    },
+    "COMPETITION_REVERSE": {
+      "name_ko": "마지막 좌회전 직전에서 대회 출발점 근처까지 반대 차로 주행",
+      "split": "demonstration",
+      "evaluation_scope": "continuous_reverse_corridor_normal_direction_lane_demonstration",
+      "not_an_unseen_only_test": true,
+      "traffic_light_or_obstacle_compliance_evaluated": false,
+      "route_csv": "routes/test/COMPETITION_REVERSE.csv",
+      "route_sha256": "77b97ef9f57510874fc3f1ba85de75fcb99dfa501865913f7b4f74bec874abe1",
+      "length_m": 608.084522052035,
+      "start_xyz_m": [
+        -17.586393006057765,
+        102.15965289615151,
+        28.374152420271688
+      ],
+      "end_xyz_m": [
+        -136.078030659629,
+        -425.88532983139663,
+        28.557932697315533
+      ],
+      "initial_yaw_deg_map": -179.71088398294097,
+      "source_links": [
+        "A2256W000292",
+        "A2256W000298",
+        "A2256W000143",
+        "A2256W000311",
+        "A2256W000321",
+        "A2256W000313",
+        "A2256W000204",
+        "A2256W000206",
+        "A2256W000209",
+        "A2256W000198",
+        "A2256W000759",
+        "A2256W000221",
+        "A2256W001220",
+        "A2256W000223",
+        "A2256W000760",
+        "A2256W000212",
+        "A2256W000214",
+        "A2256W000218",
+        "A2256W000237",
+        "A2256W000094",
+        "A2256W000336"
+      ],
+      "source_link_intervals": [
+        {
+          "link_id": "A2256W000292",
+          "native_start_s_m": 4.873131114779381,
+          "native_end_s_m": 16.105355289730763,
+          "reverse_route_start_s_m": 0.0,
+          "reverse_route_end_s_m": 11.232224174951382
+        },
+        {
+          "link_id": "A2256W000298",
+          "native_start_s_m": 0.0,
+          "native_end_s_m": 8.127671683330856,
+          "reverse_route_start_s_m": 11.232224174951382,
+          "reverse_route_end_s_m": 19.359895858282236
+        },
+        {
+          "link_id": "A2256W000143",
+          "native_start_s_m": 0.0,
+          "native_end_s_m": 4.143811805943279,
+          "reverse_route_start_s_m": 19.359895858282236,
+          "reverse_route_end_s_m": 23.503707664225516
+        },
+        {
+          "link_id": "A2256W000311",
+          "native_start_s_m": 0.0,
+          "native_end_s_m": 36.434864948872715,
+          "reverse_route_start_s_m": 23.503707664225516,
+          "reverse_route_end_s_m": 59.93857261309823
+        },
+        {
+          "link_id": "A2256W000321",
+          "native_start_s_m": 0.0,
+          "native_end_s_m": 67.8741828580871,
+          "reverse_route_start_s_m": 59.93857261309823,
+          "reverse_route_end_s_m": 127.81275547118533
+        },
+        {
+          "link_id": "A2256W000313",
+          "native_start_s_m": 0.0,
+          "native_end_s_m": 11.727465136127584,
+          "reverse_route_start_s_m": 127.81275547118533,
+          "reverse_route_end_s_m": 139.5402206073129
+        },
+        {
+          "link_id": "A2256W000204",
+          "native_start_s_m": 0.0,
+          "native_end_s_m": 6.005296186967624,
+          "reverse_route_start_s_m": 139.5402206073129,
+          "reverse_route_end_s_m": 145.54551679428053
+        },
+        {
+          "link_id": "A2256W000206",
+          "native_start_s_m": 0.0,
+          "native_end_s_m": 23.999969737645035,
+          "reverse_route_start_s_m": 145.54551679428053,
+          "reverse_route_end_s_m": 169.54548653192558
+        },
+        {
+          "link_id": "A2256W000209",
+          "native_start_s_m": 0.0,
+          "native_end_s_m": 13.594425236898745,
+          "reverse_route_start_s_m": 169.54548653192558,
+          "reverse_route_end_s_m": 183.13991176882433
+        },
+        {
+          "link_id": "A2256W000198",
+          "native_start_s_m": 0.0,
+          "native_end_s_m": 34.61822758292685,
+          "reverse_route_start_s_m": 183.13991176882433,
+          "reverse_route_end_s_m": 217.7581393517512
+        },
+        {
+          "link_id": "A2256W000759",
+          "native_start_s_m": 0.0,
+          "native_end_s_m": 46.263921102340106,
+          "reverse_route_start_s_m": 217.7581393517512,
+          "reverse_route_end_s_m": 264.0220604540913
+        },
+        {
+          "link_id": "A2256W000221",
+          "native_start_s_m": 0.0,
+          "native_end_s_m": 30.57842328004376,
+          "reverse_route_start_s_m": 264.0220604540913,
+          "reverse_route_end_s_m": 294.600483734135
+        },
+        {
+          "link_id": "A2256W001220",
+          "native_start_s_m": 0.0,
+          "native_end_s_m": 6.183627525401091,
+          "reverse_route_start_s_m": 294.600483734135,
+          "reverse_route_end_s_m": 300.78411125953613
+        },
+        {
+          "link_id": "A2256W000223",
+          "native_start_s_m": 0.0,
+          "native_end_s_m": 24.189063760539412,
+          "reverse_route_start_s_m": 300.78411125953613,
+          "reverse_route_end_s_m": 324.97317502007553
+        },
+        {
+          "link_id": "A2256W000760",
+          "native_start_s_m": 0.0,
+          "native_end_s_m": 43.85919951031227,
+          "reverse_route_start_s_m": 324.97317502007553,
+          "reverse_route_end_s_m": 368.8323745303878
+        },
+        {
+          "link_id": "A2256W000212",
+          "native_start_s_m": 0.0,
+          "native_end_s_m": 29.14746271871697,
+          "reverse_route_start_s_m": 368.8323745303878,
+          "reverse_route_end_s_m": 397.9798372491048
+        },
+        {
+          "link_id": "A2256W000214",
+          "native_start_s_m": 0.0,
+          "native_end_s_m": 22.946861415652535,
+          "reverse_route_start_s_m": 397.9798372491048,
+          "reverse_route_end_s_m": 420.9266986647573
+        },
+        {
+          "link_id": "A2256W000218",
+          "native_start_s_m": 0.0,
+          "native_end_s_m": 26.119043787646426,
+          "reverse_route_start_s_m": 420.9266986647573,
+          "reverse_route_end_s_m": 447.0457424524037
+        },
+        {
+          "link_id": "A2256W000237",
+          "native_start_s_m": 0.0,
+          "native_end_s_m": 72.10711234537543,
+          "reverse_route_start_s_m": 447.0457424524037,
+          "reverse_route_end_s_m": 519.1528547977791
+        },
+        {
+          "link_id": "A2256W000094",
+          "native_start_s_m": 0.0,
+          "native_end_s_m": 12.699220456823802,
+          "reverse_route_start_s_m": 519.1528547977791,
+          "reverse_route_end_s_m": 531.8520752546029
+        },
+        {
+          "link_id": "A2256W000336",
+          "native_start_s_m": 0.0,
+          "native_end_s_m": 76.23244679743317,
+          "reverse_route_start_s_m": 531.8520752546029,
+          "reverse_route_end_s_m": 608.0845220520362
+        }
+      ],
+      "navigation": [
+        {
+          "link_id": "A2256W000311",
+          "entry_s_m": 23.50370766422551,
+          "exit_s_m": 59.9385726130982,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left",
+          "measured_turn_deg": 89.4
+        },
+        {
+          "link_id": "A2256W000206",
+          "entry_s_m": 145.54551679428042,
+          "exit_s_m": 169.54548653192535,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 0.281
+        },
+        {
+          "link_id": "A2256W000221",
+          "entry_s_m": 264.02206045409076,
+          "exit_s_m": 294.600483734134,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -1.668
+        },
+        {
+          "link_id": "A2256W000212",
+          "entry_s_m": 368.8323745303866,
+          "exit_s_m": 397.97983724910347,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -1.173
+        },
+        {
+          "link_id": "A2256W000218",
+          "entry_s_m": 420.9266986647561,
+          "exit_s_m": 447.0457424524026,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 0.251
+        },
+        {
+          "link_id": "A2256W000094",
+          "entry_s_m": 519.1528547977775,
+          "exit_s_m": 531.8520752546016,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -91.388
+        }
+      ],
+      "map_use": "초기 배치·진행 명령·평가에만 사용하며 조향 입력에 사용하지 않음",
+      "endpoint_basis": {
+        "desired_original_start_s_m": 605.0,
+        "desired_original_end_s_m": 0.0,
+        "start_nearest_original_s_m": 605.017270711798,
+        "end_nearest_original_s_m": 0.037732413396192925,
+        "start_opposite_lane_offset_m": 3.2538937098118783,
+        "end_opposite_lane_offset_m": 5.0236023780083245,
+        "original_last_left_stopline_s_m": 609.601,
+        "start_before_original_left_stopline_m": 4.600999999999999
+      },
+      "geometry_validation": {
+        "uses_only_native_link_direction": true,
+        "source_points_reversed": false,
+        "all_link_nodes_connected": true,
+        "max_link_endpoint_gap_m": 0.0,
+        "forbidden_original_last_left_link_absent": true,
+        "max_corridor_sample_distance_m": 5.093377030602987,
+        "maximum_forward_reference_step_m": 0.0,
+        "reference_station_correspondence": [
+          {
+            "reverse_route_s_m": 0.0,
+            "original_reference_s_m": 604.868393639,
+            "opposite_lane_distance_m": 3.257297753905446
+          },
+          {
+            "reverse_route_s_m": 10.0,
+            "original_reference_s_m": 594.868395036,
+            "opposite_lane_distance_m": 3.2866881857555708
+          },
+          {
+            "reverse_route_s_m": 20.0,
+            "original_reference_s_m": 584.868414542,
+            "opposite_lane_distance_m": 3.317284352992416
+          },
+          {
+            "reverse_route_s_m": 30.0,
+            "original_reference_s_m": 576.11870368,
+            "opposite_lane_distance_m": 3.594481543985386
+          },
+          {
+            "reverse_route_s_m": 40.0,
+            "original_reference_s_m": 567.118713817,
+            "opposite_lane_distance_m": 3.6369266032458616
+          },
+          {
+            "reverse_route_s_m": 50.0,
+            "original_reference_s_m": 559.118727583,
+            "opposite_lane_distance_m": 3.6374805055091253
+          },
+          {
+            "reverse_route_s_m": 60.0,
+            "original_reference_s_m": 550.618735375,
+            "opposite_lane_distance_m": 3.415744031479181
+          },
+          {
+            "reverse_route_s_m": 70.0,
+            "original_reference_s_m": 540.819137683,
+            "opposite_lane_distance_m": 3.404912380761936
+          },
+          {
+            "reverse_route_s_m": 80.0,
+            "original_reference_s_m": 530.819139443,
+            "opposite_lane_distance_m": 3.584219020831068
+          },
+          {
+            "reverse_route_s_m": 90.0,
+            "original_reference_s_m": 520.819140675,
+            "opposite_lane_distance_m": 3.767642931123837
+          },
+          {
+            "reverse_route_s_m": 100.0,
+            "original_reference_s_m": 510.819171306,
+            "opposite_lane_distance_m": 3.8913371739676634
+          },
+          {
+            "reverse_route_s_m": 110.0,
+            "original_reference_s_m": 500.819174629,
+            "opposite_lane_distance_m": 3.89777593449331
+          },
+          {
+            "reverse_route_s_m": 120.0,
+            "original_reference_s_m": 490.819176809,
+            "opposite_lane_distance_m": 3.91251339443661
+          },
+          {
+            "reverse_route_s_m": 130.0,
+            "original_reference_s_m": 480.591590665,
+            "opposite_lane_distance_m": 3.898628206816374
+          },
+          {
+            "reverse_route_s_m": 140.0,
+            "original_reference_s_m": 470.441585751,
+            "opposite_lane_distance_m": 3.885832076006778
+          },
+          {
+            "reverse_route_s_m": 150.0,
+            "original_reference_s_m": 460.797510781,
+            "opposite_lane_distance_m": 3.8951635114332297
+          },
+          {
+            "reverse_route_s_m": 160.0,
+            "original_reference_s_m": 450.797544212,
+            "opposite_lane_distance_m": 3.801447815433184
+          },
+          {
+            "reverse_route_s_m": 170.0,
+            "original_reference_s_m": 440.797551909,
+            "opposite_lane_distance_m": 3.891478281300061
+          },
+          {
+            "reverse_route_s_m": 180.0,
+            "original_reference_s_m": 430.851840938,
+            "opposite_lane_distance_m": 3.9003507006978064
+          },
+          {
+            "reverse_route_s_m": 190.0,
+            "original_reference_s_m": 420.775710902,
+            "opposite_lane_distance_m": 3.903689932606552
+          },
+          {
+            "reverse_route_s_m": 200.0,
+            "original_reference_s_m": 410.775714837,
+            "opposite_lane_distance_m": 3.9047428318925927
+          },
+          {
+            "reverse_route_s_m": 210.0,
+            "original_reference_s_m": 400.775716832,
+            "opposite_lane_distance_m": 3.9186480813794335
+          },
+          {
+            "reverse_route_s_m": 220.0,
+            "original_reference_s_m": 390.775726699,
+            "opposite_lane_distance_m": 3.9406215821713286
+          },
+          {
+            "reverse_route_s_m": 230.0,
+            "original_reference_s_m": 380.775732661,
+            "opposite_lane_distance_m": 3.949360623152328
+          },
+          {
+            "reverse_route_s_m": 240.0,
+            "original_reference_s_m": 370.775740463,
+            "opposite_lane_distance_m": 3.9705574428342323
+          },
+          {
+            "reverse_route_s_m": 250.0,
+            "original_reference_s_m": 360.741799304,
+            "opposite_lane_distance_m": 3.698767835318175
+          },
+          {
+            "reverse_route_s_m": 260.0,
+            "original_reference_s_m": 350.741812088,
+            "opposite_lane_distance_m": 3.6317383847669227
+          },
+          {
+            "reverse_route_s_m": 270.0,
+            "original_reference_s_m": 340.405934456,
+            "opposite_lane_distance_m": 3.750579059506236
+          },
+          {
+            "reverse_route_s_m": 280.0,
+            "original_reference_s_m": 330.40601241,
+            "opposite_lane_distance_m": 3.7214612335045105
+          },
+          {
+            "reverse_route_s_m": 290.0,
+            "original_reference_s_m": 320.406076235,
+            "opposite_lane_distance_m": 3.692344801394065
+          },
+          {
+            "reverse_route_s_m": 300.0,
+            "original_reference_s_m": 310.422597005,
+            "opposite_lane_distance_m": 3.5513267310456147
+          },
+          {
+            "reverse_route_s_m": 310.0,
+            "original_reference_s_m": 300.422621385,
+            "opposite_lane_distance_m": 3.4980072806378617
+          },
+          {
+            "reverse_route_s_m": 320.0,
+            "original_reference_s_m": 289.922640112,
+            "opposite_lane_distance_m": 3.5412853185616764
+          },
+          {
+            "reverse_route_s_m": 330.0,
+            "original_reference_s_m": 279.922673546,
+            "opposite_lane_distance_m": 3.3441786853753332
+          },
+          {
+            "reverse_route_s_m": 340.0,
+            "original_reference_s_m": 269.42269299,
+            "opposite_lane_distance_m": 3.1246350401617717
+          },
+          {
+            "reverse_route_s_m": 350.0,
+            "original_reference_s_m": 259.422697507,
+            "opposite_lane_distance_m": 3.121709676856267
+          },
+          {
+            "reverse_route_s_m": 360.0,
+            "original_reference_s_m": 248.922705012,
+            "opposite_lane_distance_m": 3.1400582416591196
+          },
+          {
+            "reverse_route_s_m": 370.0,
+            "original_reference_s_m": 238.922751846,
+            "opposite_lane_distance_m": 3.1323883789220983
+          },
+          {
+            "reverse_route_s_m": 380.0,
+            "original_reference_s_m": 228.958022326,
+            "opposite_lane_distance_m": 3.16556280785884
+          },
+          {
+            "reverse_route_s_m": 390.0,
+            "original_reference_s_m": 218.9581367,
+            "opposite_lane_distance_m": 3.1797975346942504
+          },
+          {
+            "reverse_route_s_m": 400.0,
+            "original_reference_s_m": 208.95886695,
+            "opposite_lane_distance_m": 3.2242684820915306
+          },
+          {
+            "reverse_route_s_m": 410.0,
+            "original_reference_s_m": 198.784578356,
+            "opposite_lane_distance_m": 3.2167939620865624
+          },
+          {
+            "reverse_route_s_m": 420.0,
+            "original_reference_s_m": 188.784911247,
+            "opposite_lane_distance_m": 3.2455342449181783
+          },
+          {
+            "reverse_route_s_m": 430.0,
+            "original_reference_s_m": 179.007403542,
+            "opposite_lane_distance_m": 3.2585357224142126
+          },
+          {
+            "reverse_route_s_m": 440.0,
+            "original_reference_s_m": 169.007519367,
+            "opposite_lane_distance_m": 3.2666250197693665
+          },
+          {
+            "reverse_route_s_m": 450.0,
+            "original_reference_s_m": 158.953167923,
+            "opposite_lane_distance_m": 3.280374877959574
+          },
+          {
+            "reverse_route_s_m": 460.0,
+            "original_reference_s_m": 148.953205373,
+            "opposite_lane_distance_m": 3.238843896314782
+          },
+          {
+            "reverse_route_s_m": 470.0,
+            "original_reference_s_m": 138.953217111,
+            "opposite_lane_distance_m": 3.273516244312528
+          },
+          {
+            "reverse_route_s_m": 480.0,
+            "original_reference_s_m": 130.953254566,
+            "opposite_lane_distance_m": 3.308645167368885
+          },
+          {
+            "reverse_route_s_m": 490.0,
+            "original_reference_s_m": 122.953304501,
+            "opposite_lane_distance_m": 3.323458236413155
+          },
+          {
+            "reverse_route_s_m": 500.0,
+            "original_reference_s_m": 113.953497683,
+            "opposite_lane_distance_m": 3.2235380161352953
+          },
+          {
+            "reverse_route_s_m": 510.0,
+            "original_reference_s_m": 103.953567064,
+            "opposite_lane_distance_m": 3.236932758977694
+          },
+          {
+            "reverse_route_s_m": 520.0,
+            "original_reference_s_m": 94.128665292,
+            "opposite_lane_distance_m": 3.284641997356639
+          },
+          {
+            "reverse_route_s_m": 530.0,
+            "original_reference_s_m": 80.628870745,
+            "opposite_lane_distance_m": 4.098263737294831
+          },
+          {
+            "reverse_route_s_m": 540.0,
+            "original_reference_s_m": 67.999919441,
+            "opposite_lane_distance_m": 5.059923663297222
+          },
+          {
+            "reverse_route_s_m": 550.0,
+            "original_reference_s_m": 57.999955449,
+            "opposite_lane_distance_m": 5.00615369195107
+          },
+          {
+            "reverse_route_s_m": 560.0,
+            "original_reference_s_m": 47.999958991,
+            "opposite_lane_distance_m": 5.028368345202055
+          },
+          {
+            "reverse_route_s_m": 570.0,
+            "original_reference_s_m": 37.999962673,
+            "opposite_lane_distance_m": 5.030840451919683
+          },
+          {
+            "reverse_route_s_m": 580.0,
+            "original_reference_s_m": 27.999963707,
+            "opposite_lane_distance_m": 5.034096650600967
+          },
+          {
+            "reverse_route_s_m": 590.0,
+            "original_reference_s_m": 17.999970487,
+            "opposite_lane_distance_m": 5.025495768265099
+          },
+          {
+            "reverse_route_s_m": 600.0,
+            "original_reference_s_m": 7.999985591,
+            "opposite_lane_distance_m": 5.013599070936941
+          },
+          {
+            "reverse_route_s_m": 608.084522052035,
+            "original_reference_s_m": 0.0,
+            "opposite_lane_distance_m": 5.02374408059915
+          }
+        ],
+        "dijkstra_corridor_limit_m": 18.0,
+        "cost_definition": "링크 길이에 회랑 거리와 원래 station의 역방향 이탈 비용을 더함"
+      },
+      "collection_overlap_checks": {
+        "raw_train": {
+          "minimum_sample_distance_m": 0.0028572409552236676,
+          "reference_samples": 1218,
+          "reference_sample_step_m": 0.5,
+          "fraction_within_distance": {
+            "0.5": 0.4400656814449918,
+            "1.0": 0.44417077175697867,
+            "2.0": 0.4490968801313629,
+            "3.5": 0.5303776683087028,
+            "10.0": 0.625615763546798,
+            "20.0": 0.6428571428571429
+          },
+          "reference_intervals_within_3_5m": [
+            [
+              0.0,
+              276.0
+            ],
+            [
+              327.0,
+              373.0
+            ]
+          ]
+        },
+        "raw_validation": {
+          "minimum_sample_distance_m": 83.45014925791565,
+          "reference_samples": 1218,
+          "reference_sample_step_m": 0.5,
+          "fraction_within_distance": {
+            "0.5": 0.0,
+            "1.0": 0.0,
+            "2.0": 0.0,
+            "3.5": 0.0,
+            "10.0": 0.0,
+            "20.0": 0.0
+          },
+          "reference_intervals_within_3_5m": []
+        },
+        "prepared_train": {
+          "minimum_sample_distance_m": 0.00905475384533235,
+          "reference_samples": 1218,
+          "reference_sample_step_m": 0.5,
+          "fraction_within_distance": {
+            "0.5": 0.4400656814449918,
+            "1.0": 0.44417077175697867,
+            "2.0": 0.4490968801313629,
+            "3.5": 0.5295566502463054,
+            "10.0": 0.625615763546798,
+            "20.0": 0.6428571428571429
+          },
+          "reference_intervals_within_3_5m": [
+            [
+              0.0,
+              276.0
+            ],
+            [
+              327.5,
+              373.0
+            ]
+          ]
+        },
+        "prepared_val": {
+          "minimum_sample_distance_m": 97.93365518738783,
+          "reference_samples": 1218,
+          "reference_sample_step_m": 0.5,
+          "fraction_within_distance": {
+            "0.5": 0.0,
+            "1.0": 0.0,
+            "2.0": 0.0,
+            "3.5": 0.0,
+            "10.0": 0.0,
+            "20.0": 0.0
+          },
+          "reference_intervals_within_3_5m": []
+        }
+      },
+      "source_sha256": {
+        "MGeo/link_set.json": "c5a3cb6736e09092e2e67ebd5d67292c82a576e76f87aca39f8f1d89dc8739c9",
+        "pilotnet/assets/evaluation_route.csv": "6faa1e823edcb13c67e234a2c68fbf3e0a560e3f23ccfeec02d43219c22b9f1b",
+        "tools/build_competition_reverse_route.py": "65c54b166ab9488224b89f37442661d68902e9f7e1fe2e1f170dc8e1c4fa77d1"
+      },
+      "notes": [
+        "원래 대회 좌표를 역순으로 사용하는 역주행 경로가 아니라 정상 반대 방향 차로의 연결 경로다.",
+        "원래 마지막 좌회전083에는 진입하지 않고, 그 직전 위치에 대응하는 반대 차로에서 서쪽으로 출발한다.",
+        "같은 도로 배경을 반대 시점에서 관찰하므로 새로운 시점이라는 이유로 미학습 도로 일반화 시험이라 부르지 않는다.",
+        "교차로 명령은 실제 출구 기하로 판정하며 수집과 같은 접근18m·출구유지6m 정책을 사용한다.",
+        "신호색·장애물 대응이나 교통 규정 준수는 이 명령 주행 시연의 평가 범위가 아니다."
+      ]
+    },
+    "EAST_OUTER": {
+      "name_ko": "대회 출발점에서 동쪽 외곽도로까지",
+      "split": "test",
+      "evaluation_scope": "held_out_from_cil_training_and_validation_same_kcity_map",
+      "route_csv": "routes/test/EAST_OUTER.csv",
+      "route_sha256": "a0c08e223b5a0c9355c33646e68091a9645cd41686903697734273d14727660d",
+      "length_m": 360.75310406920124,
+      "start_xyz_m": [
+        -131.68979755061446,
+        -428.3310229377821,
+        28.543960281954277
+      ],
+      "end_xyz_m": [
+        51.02976846233587,
+        -163.06134851988537,
+        28.444150722724945
+      ],
+      "initial_yaw_deg_map": 61.298115138830774,
+      "source_links": [
+        "A2256W000748",
+        "A2256W000078",
+        "A2256W000324",
+        "A2256W000597",
+        "A2256W000241",
+        "A2256W000243",
+        "A2256W000231",
+        "A2256W000233",
+        "A2256W000253"
+      ],
+      "source_mgeo_path": "/home/kuuve/catkin_ws_구동현_2026카사/src/kcity2026_stack/kcity2026/data/mgeo_k-city_2025",
+      "navigation": [
+        {
+          "link_id": "A2256W000078",
+          "entry_s_m": 72.62896869677363,
+          "exit_s_m": 87.70227653940482,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -89.986
+        },
+        {
+          "link_id": "A2256W000597",
+          "entry_s_m": 112.22405716002633,
+          "exit_s_m": 134.54708941745523,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 85.658
+        },
+        {
+          "link_id": "A2256W000243",
+          "entry_s_m": 154.69030903829434,
+          "exit_s_m": 184.40177980204075,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 0.047
+        },
+        {
+          "link_id": "A2256W000233",
+          "entry_s_m": 210.19820196727107,
+          "exit_s_m": 235.17031340967918,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 0.404
+        }
+      ],
+      "endpoint_basis": {
+        "start_original_competition_s_m": 0.0,
+        "last_link_id": "A2256W000253",
+        "next_junction_link_id": "A2256W000006",
+        "end_before_next_junction_m": 10.0,
+        "full_selected_links_length_m": 370.75310406920124
+      },
+      "geometry_validation": {
+        "native_link_direction_only": true,
+        "all_nodes_connected": true,
+        "maximum_link_endpoint_gap_m": 0.0,
+        "maximum_output_segment_m": 0.49999999998998995,
+        "planar_geometry_modified": false
+      },
+      "collection_overlap_checks": {
+        "raw_train": {
+          "recorded_positions": 48201,
+          "nearest_sample_distance_m": 28.032579534843435,
+          "test_sample_step_m": 0.25,
+          "distance_lower_bound_to_recorded_positions_m": 27.782579534843435,
+          "required_separation_m": 20.0,
+          "separation_passed": true
+        },
+        "raw_validation": {
+          "recorded_positions": 8320,
+          "nearest_sample_distance_m": 82.28342768789297,
+          "test_sample_step_m": 0.25,
+          "distance_lower_bound_to_recorded_positions_m": 82.03342768789297,
+          "required_separation_m": 20.0,
+          "separation_passed": true
+        },
+        "prepared_train": {
+          "recorded_positions": 26893,
+          "nearest_sample_distance_m": 41.28788864430347,
+          "test_sample_step_m": 0.25,
+          "distance_lower_bound_to_recorded_positions_m": 41.03788864430347,
+          "required_separation_m": 20.0,
+          "separation_passed": true
+        },
+        "prepared_val": {
+          "recorded_positions": 1549,
+          "nearest_sample_distance_m": 96.22016792768316,
+          "test_sample_step_m": 0.25,
+          "distance_lower_bound_to_recorded_positions_m": 95.97016792768316,
+          "required_separation_m": 20.0,
+          "separation_passed": true
+        }
+      },
+      "source_sha256": {
+        "routes/plan.json": "796c4b9a423953bdf27d8924f920d672b363657965753d4272983906f8f2bbab",
+        "data/collection_completion.json": "ca7629dc38d408db454305d18504080dc531e6665ac628f51d2b6e4c037af6aa",
+        "data/raw/20261116T073638Z_T1_normal_cbb9c1/vehicle.csv": "5db5aaf16f9532bfb0b5d80f05a60574aa4a6475f186d9247d90199628aeaacd",
+        "data/raw/20261116T073900Z_T2_normal_eb1d50/vehicle.csv": "c36bcf2994ecfee4ebacca6e711d4827f3ebdf93f4c9639139e3e717e2063707",
+        "data/raw/20261116T074320Z_T3_normal_7cb09f/vehicle.csv": "3c7997b4d0e3e8576a7fe5e35a3107a31826ef3a4fdbe646283e59bc0456891f",
+        "data/raw/20261116T075719Z_T4_normal_038650/vehicle.csv": "97d73aec8da53d27fbc9188b8bc67bfa3e667f80f94a81bba9701dcd6497ea94",
+        "data/raw/20261116T075933Z_T6_normal_0765d1/vehicle.csv": "885ad947176e39e192a2d758ede937f41b8923086f07a8d6e131bbe17a6d67fd",
+        "data/raw/20261116T080147Z_CENTRAL_LEFT_normal_7c4062/vehicle.csv": "cb0b752ad9af7843595e8fa8d77259e2e751124bf55d6441ca0e62ae7a598b6b",
+        "data/raw/20261116T080223Z_CENTRAL_STRAIGHT_normal_ac0ea3/vehicle.csv": "7f1501227af665f743adeaed3a028d6b2471ab76a8a83a4294868fef902bdf72",
+        "data/raw/20261116T080253Z_CENTRAL_RIGHT_normal_cf2042/vehicle.csv": "862062464209d031df985d658c99eac865e922b5353c87b0f60b606db20a26e0",
+        "data/raw/20261116T080324Z_V1_normal_a154cb/vehicle.csv": "aa4898f2219e000b119e2892c19884fa70e39196e27312566a5a6fcaa0ea44b8",
+        "data/raw/20261116T080521Z_V2_normal_18468a/vehicle.csv": "a0f0ff172c4c031a5c9c7dbd10e4adf182a7493b2c7637a116df8a1cf3d7ebf2",
+        "data/raw/20261116T080625Z_T4_noise_c03ef0/vehicle.csv": "2eb8ff8d3a0f4f3df9641d09b1431853cfc712984b2f4a7a01dd68b1e768a85b",
+        "data/raw/20261116T080839Z_T6_noise_538cb3/vehicle.csv": "d7b0713748fa263e28c16c4c5549bb7ef7ccb32b2e6e685cd7a2aad5f9daae34",
+        "data/raw/20261116T081054Z_T2_noise_5d73b3/vehicle.csv": "3394b161fcf1d92ceb090019ebc78b04221672656ac0e0d57070e96316c995cc",
+        "data/raw/20261116T081204Z_T1_noise_9de591/vehicle.csv": "e2aeda283467c9ec7db23235301f9fefff03cce5403090805d4189d5427b41e0",
+        "data/prepared/train.csv": "978d861f60d55995f85079a281987bc2ddf8e79be445adfd3749723c7c72f206",
+        "data/prepared/val.csv": "6a977f475e0ea5d356ca47e8dcdf3bd1630e1475ebaa20caaba3e2e86e562872",
+        "competition_workspace/MGeo/link_set.json": "c5a3cb6736e09092e2e67ebd5d67292c82a576e76f87aca39f8f1d89dc8739c9",
+        "pilotnet/assets/evaluation_route.csv": "6faa1e823edcb13c67e234a2c68fbf3e0a560e3f23ccfeec02d43219c22b9f1b",
+        "tools/build_east_outer_route.py": "4f49ed04728b1be730c3ac96445bbfa4880c29ec781a1ac9c6e79a82957b0083"
+      },
+      "map_use": "초기 배치·진행 명령·평가에만 사용하며 신경망 조향 입력에 사용하지 않음",
+      "notes": [
+        "손으로 표시한 후보의 동쪽 외곽도로 부분만 사용하고, 학습 위치에 가까운 다음 좌회전 이후는 포함하지 않는다.",
+        "모든 링크를 원래 진행 방향으로 연결하고 마지막 링크의 끝 10m만 제외했다.",
+        "지도 related_signal이 straight여도 실제 출구 기하가 꺾이는078은우회전,597은좌회전이다.",
+        "교차로 접근18m·출구유지6m의 수집 정책을 동일하게 사용한다.",
+        "20m 분리는 CIL 학습·검증 위치 기준이다. 출발부 원래s0~65m는 과거 PilotNet 학습에 포함됐으므로 PilotNet에도 전부 미학습인 도로라 주장하지 않는다.",
+        "같은 K-City 맵의 별도 구간 시험이며 새로운 도시나 날씨에 대한 일반화 시험은 아니다."
+      ]
+    },
+    "EAST_OUTER_EXTENDED": {
+      "name_ko": "동쪽 바깥길에서 추가 좌회전·우회전",
+      "split": "test",
+      "evaluation_scope": "extended_route_diagnostic_with_training_proximity_reported",
+      "route_csv": "routes/test/EAST_OUTER_EXTENDED.csv",
+      "route_sha256": "9ce3672f1150527c8f11a9455d33378e8475f81a073b13b924bd9623c1a6432d",
+      "length_m": 452.2082363969492,
+      "start_xyz_m": [
+        -131.68979755061446,
+        -428.3310229377821,
+        28.543960281954277
+      ],
+      "end_xyz_m": [
+        12.386407048885314,
+        -101.45223075341492,
+        28.310662041246005
+      ],
+      "initial_yaw_deg_map": 61.298115138830774,
+      "navigation": [
+        {
+          "link_id": "A2256W000078",
+          "entry_s_m": 72.62896869677363,
+          "exit_s_m": 87.70227653940482,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -89.986
+        },
+        {
+          "link_id": "A2256W000597",
+          "entry_s_m": 112.22405716002633,
+          "exit_s_m": 134.54708941745523,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 85.658
+        },
+        {
+          "link_id": "A2256W000243",
+          "entry_s_m": 154.69030903829434,
+          "exit_s_m": 184.40177980204075,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 0.047
+        },
+        {
+          "link_id": "A2256W000233",
+          "entry_s_m": 210.19820196727107,
+          "exit_s_m": 235.17031340967918,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 0.404
+        },
+        {
+          "link_id": "A2256W000006",
+          "entry_s_m": 370.753104069,
+          "exit_s_m": 395.9358214673974,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left_unprotected",
+          "measured_turn_deg": 84.747
+        },
+        {
+          "link_id": "A2256W000359",
+          "entry_s_m": 414.28008891818456,
+          "exit_s_m": 427.20823639694925,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -94.144
+        }
+      ],
+      "prefix_course": "EAST_OUTER",
+      "prefix_sha256": "a0c08e223b5a0c9355c33646e68091a9645cd41686903697734273d14727660d",
+      "original_endpoint_s_m": 360.753104069,
+      "source_links": [
+        "A2256W000748",
+        "A2256W000078",
+        "A2256W000324",
+        "A2256W000597",
+        "A2256W000241",
+        "A2256W000243",
+        "A2256W000231",
+        "A2256W000233",
+        "A2256W000253",
+        "A2256W000006",
+        "A2256W000259",
+        "A2256W000258",
+        "A2256W000359",
+        "A2256W000363"
+      ],
+      "lane_change": {
+        "from": "A2256W000259",
+        "to": "A2256W000258",
+        "dashed_divider": "B2256W000498",
+        "blend_end_m": 13.950868474182284
+      },
+      "assessment_start_s_m": 352.753104069,
+      "extension_proximity": {
+        "train": {
+          "min_m": 3.410232264756565,
+          "fraction_within_3_5m": 0.20300751879699247,
+          "fraction_within_20m": 0.5588972431077694
+        },
+        "val": {
+          "min_m": 272.6160238126816,
+          "fraction_within_3_5m": 0.0,
+          "fraction_within_20m": 0.0
+        }
+      },
+      "data_sha256": {
+        "train": "ae54b55fa27d162de1076873f48a4dc9354b49a96f9b53d598b03bd9ac02db41",
+        "val": "6a977f475e0ea5d356ca47e8dcdf3bd1630e1475ebaa20caaba3e2e86e562872"
+      }
+    },
+    "EAST_OUTER_EXTENDED_RIGHT": {
+      "name_ko": "연장 코스의 추가 우회전 단독 시험",
+      "split": "test",
+      "evaluation_scope": "right_turn_from_rest_on_extended_route_with_training_proximity",
+      "route_csv": "routes/test/EAST_OUTER_EXTENDED_RIGHT.csv",
+      "route_sha256": "aba0d230663460581f2c1e16e63a54dea94853513b96199065ea6234ffae0020",
+      "length_m": 55.92814747876463,
+      "start_xyz_m": [
+        35.9431305735366,
+        -137.83828404966877,
+        28.441911286631242
+      ],
+      "end_xyz_m": [
+        12.386407048885314,
+        -101.45223075341492,
+        28.310662041246005
+      ],
+      "initial_yaw_deg_map": 178.9106935354943,
+      "navigation": [
+        {
+          "link_id": "A2256W000359",
+          "entry_s_m": 18.0,
+          "exit_s_m": 30.928147478764686,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -94.144
+        }
+      ],
+      "source_course": "EAST_OUTER_EXTENDED",
+      "source_course_start_s_m": 396.28008891818456,
+      "extension_proximity": {
+        "train": {
+          "min_m": 3.4101940127285104,
+          "fraction_within_3_5m": 0.36,
+          "fraction_within_20m": 0.9911111111111112
+        },
+        "val": {
+          "min_m": 306.8221224669023,
+          "fraction_within_3_5m": 0.0,
+          "fraction_within_20m": 0.0
+        }
+      }
+    },
+    "EAST_OUTER_MIDDLE_LEFT_RIGHT": {
+      "name_ko": "동쪽 바깥길 영상 45초 교차로에서 좌회전 후 우회전",
+      "split": "test",
+      "evaluation_scope": "middle_junction_diagnostic_with_training_proximity_reported",
+      "route_csv": "routes/test/EAST_OUTER_MIDDLE_LEFT_RIGHT.csv",
+      "route_sha256": "0d5febebd9902890aaa141514c9e4f90058353f43a2f9d2c6045ef92a91b2d13",
+      "length_m": 296.73240804241266,
+      "start_xyz_m": [
+        -131.68979755061446,
+        -428.3310229377821,
+        28.543960281954277
+      ],
+      "end_xyz_m": [
+        -26.528707421354092,
+        -237.9516739144212,
+        28.527133297536388
+      ],
+      "initial_yaw_deg_map": 61.298115138830774,
+      "navigation": [
+        {
+          "link_id": "A2256W000078",
+          "entry_s_m": 72.62896869677363,
+          "exit_s_m": 87.70227653940482,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -89.986
+        },
+        {
+          "link_id": "A2256W000597",
+          "entry_s_m": 112.22405716002633,
+          "exit_s_m": 134.54708941745523,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 85.658
+        },
+        {
+          "link_id": "A2256W000243",
+          "entry_s_m": 154.69030903829434,
+          "exit_s_m": 184.40177980204075,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 0.047
+        },
+        {
+          "link_id": "A2256W000085",
+          "entry_s_m": 210.19820196727107,
+          "exit_s_m": 234.60226168699745,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left",
+          "measured_turn_deg": 91.135
+        },
+        {
+          "link_id": "A2256W000086",
+          "entry_s_m": 251.22347378948632,
+          "exit_s_m": 276.73240804241266,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -89.803
+        }
+      ],
+      "prefix_course": "EAST_OUTER",
+      "prefix_sha256": "a0c08e223b5a0c9355c33646e68091a9645cd41686903697734273d14727660d",
+      "branch_s_m": 210.19820196727107,
+      "replaces_straight_link": "A2256W000233",
+      "source_links": [
+        "A2256W000748",
+        "A2256W000078",
+        "A2256W000324",
+        "A2256W000597",
+        "A2256W000241",
+        "A2256W000243",
+        "A2256W000231",
+        "A2256W000085",
+        "A2256W000234",
+        "A2256W000086",
+        "A2256W000343",
+        "A2256W000346"
+      ],
+      "extension_proximity": {
+        "train": {
+          "min_m": 51.03313592911151,
+          "fraction_within_3_5m": 0.0,
+          "fraction_within_20m": 0.0
+        },
+        "val": {
+          "min_m": 158.28165468684858,
+          "fraction_within_3_5m": 0.0,
+          "fraction_within_20m": 0.0
+        }
+      },
+      "data_sha256": {
+        "train": "ae54b55fa27d162de1076873f48a4dc9354b49a96f9b53d598b03bd9ac02db41",
+        "val": "6a977f475e0ea5d356ca47e8dcdf3bd1630e1475ebaa20caaba3e2e86e562872"
+      }
     }
   },
   "command_policy": "current junction first, upcoming within18m, exit hold6m, otherwise follow_road",

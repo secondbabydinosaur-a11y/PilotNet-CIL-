@@ -354,10 +354,11 @@ def stop_vehicle(client, steer, hz):  # 수집 종료 시 차량을 제동한다
 
 
 class SteeringNoise:  # 시간에 따라 연속적으로 변하는 삼각형 조향 교란을 만든다.
-    def __init__(self, enabled=False, seed=7):  # 활성화 설정과 재현용 seed를 받는다.
+    def __init__(self, enabled=False, seed=7, *, first_time_s=8.0, peak_range=(0.07, 0.10)):
         self.enabled = enabled  # Validation에서는 교란을 사용하지 않는다.
         self.rng = random.Random(seed)  # 같은 seed로 같은 교란 순서를 재현한다.
-        self.next_time = 8.0  # 출발 직후에는 교란을 넣지 않는다.
+        self.next_time = first_time_s
+        self.peak_range = peak_range
         self.active = None  # 현재 진행 중인 교란 사건이다.
         self.episode = 0  # 교란 사건의 일련번호다.
         self.recovery_until = -1.0  # 교란 이후 복귀를 관측할 마지막 시각이다.
@@ -372,7 +373,7 @@ class SteeringNoise:  # 시간에 따라 연속적으로 변하는 삼각형 조
                 self.recovery_until = max(self.recovery_until, elapsed + 4.0)  # Teacher의 복귀 과정을 더 기록한다.
         if self.active is None and elapsed >= self.next_time and allowed:  # 다음 교란을 적용할 수 있는 구간이라면
             duration = self.rng.uniform(2.0, 2.8)  # 교란의 지속 시간이다.
-            peak = self.rng.choice((-1, 1)) * self.rng.uniform(0.07, 0.10)  # 최대 약 2.8~4도에 해당하는 크기다.
+            peak = self.rng.choice((-1, 1)) * self.rng.uniform(*self.peak_range)
             self.active = (elapsed, duration, peak)  # 새 삼각파를 시작한다.
             self.episode += 1  # 새 교란 사건 번호다.
             self.next_time = elapsed + duration + self.rng.uniform(18.0, 25.0)  # 교란을 연속해서 주입하지 않는다.
@@ -393,12 +394,23 @@ def main():  # 경로별 Teacher 주행 데이터를 수집한다.
     parser.add_argument("--describe", action="store_true")  # 설정과 경로 정보만 표시한다.
     parser.add_argument("--auto-reset", action="store_true")  # 로컬 MORAI에서 출발 위치로 배치한다.
     parser.add_argument("--noise", action="store_true")  # 학습 경로에서만 조향 교란을 활성화한다.
+    recovery_mode = parser.add_mutually_exclusive_group()
+    recovery_mode.add_argument("--turn-recovery", action="store_true", help="inject a small perturbation before a left or right turn")
+    recovery_mode.add_argument("--junction-recovery", action="store_true", help="also collect recovery before straight-through junctions")
+    recovery_mode.add_argument("--curve-recovery", action="store_true", help="collect teacher recovery inside a junction")
+    parser.add_argument("--curve-noise-scale", type=float, default=1.0,
+                        help="multiply the collection-only perturbation strength during a turn")
     parser.add_argument("--seed", type=int, default=7)  # 교란을 재현하기 위한 seed다.
     parser.add_argument("--speed", type=float, default=None)  # 상한 안에서 순항 목표를 지정한다.
+    parser.add_argument("--hour", type=int, choices=range(9, 16), default=12, help="daylight hour for MORAI auto-reset")
     parser.add_argument("--initial-offset", type=float, default=0.0)  # 학습용 복귀 시범의 초기 횡오프셋이다.
+    parser.add_argument("--initial-heading-offset", type=float, default=0.0,
+                        help="initial heading perturbation in degrees for training collection")
     args = parser.parse_args()  # 실행 옵션을 읽는다.
     if not math.isfinite(args.seconds) or args.seconds <= 0:  # 수집 시간의 범위를 확인한다.
         parser.error("--seconds must be finite and positive")  # 잘못된 시간을 거부한다.
+    if not 1.0 <= args.curve_noise_scale <= 2.0 or (args.curve_noise_scale != 1.0 and not args.curve_recovery):
+        parser.error("--curve-noise-scale requires --curve-recovery and must be in [1, 2]")
     cfg = load_config(args.config)  # 설정 파일을 읽는다.
     plan = json.loads((BASE / cfg["paths"]["route_plan"]).read_text(encoding="utf-8"))  # 경로와 시험 구역을 정의한 계획이다.
     if args.route not in plan["routes"]:  # 존재하지 않는 경로라면
@@ -412,12 +424,16 @@ def main():  # 경로별 Teacher 주행 데이터를 수집한다.
         return 0  # 차량을 제어하지 않고 종료한다.
     if info["split"] == "test":  # 예약한 시험 경로는
         raise ValueError("test routes are excluded from collection")  # 데이터 수집에 사용하지 않는다.
-    cfg["collection"]["noise_enabled"] = bool(args.noise or cfg["collection"]["noise_enabled"])  # 이번 실행에 적용할 설정이다.
+    approach_recovery = args.turn_recovery or args.junction_recovery
+    junction_noise = approach_recovery or args.curve_recovery
+    cfg["collection"]["noise_enabled"] = bool(args.noise or junction_noise or cfg["collection"]["noise_enabled"])
     noisy = cfg["collection"]["noise_enabled"]  # 이번 수집의 교란 활성화 여부다.
-    if (noisy or args.initial_offset != 0) and info["split"] != "train":  # Validation과 점검용 경로에서는
+    if (noisy or args.initial_offset != 0 or args.initial_heading_offset != 0) and info["split"] != "train":  # Validation과 점검용 경로에서는
         raise ValueError("noise and initial offsets are train-only")  # 학습용 교란이나 초기 위치 변화를 적용하지 않는다.
-    if not math.isfinite(args.initial_offset) or abs(args.initial_offset) > 0.3:  # 초기 위치 변화의 크기를 확인한다.
-        raise ValueError("initial offset must be within +/-0.3m")  # 과도한 위치 변경을 거부한다.
+    if not math.isfinite(args.initial_offset) or abs(args.initial_offset) > 0.6:
+        raise ValueError("initial offset must be within +/-0.6m")
+    if not math.isfinite(args.initial_heading_offset) or abs(args.initial_heading_offset) > 8.0:
+        raise ValueError("initial heading offset must be within +/-8deg")
     cap = float(cfg["collection"]["speed_cap_kph"])  # 설정된 속도 상한이다.
     hz = float(cfg["control"]["hz"])  # 제어 명령을 보낼 주기다.
     cruise = cap - 1.0 if args.speed is None else args.speed  # 기본 순항 목표는 19km/h다.
@@ -428,19 +444,29 @@ def main():  # 경로별 Teacher 주행 데이터를 수집한다.
     run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ") + "_" + args.route + "_" + tag + "_" + uuid.uuid4().hex[:6]  # 수집 실행의 고유 ID다.
     output = BASE / cfg["paths"]["raw_data"] / run_id  # 원본 데이터의 저장 위치다.
     output.mkdir(parents=True, exist_ok=False)  # 기존 수집 데이터를 덮어쓰지 않는다.
+    if args.curve_recovery:
+        peak_range = (0.07 * args.curve_noise_scale, 0.12 * args.curve_noise_scale)
+    else:
+        peak_range = (0.04, 0.06) if approach_recovery else (0.07, 0.10)
     metadata = {  # 수집 조건을 기록한다.
         "schema_version": 2, "status": "recording", "route_id": args.route, "split": info["split"],
         "teacher": "map_pure_pursuit", "human_driving": False, "noise_enabled": noisy,
         "seed": args.seed, "initial_offset_m": args.initial_offset, "cruise_kph": cruise,
+        "initial_heading_offset_deg": args.initial_heading_offset,
+        "daylight_hour": args.hour if args.auto_reset else None,
         "command_policy": "map_intersection_link_with_selected_exit", "route_csv": info["route_csv"],
         "route_sha256": hashlib.sha256(route_path.read_bytes()).hexdigest(), "navigation": info.get("navigation", []),
         "config": cfg, "software_sha256": {name: hashlib.sha256((BASE / name).read_bytes()).hexdigest() for name in ("collect.py", "morai.py", "tools/simulator.py")},
-        "noise_parameters": {"signal": "triangular", "duration_s": [2.0, 2.8], "peak_normalized": [0.07, 0.10], "recovery_s": 4.0},
+        "noise_parameters": {"signal": "triangular", "duration_s": [2.0, 2.8], "peak_normalized": list(peak_range), "recovery_s": 4.0,
+                             "location": "junction entry and interior" if args.curve_recovery
+                             else "3–15m before a junction" if args.junction_recovery
+                             else "3–15m before a turn" if args.turn_recovery else "straight follow_road"},
         "collision_ground_truth": "not_instrumented; tracking and images are checked separately",
     }
     if args.auto_reset:  # 옵션을 지정했을 때만 시뮬레이터에서 차량을 재배치한다.
         from tools.simulator import Simulator  # CIL 수집용 로컬 MORAI API 어댑터다.
-        metadata["actual_start_state"] = Simulator().setup(info, cfg, args.initial_offset)  # 실제 배치 결과도 함께 보관한다.
+        metadata["actual_start_state"] = Simulator().setup(info, cfg, args.initial_offset, hour=args.hour,
+                                                         heading_offset_deg=args.initial_heading_offset)
     rig = BASE / "runs/collection_setup/sensor_rig.json"  # 확인한 센서 설정의 기록이다.
     if rig.exists():  # 센서 설정 증거가 있다면
         metadata["rig_snapshot"] = json.loads(rig.read_text())  # 실행 조건과 함께 보존한다.
@@ -450,7 +476,8 @@ def main():  # 경로별 Teacher 주행 데이터를 수집한다.
         snapshot.parent.mkdir(parents=True, exist_ok=True)  # tools 하위 폴더도 만든다.
         shutil.copy2(BASE / name, snapshot)  # 실제 실행 파일을 그대로 보존한다.
     writer = SessionWriter(output)  # 비동기 파일 저장기를 만든다.
-    noise = SteeringNoise(noisy, args.seed)  # 시간상관 조향 교란 발생기다.
+    noise = SteeringNoise(noisy, args.seed, first_time_s=0.0 if junction_noise else 8.0, peak_range=peak_range)
+    recovery_commands = ("left", "right", "straight") if args.junction_recovery or args.curve_recovery else ("left", "right")
     reason, failure, capture_stats = "starting", "", {}  # 종료 상태와 오류·수신 통계를 준비한다.
     print("Saving:", output, flush=True)  # 실제 저장 위치를 출력한다.
     try:  # 제어·저장 실패에도 최종 정리를 수행한다.
@@ -481,7 +508,7 @@ def main():  # 경로별 Teacher 주행 데이터를 수집한다.
                             continue  # 아직 주행 제어를 시작하지 않는다.
                         if ego["ctrl_mode"] != 2 or ego["gear"] != 4: raise RuntimeError("select AV-ExternalCtrl / Auto and D")  # 외부 제어 모드와 D 기어를 확인한다.
                         distance = math.hypot(ego["x_m"] - info["start_xyz_m"][0], ego["y_m"] - info["start_xyz_m"][1])  # 목표 출발점과 현재 위치의 거리다.
-                        heading0 = abs(wrap_deg(ego["yaw_deg"] - info["initial_yaw_deg_map"]))  # 출발 헤딩의 오차다.
+                        heading0 = abs(wrap_deg(ego["yaw_deg"] - info["initial_yaw_deg_map"] - args.initial_heading_offset))
                         if distance > 1.0 or heading0 > 10.0 or abs(ego["speed_kph"]) > 1.0: raise RuntimeError("place the stopped vehicle at route start")  # 정차한 차량이 출발점에 있는지 확인한다.
                         if abs(ego["z_m"] - info["start_xyz_m"][2]) > 1.0: raise RuntimeError("start height mismatch")  # 입체 도로에서 다른 높이의 도로를 구분한다.
                         armed, started, next_tick, initial_stamp = True, now, now, ego["stamp_ns"]  # 주행 제어를 시작한다.
@@ -504,6 +531,18 @@ def main():  # 경로별 Teacher 주행 데이터를 수집한다.
                     elapsed = max(0.0, (ego["stamp_ns"] - initial_stamp) / 1e9)  # 센서 시간축 기준 경과 시간이다.
                     local_kappa = float(np.interp(station, route.s, route.kappa))  # 현재 경로의 곡률이다.
                     allowed = command_name == "follow_road" and phase == "drive" and ego["speed_kph"] > 10 and abs(cte) < 0.45 and local_kappa < 0.035 and remaining > 25  # 조향 교란을 적용할 조건이다.
+                    if approach_recovery:
+                        # 회전 전 직선에서 작게 벗어나게 하고, 진입 이후에는 Teacher 복귀만 기록한다.
+                        approaching_turn = any(n["command"] == command_name and 3 < n["entry_s_m"] - station <= 15
+                                               for n in route.navigation)
+                        allowed = (command_name in recovery_commands and approaching_turn and phase == "drive"
+                                   and ego["speed_kph"] > 8 and abs(cte) < 0.40 and local_kappa < 0.035)
+                    elif args.curve_recovery:
+                        in_turn = any(n["command"] == command_name
+                                      and n["entry_s_m"] - 1. <= station < n["exit_s_m"] - 4.
+                                      for n in route.navigation)
+                        allowed = (command_name in recovery_commands and in_turn and phase == "drive"
+                                   and ego["speed_kph"] > 8 and abs(cte) < 0.40)
                     requested_noise, episode, recovery = noise.value(elapsed, allowed)  # 삼각형 교란과 복귀 상태를 계산한다.
                     applied_steer = float(np.clip(teacher_steer + requested_noise, -1.0, 1.0))  # 실제로 전송할 조향 명령이다.
                     sent_ns = client.send_control(applied_steer, throttle, brake)  # 교란이 포함된 명령을 전송한다.

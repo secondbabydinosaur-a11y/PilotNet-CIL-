@@ -168,12 +168,12 @@ def preprocessing_constants(path):  # Torch를 실행하지 않고 실제 Datase
     return result
 
 
-def build(base=BASE, output=None, sample_hz=10.0, recovery_s=2.0, min_lookahead_m=6.0):
+def build(base=BASE, output=None, sample_hz=10.0, recovery_s=2.0, min_lookahead_m=6.0, *, plan=None, completion=None):
     base = Path(base).resolve()
     cfg = json.loads((base / "config.json").read_text())
-    plan_path = base / cfg["paths"]["route_plan"]
+    plan_path = base / (plan if plan is not None else cfg["paths"]["route_plan"])
     plan = json.loads(plan_path.read_text())
-    completion_path = base / "data/collection_completion.json"
+    completion_path = base / (completion if completion is not None else "data/collection_completion.json")
     completion = json.loads(completion_path.read_text())
     if completion["status"] != "complete" or not completion["accepted"]: raise ValueError("finish collection and quality checks first")
     if not all(math.isfinite(v) and v > 0 for v in (sample_hz, recovery_s, min_lookahead_m)) or sample_hz > cfg["camera_common"]["fps"]:
@@ -280,8 +280,13 @@ def main():
     parser.add_argument("--sample-hz", type=float, default=10.0)
     parser.add_argument("--recovery-s", type=float, default=2.0)
     parser.add_argument("--min-lookahead-m", type=float, default=6.0)
+    parser.add_argument("--plan", type=Path, help="use a separate CIL-relative route plan")
+    parser.add_argument("--completion", type=Path, help="use a separate CIL-relative accepted session list")
     args = parser.parse_args()
-    summary = build(output=args.output, sample_hz=args.sample_hz, recovery_s=args.recovery_s, min_lookahead_m=args.min_lookahead_m)
+    if (args.plan or args.completion) and not args.output:
+        parser.error("a separate --output is required with --plan or --completion")
+    summary = build(output=args.output, sample_hz=args.sample_hz, recovery_s=args.recovery_s,
+                    min_lookahead_m=args.min_lookahead_m, plan=args.plan, completion=args.completion)
     print("PREPARED:", summary["counts"])
 
 

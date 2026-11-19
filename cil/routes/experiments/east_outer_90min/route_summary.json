@@ -1,0 +1,475 @@
+[
+  {
+    "route": "LONG_01",
+    "length_m": 1088.9926958272965,
+    "junction_commands": {
+      "straight": 2
+    },
+    "new_native_link_length_vs_preceding_routes_m": 1088.992695827303,
+    "shared_native_link_length_m": -6.366462912410498e-12,
+    "minimum_radius_m": 10.869548254605704,
+    "minimum_protected_distance_m": 54.24703426469544
+  },
+  {
+    "route": "LONG_02",
+    "length_m": 1022.9736292512049,
+    "junction_commands": {
+      "left": 2,
+      "right": 1
+    },
+    "new_native_link_length_vs_preceding_routes_m": 1022.973629251205,
+    "shared_native_link_length_m": -1.1368683772161603e-13,
+    "minimum_radius_m": 6.739358458076566,
+    "minimum_protected_distance_m": 34.28295984901359
+  },
+  {
+    "route": "LONG_03",
+    "length_m": 1007.1029990611595,
+    "junction_commands": {
+      "straight": 2,
+      "right": 1
+    },
+    "new_native_link_length_vs_preceding_routes_m": 1007.1029990611574,
+    "shared_native_link_length_m": 2.0463630789890885e-12,
+    "minimum_radius_m": 6.655322994640964,
+    "minimum_protected_distance_m": 45.756516411376815
+  },
+  {
+    "route": "LONG_04",
+    "length_m": 1052.2332647891046,
+    "junction_commands": {
+      "straight": 2
+    },
+    "new_native_link_length_vs_preceding_routes_m": 895.7318186346217,
+    "shared_native_link_length_m": 156.5014461544829,
+    "minimum_radius_m": 9.95801270729647,
+    "minimum_protected_distance_m": 54.24694363233721
+  },
+  {
+    "route": "LONG_05",
+    "length_m": 631.202478354545,
+    "junction_commands": {
+      "right": 2,
+      "left": 1
+    },
+    "new_native_link_length_vs_preceding_routes_m": 631.2024783545431,
+    "shared_native_link_length_m": 1.8189894035458565e-12,
+    "minimum_radius_m": 6.718591478841501,
+    "minimum_protected_distance_m": 29.363064565851776
+  },
+  {
+    "route": "LONG_06",
+    "length_m": 655.3585687139481,
+    "junction_commands": {
+      "straight": 2,
+      "left": 1
+    },
+    "new_native_link_length_vs_preceding_routes_m": 477.625702954282,
+    "shared_native_link_length_m": 177.73286575966608,
+    "minimum_radius_m": 7.722023828349548,
+    "minimum_protected_distance_m": 25.009865962370306
+  },
+  {
+    "route": "LONG_07",
+    "length_m": 500.30029516828176,
+    "junction_commands": {
+      "straight": 1
+    },
+    "new_native_link_length_vs_preceding_routes_m": 500.3002951682819,
+    "shared_native_link_length_m": -1.1368683772161603e-13,
+    "minimum_radius_m": 15.398456852843802,
+    "minimum_protected_distance_m": 138.16781306265787
+  },
+  {
+    "route": "LONG_08",
+    "length_m": 372.0445632195743,
+    "junction_commands": {
+      "right": 1,
+      "straight": 1
+    },
+    "new_native_link_length_vs_preceding_routes_m": 372.04456321957434,
+    "shared_native_link_length_m": -5.684341886080802e-14,
+    "minimum_radius_m": 5.910649125088571,
+    "minimum_protected_distance_m": 28.450066107561092
+  },
+  {
+    "route": "LONG_09",
+    "length_m": 318.33496615204115,
+    "junction_commands": {
+      "straight": 2
+    },
+    "new_native_link_length_vs_preceding_routes_m": 318.3349661520416,
+    "shared_native_link_length_m": -4.547473508864641e-13,
+    "minimum_radius_m": 48.31219612726374,
+    "minimum_protected_distance_m": 28.001623294556335
+  },
+  {
+    "route": "LONG_10",
+    "length_m": 323.59645708667546,
+    "junction_commands": {
+      "straight": 1
+    },
+    "new_native_link_length_vs_preceding_routes_m": 323.5964570866749,
+    "shared_native_link_length_m": 5.684341886080801e-13,
+    "minimum_radius_m": 18.391993924000666,
+    "minimum_protected_distance_m": 36.88648219056354
+  },
+  {
+    "route": "LONG_11",
+    "length_m": 323.4004249713225,
+    "junction_commands": {
+      "straight": 1
+    },
+    "new_native_link_length_vs_preceding_routes_m": 323.4004249713223,
+    "shared_native_link_length_m": 1.7053025658242404e-13,
+    "minimum_radius_m": 37.17684596619714,
+    "minimum_protected_distance_m": 37.131908634807544
+  },
+  {
+    "route": "SHORT_01",
+    "length_m": 74.33745862734017,
+    "junction_commands": {
+      "left": 1
+    },
+    "new_junction_link_id": "A2256W001056",
+    "new_native_link_length_vs_preceding_routes_m": 247.00313964103026,
+    "minimum_radius_m": 9.189700094334084,
+    "minimum_protected_distance_m": 214.8410250320578
+  },
+  {
+    "route": "SHORT_02",
+    "length_m": 87.51864141908763,
+    "junction_commands": {
+      "left": 1
+    },
+    "new_junction_link_id": "A2256W000462",
+    "new_native_link_length_vs_preceding_routes_m": 118.25125178598554,
+    "minimum_radius_m": 12.642520474131791,
+    "minimum_protected_distance_m": 89.57220118673841
+  },
+  {
+    "route": "SHORT_03",
+    "length_m": 79.60067088797602,
+    "junction_commands": {
+      "right": 1
+    },
+    "new_junction_link_id": "A2256W000463",
+    "new_native_link_length_vs_preceding_routes_m": 24.60067088797587,
+    "minimum_radius_m": 8.776564974096448,
+    "minimum_protected_distance_m": 89.57220118673841
+  },
+  {
+    "route": "SHORT_04",
+    "length_m": 78.8477112048725,
+    "junction_commands": {
+      "left": 1
+    },
+    "new_junction_link_id": "A2256W000087",
+    "new_native_link_length_vs_preceding_routes_m": 140.9862338542256,
+    "minimum_radius_m": 7.058069141008225,
+    "minimum_protected_distance_m": 86.84460208377222
+  },
+  {
+    "route": "SHORT_05",
+    "length_m": 79.57009784044116,
+    "junction_commands": {
+      "left": 1
+    },
+    "new_junction_link_id": "A2256W000211",
+    "new_native_link_length_vs_preceding_routes_m": 104.16928564584875,
+    "minimum_radius_m": 7.323265464398052,
+    "minimum_protected_distance_m": 86.718220108586
+  },
+  {
+    "route": "SHORT_06",
+    "length_m": 69.09313623564526,
+    "junction_commands": {
+      "right": 1
+    },
+    "new_junction_link_id": "A2256W000079",
+    "new_native_link_length_vs_preceding_routes_m": 14.09313623564521,
+    "minimum_radius_m": 6.771482209724327,
+    "minimum_protected_distance_m": 71.20542830929193
+  },
+  {
+    "route": "SHORT_07",
+    "length_m": 83.43616644896963,
+    "junction_commands": {
+      "left": 1
+    },
+    "new_junction_link_id": "A2256W000227",
+    "new_native_link_length_vs_preceding_routes_m": 86.58591913794424,
+    "minimum_radius_m": 9.382259288338272,
+    "minimum_protected_distance_m": 32.96796977433408
+  },
+  {
+    "route": "SHORT_08",
+    "length_m": 65.8207672766591,
+    "junction_commands": {
+      "straight": 1
+    },
+    "new_junction_link_id": "A2256W001111",
+    "new_native_link_length_vs_preceding_routes_m": 62.553792698936256,
+    "minimum_radius_m": 6.937374076205665,
+    "minimum_protected_distance_m": 170.8345044950052
+  },
+  {
+    "route": "SHORT_09",
+    "length_m": 69.27627447040828,
+    "junction_commands": {
+      "straight": 1
+    },
+    "new_junction_link_id": "A2256W000707",
+    "new_native_link_length_vs_preceding_routes_m": 63.21550747496005,
+    "minimum_radius_m": 6.740811058083629,
+    "minimum_protected_distance_m": 153.34299014651904
+  },
+  {
+    "route": "SHORT_10",
+    "length_m": 80.41879303955224,
+    "junction_commands": {
+      "straight": 1
+    },
+    "new_junction_link_id": "A2256W000636",
+    "new_native_link_length_vs_preceding_routes_m": 25.41879303955221,
+    "minimum_radius_m": 275.53096874321807,
+    "minimum_protected_distance_m": 91.10244078449762
+  },
+  {
+    "route": "SHORT_11",
+    "length_m": 81.26262149838576,
+    "junction_commands": {
+      "straight": 1
+    },
+    "new_junction_link_id": "A2256W001124",
+    "new_native_link_length_vs_preceding_routes_m": 26.26262149838582,
+    "minimum_radius_m": 102.17950372589421,
+    "minimum_protected_distance_m": 86.84460208377222
+  },
+  {
+    "route": "SHORT_12",
+    "length_m": 92.59280866885715,
+    "junction_commands": {
+      "straight": 1
+    },
+    "new_junction_link_id": "A2256W000098",
+    "new_native_link_length_vs_preceding_routes_m": 65.96964744786203,
+    "minimum_radius_m": 312.17418621335315,
+    "minimum_protected_distance_m": 83.00017610438292
+  },
+  {
+    "route": "SHORT_13",
+    "length_m": 90.80487182270073,
+    "junction_commands": {
+      "straight": 1
+    },
+    "new_junction_link_id": "A2256W000323",
+    "new_native_link_length_vs_preceding_routes_m": 36.796458796471306,
+    "minimum_radius_m": 75.70268064197921,
+    "minimum_protected_distance_m": 79.40354052003165
+  },
+  {
+    "route": "SHORT_14",
+    "length_m": 85.21139975434008,
+    "junction_commands": {
+      "straight": 1
+    },
+    "new_junction_link_id": "A2256W000746",
+    "new_native_link_length_vs_preceding_routes_m": 82.97137997280001,
+    "minimum_radius_m": 26.702831284898274,
+    "minimum_protected_distance_m": 66.32206533295057
+  },
+  {
+    "route": "SHORT_15",
+    "length_m": 85.57842328004384,
+    "junction_commands": {
+      "straight": 1
+    },
+    "new_junction_link_id": "A2256W000221",
+    "new_native_link_length_vs_preceding_routes_m": 76.84234438238387,
+    "minimum_radius_m": 63.0361749019734,
+    "minimum_protected_distance_m": 66.30916702311828
+  },
+  {
+    "route": "SHORT_16",
+    "length_m": 81.13705845989853,
+    "junction_commands": {
+      "straight": 1
+    },
+    "new_junction_link_id": "A2256W000215",
+    "new_native_link_length_vs_preceding_routes_m": 51.1370584598985,
+    "minimum_radius_m": 79.33781939285183,
+    "minimum_protected_distance_m": 51.1082496627623
+  },
+  {
+    "route": "COMPACT_01",
+    "length_m": 139.49387196610235,
+    "junction_commands": {
+      "right": 1,
+      "left": 1
+    },
+    "minimum_radius_m": 11.510034955087846,
+    "minimum_protected_distance_m": 65.8616687245754,
+    "estimated_collection_density": {
+      "cruise_kph": 19.0,
+      "stop_before_end_m": 5.0,
+      "reset_overhead_s": 9.0,
+      "command_seconds": {
+        "follow_road": 5.968421052631574,
+        "right": 10.305579796322512,
+        "left": 9.453803040973598
+      },
+      "left_right_fraction_driving": 0.7680166920516607,
+      "left_right_fraction_with_reset": 0.5689787612232814,
+      "note_ko": "수집기의 곡률 감속·범주 명령 규칙으로 계산한 예상치이며 실제 유효 시간은 수집 후 확인한다."
+    },
+    "new_independent_geometry": false
+  },
+  {
+    "route": "COMPACT_02",
+    "length_m": 128.35123930082966,
+    "junction_commands": {
+      "right": 2
+    },
+    "minimum_radius_m": 6.771482209724357,
+    "minimum_protected_distance_m": 71.20612122222413,
+    "estimated_collection_density": {
+      "cruise_kph": 19.0,
+      "stop_before_end_m": 5.0,
+      "reset_overhead_s": 9.0,
+      "command_seconds": {
+        "follow_road": 5.968421052631574,
+        "right": 18.46444129773719
+      },
+      "left_right_fraction_driving": 0.7557215782971293,
+      "left_right_fraction_with_reset": 0.5522841898558987,
+      "note_ko": "수집기의 곡률 감속·범주 명령 규칙으로 계산한 예상치이며 실제 유효 시간은 수집 후 확인한다."
+    },
+    "new_independent_geometry": false
+  },
+  {
+    "route": "COMPACT_03",
+    "length_m": 111.77183900363544,
+    "junction_commands": {
+      "right": 2
+    },
+    "minimum_radius_m": 7.450015964080323,
+    "minimum_protected_distance_m": 26.74533912462385,
+    "estimated_collection_density": {
+      "cruise_kph": 19.0,
+      "stop_before_end_m": 5.0,
+      "reset_overhead_s": 9.0,
+      "command_seconds": {
+        "follow_road": 4.168421052631577,
+        "right": 17.365144399013403
+      },
+      "left_right_fraction_driving": 0.8064221616252062,
+      "left_right_fraction_with_reset": 0.568723113142945,
+      "note_ko": "수집기의 곡률 감속·범주 명령 규칙으로 계산한 예상치이며 실제 유효 시간은 수집 후 확인한다."
+    },
+    "new_independent_geometry": false
+  },
+  {
+    "route": "COMPACT_04",
+    "length_m": 254.2118169445293,
+    "junction_commands": {
+      "left": 2,
+      "right": 1
+    },
+    "minimum_radius_m": 6.739358458076299,
+    "minimum_protected_distance_m": 65.863295214936,
+    "estimated_collection_density": {
+      "cruise_kph": 19.0,
+      "stop_before_end_m": 5.0,
+      "reset_overhead_s": 9.0,
+      "command_seconds": {
+        "follow_road": 17.905263157894716,
+        "left": 20.251218360006504,
+        "right": 10.305254770416177
+      },
+      "left_right_fraction_driving": 0.6305278240265793,
+      "left_right_fraction_with_reset": 0.5317707939959195,
+      "note_ko": "수집기의 곡률 감속·범주 명령 규칙으로 계산한 예상치이며 실제 유효 시간은 수집 후 확인한다."
+    },
+    "new_independent_geometry": false
+  },
+  {
+    "route": "COMPACT_05",
+    "length_m": 136.04064072361874,
+    "junction_commands": {
+      "straight": 1,
+      "left": 1
+    },
+    "minimum_radius_m": 11.510034955087846,
+    "minimum_protected_distance_m": 65.8634628012546,
+    "estimated_collection_density": {
+      "cruise_kph": 19.0,
+      "stop_before_end_m": 5.0,
+      "reset_overhead_s": 9.0,
+      "command_seconds": {
+        "follow_road": 4.073684210526314,
+        "straight": 11.46315789473683,
+        "left": 9.548571809046612
+      },
+      "left_right_fraction_driving": 0.3806423861158501,
+      "left_right_fraction_with_reset": 0.28013659546724545,
+      "left_straight_fraction_with_reset": 0.6164434369671036,
+      "navigation_fraction_driving": 0.8376074548962289,
+      "navigation_fraction_with_reset": 0.6164434369671036,
+      "note_ko": "수집기의 곡률 감속·범주 명령 규칙으로 계산한 예상치이며 실제 유효 시간은 수집 후 확인한다."
+    },
+    "new_independent_geometry": false
+  },
+  {
+    "route": "COMPACT_06",
+    "length_m": 136.1123410942772,
+    "junction_commands": {
+      "left": 2
+    },
+    "minimum_radius_m": 7.058069141008115,
+    "minimum_protected_distance_m": 61.837141438310546,
+    "estimated_collection_density": {
+      "cruise_kph": 19.0,
+      "stop_before_end_m": 5.0,
+      "reset_overhead_s": 9.0,
+      "command_seconds": {
+        "follow_road": 4.547368421052629,
+        "left": 21.59020388818016
+      },
+      "left_right_fraction_driving": 0.8260217755783569,
+      "left_right_fraction_with_reset": 0.6144477967394205,
+      "left_straight_fraction_with_reset": 0.6144477967394205,
+      "navigation_fraction_driving": 0.8260217755783569,
+      "navigation_fraction_with_reset": 0.6144477967394205,
+      "note_ko": "수집기의 곡률 감속·범주 명령 규칙으로 계산한 예상치이며 실제 유효 시간은 수집 후 확인한다."
+    },
+    "new_independent_geometry": false
+  },
+  {
+    "route": "COMPACT_07",
+    "length_m": 138.52725138779047,
+    "junction_commands": {
+      "straight": 1,
+      "left": 1
+    },
+    "minimum_radius_m": 7.189356537821515,
+    "minimum_protected_distance_m": 61.83660906325008,
+    "estimated_collection_density": {
+      "cruise_kph": 19.0,
+      "stop_before_end_m": 5.0,
+      "reset_overhead_s": 9.0,
+      "command_seconds": {
+        "follow_road": 4.547368421052629,
+        "straight": 9.473684210526306,
+        "left": 11.806003956886478
+      },
+      "left_right_fraction_driving": 0.45711767101478923,
+      "left_right_fraction_with_reset": 0.3389894269961528,
+      "left_straight_fraction_with_reset": 0.6110102389318923,
+      "navigation_fraction_driving": 0.823930055464256,
+      "navigation_fraction_with_reset": 0.6110102389318923,
+      "note_ko": "수집기의 곡률 감속·범주 명령 규칙으로 계산한 예상치이며 실제 유효 시간은 수집 후 확인한다."
+    },
+    "new_independent_geometry": false
+  }
+]

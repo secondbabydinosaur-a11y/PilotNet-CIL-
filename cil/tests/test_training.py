@@ -51,6 +51,34 @@ class TrainingTests(unittest.TestCase):
         sampler.epoch = 1
         self.assertNotEqual(first, list(sampler))
 
+    def test_coverage_sampling_finishes_each_command_cycle_across_epochs(self):
+        dataset = UnevenDataset()
+        sampler = CommandBalancedBatchSampler(dataset, 12, 7, 3, cover_samples=True)
+        seen = [[] for _ in range(4)]
+        for epoch in range(1, 5):
+            sampler.epoch = epoch
+            for batch in sampler:
+                commands = [dataset.samples[index][3] for index in batch]
+                self.assertEqual([commands.count(i) for i in range(4)], [3, 3, 3, 3])
+                for index, command in zip(batch, commands):
+                    seen[command].append(index)
+        # A batch can shuffle the last item of one cycle with the next cycle.
+        for visits, group in zip(seen, sampler.groups):
+            boundary = math.ceil(len(group) / sampler.per_command) * sampler.per_command
+            self.assertEqual(set(visits[:boundary]), set(group))
+            end_of_complete_batch = len(group) // sampler.per_command * sampler.per_command
+            self.assertEqual(len(set(visits[:end_of_complete_batch])), end_of_complete_batch)
+
+    def test_focused_images_preserve_the_command_balance(self):
+        dataset = UnevenDataset((6, 6, 6, 6))
+        focus_index = 23  # RIGHT의 마지막 샘플만 반복 노출한다.
+        sampler = CommandBalancedBatchSampler(dataset, 12, 7, 2, cover_samples=True,
+                                             focus_indices=(focus_index,), focus_per_command=1)
+        for batch in sampler:
+            self.assertIn(focus_index, batch)
+            commands = [dataset.samples[index][3] for index in batch]
+            self.assertEqual([commands.count(i) for i in range(4)], [3, 3, 3, 3])
+
     def test_rejects_missing_commands_or_unbalanced_batch_size(self):
         with self.assertRaises(ValueError):
             CommandBalancedBatchSampler(UnevenDataset(), 10, 7)

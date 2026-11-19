@@ -1,0 +1,135 @@
+{
+  "course": "EAST_OUTER_EXTENDED",
+  "route_csv": "../../routes/test/EAST_OUTER_EXTENDED.csv",
+  "route_sha256": "9ce3672f1150527c8f11a9455d33378e8475f81a073b13b924bd9623c1a6432d",
+  "route_length_m": 452.2082363969492,
+  "trials": {
+    "initial_90min": {
+      "status": "intervention_cte",
+      "checkpoint": "checkpoints/cil_east_outer_90min_v1/best.pt",
+      "checkpoint_sha256": "dbacd9f9ebbfb977b97d141426ab734cc0023878d4235e279f9207c67e09f649",
+      "checkpoint_epoch": 9,
+      "speed_cap_kph": 20.0,
+      "terminal_station_m": 85.628949868,
+      "progress_fraction": 0.18935745550651256,
+      "max_abs_cte_m": 7.0136898195579676,
+      "stop_cte_m": 7.0,
+      "terminal_command": "right",
+      "telemetry_rows": 397,
+      "elapsed_s": 19.806175706005888,
+      "steering_assist_episodes": 0,
+      "steering_assist_frames": 0,
+      "steering_assist_start": null,
+      "steering_assist_handoff": null,
+      "max_sample_to_sample_position_jump_m": 0.4276374041252803
+    },
+    "earlier_18min": {
+      "status": "intervention_cte",
+      "checkpoint": "checkpoints/cil_east_outer_more_data_v1/best.pt",
+      "checkpoint_sha256": "dbb019d4607ba58eed42cceb47ba1153b8bd67aaa07dee50c43bbbc9f76b06ee",
+      "checkpoint_epoch": 16,
+      "speed_cap_kph": 20.0,
+      "terminal_station_m": 383.3841629514602,
+      "progress_fraction": 0.8478049735503348,
+      "max_abs_cte_m": 7.212443895421641,
+      "stop_cte_m": 7.0,
+      "terminal_command": "left",
+      "telemetry_rows": 1611,
+      "elapsed_s": 80.50607308698818,
+      "steering_assist_episodes": 1,
+      "steering_assist_frames": 136,
+      "steering_assist_start": {
+        "route_s_m": 107.27000405902177,
+        "elapsed_s": 24.156067104981048
+      },
+      "steering_assist_handoff": {
+        "route_s_m": 139.68211836640413,
+        "elapsed_s": 30.960782711976208,
+        "cte_m": -0.1132215082001663,
+        "heading_error_deg": 2.080599567827676
+      },
+      "max_sample_to_sample_position_jump_m": 0.5018382734815525
+    },
+    "retrained_15kph": {
+      "status": "intervention_cte",
+      "checkpoint": "checkpoints/cil_east_outer_90min_straight_resume/last.pt",
+      "checkpoint_sha256": "d179b1c3fc9f9afd9b91c1449c1f430486631444b3e34cc9a15e26a9edbe569d",
+      "checkpoint_epoch": 3,
+      "speed_cap_kph": 15.0,
+      "terminal_station_m": 431.70818025,
+      "progress_fraction": 0.9546673485953403,
+      "max_abs_cte_m": 7.0011247774821,
+      "stop_cte_m": 7.0,
+      "terminal_command": "right",
+      "telemetry_rows": 2197,
+      "elapsed_s": 109.80625255499035,
+      "steering_assist_episodes": 1,
+      "steering_assist_frames": 162,
+      "steering_assist_start": {
+        "route_s_m": 107.33369988219435,
+        "elapsed_s": 28.356200292007998
+      },
+      "steering_assist_handoff": {
+        "route_s_m": 139.6765445684546,
+        "elapsed_s": 36.457854597014375,
+        "cte_m": -0.11650807887631907,
+        "heading_error_deg": 1.6950404857964259
+      },
+      "max_sample_to_sample_position_jump_m": 0.4320828442889687,
+      "first_right_exit_hold": {
+        "station_m": 93.78595794226189,
+        "cte_m": 1.7940328621490247
+      },
+      "late_left_exit_hold": {
+        "station_m": 402.04535567489177,
+        "cte_m": -1.420395913525972
+      },
+      "last_turn_snapshots": [
+        {
+          "station_m": 420.9568642060781,
+          "cte_m": 0.35554480090246005,
+          "raw_steer": -0.4293442964553833
+        },
+        {
+          "station_m": 424.03089102508136,
+          "cte_m": 2.3898240623094025,
+          "raw_steer": -0.46223825216293335
+        }
+      ],
+      "training": {
+        "center_images": 54000,
+        "all_camera_images": 160891,
+        "validation_center_images": 1549,
+        "center_images_per_command": 13500,
+        "sharp_right_center_images": 1288,
+        "right_recovery_center_replacements": 304,
+        "straight_junction_center_replacements": 903,
+        "added_optimizer_updates": 675,
+        "total_optimizer_updates": 2700,
+        "train_csv_sha256": "f62521b6c35fa96801819d1e81d88f6410fe6eccbb8d9c9152c98c72b5843ddb",
+        "val_csv_sha256": "6a977f475e0ea5d356ca47e8dcdf3bd1630e1475ebaa20caaba3e2e86e562872"
+      }
+    },
+    "retrained_20kph": {
+      "status": "intervention_cte",
+      "checkpoint": "checkpoints/cil_east_outer_90min_straight_resume/last.pt",
+      "checkpoint_sha256": "d179b1c3fc9f9afd9b91c1449c1f430486631444b3e34cc9a15e26a9edbe569d",
+      "checkpoint_epoch": 3,
+      "speed_cap_kph": 20.0,
+      "terminal_station_m": 85.75698696257179,
+      "progress_fraction": 0.1896405931425099,
+      "max_abs_cte_m": 7.0954632470063945,
+      "stop_cte_m": 7.0,
+      "terminal_command": "right",
+      "telemetry_rows": 401,
+      "elapsed_s": 20.006631586991716,
+      "steering_assist_episodes": 0,
+      "steering_assist_frames": 0,
+      "steering_assist_start": null,
+      "steering_assist_handoff": null,
+      "max_sample_to_sample_position_jump_m": 0.4751854939824191
+    }
+  },
+  "initial_pose_pairwise_max_xy_delta_m": 0.0001643421877177278,
+  "scope": "Each row is an observed simulator rollout. In addition to training data, sampling, update history and speed limit differ. Collision and lane compliance were not instrumented."
+}

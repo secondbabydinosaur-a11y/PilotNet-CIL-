@@ -101,7 +101,10 @@ def main():
     output = BASE / "routes/test"
     previous_manifest = output / "manifest.json"
     previous_routes = json.loads(previous_manifest.read_text()).get("routes", {}) if previous_manifest.exists() else {}
-    competition = previous_routes.get("COMPETITION")  # 연속 시연은 미학습 구간 분리 검사의 대상이 아니다.
+    existing_routes = {key: previous_routes[key] for key in (
+        "COMPETITION", "COMPETITION_REVERSE", "EAST_OUTER", "EAST_OUTER_EXTENDED",
+        "EAST_OUTER_EXTENDED_RIGHT", "EAST_OUTER_MIDDLE_LEFT_RIGHT") if key in previous_routes}
+    # 별도의 생성 도구가 준비한 경로와 해당 분리 검사 결과는 재생성할 때 보존한다.
     routes, data = {}, {}
 
     data["U2"] = interval(reference, 978.337, 1210.0)
@@ -173,10 +176,10 @@ def main():
         info["collection_overlap_checks"] = separation
         print(name, round(info["length_m"], 3), info["start_xyz_m"], info["initial_yaw_deg_map"],
               [(n["command"], round(n["entry_s_m"], 3), round(n["exit_s_m"], 3)) for n in info.get("navigation", [])])
-    if competition:
-        if sha256(BASE / competition["route_csv"]) != competition["route_sha256"]:
-            raise ValueError("existing competition demonstration route changed")
-        routes["COMPETITION"] = competition
+    for name, info in existing_routes.items():
+        if sha256(BASE / info["route_csv"]) != info["route_sha256"]:
+            raise ValueError(f"existing route changed: {name}")
+        routes[name] = info
     manifest = {"schema_version": 1, "status": "routes_prepared",
                 "coordinate_frame": plan["coordinate_frame"], "vehicle_pose_frame": "rear axle; map yaw atan2(dy,dx)",
                 "scope": "held-out road trials; optional competition demonstration can overlap training roads; no new town claim",

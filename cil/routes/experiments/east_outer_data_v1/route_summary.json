@@ -1,0 +1,66 @@
+[
+  {
+    "route": "EX_R1",
+    "junction_link": "A2256W000116",
+    "command": "right",
+    "length_m": 83.77124685695598,
+    "minimum_radius_m": 9.003437794003673,
+    "minimum_guard_distance_lower_bound_m": 56.723689903013
+  },
+  {
+    "route": "EX_R2",
+    "junction_link": "A2256W000465",
+    "command": "right",
+    "length_m": 89.32214492152274,
+    "minimum_radius_m": 9.265946333502432,
+    "minimum_guard_distance_lower_bound_m": 89.2112322397616
+  },
+  {
+    "route": "EX_R3",
+    "junction_link": "A2256W000089",
+    "command": "right",
+    "length_m": 86.23242143057186,
+    "minimum_radius_m": 5.910649125088571,
+    "minimum_guard_distance_lower_bound_m": 51.69415907726884
+  },
+  {
+    "route": "EX_R4",
+    "junction_link": "A2256W000111",
+    "command": "right",
+    "length_m": 77.89503000242922,
+    "minimum_radius_m": 7.4500159640803165,
+    "minimum_guard_distance_lower_bound_m": 71.51996773498836
+  },
+  {
+    "route": "EX_L1",
+    "junction_link": "A2256W001078",
+    "command": "left",
+    "length_m": 97.1504579356853,
+    "minimum_radius_m": 12.391482726611788,
+    "minimum_guard_distance_lower_bound_m": 89.2112322397616
+  },
+  {
+    "route": "EX_L2",
+    "junction_link": "A2256W000118",
+    "command": "left",
+    "length_m": 99.11590271005272,
+    "minimum_radius_m": 10.190825381068429,
+    "minimum_guard_distance_lower_bound_m": 54.31455619139567
+  },
+  {
+    "route": "EX_S1",
+    "junction_link": "A2256W001079",
+    "command": "straight",
+    "length_m": 104.24966885942142,
+    "minimum_radius_m": 40.566315702575814,
+    "minimum_guard_distance_lower_bound_m": 137.9178564000254
+  },
+  {
+    "route": "EX_S2",
+    "junction_link": "A2256W000405",
+    "command": "straight",
+    "length_m": 87.86711451831582,
+    "minimum_radius_m": 59.09667508887355,
+    "minimum_guard_distance_lower_bound_m": 30.230067906873188
+  }
+]

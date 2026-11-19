@@ -3,11 +3,100 @@
 import json
 import os
 from pathlib import Path
+import re
 import signal
 import subprocess
+import tempfile
 import time
 
 import numpy as np
+
+
+COMMAND_LABELS = {
+    "follow_road": (0, "FOLLOW ROAD"),
+    "left": (1, "LEFT"),
+    "straight": (2, "STRAIGHT"),
+    "right": (3, "RIGHT"),
+}
+OVERLAY_FONT = Path("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf")
+INTERVENTION_FONT = Path("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf")
+STEERING_INTERVENTION_LABEL = "STEERING INTERVENTION ACTIVE"
+
+
+def command_overlay_text(name, command_id, elapsed_s, reason="model", course=""):
+    """실제 적용 중인 명령을 사람이 읽을 수 있는 두 줄로 표시한다."""
+    if name not in COMMAND_LABELS:
+        raise ValueError("unknown command name: " + str(name))
+    expected_id, label = COMMAND_LABELS[name]
+    if (isinstance(command_id, (bool, np.bool_))
+            or not isinstance(command_id, (int, np.integer)) or command_id != expected_id):
+        raise ValueError("command name and command_id do not match")
+    if not np.isfinite(elapsed_s) or elapsed_s < 0:
+        raise ValueError("elapsed_s must be finite and nonnegative")
+    for key, value in (("reason", reason), ("course", course)):
+        if not isinstance(value, str) or any(ord(char) < 32 or ord(char) == 127 for char in value):
+            raise ValueError(key + " must be a single line of text")
+    if reason == STEERING_INTERVENTION_LABEL:
+        return "{}\nNAV: {} [{}] | t={:.1f}s\n".format(
+            STEERING_INTERVENTION_LABEL, label, expected_id, float(elapsed_s)
+        )  # 개입 중에는 두 줄 안에서 경고·진행 명령·시간을 우선 표시한다.
+    return "COMMAND: {} [{}]\nCOURSE: {} | t={:.1f}s | CONTROL: {}\n".format(
+        label, expected_id, course[:48] or "-", float(elapsed_s), reason[:48]
+    )  # textfile와 expansion=none을 사용하므로 %나 콜론도 ffmpeg 식으로 실행되지 않는다.
+
+
+def video_overlay_parts(text):
+    """전체 표시문은 Tk에 제공하고, 영상의 경고만 별도 노란색 층으로 분리한다."""
+    lines = text.splitlines()
+    active = bool(lines and lines[0] == STEERING_INTERVENTION_LABEL)
+    body = "\n" + "\n".join(lines[1:]) + "\n" if active else text
+    warning = STEERING_INTERVENTION_LABEL + "\n" if active else "\n"
+    return body, warning
+
+
+def atomic_overlay_write(path, text):
+    """동일 폴더의 임시 파일을 완성한 뒤 교체해 drawtext의 빈 파일 읽기를 막는다."""
+    path = Path(path)
+    temporary = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w", encoding="utf-8", prefix=".command_overlay_", suffix=".tmp",
+            dir=str(path.parent), delete=False,
+        ) as stream:
+            temporary = Path(stream.name)
+            stream.write(text)
+        temporary.replace(path)  # 같은 파일시스템 안의 rename은 원자적으로 이루어진다.
+    finally:
+        if temporary is not None and temporary.exists():
+            temporary.unlink()
+
+
+def command_overlay_filter(text_path, intervention_path=None):
+    """필터 문법과 충돌하지 않는 절대경로만 허용한다. 쉘은 사용하지 않는다."""
+    text_path = Path(text_path).resolve()
+    paths = [text_path, OVERLAY_FONT]
+    if intervention_path is not None:
+        intervention_path = Path(intervention_path).resolve()
+        paths += [intervention_path, INTERVENTION_FONT]
+    for path in paths:
+        if not re.fullmatch(r"/[A-Za-z0-9_./-]+", str(path)):
+            raise ValueError("overlay path must contain only ASCII letters, digits, / . _ -: " + str(path))
+    if not OVERLAY_FONT.is_file():
+        raise FileNotFoundError("overlay font missing: " + str(OVERLAY_FONT))
+    expression = (
+        "drawbox=x=0:y=0:w=iw:h=90:color=0x101827:t=fill,"
+        "drawtext=fontfile={}:textfile={}:reload=1:expansion=none:"
+        "fontcolor=white:fontsize=34:x=18:y=8:line_spacing=8"
+    ).format(OVERLAY_FONT, text_path)
+    if intervention_path is not None:
+        if not INTERVENTION_FONT.is_file():
+            raise FileNotFoundError("bold overlay font missing: " + str(INTERVENTION_FONT))
+        expression += (
+            ",drawtext=fontfile={}:textfile={}:reload=1:expansion=none:"
+            "fontcolor=0xFFEA00:fontsize=min(40\\,(w-36)/20):x=18:y=6:"
+            "box=1:boxcolor=0x493700@0.95:boxborderw=4:borderw=1:bordercolor=black"
+        ).format(INTERVENTION_FONT, intervention_path)  # 작은 창에서도 경고가 잘리지 않도록 크기를 제한한다.
+    return expression
 
 
 class _Recorder:
@@ -132,7 +221,23 @@ class Video(_Recorder):
 class ScreenVideo(_Recorder):
     """생성 시점의 실제 Simulator 창 영역을 X11에서 직접 녹화한다."""
 
-    def __init__(self, path):
+    def __init__(self, path, command_overlay=False):
+        self.command_overlay = bool(command_overlay)
+        self.overlay_text_path = None  # 켜진 경우 영상 옆의 최신 표시문 파일을 가리킨다.
+        self.overlay_video_text_path = None
+        self.overlay_intervention_text_path = None
+        self.overlay_style = None
+        self._overlay_last_text = None
+        overlay_arguments = []
+        if self.command_overlay:
+            overlay_path = Path(path).resolve().with_suffix(".commands.txt")
+            video_text_path = overlay_path.with_suffix(".video.txt")
+            intervention_path = overlay_path.with_suffix(".intervention.txt")
+            overlay_filter = command_overlay_filter(video_text_path, intervention_path)  # 경로·폰트는 창 조작 전에 검사한다.
+            for text_path in (overlay_path, video_text_path, intervention_path):
+                if text_path.exists():
+                    raise FileExistsError(text_path)
+            overlay_arguments = ["-vf", overlay_filter]
         display = os.environ.get("DISPLAY")
         if not display:
             raise RuntimeError("DISPLAY is missing; actual Simulator window recording unavailable")
@@ -160,10 +265,28 @@ class ScreenVideo(_Recorder):
         if width <= 0 or height <= 0 or x < 0 or y < 0:
             raise RuntimeError("Simulator window has an unsupported screen geometry")
         self.geometry = dict(x=x, y=y, width=width, height=height, display=display)
+        if self.command_overlay:
+            overlay_path.parent.mkdir(parents=True, exist_ok=True)
+            waiting = "COMMAND: WAITING\nCOURSE: - | t=0.0s | CONTROL: waiting\n"
+            atomic_overlay_write(overlay_path, waiting)
+            atomic_overlay_write(video_text_path, waiting)
+            atomic_overlay_write(intervention_path, "\n")
+            self.overlay_text_path = overlay_path
+            self.overlay_video_text_path = video_text_path
+            self.overlay_intervention_text_path = intervention_path
+            self.overlay_style = dict(
+                banner_height_px=90, font=str(OVERLAY_FONT), font_size_px=34,
+                position="top 90px of actual Simulator capture", text_reload_frames=1,
+                text_expansion="none", source="live command selected by driving loop",
+                intervention_label=STEERING_INTERVENTION_LABEL, intervention_font=str(INTERVENTION_FONT),
+                intervention_color="#FFEA00", intervention_background="#493700",
+            )  # CNN 입력이나 차량 명령을 바꾸지 않는 표시 전용 설정이다.
         self._start(path, [
             "-f", "x11grab", "-draw_mouse", "0", "-framerate", "20",
             "-video_size", "{}x{}".format(width, height),
-            "-i", "{}+{},{}".format(display, x, y), "-an", "-c:v", "libx264",
+            "-i", "{}+{},{}".format(display, x, y),
+        ] + overlay_arguments + [
+            "-an", "-c:v", "libx264",
             "-preset", "veryfast", "-crf", "21", "-threads", "2",
             "-pix_fmt", "yuv420p", "-movflags", "+faststart",
         ])
@@ -176,6 +299,20 @@ class ScreenVideo(_Recorder):
             except Exception:
                 pass  # 최초 시작 실패 원인을 유지한다.
             raise
+
+    def update_command(self, name, command_id, elapsed_s, reason="model", course=""):
+        """주행 루프의 현재 명령만 녹화 자막으로 갱신한다."""
+        self.check()  # 녹화가 먼저 종료되었으면 주행 루프에서 즉시 알 수 있다.
+        if not self.command_overlay:
+            raise RuntimeError("command overlay was not enabled for this screen recording")
+        text = command_overlay_text(name, command_id, elapsed_s, reason=reason, course=course)
+        if text != self._overlay_last_text:
+            if getattr(self, "overlay_video_text_path", None) is not None:
+                body, warning = video_overlay_parts(text)
+                atomic_overlay_write(self.overlay_video_text_path, body)
+                atomic_overlay_write(self.overlay_intervention_text_path, warning)
+            atomic_overlay_write(self.overlay_text_path, text)
+            self._overlay_last_text = text  # 표시 문구가 같으면 불필요한 디스크 쓰기를 생략한다.
 
     def close(self):
         self._finish(screen=True)  # q로 종료해 MP4 인덱스까지 저장한다.

@@ -40,12 +40,12 @@ class Simulator:  # 수집 시작 전 시뮬레이터 설정만 담당한다.
     def state(self):  # 실제 위치와 상태를 읽는다.
         return MessageToDict(self.actor_call("GetActorState"), preserving_proto_field_name=True)  # 원래 필드 이름을 유지한다.
 
-    def setup(self, info, config, offset_m=0.0):  # 수집 경로 시작점으로 차량을 배치한다.
+    def setup(self, info, config, offset_m=0.0, *, hour=12, heading_offset_deg=0.0):  # 수집 경로 시작점으로 차량을 배치한다.
         import math  # 횡방향 초기 위치 변화를 계산한다.
         from morai import encode_control  # 검증한 UDP 제어 패킷을 사용한다.
         self.call("simulation.Simulation", "Resume", self.msg("morai_sim_api.Empty"))  # 시뮬레이션을 진행한다.
         self.call("environment.Environment", "SetWeather", self.msg("morai_sim_api.environment.Weather", type=0, instantly=True))  # 맑은 날이다.
-        self.call("environment.Environment", "SetTime", self.msg("morai_sim_api.environment.SimulationTime", hour=12, instantly=True))  # 낮 12시다.
+        self.call("environment.Environment", "SetTime", self.msg("morai_sim_api.environment.SimulationTime", hour=hour, instantly=True))
         self.actor_call("SetVehicleControlMode", "VehicleControlModeParam", mode=3)  # AV 외부 제어를 선택한다.
         self.actor_call("SetVehicleDynamicsSpeedLimit", "VehicleDynamicsSpeedLimit", speed_limiter=True, speed_limit=float(config["collection"]["speed_cap_kph"]), reset=False)  # 실험 속도 상한이다.
         self.actor_call("SetVelocity", "SetVelocityParam", velocity=0.0)  # 재배치 전 속도를 없앤다.
@@ -53,7 +53,7 @@ class Simulator:  # 수집 시작 전 시뮬레이터 설정만 담당한다.
         yaw = info["initial_yaw_deg_map"]  # 지도 기준 헤딩이다.
         x -= math.sin(math.radians(yaw)) * offset_m  # 초기 횡오프셋의 X 성분이다.
         y += math.cos(math.radians(yaw)) * offset_m  # 초기 횡오프셋의 Y 성분이다.
-        self.actor_call("SetTransform", "SetTransformParam", transform={"location": {"x": x, "y": y, "z": z}, "rotation": {"x": 0.0, "y": 0.0, "z": yaw}})  # 배치한다.
+        self.actor_call("SetTransform", "SetTransformParam", transform={"location": {"x": x, "y": y, "z": z}, "rotation": {"x": 0.0, "y": 0.0, "z": yaw + heading_offset_deg}})  # 배치한다.
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:  # 배치 후 노면에 정착시킨다.
             for _ in range(60):  # 약 1.2초 동안 정차를 유지한다.
                 sock.sendto(encode_control(0.0, 0.0, 1.0), (config["network"]["morai_ip"], config["control"]["host_port"]))  # 제동이다.

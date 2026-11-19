@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "network": {
+    "bind_ip": "0.0.0.0",
+    "morai_ip": "127.0.0.1"
+  },
+  "vehicle": {
+    "name": "Ioniq5",
+    "wheelbase_m": 3.0,
+    "max_wheel_angle_deg": 40.0
+  },
+  "camera_common": {
+    "width": 1280,
+    "height": 720,
+    "horizontal_fov_deg": 90.0,
+    "fps": 30,
+    "compression_ratio": 90
+  },
+  "cameras": {
+    "left": {
+      "morai_name": "Camera_2",
+      "destination_port": 9096,
+      "host_port": 9196,
+      "xyz_m": [
+        2.6,
+        0.4,
+        1.18
+      ],
+      "rpy_deg": [
+        0.0,
+        2.0,
+        30.0
+      ]
+    },
+    "center": {
+      "morai_name": "Camera_4",
+      "destination_port": 9105,
+      "host_port": 9205,
+      "xyz_m": [
+        2.6,
+        0.0,
+        1.18
+      ],
+      "rpy_deg": [
+        0.0,
+        2.0,
+        0.0
+      ]
+    },
+    "right": {
+      "morai_name": "Camera_3",
+      "destination_port": 9097,
+      "host_port": 9197,
+      "xyz_m": [
+        2.6,
+        -0.4,
+        1.18
+      ],
+      "rpy_deg": [
+        0.0,
+        2.0,
+        -30.0
+      ]
+    }
+  },
+  "ego": {
+    "destination_port": 9301,
+    "host_port": 9300,
+    "hz": 50
+  },
+  "control": {
+    "host_port": 9093,
+    "destination_port": 9094,
+    "hz": 50
+  },
+  "commands": {
+    "follow_road": 0,
+    "left": 1,
+    "straight": 2,
+    "right": 3
+  },
+  "paths": {
+    "route_plan": "routes/experiments/east_outer_data_v1/plan.json",
+    "raw_data": "data/raw",
+    "prepared_data": "data/prepared",
+    "runs": "runs",
+    "checkpoints": "checkpoints"
+  },
+  "collection": {
+    "speed_cap_kph": 20.0,
+    "noise_enabled": false,
+    "max_ego_age_s": 0.2
+  },
+  "quality": {
+    "max_pair_delta_ms": 25.0,
+    "max_interpolation_gap_ms": 50.0
+  }
+}

@@ -12,7 +12,8 @@ try:
 except ImportError:
     from summarize_training import BASE, file_hash, read_json, require_close
 
-COURSES = ("U2", "J_straight", "J_left", "J_right", "COMPETITION")  # 구간 시험 4개와 대회 경로 연속 시연이다.
+COURSES = ("U2", "J_straight", "J_left", "J_right", "COMPETITION", "COMPETITION_REVERSE")
+DEFAULT_COURSES = COURSES[:4] + ("COMPETITION_REVERSE",)  # 현재 공개 목록은 구간 시험 4개와 돌아오는 연속 주행이다.
 
 
 def resolve_path(value, base):
@@ -136,9 +137,10 @@ def summarize_runs(run_folders, output_folder, base=BASE):
     matplotlib.use("Agg")  # 화면 창 없이 실제 좌표 그래프를 저장한다.
     from matplotlib import pyplot as plt
 
-    figure, axes = plt.subplots(1, 5, figsize=(19, 4.8))
+    plot_courses = COURSES if all(key in courses for key in COURSES[-2:]) else (COURSES[:5] if "COMPETITION" in courses else DEFAULT_COURSES)
+    figure, axes = plt.subplots(1, len(plot_courses), figsize=(3.8 * len(plot_courses), 4.8))
     by_course = {trial["row"]["course"]: trial for trial in trials}
-    for axis, course in zip(axes, COURSES):
+    for axis, course in zip(axes, plot_courses):
         trial = by_course.get(course)
         if trial is None:
             axis.set_title(course + "\nNot provided")
@@ -165,7 +167,7 @@ def summarize_runs(run_folders, output_folder, base=BASE):
 
     report = {
         "status": "completed", "evaluation_scope": "four held-out road trials and a competition-route demonstration with training-road overlap; no new-town or repeated-trial success-rate claim",
-        "trials": rows, "provided_courses": courses, "missing_courses": [course for course in COURSES if course not in courses],
+        "trials": rows, "provided_courses": courses, "missing_courses": [course for course in plot_courses if course not in courses],
         "trial_count": len(trials), "endpoint_completed_trials": sum(row["status"] == "completed" for row in rows),
         "checkpoint_sha256": rows[0]["checkpoint_sha256"], "epoch": rows[0]["epoch"],
         "collision_metric": None, "collision_note": "not instrumented; do not interpret endpoint completion as zero collisions",

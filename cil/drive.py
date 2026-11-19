@@ -1,6 +1,7 @@
 """CIL의 가운데 영상·속도·명령 기반 MORAI 주행과 실제 창 녹화.
 
-지도 좌표는 배치·진행 명령·평가에만 사용한다. Teacher 조향은 호출하지 않는다.
+기본 시험에서는 지도 좌표를 배치·진행 명령·평가에만 사용한다.
+--assist-east-outer-left는 첫 좌회전에서만 지도 조향을 쓰는 별도 진단이다.
 --check는 수신만, --describe는 시험 조건만 확인하며 --control부터 실제 제어한다.
 """
 
@@ -13,6 +14,8 @@ import json
 import math
 from pathlib import Path
 import shutil
+import subprocess
+import sys
 import threading
 import time
 import uuid
@@ -184,21 +187,39 @@ def wait_sensors(sensors, seconds=10.):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--course", choices=("U2", "J_straight", "J_left", "J_right", "COMPETITION"), default="U2")
+    east_outer_courses = ("EAST_OUTER", "EAST_OUTER_EXTENDED", "EAST_OUTER_MIDDLE_LEFT_RIGHT")
+    parser.add_argument("--course", choices=("U2", "J_straight", "J_left", "J_right", "COMPETITION",
+                                             "COMPETITION_REVERSE", *east_outer_courses,
+                                             "EAST_OUTER_EXTENDED_RIGHT"), default="U2")
     parser.add_argument("--checkpoint")
     parser.add_argument("--control", action="store_true")
     parser.add_argument("--reset", action="store_true")
     parser.add_argument("--record-screen", action="store_true")
+    parser.add_argument("--show-command", action="store_true", help="show the recorded command banner at the top of the live MORAI window")
     parser.add_argument("--describe", action="store_true")
     parser.add_argument("--check", action="store_true")
     parser.add_argument("--seconds", type=float, default=240.)
     parser.add_argument("--max-cte", type=float, default=7.)  # 사용자가 추종 경향을 볼 수 있도록 정한 중단 기준이다.
+    parser.add_argument("--speed-cap-kph", type=float,
+                        help="lower the speed cap for this evaluation run only")
     parser.add_argument("--device", choices=("auto", "cpu", "cuda"), default="auto")
     parser.add_argument("--output")
+    parser.add_argument("--assist-east-outer-left", action="store_true",
+                        help="diagnostic only: assist steering through the first EAST_OUTER left turn")
     args = parser.parse_args()
+    if args.assist_east_outer_left and (args.course not in east_outer_courses or not args.control
+                                       or args.check or args.describe or not args.output):
+        parser.error("left assist requires an EAST_OUTER course, --control, and a dedicated --output")
+    if args.show_command:
+        args.record_screen = True  # 실제 화면 녹화와 실시간 창이 같은 명령 원본을 사용한다.
     if not all(math.isfinite(v) and v > 0 for v in (args.seconds, args.max_cte)):
         parser.error("seconds and max-cte must be finite and positive")
     config = load_config()
+    if args.speed_cap_kph is not None:
+        default_cap = config["collection"]["speed_cap_kph"]
+        if not math.isfinite(args.speed_cap_kph) or not 1.0 < args.speed_cap_kph <= default_cap:
+            parser.error(f"--speed-cap-kph must be greater than 1 and at most {default_cap:g}")
+        config["collection"]["speed_cap_kph"] = args.speed_cap_kph
     if args.check:
         sensors = LatestSensors(config)
         try:
@@ -215,6 +236,18 @@ def main():
     reference = Reference(info)
     if info.get("route_sha256") and sha256(reference.path) != info["route_sha256"]:
         raise ValueError("evaluation route hash mismatch")
+    assist_route, assist_info = None, None
+    if args.assist_east_outer_left:
+        from collect import Route
+
+        turn = next(item for item in info["navigation"] if item["command"] == "left")
+        if turn["link_id"] != "A2256W000597":
+            raise ValueError("unexpected first left junction on EAST_OUTER")
+        assist_route = Route(reference.path)
+        assist_info = {"link_id": turn["link_id"], "mode": "pure_pursuit_steering_only",
+                       "start_s_m": turn["entry_s_m"] - 5., "end_s_m": turn["exit_s_m"] + 5.,
+                       "lookahead_m": assist_route.lookahead_m, "longitudinal_control": "CIL",
+                       "blend_in_m": 2., "blend_out_m": 1.5}
     if args.describe:
         print(json.dumps(info, ensure_ascii=False, indent=2))
         return 0
@@ -241,17 +274,29 @@ def main():
                 "map_use": "reset, categorical navigation and evaluation only; no map steering or speed profile",
                 "actuator_policy": "clip raw outputs; larger pedal wins; speed cap overrides; stop on endpoint/intervention",
                 "stall_timeout_s": 12., "completion_definition": "reference station reaches final1m while absCTE<max_cte; same endpoint condition as PilotNet; then brake",
-                "no_retraining": True, "collision_metric": "not instrumented"}
+                "no_retraining": True, "collision_metric": "not instrumented",
+                "screen_command_overlay": bool(args.record_screen),
+                "live_command_banner": args.show_command,
+                "screen_command_source": "same categorical command passed to the model; display only"}
+    if assist_info:
+        settings["steering_assist"] = assist_info
+        settings["map_use"] = "reset, categorical navigation, evaluation, and steering only in the declared assist interval"
     write_json(run / "settings.json", settings)
     for source in ("drive.py", "model.py", "dataset.py", "morai.py", "config.json"):
         (run / "software").mkdir(exist_ok=True)
         shutil.copy2(BASE / source, run / "software" / source)
+    shutil.copy2(BASE / "tools/recording.py", run / "software" / "recording.py")  # 명령 배너의 실제 구현도 보존한다.
+    if args.show_command:
+        shutil.copy2(BASE / "tools/live_command_banner.py", run / "software" / "live_command_banner.py")
+    if assist_info:
+        shutil.copy2(BASE / "collect.py", run / "software" / "collect.py")
 
-    sensors = screen = video = simulator = None
+    sensors = screen = video = simulator = live_banner = None
     status, error, rows = "not_started", None, []
     image, previous_stamp, last_command = None, None, None
     raw, applied = np.zeros(3), (0., 0., 1.)
     start = None
+    assist_started, assist_handoff = None, None
     try:
         if args.reset:
             simulator = Simulator()
@@ -265,12 +310,34 @@ def main():
             raise RuntimeError("MORAI must be in AV external control, D gear")
         write_json(run / "initial_state.json", dict(ego, route_s_m=station, cte_m=cte, heading_error_deg=heading))
         if args.record_screen:
-            screen = ScreenVideo(run / "morai_screen.mp4")
+            screen = ScreenVideo(run / "morai_screen.mp4", command_overlay=True)
+            initial_command = reference.command(station)
+            screen.update_command(initial_command, config["commands"][initial_command], 0., reason="ready", course=args.course)
+            write_json(run / "screen_recording.json", {"geometry": screen.geometry,
+                       "command_overlay": True, "source": "actual model navigation input",
+                       "input_image_modified": False, "update_hz": 20,
+                       "text_file": screen.overlay_text_path.name, "overlay_style": screen.overlay_style})
+            if args.show_command:
+                geometry = screen.geometry
+                ready = run / "live_command_banner.ready"
+                with (run / "live_command_banner.log").open("x", encoding="utf-8") as log:
+                    live_banner = subprocess.Popen([
+                        sys.executable, str(BASE / "tools/live_command_banner.py"),
+                        "--text-file", str(screen.overlay_text_path), "--ready-file", str(ready),
+                        "--x", str(geometry["x"]), "--y", str(geometry["y"]), "--width", str(geometry["width"]),
+                    ], stdin=subprocess.DEVNULL, stdout=log, stderr=subprocess.STDOUT)
+                deadline = time.monotonic() + 3.0
+                while not ready.exists():
+                    if live_banner.poll() is not None or time.monotonic() >= deadline:
+                        raise RuntimeError("live command banner did not start; see live_command_banner.log")
+                    time.sleep(.02)
         video = Video(run / "center_camera.mp4", 1280, 720, 20)
         fields = ("elapsed_s", "ego_stamp_ns", "camera_stamp_ns", "x_m", "y_m", "yaw_deg", "speed_kph",
                   "route_s_m", "cte_m", "heading_error_deg", "command", "command_name",
                   "raw_steer", "raw_throttle", "raw_brake", "steer", "throttle", "brake",
                   "camera_age_s", "ego_age_s", "sensor_delta_s", "inference_ms", "new_frame", "reason")
+        if assist_info:
+            fields += ("steering_source", "steering_assist_weight")
         start, next_tick = time.monotonic(), time.monotonic()
         last_motion, motion_station = start, station
         last_print, stale_since, status = -1, None, "running"
@@ -289,6 +356,8 @@ def main():
                 command = config["commands"][name]
                 inference_ms, new_frame = None, False
                 reason = "model"
+                steering_source = "CIL"
+                assist_weight = 0.
                 if ego["ctrl_mode"] != 2 or ego["gear"] != 4:
                     raise RuntimeError("external control mode or D gear lost")
                 if age_ego > .20 or age_camera > .25 or delta > .25:
@@ -326,24 +395,53 @@ def main():
                     status = "intervention_stalled"
                 if status != "running":
                     applied, reason = (float(applied[0]), 0., 1.), status
+                    steering_source = "safety_stop"
+                elif reason in ("stale_sensor", "stale_inference"):
+                    steering_source = "safety_hold"
+                elif assist_info:
+                    progress = reference.progress
+                    if assist_info["start_s_m"] <= progress < assist_info["end_s_m"]:
+                        # Use the same local projection window and steering as the collection teacher.
+                        assist_route.progress = progress
+                        _, _, _, guide = assist_route.track(
+                            ego, config["vehicle"]["wheelbase_m"], config["vehicle"]["max_wheel_angle_deg"])
+                        assist_weight = min(1., (progress - assist_info["start_s_m"]) / assist_info["blend_in_m"],
+                                            (assist_info["end_s_m"] - progress) / assist_info["blend_out_m"])
+                        applied = (steer + assist_weight * (guide - steer), throttle, braking)
+                        steering_source = "map_assist"
+                        if assist_started is None:
+                            assist_started = dict(route_s_m=station, elapsed_s=time.monotonic() - start)
+                    elif progress >= assist_info["end_s_m"] and assist_started and not assist_handoff:
+                        assist_handoff = dict(route_s_m=station, elapsed_s=time.monotonic() - start,
+                                              cte_m=cte, heading_error_deg=heading)
                 sensors.client.send_control(*applied)
                 elapsed = time.monotonic() - start
+                overlay_reason = reason
+                if assist_info and steering_source == "map_assist":
+                    overlay_reason = "STEERING INTERVENTION ACTIVE"
+                elif assist_handoff and steering_source == "CIL":
+                    overlay_reason = "CIL RESUMED" if reason == "model" else "CIL RESUMED | SPEED CAP"
+                if screen is not None:
+                    screen.update_command(name, command, elapsed, reason=overlay_reason, course=args.course)
                 row = dict(zip(fields, (elapsed, ego["stamp_ns"], frame[0], ego["x_m"], ego["y_m"], ego["yaw_deg"], ego["speed_kph"],
                     station, cte, heading, command, name, *map(float, raw), *applied, age_camera, age_ego, delta,
                     inference_ms, int(new_frame), reason)))
+                if assist_info:
+                    row["steering_source"] = steering_source
+                    row["steering_assist_weight"] = assist_weight
                 writer.writerow(row)
                 rows.append(row)
                 if image is not None:
                     display = image.copy()
                     cv2.rectangle(display, (0, 0), (1280, 88), (15, 15, 15), -1)
-                    cv2.putText(display, f"CIL | {args.course} | {name} | {reason}", (15, 31), cv2.FONT_HERSHEY_SIMPLEX, .8, (255, 255, 255), 2)
+                    cv2.putText(display, f"CIL | {args.course} | {name} | {overlay_reason}", (15, 31), cv2.FONT_HERSHEY_SIMPLEX, .8, (255, 255, 255), 2)
                     cv2.putText(display, f"v={ego['speed_kph']:.1f} km/h  CTE={cte:+.2f} m  steer={applied[0]:+.3f}",
                                 (15, 66), cv2.FONT_HERSHEY_SIMPLEX, .75, (80, 230, 230), 2)
                     video.write(display)
                 if int(elapsed) != last_print:
                     last_print = int(elapsed)
                     stream.flush()
-                    print(f"{args.course} t={elapsed:.0f}s s={station:.1f}/{reference.s[-1]:.1f} cte={cte:+.3f} v={ego['speed_kph']:.1f} {name} {reason}", flush=True)
+                    print(f"{args.course} t={elapsed:.0f}s s={station:.1f}/{reference.s[-1]:.1f} cte={cte:+.3f} v={ego['speed_kph']:.1f} {name} {overlay_reason}", flush=True)
                 if status != "running":
                     break
                 next_tick += .05
@@ -373,6 +471,19 @@ def main():
                     recorder.close()
                 except Exception as exception:
                     cleanup_errors.append(name + ": " + str(exception))
+        if live_banner:
+            try:
+                if live_banner.poll() is None:
+                    live_banner.terminate()
+                    try:
+                        live_banner.wait(timeout=2.)
+                    except subprocess.TimeoutExpired:
+                        live_banner.kill()
+                        live_banner.wait(timeout=2.)
+                if live_banner.returncode not in (0, -15):
+                    cleanup_errors.append("live command banner exited with code " + str(live_banner.returncode))
+            except Exception as exception:
+                cleanup_errors.append("live command banner: " + str(exception))
         if simulator:
             try:
                 simulator.channel.close()
@@ -395,6 +506,11 @@ def main():
                    "collision_metric": None, "collision_note": "not instrumented; no zero-collision claim",
                    "evaluation_scope": info.get("evaluation_scope", "held-out roads on the same K-City map"),
                    "test_only": info.get("split") == "test", "used_for_training": False}
+        if assist_info:
+            summary["evaluation_scope"] = ("assisted_diagnostic_extended_route_with_training_proximity"
+                                           if "extension_proximity" in info else "assisted_diagnostic_on_held_out_road")
+            summary["steering_assist"] = dict(assist_info, start=assist_started, handoff=assist_handoff,
+                                              frames=sum(row["steering_source"] == "map_assist" for row in rows))
         write_json(run / "summary.json", summary)
         print("RESULT", run, json.dumps(summary, ensure_ascii=False), flush=True)
     return 0 if status == "completed" and not cleanup_errors else 1 if status == "failed" or cleanup_errors else 2

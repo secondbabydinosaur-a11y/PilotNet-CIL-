@@ -53,7 +53,11 @@ https://github.com/user-attachments/assets/6d53fb0e-0b20-41b6-929e-d573456649d6
 
 ## Point-to-point 주행
 
-이전 동쪽 외곽 경로 시연에서는 452.2 m 중 383.4 m 지점까지 진행했다. 초반 좌회전에서 Pure Pursuit로 조향을 한 차례 보조했고, 이후 좌회전에서 횡오차가 7 m를 넘어 종료됐다. 다음 시험에서는 연속 경로를 다시 주행하고, 이탈한 위치와 보조 개입이 필요했던 구간을 확인할 예정이다. [연속 주행 영상과 시험 기록](cil/results/README.md#point-to-point-주행)
+15km/h 조건에서 동쪽 외곽 경로 452.2m 중 431.7m(95.5%)까지 진행했다. 사전에 지정한 초반 좌회전 구간에서 조향 보조를 한 차례 적용했다. 이후 후반 좌회전은 CIL이 통과했고, 마지막 우회전에서 횡오차가 7m에 도달해 주행을 종료했다.
+
+https://github.com/user-attachments/assets/dcbf4f3f-254c-4136-8d31-e7a92845837a
+
+[주행 조건과 구간별 결과](cil/results/README.md#point-to-point-주행)
 
 ## 실행과 재현
 
