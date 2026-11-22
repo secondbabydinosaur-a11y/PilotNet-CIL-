@@ -76,7 +76,9 @@ https://github.com/user-attachments/assets/156c8f93-f8c0-4e34-8bc5-36f4f54151ac
 1. **급우회전과 복귀 보강.** 시험 경로 밖의 급우회전 정면 영상 1,288장과 Noise Injection으로 수집한 recovery data 304장으로 기존 우회전 장면 일부를 교체했다. 보강 장면을 우회전 샘플 안에서 더 자주 뽑았다. 재학습한 모델은 **기존 모델이 실패한 첫 우회전을 같은 20 km/h 상한에서 조향 보조 없이 통과했다.** 15 km/h와 20 km/h 주행 모두 약 173.1 m 지점의 직진 교차로에서 이탈했다.
 2. **직진 교차로 보강.** 다른 교차로의 진입·횡단·출구 장면과 recovery data를 합쳐 903장을 모았다. 이 영상으로 기존 직진 장면 일부를 교체하고 같은 방식으로 이어 학습했다. **같은 15 km/h 상한에서 진행 거리가 173.1 m에서 431.7 m로 258.6 m 늘었다.** 앞서 실패한 직진 교차로를 포함해 두 직진 교차로와 후반 좌회전을 지나 코스의 **95.5%**까지 진행했다.
 
-https://github.com/user-attachments/assets/d6fde611-3539-4ab5-a517-2aa1d2b0bbb3
+**최종 모델 주행 (2배속, 약 59초)**
+
+https://github.com/user-attachments/assets/09ff4530-aac9-40cc-8a8e-d570d66a26ad
 
 431.7 m 주행에서는 초반 좌회전에서 Pure Pursuit 조향 보조를 한 차례 적용했다. 이후 CIL로 조향을 넘겼고, 마지막 우회전에서 횡오차가 7 m에 도달해 종료했다. 같은 최종 모델도 20 km/h 상한에서는 첫 우회전에서 멈췄다. 처음과 마지막 주행 사이에 데이터 구성, 학습량, 속도 상한이 달랐다. [주행 조건과 구간별 결과](cil/results/README.md#point-to-point-주행) · [실행별 기록](cil/results/metrics/point_to_point.json)
 
