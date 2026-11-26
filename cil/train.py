@@ -16,8 +16,13 @@ import numpy as np  # 명령별 샘플 선택과 영상 증강의 난수를 관�
 import torch  # GPU 계산과 자동 미분을 사용한다.
 from torch.utils.data import DataLoader, Sampler  # 배치 로딩과 샘플 선택을 담당한다.
 
+from attention_model import AttentionCIL
 from dataset import BASE, CAMERAS, CROP, IMAGE_SIZE, SPEED_SCALE_KPH, CILDataset
+from distribution_model import DISTRIBUTION_ARCHITECTURES, DistributionCIL
 from model import CILModel  # 네가 작성한 신경망 구조를 가져온다.
+from ordinal_model import OrdinalCIL
+from turn_ordinal_model import TurnOrdinalCIL
+from path_model import PATH_SPEC, PathCIL
 
 
 class CommandBalancedBatchSampler(Sampler):
@@ -137,8 +142,14 @@ def run_epoch(model, loader, device, aux_weight, optimizer=None):
 
     total = 0  # 이번 epoch에서 실제 처리한 샘플 수다.
     total_loss = 0.0  # 전체 loss를 샘플 수로 가중합한다.
+    steering_loss = getattr(model, "steering_loss", None)
+    total_steering_loss = torch.zeros((), device=device) if steering_loss is not None else None
     absolute_error = torch.zeros(3, device=device)  # 제어값별 절댓값 오차 합이다.
     speed_error = torch.zeros((), device=device)  # 보조 속도 예측 오차 합이다.
+    has_path = isinstance(model, PathCIL)
+    if has_path:
+        path_error = torch.zeros((), device=device)
+        path_count = torch.zeros((), device=device)
     command_squared = torch.zeros(4, device=device)  # 명령별 제어 MSE 합이다.
     command_count = torch.zeros(4, device=device)  # 명령별 처리 샘플 수다.
     started = time.monotonic()  # 이번 학습 또는 검증 단계의 시작 시각이다.
@@ -153,11 +164,22 @@ def run_epoch(model, loader, device, aux_weight, optimizer=None):
             if training:
                 optimizer.zero_grad(set_to_none=True)  # 이전 배치의 gradient를 지운다.
 
-            output = model(image, speed, command)  # 각 샘플의 명령 branch를 선택한다.
+            output = model(image, speed, command)
             error = output["control"] - target  # 조향·가속·브레이크 예측 오차다.
             sample_mse = error.square().mean(dim=1)  # 샘플별 세 제어값의 평균 제곱 오차다.
             speed_mse = (output["pred_speed"] - speed).square().mean()  # 보조 출력 loss다.
             loss = sample_mse.mean() + aux_weight * speed_mse  # 최종 학습 목적함수다.
+            if steering_loss is not None:
+                steer_loss = steering_loss(output, target[:, 0])
+                loss = (error[:, 1:].square().sum(dim=1) + 0.10 * steer_loss).mean() / 3 + aux_weight * speed_mse
+                total_steering_loss += steer_loss.detach().sum()
+            if has_path:
+                delta = output["path"] - batch["path_target"].to(device, non_blocking=True)
+                mask = batch["path_valid"].to(device, non_blocking=True)[..., None]
+                count = 2 * mask.sum()
+                loss = loss + .30 * (delta.square() * mask).sum() / count.clamp_min(1)
+                path_error += (delta.detach().abs() * mask * model.distances[None, :, None]).sum()
+                path_count += count
 
             if not torch.isfinite(loss):  # NaN/Inf 가중치가 저장되는 것을 막는다.
                 raise RuntimeError("non-finite loss")
@@ -188,7 +210,7 @@ def run_epoch(model, loader, device, aux_weight, optimizer=None):
     control_mae = (absolute_error / total).cpu().tolist()  # 정규화 제어값의 MAE다.
     command_mse = (command_squared / command_count).cpu().tolist()  # 명령별 평균이다.
 
-    return {
+    metrics = {
         "loss": total_loss / total,  # 보조 속도 loss까지 포함한 평균이다.
         "control_mse": command_squared.sum().item() / total,  # 처리한 전체 샘플의 제어 MSE다.
         "mean_command_mse": sum(command_mse) / 4,  # 네 명령의 MSE를 같은 비중으로 평균한다.
@@ -199,6 +221,11 @@ def run_epoch(model, loader, device, aux_weight, optimizer=None):
         "seconds": time.monotonic() - started,  # 이번 단계의 소요 시간이다.
         **{f"command_{i}_mse": value for i, value in enumerate(command_mse)},
     }  # 학습 그래프를 붙잡지 않는 Python 숫자만 반환한다.
+    if total_steering_loss is not None:
+        metrics["steering_distribution_loss"] = total_steering_loss.item() / total
+    if has_path:
+        metrics["path_mae_m"] = path_error.item() / path_count.clamp_min(1).item()
+    return metrics
 
 
 def main():
@@ -215,6 +242,7 @@ def main():
     parser.add_argument("--seed", type=int, default=7)  # 난수 시작점이다.
     parser.add_argument("--train-csv", default="data/prepared/train.csv")  # 상대경로는 cil 기준이다.
     parser.add_argument("--val-csv", default="data/prepared/val.csv")  # 기존 Validation을 그대로 지정할 수 있다.
+    parser.add_argument("--data-root", help="alternate root for dataset images and capture metadata")
     parser.add_argument("--steps-per-epoch", type=int)  # 생략하면 기존의 ceil(데이터 수/배치 수)다.
     parser.add_argument("--cover-samples", action="store_true",
                         help="visit every sample of a command before starting its next shuffle")
@@ -223,9 +251,19 @@ def main():
     parser.add_argument("--focus-per-command", type=int, default=0,
                         help="per-batch slots reserved within each command represented in --focus-images")
     parser.add_argument("--resume-checkpoint", help="continue imitation learning from a CIL checkpoint")
+    parser.add_argument("--model", choices=("baseline", "attention", "path", "ordinal", "turn_ordinal", *DISTRIBUTION_ARCHITECTURES),
+                        default="baseline", help="choose the CIL conditioning and auxiliary outputs")
+    parser.add_argument("--center-only", action="store_true",
+                        help="use center-camera training samples for a matched comparison")
+    parser.add_argument("--cache-images", action="store_true", help="cache decoded RGB crops in RAM")
+    parser.add_argument("--paper-photometric", action="store_true",
+                        help="apply brightness, contrast and tone changes to cached training images")
     parser.add_argument("--name")  # 결과를 저장할 실행 이름이다.
     parser.add_argument("--device", choices=["auto", "cpu", "cuda"], default="auto")
     args = parser.parse_args()  # 명령줄 옵션을 읽는다.
+
+    if args.paper_photometric and not args.cache_images:
+        parser.error("photometric augmentation requires --cache-images")
 
     if (args.epochs < 1 or args.patience < 1 or args.workers < 0
             or (args.steps_per_epoch is not None and args.steps_per_epoch < 1)
@@ -256,13 +294,29 @@ def main():
 
     device_name = "cuda" if torch.cuda.is_available() else "cpu"  # 자동 선택 기준이다.
     device = torch.device(device_name if args.device == "auto" else args.device)
-    train_data = CILDataset(train_csv, split="train", cameras=CAMERAS, augment=True)
-    val_data = CILDataset(val_csv, split="val", cameras=("center",), augment=False)
+    dataset_type = CILDataset
+    ordinal_mode = args.model in ("ordinal", "turn_ordinal")
+    distribution_mode = ordinal_mode or args.model in DISTRIBUTION_ARCHITECTURES
+    attention_mode = args.model == "attention"
+    path_mode = args.model == "path"
+    if path_mode:
+        from path_labels import CILPathDataset
+        dataset_type = CILPathDataset
+    cameras = ("center",) if args.center_only else CAMERAS
+    data_root = Path(args.data_root).expanduser().resolve() if args.data_root else BASE
+    train_data = dataset_type(train_csv, split="train", cameras=cameras, augment=True, root_dir=data_root)
+    val_data = dataset_type(val_csv, split="val", cameras=("center",), augment=False, root_dir=data_root)
+    if args.cache_images:
+        from image_cache import CachedImages
+
+        print(f"Caching {len(train_data) + len(val_data)} images", flush=True)
+        train_data = CachedImages(train_data, args.workers, photometric=args.paper_photometric)
+        val_data = CachedImages(val_data, args.workers)
     focus_indices = []
     if args.focus_images is not None:
         focus_path = args.focus_images.expanduser().resolve()
         paths = {Path(line.strip()) for line in focus_path.read_text(encoding="utf-8").splitlines() if line.strip()}
-        paths = {path.resolve() if path.is_absolute() else (BASE / path).resolve() for path in paths}
+        paths = {path.resolve() if path.is_absolute() else (data_root / path).resolve() for path in paths}
         focus_indices = [index for index, (path, *_) in enumerate(train_data.samples) if path in paths]
         if not focus_indices or len(focus_indices) != len(paths):
             parser.error("--focus-images must contain paths from the training set")
@@ -275,13 +329,38 @@ def main():
         num_workers=args.workers,  # 이미지 로딩 프로세스 수다.
         pin_memory=device.type == "cuda",  # CPU→GPU 전송을 돕는다.
         worker_init_fn=seed_worker,  # worker별 영상 증강 난수를 설정한다.
+        persistent_workers=args.cache_images and args.workers > 0,
     )
+    if args.center_only:
+        # 모델의 추가 층 초기화가 학습 영상의 증강 난수까지 바꾸지 않게 분리한다.
+        loader_options["generator"] = torch.Generator().manual_seed(args.seed)
     train_loader = DataLoader(train_data, batch_sampler=sampler, **loader_options)
     val_loader = DataLoader(
         val_data, batch_size=args.batch_size, shuffle=False, **loader_options
     )  # validation은 중복 추출이나 증강 없이 전체를 한 번씩 평가한다.
 
-    model = CILModel().to(device)  # 신경망을 생성하고 GPU 또는 CPU에 올린다.
+    if ordinal_mode:
+        model_type = TurnOrdinalCIL if args.model == "turn_ordinal" else OrdinalCIL
+        model = model_type().to(device)
+    elif distribution_mode:
+        model = DistributionCIL(args.model).to(device)
+    elif attention_mode:
+        model = AttentionCIL().to(device)
+    elif path_mode:
+        model = PathCIL().to(device)
+    else:
+        model = CILModel().to(device)  # 기본 실행의 신경망은 그대로다.
+    variant_sources = []
+    if ordinal_mode:
+        variant_sources = ["distribution_model.py", "ordinal_model.py"]
+        if args.model == "turn_ordinal":
+            variant_sources.append("turn_ordinal_model.py")
+    elif distribution_mode:
+        variant_sources = ["distribution_model.py"]
+    elif attention_mode:
+        variant_sources = ["attention_model.py"]
+    elif path_mode:
+        variant_sources = ["path_model.py", "path_labels.py", "prepare.py"]
     dropout_counts = configure_dropout(model, args.conv_dropout, args.fc_dropout)
     optimizer = torch.optim.Adam(
         model.parameters(), lr=args.lr, weight_decay=args.weight_decay
@@ -291,10 +370,13 @@ def main():
         resume_path = (BASE / Path(args.resume_checkpoint).expanduser()).resolve()
         saved = torch.load(resume_path, map_location=device, weights_only=True)
         previous = saved["settings"]
+        if bool(previous.get("paper_photometric")) != args.paper_photometric:
+            parser.error("resume checkpoint must use the same photometric augmentation")
         fixed_options = ("lr", "weight_decay", "conv_dropout", "fc_dropout", "aux_weight")
         if previous["architecture"] != model.architecture or any(previous[key] != getattr(args, key) for key in fixed_options):
             parser.error("resume checkpoint must use the same CIL architecture and optimizer settings")
-        for filename in ("model.py", "dataset.py", "config.json"):
+        contract_files = ["model.py", "dataset.py", "config.json", *variant_sources]
+        for filename in contract_files:
             if previous["hashes"][filename] != file_hash(BASE / filename):
                 parser.error(f"resume checkpoint input contract differs: {filename}")
         model.load_state_dict(saved["model_state_dict"])
@@ -320,11 +402,17 @@ def main():
 
     software_dir = run_dir / "software"  # 학습 이후 코드가 바뀌어도 당시 코드를 보존한다.
     software_dir.mkdir()
-    for source in (Path(__file__), BASE / "dataset.py", BASE / "model.py", BASE / "config.json"):
+    source_paths = [Path(__file__), BASE / "dataset.py", BASE / "model.py", BASE / "config.json"]
+    variant_paths = [BASE / filename for filename in variant_sources]
+    source_paths += variant_paths
+    if args.cache_images:
+        source_paths.append(BASE / "image_cache.py")
+    for source in source_paths:
         shutil.copy2(source, software_dir / source.name)
 
     settings = {
         **vars(args), "name": name, "device": str(device),
+        "data_root": str(data_root),
         "focus_images": str(focus_path) if focus_indices else None,
         "focus_images_sha256": file_hash(focus_path) if focus_indices else None,
         "focus_sample_counts": [len(group) for group in sampler.focus_groups],
@@ -352,6 +440,13 @@ def main():
         },  # 입력 파일 이름이 달라도 기존 체크포인트의 train.csv/val.csv 키를 유지한다.
         "best_criterion": "minimum validation mean_command_mse",
     }  # 이후 평가와 실제 주행에도 사용할 설정을 남긴다.
+    if distribution_mode:
+        settings["steering_distribution"] = model.spec
+    if path_mode:
+        settings["predicted_path"] = PATH_SPEC
+    settings["hashes"].update({path.name: file_hash(path) for path in variant_paths})
+    if args.cache_images:
+        settings["hashes"]["image_cache.py"] = file_hash(BASE / "image_cache.py")
 
     with (run_dir / "settings.json").open("w", encoding="utf-8") as stream:
         json.dump(settings, stream, indent=2, ensure_ascii=False)  # 사람이 읽을 수 있게 저장한다.

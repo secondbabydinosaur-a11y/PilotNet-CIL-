@@ -1,0 +1,3741 @@
+{
+  "map": "R_KR_PR_Sangam_NoBuildings",
+  "link_set_sha256": "c81a05a1060acc70eb6e4a01ed322efd60fc1298b35e60afca9e5cbb01d3e5e7",
+  "route_selection_seed": 7,
+  "reserved_before_training": true,
+  "route_guard_m": 30.0,
+  "junction_filter": "signed turn agrees with the marked movement; sharp unmarked arcs excluded",
+  "test_reservations": {},
+  "routes": {
+    "test_two_rights": {
+      "split": "test",
+      "route_csv": "routes/experiments/sangam_distribution/test_two_rights.csv",
+      "route_sha256": "2999eeb49be9896d8ba8a75b27de2f2a9386ad1aafeeb8c06de19868eb5aa837",
+      "start_xyz_m": [
+        538.6849361922236,
+        -54.740746992564794,
+        0.6465965920218844
+      ],
+      "end_xyz_m": [
+        498.03067578446746,
+        -73.63527475902198,
+        0.41870921883682927
+      ],
+      "initial_yaw_deg_map": -31.44044685247306,
+      "length_m": 311.79421252446036,
+      "navigation": [
+        {
+          "link_id": "A219AS319651",
+          "entry_s_m": 151.52055573425605,
+          "exit_s_m": 177.109405283995,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -83.325,
+          "max_heading_change_5m_deg": 33.1
+        },
+        {
+          "link_id": "A219AS319636",
+          "entry_s_m": 237.57304732693993,
+          "exit_s_m": 265.2261152867358,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -100.656,
+          "max_heading_change_5m_deg": 45.07
+        }
+      ],
+      "source_links": [
+        "A219AS318189",
+        "A219AS318196",
+        "A219AS318438",
+        "A219AS318440",
+        "A219AS319651",
+        "A219AS318278",
+        "A219AS319636",
+        "A219AS318436"
+      ],
+      "other_split_min_distances_m": {
+        "val_mixed": 723.2450641378266,
+        "val_rights": 30.91728220375946,
+        "val_left": 31.747416213541197,
+        "train_01": 594.0687644230366,
+        "train_02": 212.82014627276484,
+        "train_03": 603.5812572375927,
+        "train_04": 814.3401611733199,
+        "train_05": 760.549865752446,
+        "train_06": 756.2056658623815,
+        "train_07": 497.132145941183,
+        "train_08": 476.7699502422369,
+        "train_09": 1220.4800234970671,
+        "train_10": 624.7623035313886,
+        "train_11": 1516.3069525180174,
+        "train_12": 152.70997716049254
+      },
+      "evaluation_scope": "geographically held-out Sangam roads"
+    },
+    "test_left_right": {
+      "split": "test",
+      "route_csv": "routes/experiments/sangam_distribution/test_left_right.csv",
+      "route_sha256": "18016be117ea3dcf5af0c71795164af6ae45d75076153692d6daf1d8061ab01e",
+      "start_xyz_m": [
+        1394.892085093051,
+        -952.7536061299413,
+        0.8699179837753459
+      ],
+      "end_xyz_m": [
+        1382.0659046412384,
+        -724.3327487416541,
+        2.053356992936752
+      ],
+      "initial_yaw_deg_map": 48.89315412877227,
+      "length_m": 358.7940673469279,
+      "navigation": [
+        {
+          "link_id": "A219AS319675",
+          "entry_s_m": 48.134401041780876,
+          "exit_s_m": 75.12760880812414,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left",
+          "measured_turn_deg": 90.107,
+          "max_heading_change_5m_deg": 35.19
+        },
+        {
+          "link_id": "A219AS319666",
+          "entry_s_m": 140.0318953080549,
+          "exit_s_m": 175.0239140929292,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -9.725,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319517",
+          "entry_s_m": 311.4383208897573,
+          "exit_s_m": 334.79406734692753,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -91.111,
+          "max_heading_change_5m_deg": 28.59
+        }
+      ],
+      "source_links": [
+        "A219AS318991",
+        "A219AS319675",
+        "A219AS319007",
+        "A219AS319666",
+        "A219AS319009",
+        "A219AS319011",
+        "A219AS319012",
+        "A219AS319015",
+        "A219AS319013",
+        "A219AS319517",
+        "A219AS319026"
+      ],
+      "other_split_min_distances_m": {
+        "val_mixed": 691.3330896169368,
+        "val_rights": 857.2517653196032,
+        "val_left": 1068.4200877176459,
+        "train_01": 1343.2947129763743,
+        "train_02": 875.151010003397,
+        "train_03": 1336.8727313933396,
+        "train_04": 271.93102918997937,
+        "train_05": 257.90582132705356,
+        "train_06": 541.423591922409,
+        "train_07": 361.30354000751515,
+        "train_08": 738.0948714635093,
+        "train_09": 1400.2872193139326,
+        "train_10": 262.1522145269532,
+        "train_11": 675.9033490068585,
+        "train_12": 1205.3572576359231
+      },
+      "evaluation_scope": "geographically held-out Sangam roads"
+    },
+    "test_sharp_right": {
+      "split": "test",
+      "route_csv": "routes/experiments/sangam_distribution/test_sharp_right.csv",
+      "route_sha256": "054385d993dc6f8c93c742f52f3a441eb2be71c2b802638dc8b1b479f5ec1d85",
+      "start_xyz_m": [
+        1454.7534730935554,
+        -889.7707227127256,
+        1.209250941802083
+      ],
+      "end_xyz_m": [
+        1492.720113718332,
+        -1002.3662391924877,
+        0.5267820870013566
+      ],
+      "initial_yaw_deg_map": 48.395865606784724,
+      "length_m": 282.46167340306454,
+      "navigation": [
+        {
+          "link_id": "A219AS319510",
+          "entry_s_m": 61.06535412364531,
+          "exit_s_m": 82.83849701620127,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -90.526,
+          "max_heading_change_5m_deg": 40.22
+        },
+        {
+          "link_id": "A219AS319686",
+          "entry_s_m": 223.99911869995668,
+          "exit_s_m": 258.46167340306465,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -17.698,
+          "max_heading_change_5m_deg": 17.94
+        }
+      ],
+      "source_links": [
+        "A219AS318994",
+        "A219AS319510",
+        "A219AS319038",
+        "A219AS319040",
+        "A219AS319033",
+        "A219AS319686",
+        "A219AS319042"
+      ],
+      "other_split_min_distances_m": {
+        "val_mixed": 804.917176388062,
+        "val_rights": 1059.1939829863109,
+        "val_left": 1270.8509513798933,
+        "train_01": 1512.1172402549992,
+        "train_02": 1046.8129112532329,
+        "train_03": 1505.7361473351377,
+        "train_04": 385.7121071571746,
+        "train_05": 370.9406952130306,
+        "train_06": 615.4080684508613,
+        "train_07": 563.241550797367,
+        "train_08": 887.503264825271,
+        "train_09": 1491.8189829699145,
+        "train_10": 390.9847281799052,
+        "train_11": 679.9781948836512,
+        "train_12": 1404.6070479307334
+      },
+      "evaluation_scope": "geographically held-out Sangam roads"
+    },
+    "val_mixed": {
+      "split": "validation",
+      "route_csv": "routes/experiments/sangam_distribution/val_mixed.csv",
+      "route_sha256": "85a1c91cf6636c71ede15536d2e4845bf976a7d8a3189d3693c920efde8ec599",
+      "start_xyz_m": [
+        123.90904961953524,
+        -135.85983674663393,
+        0.057035371423553125
+      ],
+      "end_xyz_m": [
+        202.63333299724195,
+        -325.59610058508025,
+        0.585348051213093
+      ],
+      "initial_yaw_deg_map": -37.74558425020478,
+      "length_m": 286.38949413741676,
+      "navigation": [
+        {
+          "link_id": "A219AS319795",
+          "entry_s_m": 95.19966779004271,
+          "exit_s_m": 143.1047760128004,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -92.872,
+          "max_heading_change_5m_deg": 26.19
+        },
+        {
+          "link_id": "A219AS319870",
+          "entry_s_m": 204.39592747323448,
+          "exit_s_m": 213.29016388292408,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 31.541,
+          "max_heading_change_5m_deg": 18.71
+        },
+        {
+          "link_id": "A219AS319871",
+          "entry_s_m": 213.29016388292408,
+          "exit_s_m": 230.11722231490938,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 80.592,
+          "max_heading_change_5m_deg": 25.37
+        },
+        {
+          "link_id": "A219AS319865",
+          "entry_s_m": 230.11722231490938,
+          "exit_s_m": 235.46148966104957,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 44.506,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319866",
+          "entry_s_m": 235.46148966104957,
+          "exit_s_m": 243.60736073307268,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 0.072,
+          "max_heading_change_5m_deg": 5.88
+        }
+      ],
+      "source_links": [
+        "A219AS318051",
+        "A219AS318056",
+        "A219AS318061",
+        "A219AS319795",
+        "A219AS318364",
+        "LN000065",
+        "A219AS319870",
+        "A219AS319871",
+        "A219AS319865",
+        "A219AS319866",
+        "A219AS318500",
+        "A219AS318502"
+      ],
+      "other_split_min_distances_m": {
+        "test_two_rights": 265.4907301947942,
+        "test_left_right": 1187.6963919708498,
+        "test_sharp_right": 1373.3527767801695,
+        "train_01": 244.8808703867485,
+        "train_02": 225.06286603298014,
+        "train_03": 260.41742792534217,
+        "train_04": 955.5644628409295,
+        "train_05": 905.3129746305409,
+        "train_06": 778.6147457840857,
+        "train_07": 801.7125708580788,
+        "train_08": 402.3784121289163,
+        "train_09": 962.5746271497771,
+        "train_10": 787.5153608787195,
+        "train_11": 1542.2948732395978,
+        "train_12": 162.3616477401531
+      }
+    },
+    "val_rights": {
+      "split": "validation",
+      "route_csv": "routes/experiments/sangam_distribution/val_rights.csv",
+      "route_sha256": "6a186265071beb4e6ba602bed3c166df8b516f802e365360438b3d757f0aa31d",
+      "start_xyz_m": [
+        625.7955377445893,
+        -107.98906808613883,
+        0.497047019779902
+      ],
+      "end_xyz_m": [
+        564.9782641838723,
+        -188.84076702081538,
+        0.49759693159462914
+      ],
+      "initial_yaw_deg_map": -31.3845442175939,
+      "length_m": 249.68802147305152,
+      "navigation": [
+        {
+          "link_id": "A219AS319545",
+          "entry_s_m": 60.18407619825736,
+          "exit_s_m": 93.75622022504234,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -99.277,
+          "max_heading_change_5m_deg": 32.31
+        },
+        {
+          "link_id": "A219AS319656",
+          "entry_s_m": 165.55706959987293,
+          "exit_s_m": 193.1365905160082,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -89.126,
+          "max_heading_change_5m_deg": 36.26
+        }
+      ],
+      "source_links": [
+        "A219AS318199",
+        "A219AS319545",
+        "A219AS318222",
+        "A219AS318226",
+        "A219AS319656",
+        "A219AS318274"
+      ],
+      "other_split_min_distances_m": {
+        "test_two_rights": 30.91728220375946,
+        "test_left_right": 857.2517653196032,
+        "test_sharp_right": 1059.1939829863109,
+        "train_01": 644.9647361095324,
+        "train_02": 212.2025459537173,
+        "train_03": 648.7166856842554,
+        "train_04": 715.3010607274712,
+        "train_05": 661.6776480904671,
+        "train_06": 676.9539244606142,
+        "train_07": 391.2975912032655,
+        "train_08": 437.40658077213226,
+        "train_09": 1203.3473227038653,
+        "train_10": 523.6354296550697,
+        "train_11": 1427.3021079159041,
+        "train_12": 275.05673650204193
+      },
+      "evaluation_scope": "validation"
+    },
+    "val_left": {
+      "split": "validation",
+      "route_csv": "routes/experiments/sangam_distribution/val_left.csv",
+      "route_sha256": "c41323459adf0a0276831e2d091bb554a1bb5274eecf0ccf17aa710f8d0b1c1d",
+      "start_xyz_m": [
+        518.1426635858512,
+        -30.535097395801237,
+        0.7739754908181334
+      ],
+      "end_xyz_m": [
+        407.5242621975444,
+        -101.01372294154166,
+        0.3881590582288854
+      ],
+      "initial_yaw_deg_map": 161.5032658730462,
+      "length_m": 281.23291446250164,
+      "navigation": [
+        {
+          "link_id": "A219AS319549",
+          "entry_s_m": 68.23213050861095,
+          "exit_s_m": 123.60926642916789,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left",
+          "measured_turn_deg": 80.62,
+          "max_heading_change_5m_deg": 22.84
+        },
+        {
+          "link_id": "A219AS319619",
+          "entry_s_m": 200.226656673309,
+          "exit_s_m": 240.26353673146673,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left",
+          "measured_turn_deg": 105.153,
+          "max_heading_change_5m_deg": 45.43
+        }
+      ],
+      "source_links": [
+        "A219AS318205",
+        "A219AS319549",
+        "A219AS318328",
+        "A219AS318332",
+        "A219AS319619",
+        "A219AS318292"
+      ],
+      "other_split_min_distances_m": {
+        "test_two_rights": 31.747416213541197,
+        "test_left_right": 1068.4200877176459,
+        "test_sharp_right": 1270.8509513798933,
+        "train_01": 545.2504196585148,
+        "train_02": 249.5837917886756,
+        "train_03": 560.2176215341788,
+        "train_04": 939.3771205898304,
+        "train_05": 885.8415648253562,
+        "train_06": 859.6484012881981,
+        "train_07": 601.9365555769875,
+        "train_08": 537.8162988171363,
+        "train_09": 1233.2425374969123,
+        "train_10": 746.930890367899,
+        "train_11": 1629.4369491928858,
+        "train_12": 31.355513409546734
+      },
+      "evaluation_scope": "validation"
+    },
+    "train_01": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/train_01.csv",
+      "route_sha256": "174804d720be6c3da1f05d7ea8adc8bc239af4ef564ee5e379309b9f133555b3",
+      "start_xyz_m": [
+        -14.036875414113336,
+        -473.2889339316273,
+        -1.4832386970704374
+      ],
+      "end_xyz_m": [
+        -169.03852151495548,
+        -609.4279944339883,
+        0.3748635688291985
+      ],
+      "initial_yaw_deg_map": -62.51393449132668,
+      "length_m": 279.2901828405787,
+      "navigation": [
+        {
+          "link_id": "A219AS319599",
+          "entry_s_m": 53.36042528015304,
+          "exit_s_m": 79.40290186115826,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -8.42,
+          "max_heading_change_5m_deg": 3.53
+        },
+        {
+          "link_id": "A219AS319602",
+          "entry_s_m": 85.36307467207497,
+          "exit_s_m": 118.15909373329218,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 0.765,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319604",
+          "entry_s_m": 141.57874503704167,
+          "exit_s_m": 163.68607316494544,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 0.162,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319423",
+          "entry_s_m": 197.95558401011928,
+          "exit_s_m": 255.29018284057858,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -89.394,
+          "max_heading_change_5m_deg": 25.23
+        }
+      ],
+      "source_links": [
+        "A219AS319233",
+        "A219AS319599",
+        "A219AS319402",
+        "A219AS319602",
+        "A219AS319230",
+        "A219AS319604",
+        "A219AS319228",
+        "A219AS319423",
+        "A219AS319341"
+      ],
+      "other_split_min_distances_m": {
+        "test_two_rights": 594.0687644230366,
+        "test_left_right": 1343.2947129763743,
+        "test_sharp_right": 1512.1172402549992,
+        "val_mixed": 697.8042418972921,
+        "val_rights": 644.9647361095324,
+        "val_left": 545.2504196585148
+      },
+      "evaluation_scope": "train"
+    },
+    "train_02": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/train_02.csv",
+      "route_sha256": "80eacc857ef55cc52354f7907705973cd685e45ba292fd4a18698fc97302bde3",
+      "start_xyz_m": [
+        453.1469140843341,
+        -585.4656584824758,
+        7.176706777474057
+      ],
+      "end_xyz_m": [
+        426.3818236103638,
+        -349.88409381998656,
+        0.6102216888512091
+      ],
+      "initial_yaw_deg_map": 104.33355039620687,
+      "length_m": 280.2710849194397,
+      "navigation": [
+        {
+          "link_id": "A219AS319874",
+          "entry_s_m": 87.74220740191934,
+          "exit_s_m": 97.40899703644395,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -0.71,
+          "max_heading_change_5m_deg": 12.87
+        },
+        {
+          "link_id": "A219AS319774",
+          "entry_s_m": 165.91777394268934,
+          "exit_s_m": 228.7247643704236,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left",
+          "measured_turn_deg": 89.403,
+          "max_heading_change_5m_deg": 19.69
+        }
+      ],
+      "source_links": [
+        "A219AS318552",
+        "LN000073",
+        "A219AS319874",
+        "A219AS318554",
+        "A219AS319774",
+        "A219AS318087",
+        "A219AS318093"
+      ],
+      "other_split_min_distances_m": {
+        "test_two_rights": 212.82014627276484,
+        "test_left_right": 875.151010003397,
+        "test_sharp_right": 1046.8129112532329,
+        "val_mixed": 328.506848673489,
+        "val_rights": 212.2025459537173,
+        "val_left": 249.5837917886756
+      },
+      "evaluation_scope": "train"
+    },
+    "train_03": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/train_03.csv",
+      "route_sha256": "727dacb9ad136a8258ec5eaf580352a499b7c2ceb81a558b9f4252cc0ec5b070",
+      "start_xyz_m": [
+        -202.0940009711291,
+        -601.1870318868802,
+        0.7825606177163301
+      ],
+      "end_xyz_m": [
+        -1.647341654046431,
+        -504.7027006151891,
+        -1.4435078899188372
+      ],
+      "initial_yaw_deg_map": -38.00735241644389,
+      "length_m": 296.49361347168394,
+      "navigation": [
+        {
+          "link_id": "A219AS319414",
+          "entry_s_m": 51.76403255993206,
+          "exit_s_m": 123.8123923967159,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left",
+          "measured_turn_deg": 89.919,
+          "max_heading_change_5m_deg": 21.59
+        },
+        {
+          "link_id": "A219AS319605",
+          "entry_s_m": 161.23403315588823,
+          "exit_s_m": 182.93739280294744,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 0.767,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319603",
+          "entry_s_m": 206.44058082064086,
+          "exit_s_m": 242.2265786222332,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -1.133,
+          "max_heading_change_5m_deg": 0.07
+        },
+        {
+          "link_id": "A219AS319600",
+          "entry_s_m": 242.2265786222332,
+          "exit_s_m": 272.4936134716836,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 9.568,
+          "max_heading_change_5m_deg": 4.14
+        }
+      ],
+      "source_links": [
+        "A219AS319379",
+        "A219AS319414",
+        "A219AS319227",
+        "A219AS319605",
+        "A219AS319225",
+        "A219AS319603",
+        "A219AS319600",
+        "A219AS319223"
+      ],
+      "other_split_min_distances_m": {
+        "test_two_rights": 603.5812572375927,
+        "test_left_right": 1336.8727313933396,
+        "test_sharp_right": 1505.7361473351377,
+        "val_mixed": 691.429758102702,
+        "val_rights": 648.7166856842554,
+        "val_left": 560.2176215341788
+      },
+      "evaluation_scope": "train"
+    },
+    "train_04": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/train_04.csv",
+      "route_sha256": "a4ae1b5b8d730474194122781869ce776f7e725eac8923580e39ff0c00f18e8b",
+      "start_xyz_m": [
+        1015.9993315920605,
+        -827.1329337030535,
+        10.023802548648401
+      ],
+      "end_xyz_m": [
+        934.6738685134045,
+        -1030.5842445426279,
+        26.68280900942567
+      ],
+      "initial_yaw_deg_map": -37.95726044736657,
+      "length_m": 281.46959554571254,
+      "navigation": [
+        {
+          "link_id": "A219AS319713",
+          "entry_s_m": 60.63162844532735,
+          "exit_s_m": 82.58942808721682,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -91.203,
+          "max_heading_change_5m_deg": 33.04
+        },
+        {
+          "link_id": "A219AS319797",
+          "entry_s_m": 135.16003145702868,
+          "exit_s_m": 151.73070191587826,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -12.25,
+          "max_heading_change_5m_deg": 0.0
+        }
+      ],
+      "source_links": [
+        "A219AS319055",
+        "A219AS319713",
+        "A219AS318831",
+        "A219AS318839",
+        "A219AS319797",
+        "A219AS318845"
+      ],
+      "other_split_min_distances_m": {
+        "test_two_rights": 814.3401611733199,
+        "test_left_right": 271.93102918997937,
+        "test_sharp_right": 385.7121071571746,
+        "val_mixed": 290.73306055370506,
+        "val_rights": 715.3010607274712,
+        "val_left": 939.3771205898304
+      },
+      "evaluation_scope": "train"
+    },
+    "train_05": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/train_05.csv",
+      "route_sha256": "05ab20aad63afcc54461fa49ba2375c5cbfb09fed363a1c0c31340c6e32dcde2",
+      "start_xyz_m": [
+        990.3819944877163,
+        -991.0167468968187,
+        23.106830327707407
+      ],
+      "end_xyz_m": [
+        982.9289825849012,
+        -784.6497807454552,
+        7.282771987370459
+      ],
+      "initial_yaw_deg_map": 49.84988009202972,
+      "length_m": 287.2195177195307,
+      "navigation": [
+        {
+          "link_id": "A219AS319798",
+          "entry_s_m": 62.1262689421272,
+          "exit_s_m": 78.71363001394936,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 0.104,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319714",
+          "entry_s_m": 129.36245706546666,
+          "exit_s_m": 174.41343499766523,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left",
+          "measured_turn_deg": 92.072,
+          "max_heading_change_5m_deg": 40.09
+        },
+        {
+          "link_id": "A219AS319718",
+          "entry_s_m": 236.19840303496647,
+          "exit_s_m": 263.21951771953064,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -0.801,
+          "max_heading_change_5m_deg": 0.0
+        }
+      ],
+      "source_links": [
+        "A219AS318813",
+        "A219AS319798",
+        "A219AS318817",
+        "A219AS318823",
+        "A219AS319714",
+        "A219AS319149",
+        "A219AS319152",
+        "A219AS319718",
+        "A219AS319157"
+      ],
+      "other_split_min_distances_m": {
+        "test_two_rights": 760.549865752446,
+        "test_left_right": 257.90582132705356,
+        "test_sharp_right": 370.9406952130306,
+        "val_mixed": 339.1398828925622,
+        "val_rights": 661.6776480904671,
+        "val_left": 885.8415648253562
+      },
+      "evaluation_scope": "train"
+    },
+    "train_06": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/train_06.csv",
+      "route_sha256": "4351cacf39ac92fdf0e623d184621bd297064a52def23d2b1949fb31bcbc1565",
+      "start_xyz_m": [
+        860.9400906806094,
+        -1051.3651458272511,
+        22.8546232630971
+      ],
+      "end_xyz_m": [
+        731.0307061207907,
+        -897.4677106756043,
+        3.6269334703908997
+      ],
+      "initial_yaw_deg_map": -176.97434922024226,
+      "length_m": 278.1851515993907,
+      "navigation": [
+        {
+          "link_id": "A219AS319801",
+          "entry_s_m": 91.47350878566778,
+          "exit_s_m": 109.29550143964916,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -6.982,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319805",
+          "entry_s_m": 133.65190620038584,
+          "exit_s_m": 149.05465485237957,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -19.528,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319810",
+          "entry_s_m": 186.41194708211398,
+          "exit_s_m": 226.3406251757534,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -89.745,
+          "max_heading_change_5m_deg": 39.07
+        }
+      ],
+      "source_links": [
+        "A219AS318849",
+        "A219AS318853",
+        "A219AS319801",
+        "A219AS318859",
+        "A219AS319805",
+        "A219AS318865",
+        "A219AS318871",
+        "A219AS319810",
+        "A219AS318661",
+        "A219AS318669"
+      ],
+      "other_split_min_distances_m": {
+        "test_two_rights": 756.2056658623815,
+        "test_left_right": 541.423591922409,
+        "test_sharp_right": 615.4080684508613,
+        "val_mixed": 36.09900714668694,
+        "val_rights": 676.9539244606142,
+        "val_left": 859.6484012881981
+      },
+      "evaluation_scope": "train"
+    },
+    "train_07": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/train_07.csv",
+      "route_sha256": "d7d9a0236097ef068108345382051cde9090cf5cd29e62fce7c11cd47d9692de",
+      "start_xyz_m": [
+        1001.8505886127842,
+        -388.80072539551145,
+        -0.41831822073746455
+      ],
+      "end_xyz_m": [
+        961.216358186791,
+        -601.2473961260903,
+        -1.9124899778876996
+      ],
+      "initial_yaw_deg_map": -38.70114504270688,
+      "length_m": 283.25721693470587,
+      "navigation": [
+        {
+          "link_id": "A219AS319526",
+          "entry_s_m": 92.90561411955122,
+          "exit_s_m": 124.3471198079423,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -88.784,
+          "max_heading_change_5m_deg": 25.12
+        },
+        {
+          "link_id": "A219AS319663",
+          "entry_s_m": 222.71877664830765,
+          "exit_s_m": 259.25721693470626,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 0.236,
+          "max_heading_change_5m_deg": 0.0
+        }
+      ],
+      "source_links": [
+        "A219AS318680",
+        "A219AS318686",
+        "A219AS319526",
+        "A219AS318690",
+        "A219AS319663",
+        "A219AS318696"
+      ],
+      "other_split_min_distances_m": {
+        "test_two_rights": 497.132145941183,
+        "test_left_right": 361.30354000751515,
+        "test_sharp_right": 563.241550797367,
+        "val_mixed": 465.31210126385054,
+        "val_rights": 391.2975912032655,
+        "val_left": 601.9365555769875
+      },
+      "evaluation_scope": "train"
+    },
+    "train_08": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/train_08.csv",
+      "route_sha256": "b411fbfae37d565141d98eeadd26a1871dda4d37d94dea690a6373538714280d",
+      "start_xyz_m": [
+        458.1377631774385,
+        -636.4431251897946,
+        7.464546730492234
+      ],
+      "end_xyz_m": [
+        575.28839694881,
+        -770.5934391506629,
+        4.76502920982922
+      ],
+      "initial_yaw_deg_map": -85.70308089300177,
+      "length_m": 292.173014710845,
+      "navigation": [
+        {
+          "link_id": "A219AS319843",
+          "entry_s_m": 52.803937915815744,
+          "exit_s_m": 80.850749292688,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -3.785,
+          "max_heading_change_5m_deg": 1.14
+        },
+        {
+          "link_id": "A219AS319832",
+          "entry_s_m": 187.96622090142674,
+          "exit_s_m": 244.55475503757285,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left",
+          "measured_turn_deg": 90.212,
+          "max_heading_change_5m_deg": 21.53
+        }
+      ],
+      "source_links": [
+        "A219AS318534",
+        "A219AS319843",
+        "A219AS318538",
+        "A219AS319832",
+        "A219AS318941",
+        "A219AS318944"
+      ],
+      "other_split_min_distances_m": {
+        "test_two_rights": 476.7699502422369,
+        "test_left_right": 738.0948714635093,
+        "test_sharp_right": 887.503264825271,
+        "val_mixed": 84.97521905920193,
+        "val_rights": 437.40658077213226,
+        "val_left": 537.8162988171363
+      },
+      "evaluation_scope": "train"
+    },
+    "train_09": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/train_09.csv",
+      "route_sha256": "a9169a99182b3c7dd50f3af55738eb54cd269bb176d9b7dfd7984f32c84d5fe7",
+      "start_xyz_m": [
+        11.966372094633833,
+        -1269.0980999747921,
+        13.380685782237745
+      ],
+      "end_xyz_m": [
+        -209.0870960668475,
+        -1498.7587536732733,
+        22.425162392760722
+      ],
+      "initial_yaw_deg_map": -126.71076776562741,
+      "length_m": 350.40170079923223,
+      "navigation": [
+        {
+          "link_id": "A2218C100008",
+          "entry_s_m": 80.69018206349142,
+          "exit_s_m": 134.30644417185746,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 0.391,
+          "max_heading_change_5m_deg": 0.48
+        },
+        {
+          "link_id": "A2218C100014",
+          "entry_s_m": 212.37198531285284,
+          "exit_s_m": 257.0249090550036,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -1.031,
+          "max_heading_change_5m_deg": 0.94
+        },
+        {
+          "link_id": "A2218C100041",
+          "entry_s_m": 294.5656113810866,
+          "exit_s_m": 326.40170079923206,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -90.527,
+          "max_heading_change_5m_deg": 28.68
+        }
+      ],
+      "source_links": [
+        "A2218C100001",
+        "A2218C100002",
+        "A2218C100008",
+        "A2218C100005",
+        "A2218C100004",
+        "A2218C100014",
+        "A2218C100015",
+        "A2218C100041",
+        "A2218C100042"
+      ],
+      "other_split_min_distances_m": {
+        "test_two_rights": 1220.4800234970671,
+        "test_left_right": 1400.2872193139326,
+        "test_sharp_right": 1491.8189829699145,
+        "val_mixed": 492.6505711268161,
+        "val_rights": 1203.3473227038653,
+        "val_left": 1233.2425374969123
+      },
+      "evaluation_scope": "train"
+    },
+    "train_10": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/train_10.csv",
+      "route_sha256": "cde55c7d28473592cd9568202588d4ed40364fa9700b00f45546233c990b518d",
+      "start_xyz_m": [
+        1066.8029930310195,
+        -841.1550597103325,
+        12.191010059676417
+      ],
+      "end_xyz_m": [
+        937.3723434011057,
+        -648.7197223645735,
+        -0.8977876656260732
+      ],
+      "initial_yaw_deg_map": 142.39393172953606,
+      "length_m": 289.32047336702385,
+      "navigation": [
+        {
+          "link_id": "A219AS319720",
+          "entry_s_m": 50.28696209597247,
+          "exit_s_m": 77.10598019839382,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -0.255,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319727",
+          "entry_s_m": 192.32735306227204,
+          "exit_s_m": 241.61955183090942,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -91.698,
+          "max_heading_change_5m_deg": 39.7
+        }
+      ],
+      "source_links": [
+        "A219AS319154",
+        "A219AS319720",
+        "A219AS319159",
+        "A219AS319163",
+        "A219AS319727",
+        "A219AS318792"
+      ],
+      "other_split_min_distances_m": {
+        "test_two_rights": 624.7623035313886,
+        "test_left_right": 262.1522145269532,
+        "test_sharp_right": 390.9847281799052,
+        "val_mixed": 344.91909925637947,
+        "val_rights": 523.6354296550697,
+        "val_left": 746.930890367899
+      },
+      "evaluation_scope": "train"
+    },
+    "train_11": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/train_11.csv",
+      "route_sha256": "3f941ee69188b363d72a47c300ae9650ae837d7ca3283d91789728d6eee51039",
+      "start_xyz_m": [
+        1115.9269616090571,
+        -1568.402692118256,
+        3.668445633123568
+      ],
+      "end_xyz_m": [
+        1002.2802866981474,
+        -1802.4584184512578,
+        3.0814193269210874
+      ],
+      "initial_yaw_deg_map": -127.41033428340275,
+      "length_m": 293.55963512423847,
+      "navigation": [
+        {
+          "link_id": "A219AS319476",
+          "entry_s_m": 48.20384934705955,
+          "exit_s_m": 101.67138647082588,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -0.033,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319462",
+          "entry_s_m": 214.56588094535692,
+          "exit_s_m": 269.5596351242385,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left",
+          "measured_turn_deg": 88.648,
+          "max_heading_change_5m_deg": 24.11
+        }
+      ],
+      "source_links": [
+        "A219AS318295",
+        "A219AS319476",
+        "A219AS318305",
+        "A219AS318317",
+        "A219AS318329",
+        "A219AS319462",
+        "A219AS318509"
+      ],
+      "other_split_min_distances_m": {
+        "test_two_rights": 1516.3069525180174,
+        "test_left_right": 675.9033490068585,
+        "test_sharp_right": 679.9781948836512,
+        "val_mixed": 702.3680220042181,
+        "val_rights": 1427.3021079159041,
+        "val_left": 1629.4369491928858
+      },
+      "evaluation_scope": "train"
+    },
+    "train_12": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/train_12.csv",
+      "route_sha256": "e34c84169cb3de69c09b40f1bac4ee9fd58315f725f98a9cee4831349343a2c7",
+      "start_xyz_m": [
+        323.39491776064574,
+        -57.33527273974342,
+        0.2819445981866492
+      ],
+      "end_xyz_m": [
+        382.1612108888939,
+        40.67739816915163,
+        0.8438261949530906
+      ],
+      "initial_yaw_deg_map": 159.52167513854675,
+      "length_m": 263.0883775334568,
+      "navigation": [
+        {
+          "link_id": "A219AS319613",
+          "entry_s_m": 67.60901695967151,
+          "exit_s_m": 90.81480318061716,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -112.588,
+          "max_heading_change_5m_deg": 28.19
+        },
+        {
+          "link_id": "A219AS319607",
+          "entry_s_m": 139.00252170754004,
+          "exit_s_m": 161.4811560158896,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -0.063,
+          "max_heading_change_5m_deg": 0.0
+        }
+      ],
+      "source_links": [
+        "A219AS318286",
+        "A219AS319613",
+        "A219AS318322",
+        "A219AS318324",
+        "A219AS319607",
+        "A219AS318308",
+        "A219AS318170",
+        "LN000074",
+        "A219AS318177"
+      ],
+      "other_split_min_distances_m": {
+        "test_two_rights": 152.70997716049254,
+        "test_left_right": 1205.3572576359231,
+        "test_sharp_right": 1404.6070479307334,
+        "val_mixed": 869.7677589340418,
+        "val_rights": 275.05673650204193,
+        "val_left": 31.355513409546734
+      },
+      "evaluation_scope": "train"
+    },
+    "right_broad": {
+      "split": "test",
+      "route_csv": "routes/experiments/sangam_distribution/right_broad.csv",
+      "route_sha256": "0d664c56d10778f9e463d7343d61d8e2880d190a9177ca53a0326b3924f3396e",
+      "start_xyz_m": [
+        -285.1806638283268,
+        -249.69453311035988,
+        -0.7581044694873517
+      ],
+      "end_xyz_m": [
+        -280.55904939510816,
+        -186.1750131342802,
+        -1.3047414119984075
+      ],
+      "initial_yaw_deg_map": 130.82841936043113,
+      "length_m": 85.63068775109065,
+      "navigation": [
+        {
+          "link_id": "A219AS319881",
+          "entry_s_m": 27.999999999999897,
+          "exit_s_m": 60.630687751090626,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -94.925,
+          "max_heading_change_5m_deg": 27.84
+        }
+      ],
+      "source_links": [
+        "A219AS319218",
+        "A219AS319881",
+        "A219AS319277"
+      ],
+      "evaluation_scope": "new geographically held-out Sangam turn-focused roads",
+      "minimum_distance_to_original_splits_m": 351.4447468300835,
+      "approach_and_exit_bend_5m_max_deg": 1.5738944072589658
+    },
+    "right_medium": {
+      "split": "test",
+      "route_csv": "routes/experiments/sangam_distribution/right_medium.csv",
+      "route_sha256": "2cf0233d329fed4fecb8db91557639959fb9ce8f3b6a424b1af117d87ae6cbd2",
+      "start_xyz_m": [
+        901.3088171402051,
+        -299.61713427755876,
+        0.9650397866553589
+      ],
+      "end_xyz_m": [
+        903.0800012180316,
+        -363.2741473810737,
+        0.5332434907047764
+      ],
+      "initial_yaw_deg_map": -43.98715375722671,
+      "length_m": 82.5476410303861,
+      "navigation": [
+        {
+          "link_id": "A219AS319534",
+          "entry_s_m": 27.99999999999992,
+          "exit_s_m": 57.54764103038602,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -87.417,
+          "max_heading_change_5m_deg": 30.38
+        }
+      ],
+      "source_links": [
+        "A219AS318676",
+        "A219AS319534",
+        "A219AS318842"
+      ],
+      "evaluation_scope": "new geographically held-out Sangam turn-focused roads",
+      "minimum_distance_to_original_splits_m": 92.83917998946936,
+      "approach_and_exit_bend_5m_max_deg": 2.064561460631859
+    },
+    "regular_straight": {
+      "split": "test",
+      "route_csv": "routes/experiments/sangam_distribution/regular_straight.csv",
+      "route_sha256": "eb34e97b1b56b2a6de65d25f7aa14acd83e95c9f798d94274cedcec712e38796",
+      "start_xyz_m": [
+        595.0179429710926,
+        -102.61903406100839,
+        0.3021851483576427
+      ],
+      "end_xyz_m": [
+        437.59204409459164,
+        -290.27259385157464,
+        0.16807793605549157
+      ],
+      "initial_yaw_deg_map": -116.65957393690196,
+      "length_m": 245.00000000000014,
+      "navigation": [
+        {
+          "link_id": "A219AS319650",
+          "entry_s_m": 72.25494957168122,
+          "exit_s_m": 108.78384722463758,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 0.759,
+          "max_heading_change_5m_deg": 0.0
+        }
+      ],
+      "source_links": [
+        "A219AS318438",
+        "A219AS318440",
+        "A219AS319650",
+        "A219AS318444",
+        "A219AS318446",
+        "A219AS318450",
+        "A219AS318452",
+        "A219AS318456"
+      ],
+      "evaluation_scope": "regular Sangam P2P in the original long-test neighborhood",
+      "distance_from_original_start_m": 73.93062981847501,
+      "max_link_join_deg": 0.7176849027929014,
+      "closest_learning_frames_m": {
+        "train": 69.74979128047666,
+        "val": 31.243761284885505
+      }
+    },
+    "regular_two_rights": {
+      "split": "test",
+      "route_csv": "routes/experiments/sangam_distribution/regular_two_rights.csv",
+      "route_sha256": "377c46453e0e3387d1fd68a2fa04dc9459fd16b3e2c12b2be512cdd9130f63f0",
+      "start_xyz_m": [
+        415.2896599347028,
+        -170.54152882622952,
+        0.6154498231006946
+      ],
+      "end_xyz_m": [
+        450.176622334261,
+        -275.31756933933264,
+        0.23473207393320528
+      ],
+      "initial_yaw_deg_map": 50.10453040788108,
+      "length_m": 270.0000000000001,
+      "navigation": [
+        {
+          "link_id": "A219AS319632",
+          "entry_s_m": 42.00000000000003,
+          "exit_s_m": 66.49644751298749,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -80.143,
+          "max_heading_change_5m_deg": 30.49
+        },
+        {
+          "link_id": "A219AS319642",
+          "entry_s_m": 128.88174320501355,
+          "exit_s_m": 153.32929896962568,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -96.36,
+          "max_heading_change_5m_deg": 34.03
+        }
+      ],
+      "source_links": [
+        "A219AS318432",
+        "A219AS319632",
+        "A219AS318298",
+        "A219AS319642",
+        "A219AS318444",
+        "A219AS318446",
+        "A219AS318450",
+        "A219AS318452",
+        "A219AS318456"
+      ],
+      "evaluation_scope": "regular Sangam P2P in the original long-test neighborhood",
+      "distance_from_original_start_m": 169.22238408661514,
+      "max_link_join_deg": 13.393571127571036,
+      "closest_learning_frames_m": {
+        "train": 85.34314498965777,
+        "val": 53.739504116066456
+      }
+    },
+    "wide_candidate_1": {
+      "split": "test",
+      "route_csv": "routes/experiments/sangam_distribution/wide_candidate_1.csv",
+      "route_sha256": "677e2eaa1e2fd574adf4311b20670c44065eb8cfeb78910b7339d4d3c953514d",
+      "start_xyz_m": [
+        886.6395710637873,
+        -285.84469475324244,
+        0.8861254115403362
+      ],
+      "end_xyz_m": [
+        677.6574260555119,
+        -629.8057006381048,
+        0.9007801529280485
+      ],
+      "length_m": 451.74914763447833,
+      "initial_yaw_deg_map": -42.23011783362698,
+      "navigation": [
+        {
+          "link_id": "A219AS319534",
+          "entry_s_m": 48.12268453593995,
+          "exit_s_m": 77.67032556632604,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -87.417,
+          "max_heading_change_5m_deg": 30.38
+        },
+        {
+          "link_id": "A219AS319749",
+          "entry_s_m": 349.8917013935284,
+          "exit_s_m": 427.7491476344785,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 0.828,
+          "max_heading_change_5m_deg": 0.0
+        }
+      ],
+      "source_links": [
+        "A219AS318676",
+        "A219AS319534",
+        "A219AS318842",
+        "A219AS318848",
+        "LN000031",
+        "LN000026",
+        "A219AS318860",
+        "A219AS319749",
+        "A219AS318896"
+      ],
+      "evaluation_scope": "unseen ordinary roads with at least two lanes in each direction",
+      "lane_pairs_median": [
+        3.0,
+        3.0
+      ],
+      "share_probes_4_lanes": 1.0,
+      "max_join_deg": 8.127745030397172,
+      "separation_m": {
+        "train": 92.87853137628598,
+        "val": 238.32768727441143
+      },
+      "distance_from_original_start_m": 417.7097827429629
+    },
+    "wide_candidate_2": {
+      "split": "test",
+      "route_csv": "routes/experiments/sangam_distribution/wide_candidate_2.csv",
+      "route_sha256": "f605b3bd4576a61edbd39b9da7f5906b0a8e5354e9a3aad85036772617b92a8b",
+      "start_xyz_m": [
+        615.6265220225898,
+        -1009.9434598605623,
+        2.2411895687300336
+      ],
+      "end_xyz_m": [
+        581.1089937591923,
+        -1312.1104310913145,
+        1.2078161304941786
+      ],
+      "length_m": 369.737255260733,
+      "initial_yaw_deg_map": -130.28354976388619,
+      "navigation": [
+        {
+          "link_id": "A219AS319825",
+          "entry_s_m": 96.7862451843845,
+          "exit_s_m": 116.08521160409731,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -0.03,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319450",
+          "entry_s_m": 159.00382734450366,
+          "exit_s_m": 214.34184910357646,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left_unprotected",
+          "measured_turn_deg": 77.282,
+          "max_heading_change_5m_deg": 27.54
+        }
+      ],
+      "source_links": [
+        "A219AS318753",
+        "A219AS318757",
+        "A219AS318761",
+        "A219AS319825",
+        "A219AS318767",
+        "A219AS318771",
+        "A219AS319450",
+        "A219AS318433",
+        "A219AS318441"
+      ],
+      "evaluation_scope": "unseen ordinary roads with at least two lanes in each direction",
+      "lane_pairs_median": [
+        3.0,
+        3.0
+      ],
+      "share_probes_4_lanes": 1.0,
+      "max_join_deg": 1.0376878689701001,
+      "separation_m": {
+        "train": 90.798045007831,
+        "val": 780.5652176219361
+      },
+      "distance_from_original_start_m": 958.2965252469997
+    },
+    "wide_candidate_3": {
+      "split": "test",
+      "route_csv": "routes/experiments/sangam_distribution/wide_candidate_3.csv",
+      "route_sha256": "8a54247639338b34e1fdfc1018004eefac724dbf3fd0220e0805f8a15b3a38bb",
+      "start_xyz_m": [
+        1339.6386579534253,
+        -1019.5213711033429,
+        2.2460702183323145
+      ],
+      "end_xyz_m": [
+        1598.1978144756906,
+        -914.1017568159547,
+        2.2800544278330697
+      ],
+      "length_m": 367.8428532323938,
+      "initial_yaw_deg_map": 47.98613845279142,
+      "navigation": [
+        {
+          "link_id": "A219AS319698",
+          "entry_s_m": 50.625928050455016,
+          "exit_s_m": 83.23766204539649,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 0.271,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319677",
+          "entry_s_m": 134.74181805031682,
+          "exit_s_m": 163.7500696188323,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -0.019,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319510",
+          "entry_s_m": 234.52209556015396,
+          "exit_s_m": 256.2952384527099,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -90.526,
+          "max_heading_change_5m_deg": 40.22
+        }
+      ],
+      "source_links": [
+        "A219AS318989",
+        "A219AS319698",
+        "A219AS318992",
+        "A219AS319677",
+        "A219AS318994",
+        "A219AS319510",
+        "A219AS319038",
+        "A219AS319039",
+        "A219AS319035"
+      ],
+      "evaluation_scope": "unseen ordinary roads with at least two lanes in each direction",
+      "lane_pairs_median": [
+        2.0,
+        2.0
+      ],
+      "share_probes_4_lanes": 0.9655172413793104,
+      "max_join_deg": 3.963057097685629,
+      "separation_m": {
+        "train": 293.235484161173,
+        "val": 1058.6899386303357
+      },
+      "distance_from_original_start_m": 1253.9252438094954
+    },
+    "wide_candidate_4": {
+      "split": "test",
+      "route_csv": "routes/experiments/sangam_distribution/wide_candidate_4.csv",
+      "route_sha256": "5cd715515d79e2637360ca7ed94d2067cec50cf57ffae9bff230025b9d3c0e15",
+      "start_xyz_m": [
+        275.5916947733528,
+        116.8193513253768,
+        3.072219794224995
+      ],
+      "end_xyz_m": [
+        27.879102133885393,
+        -49.61309535083964,
+        -0.20627688000192912
+      ],
+      "length_m": 423.85689600442464,
+      "initial_yaw_deg_map": 148.52751019932992,
+      "navigation": [
+        {
+          "link_id": "A219AS319558",
+          "entry_s_m": 69.3059415664851,
+          "exit_s_m": 119.22129373735098,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left_unprotected",
+          "measured_turn_deg": 72.786,
+          "max_heading_change_5m_deg": 25.91
+        },
+        {
+          "link_id": "A219AS319571",
+          "entry_s_m": 347.8085093549054,
+          "exit_s_m": 384.2509145598009,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left",
+          "measured_turn_deg": 101.715,
+          "max_heading_change_5m_deg": 27.83
+        }
+      ],
+      "source_links": [
+        "A219AS318213",
+        "A219AS318217",
+        "A219AS319558",
+        "A219AS318014",
+        "A219AS318019",
+        "A219AS318025",
+        "A219AS318037",
+        "A219AS319571",
+        "A219AS318043",
+        "A219AS318045",
+        "A219AS318048"
+      ],
+      "evaluation_scope": "unseen ordinary roads with at least two lanes in each direction",
+      "lane_pairs_median": [
+        4.0,
+        4.0
+      ],
+      "share_probes_4_lanes": 0.9538461538461539,
+      "max_join_deg": 6.354474474870804,
+      "separation_m": {
+        "train": 71.43902578817324,
+        "val": 129.07801699173544
+      },
+      "distance_from_original_start_m": 314.08744167054823
+    },
+    "single_junction_wide_candidate_1": {
+      "split": "test",
+      "route_csv": "routes/experiments/sangam_distribution/single_junction_wide_candidate_1.csv",
+      "route_sha256": "57247fb78b625ad7a200247ff51d4bfb23c7f08b81b0b6ba34e5f99fbc24d9c7",
+      "start_xyz_m": [
+        868.5801966889256,
+        -269.5215024858901,
+        0.7017189114221983
+      ],
+      "end_xyz_m": [
+        799.7235826473443,
+        -485.8458504173581,
+        0.34137510001211985
+      ],
+      "length_m": 287.3461440100877,
+      "initial_yaw_deg_map": -42.29121142785675,
+      "navigation": [
+        {
+          "link_id": "A219AS319534",
+          "entry_s_m": 72.46581855689476,
+          "exit_s_m": 102.01345958728083,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -87.417,
+          "max_heading_change_5m_deg": 30.38
+        }
+      ],
+      "source_links": [
+        "A219AS318676",
+        "A219AS319534",
+        "A219AS318842",
+        "A219AS318848",
+        "LN000031",
+        "LN000026"
+      ],
+      "evaluation_scope": "unseen ordinary roads with at least two lanes in each direction",
+      "lane_pairs_median": [
+        3.0,
+        3.0
+      ],
+      "share_probes_4_lanes": 1.0,
+      "max_join_deg": 8.127745030397172,
+      "separation_m": {
+        "train": 92.87853137628598,
+        "val": 214.43120874280498
+      },
+      "distance_from_original_start_m": 393.6516935419819
+    },
+    "single_junction_wide_candidate_2": {
+      "split": "test",
+      "route_csv": "routes/experiments/sangam_distribution/single_junction_wide_candidate_2.csv",
+      "route_sha256": "1b18e09ca07482af3a834801147dcb08ef08dc30c3d92fcb136cc1722f7b78da",
+      "start_xyz_m": [
+        421.6982395347844,
+        -942.1777541793145,
+        2.7329089412984047
+      ],
+      "end_xyz_m": [
+        467.61240003019947,
+        -1141.552191743495,
+        0.5241869876583991
+      ],
+      "length_m": 272.65936996856385,
+      "initial_yaw_deg_map": -130.35673820399592,
+      "navigation": [
+        {
+          "link_id": "A219AS319439",
+          "entry_s_m": 81.77412619761532,
+          "exit_s_m": 138.8273229273999,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left_unprotected",
+          "measured_turn_deg": 92.819,
+          "max_heading_change_5m_deg": 18.6
+        }
+      ],
+      "source_links": [
+        "A219AS318924",
+        "A219AS319439",
+        "A219AS318411",
+        "A219AS318417",
+        "A219AS318425"
+      ],
+      "evaluation_scope": "unseen ordinary roads with at least two lanes in each direction",
+      "lane_pairs_median": [
+        3.0,
+        4.0
+      ],
+      "share_probes_4_lanes": 1.0,
+      "max_join_deg": 0.46491757951089224,
+      "separation_m": {
+        "train": 152.72814991459626,
+        "val": 664.3952076898628
+      },
+      "distance_from_original_start_m": 895.114701543548
+    },
+    "single_junction_wide_candidate_3": {
+      "split": "test",
+      "route_csv": "routes/experiments/sangam_distribution/single_junction_wide_candidate_3.csv",
+      "route_sha256": "b79bf65eb38727bf48a2d919712aef2271cfe2103a1e99026844094490860f62",
+      "start_xyz_m": [
+        1395.679399965901,
+        -956.629859690912,
+        0.8120868425535566
+      ],
+      "end_xyz_m": [
+        1600.1955743157566,
+        -915.6516454163972,
+        2.3388662160533973
+      ],
+      "length_m": 286.13366880255285,
+      "initial_yaw_deg_map": 48.38302704565473,
+      "navigation": [
+        {
+          "link_id": "A219AS319677",
+          "entry_s_m": 50.50415600492028,
+          "exit_s_m": 79.51240757343602,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -0.019,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319510",
+          "entry_s_m": 150.28443351475744,
+          "exit_s_m": 172.05757640731338,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -90.526,
+          "max_heading_change_5m_deg": 40.22
+        }
+      ],
+      "source_links": [
+        "A219AS318992",
+        "A219AS319677",
+        "A219AS318994",
+        "A219AS319510",
+        "A219AS319038",
+        "A219AS319039",
+        "A219AS319035"
+      ],
+      "evaluation_scope": "unseen ordinary roads with at least two lanes in each direction",
+      "lane_pairs_median": [
+        2.0,
+        2.0
+      ],
+      "share_probes_4_lanes": 1.0,
+      "max_join_deg": 3.963057097685629,
+      "separation_m": {
+        "train": 322.1839528752537,
+        "val": 1058.6899386303357
+      },
+      "distance_from_original_start_m": 1244.1235800926468
+    },
+    "single_junction_wide_candidate_4": {
+      "split": "test",
+      "route_csv": "routes/experiments/sangam_distribution/single_junction_wide_candidate_4.csv",
+      "route_sha256": "9a37c6cb570aeef4444726ee7ae3b3e7b6f2b0816acaef9d727ff06013a8efaf",
+      "start_xyz_m": [
+        66.76665257264632,
+        -75.32653768292535,
+        -0.17519908279988192
+      ],
+      "end_xyz_m": [
+        -170.92315752412753,
+        -102.48749703804563,
+        -1.154429900914404
+      ],
+      "length_m": 283.3671936793804,
+      "initial_yaw_deg_map": 142.35703479860103,
+      "navigation": [
+        {
+          "link_id": "A219AS319579",
+          "entry_s_m": 79.88504409786097,
+          "exit_s_m": 128.10125643974095,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left",
+          "measured_turn_deg": 71.387,
+          "max_heading_change_5m_deg": 29.21
+        }
+      ],
+      "source_links": [
+        "A219AS318153",
+        "A219AS318159",
+        "A219AS319579",
+        "A219AS319291",
+        "A219AS319286",
+        "A219AS319281"
+      ],
+      "evaluation_scope": "unseen ordinary roads with at least two lanes in each direction",
+      "lane_pairs_median": [
+        3.0,
+        4.0
+      ],
+      "share_probes_4_lanes": 1.0,
+      "max_join_deg": 1.4433184783989992,
+      "separation_m": {
+        "train": 192.31161296220859,
+        "val": 83.24716137426061
+      },
+      "distance_from_original_start_m": 472.36706192620494
+    },
+    "single_junction_wide_candidate_5": {
+      "split": "test",
+      "route_csv": "routes/experiments/sangam_distribution/single_junction_wide_candidate_5.csv",
+      "route_sha256": "46b67e65f3794c29b1e4186befb86db52f530451126cd6f04a323677898069f5",
+      "start_xyz_m": [
+        617.5744931467949,
+        -1007.6451528764725,
+        2.2709019695154384
+      ],
+      "end_xyz_m": [
+        542.1664837665721,
+        -1242.3603487130547,
+        0.9421100087565227
+      ],
+      "length_m": 292.86392507691824,
+      "initial_yaw_deg_map": -130.2835309083562,
+      "navigation": [
+        {
+          "link_id": "A219AS319825",
+          "entry_s_m": 99.79901907132871,
+          "exit_s_m": 119.09798549104153,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -0.03,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319450",
+          "entry_s_m": 162.01660123144788,
+          "exit_s_m": 217.35462299052068,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left_unprotected",
+          "measured_turn_deg": 77.282,
+          "max_heading_change_5m_deg": 27.54
+        }
+      ],
+      "source_links": [
+        "A219AS318753",
+        "A219AS318757",
+        "A219AS318761",
+        "A219AS319825",
+        "A219AS318767",
+        "A219AS318771",
+        "A219AS319450",
+        "A219AS318433",
+        "A219AS318441"
+      ],
+      "evaluation_scope": "unseen ordinary roads with at least two lanes in each direction",
+      "lane_pairs_median": [
+        3.0,
+        3.0
+      ],
+      "share_probes_4_lanes": 1.0,
+      "max_join_deg": 1.0376878689701001,
+      "separation_m": {
+        "train": 87.9116174244672,
+        "val": 778.2586433347565
+      },
+      "distance_from_original_start_m": 956.164404770148
+    },
+    "scale_train_01": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/scale_train_01.csv",
+      "route_sha256": "1f862bcaa12d5775c5b2e19c0856a6f6b9aae02e0119faeb1ab4b1e68c9d3892",
+      "start_xyz_m": [
+        1098.5279439797905,
+        -882.6257962919932,
+        12.354037308429746
+      ],
+      "end_xyz_m": [
+        1473.6715405668115,
+        -1106.295364671273,
+        1.6044457880438443
+      ],
+      "length_m": 473.3839383261304,
+      "initial_yaw_deg_map": -38.08022486387938,
+      "navigation": [
+        {
+          "link_id": "A219AS319703",
+          "entry_s_m": 73.0639958505245,
+          "exit_s_m": 106.82292841570307,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 0.023,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319490",
+          "entry_s_m": 401.223791385561,
+          "exit_s_m": 449.38393832613065,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left",
+          "measured_turn_deg": 90.683,
+          "max_heading_change_5m_deg": 31.05
+        }
+      ],
+      "source_links": [
+        "A219AS319056",
+        "A219AS319703",
+        "A219AS319059",
+        "A219AS319062",
+        "A219AS319068",
+        "A219AS319072",
+        "A219AS319074",
+        "A219AS319080",
+        "A219AS319490",
+        "A219AS319084"
+      ],
+      "min_planned_protected_distance_m": 35.297559345482775
+    },
+    "scale_train_02": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/scale_train_02.csv",
+      "route_sha256": "9e5e4cbac5bd4ebfe298909d4386ac551e1a9399a0537c166427ae229d56828c",
+      "start_xyz_m": [
+        953.5592119987365,
+        -614.9197324464396,
+        -1.643004426415874
+      ],
+      "end_xyz_m": [
+        751.9517110977816,
+        -1027.0902580691436,
+        12.170555881686962
+      ],
+      "length_m": 541.0703659466965,
+      "initial_yaw_deg_map": -130.25519477959236,
+      "navigation": [
+        {
+          "link_id": "A219AS319729",
+          "entry_s_m": 80.43195356402639,
+          "exit_s_m": 157.6810526591835,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -0.239,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319811",
+          "entry_s_m": 408.9934316341302,
+          "exit_s_m": 461.76796893567285,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left",
+          "measured_turn_deg": 90.238,
+          "max_heading_change_5m_deg": 19.26
+        },
+        {
+          "link_id": "A219AS319806",
+          "entry_s_m": 501.5289090633045,
+          "exit_s_m": 517.0703659466972,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -1.428,
+          "max_heading_change_5m_deg": 0.0
+        }
+      ],
+      "source_links": [
+        "A219AS318702",
+        "A219AS318708",
+        "A219AS319729",
+        "A219AS318701",
+        "A219AS318705",
+        "A219AS318709",
+        "A219AS318713",
+        "A219AS318721",
+        "A219AS318723",
+        "A219AS318731",
+        "A219AS319811",
+        "A219AS318799",
+        "A219AS318801",
+        "A219AS319806",
+        "A219AS318807"
+      ],
+      "min_planned_protected_distance_m": 78.51186874230388
+    },
+    "scale_train_03": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/scale_train_03.csv",
+      "route_sha256": "99948f69385760ad2140147e25c3aba6398aa3055c2433faec619a1df555ec30",
+      "start_xyz_m": [
+        185.17597346615963,
+        -889.518417961373,
+        0.9789138946034848
+      ],
+      "end_xyz_m": [
+        -83.20294543078013,
+        -627.472213593091,
+        -0.5739660590851191
+      ],
+      "length_m": 405.6108399501342,
+      "initial_yaw_deg_map": 142.13758320387078,
+      "navigation": [
+        {
+          "link_id": "A219AS319429",
+          "entry_s_m": 72.89377907986275,
+          "exit_s_m": 84.11570313947271,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 0.054,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319421",
+          "entry_s_m": 360.5636073210155,
+          "exit_s_m": 381.6108399501343,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -89.905,
+          "max_heading_change_5m_deg": 27.17
+        }
+      ],
+      "source_links": [
+        "A219AS319351",
+        "A219AS319429",
+        "A219AS319346",
+        "A219AS319349",
+        "A219AS319421",
+        "A219AS319226"
+      ],
+      "min_planned_protected_distance_m": 215.46068172694618
+    },
+    "scale_train_04": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/scale_train_04.csv",
+      "route_sha256": "0865af0d342f0a256e1975e3bab887d5a80ba58b213e5ae73cf5c4ec7e267379",
+      "start_xyz_m": [
+        601.6834334174716,
+        -262.61829191233977,
+        0.37212322007882354
+      ],
+      "end_xyz_m": [
+        658.3866335786033,
+        -541.6202590875207,
+        0.6557018503834526
+      ],
+      "length_m": 391.0331664358754,
+      "initial_yaw_deg_map": -130.11519762682502,
+      "navigation": [
+        {
+          "link_id": "A219AS319766",
+          "entry_s_m": 141.60598955711808,
+          "exit_s_m": 204.2007334444808,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left_unprotected",
+          "measured_turn_deg": 92.455,
+          "max_heading_change_5m_deg": 28.31
+        }
+      ],
+      "source_links": [
+        "A219AS318227",
+        "A219AS318231",
+        "A219AS318232",
+        "A219AS319766",
+        "A219AS318558",
+        "A219AS318566",
+        "A219AS318574",
+        "A219AS318580"
+      ],
+      "min_planned_protected_distance_m": 37.05579203448658
+    },
+    "scale_train_05": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/scale_train_05.csv",
+      "route_sha256": "336357022654681d7c862d8d9ed44e9c0ed0f3650d65b59b3d073c70770bbe89",
+      "start_xyz_m": [
+        -374.8667312830478,
+        -229.7307365464895,
+        -0.7840623260306124
+      ],
+      "end_xyz_m": [
+        -395.13511434915176,
+        -455.4035577957753,
+        0.7595385111046445
+      ],
+      "length_m": 377.75275520647625,
+      "initial_yaw_deg_map": -147.45398675080597,
+      "navigation": [
+        {
+          "link_id": "A219AS319413",
+          "entry_s_m": 164.97314935158144,
+          "exit_s_m": 214.72834434051325,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left",
+          "measured_turn_deg": 108.091,
+          "max_heading_change_5m_deg": 44.54
+        }
+      ],
+      "source_links": [
+        "A219AS319262",
+        "A219AS319259",
+        "A219AS319256",
+        "A219AS319252",
+        "A219AS319251",
+        "A219AS319413",
+        "A219AS319388",
+        "A219AS319310",
+        "A219AS319309",
+        "A219AS319200",
+        "A219AS319207"
+      ],
+      "min_planned_protected_distance_m": 67.16610130916145
+    },
+    "scale_train_06": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/scale_train_06.csv",
+      "route_sha256": "80c785f7014889720988c028ed6c58c98f65679cf0c49672ff1da621b1de7976",
+      "start_xyz_m": [
+        1310.4078037578972,
+        -651.6232201304377,
+        2.141111904533287
+      ],
+      "end_xyz_m": [
+        1031.52885286107,
+        -524.9536102864582,
+        -2.2024655896054677
+      ],
+      "length_m": 376.4535549286526,
+      "initial_yaw_deg_map": 138.24217768795899,
+      "navigation": [
+        {
+          "link_id": "A219AS319518",
+          "entry_s_m": 53.37247041066662,
+          "exit_s_m": 84.26880757943547,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 1.899,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319523",
+          "entry_s_m": 267.0663657952692,
+          "exit_s_m": 321.0154273878338,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left_unprotected",
+          "measured_turn_deg": 91.763,
+          "max_heading_change_5m_deg": 22.7
+        }
+      ],
+      "source_links": [
+        "A219AS318978",
+        "A219AS319518",
+        "A219AS318980",
+        "A219AS319523",
+        "A219AS318688"
+      ],
+      "min_planned_protected_distance_m": 66.64224280807716
+    },
+    "scale_train_07": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/scale_train_07.csv",
+      "route_sha256": "591c3982f1edd711049123b1995f8c94606f4282da4f766d5d45fe47f733bb22",
+      "start_xyz_m": [
+        396.34586807993423,
+        -315.1264466754542,
+        0.4152695556144438
+      ],
+      "end_xyz_m": [
+        324.8997093424735,
+        -116.06271103203868,
+        0.4943726795720267
+      ],
+      "length_m": 290.28471519657126,
+      "initial_yaw_deg_map": 142.31184788232875,
+      "navigation": [
+        {
+          "link_id": "A219AS319787",
+          "entry_s_m": 153.7633638454109,
+          "exit_s_m": 200.93213718282018,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -92.504,
+          "max_heading_change_5m_deg": 35.87
+        }
+      ],
+      "source_links": [
+        "A219AS318108",
+        "A219AS318115",
+        "A219AS318120",
+        "A219AS318128",
+        "A219AS318134",
+        "A219AS319787",
+        "A219AS318382",
+        "A219AS318388",
+        "A219AS318396"
+      ],
+      "min_planned_protected_distance_m": 43.52888109750402
+    },
+    "scale_train_08": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/scale_train_08.csv",
+      "route_sha256": "fda9159f3ecc233fee2d76d7c50a79a918f573949e86c4a2177364d8bc0b86e0",
+      "start_xyz_m": [
+        726.4701843896438,
+        -902.8052346368443,
+        3.581079953574105
+      ],
+      "end_xyz_m": [
+        1034.13800166502,
+        -841.2746616674085,
+        11.107527040503214
+      ],
+      "length_m": 426.49629114737604,
+      "initial_yaw_deg_map": 49.441664016963806,
+      "navigation": [
+        {
+          "link_id": "A219AS319740",
+          "entry_s_m": 206.3857790067322,
+          "exit_s_m": 254.75483974575874,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -87.772,
+          "max_heading_change_5m_deg": 26.53
+        },
+        {
+          "link_id": "A219AS319722",
+          "entry_s_m": 370.5551079278017,
+          "exit_s_m": 402.49629114737644,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 0.632,
+          "max_heading_change_5m_deg": 0.0
+        }
+      ],
+      "source_links": [
+        "A219AS318669",
+        "A219AS318673",
+        "A219AS318677",
+        "A219AS318687",
+        "A219AS318695",
+        "A219AS319740",
+        "A219AS319052",
+        "A219AS319051",
+        "A219AS319722",
+        "A219AS319055"
+      ],
+      "min_planned_protected_distance_m": 151.16110619999466
+    },
+    "scale_train_09": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/scale_train_09.csv",
+      "route_sha256": "69da5cc98d9abc6cc173e4cd070f430244be1f6bf91abe38b134ee5ee248377a",
+      "start_xyz_m": [
+        649.597858146064,
+        -514.4866796676533,
+        0.33162839486416806
+      ],
+      "end_xyz_m": [
+        589.6413401395729,
+        -296.7541574126073,
+        0.43476610017296835
+      ],
+      "length_m": 312.3690795693489,
+      "initial_yaw_deg_map": 142.17847393132715,
+      "navigation": [
+        {
+          "link_id": "A219AS319765",
+          "entry_s_m": 159.728724030697,
+          "exit_s_m": 202.27315453933844,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -92.184,
+          "max_heading_change_5m_deg": 32.73
+        }
+      ],
+      "source_links": [
+        "A219AS318622",
+        "A219AS318632",
+        "A219AS318646",
+        "A219AS318656",
+        "A219AS319765",
+        "A219AS318236",
+        "A219AS318240",
+        "A219AS318243"
+      ],
+      "min_planned_protected_distance_m": 73.16354313049695
+    },
+    "scale_train_10": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/scale_train_10.csv",
+      "route_sha256": "2a2f191525438683d20bf601f3abdaf6d142d445210ee067093aae38bec29f32",
+      "start_xyz_m": [
+        1284.6764726724496,
+        -1010.0395488548639,
+        5.313545315567245
+      ],
+      "end_xyz_m": [
+        922.0929489132564,
+        -666.8380262574532,
+        -0.27407220912668806
+      ],
+      "length_m": 541.3054304936887,
+      "initial_yaw_deg_map": 142.6518638959664,
+      "navigation": [
+        {
+          "link_id": "A219AS319702",
+          "entry_s_m": 118.355266565428,
+          "exit_s_m": 149.31780276873212,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 0.429,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319709",
+          "entry_s_m": 227.0887109681391,
+          "exit_s_m": 263.74780413292734,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -0.249,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319720",
+          "entry_s_m": 325.9728407587525,
+          "exit_s_m": 352.791858861174,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -0.255,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319727",
+          "entry_s_m": 468.013231725051,
+          "exit_s_m": 517.305430493688,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -91.698,
+          "max_heading_change_5m_deg": 39.7
+        }
+      ],
+      "source_links": [
+        "A219AS319130",
+        "A219AS319134",
+        "A219AS319138",
+        "A219AS319702",
+        "A219AS319146",
+        "A219AS319147",
+        "A219AS319709",
+        "A219AS319151",
+        "A219AS319154",
+        "A219AS319720",
+        "A219AS319159",
+        "A219AS319163",
+        "A219AS319727",
+        "A219AS318792"
+      ],
+      "min_planned_protected_distance_m": 55.7740689205906
+    },
+    "scale_train_11": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/scale_train_11.csv",
+      "route_sha256": "c55139883f061d4bb93da1b4c5f43fc026e23e346418f0c566464c0e51c0f46c",
+      "start_xyz_m": [
+        1160.9801504982436,
+        -1497.936280201636,
+        3.588237977294967
+      ],
+      "end_xyz_m": [
+        998.3772568237188,
+        -1807.4077227018645,
+        3.0599937834820725
+      ],
+      "length_m": 385.7979799773351,
+      "initial_yaw_deg_map": -126.95372718756842,
+      "navigation": [
+        {
+          "link_id": "A219AS319478",
+          "entry_s_m": 131.52039716531928,
+          "exit_s_m": 185.1197989939701,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -0.15,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319464",
+          "entry_s_m": 297.8299132323544,
+          "exit_s_m": 361.79797997733516,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left",
+          "measured_turn_deg": 87.681,
+          "max_heading_change_5m_deg": 19.09
+        }
+      ],
+      "source_links": [
+        "A219AS318287",
+        "A219AS318299",
+        "A219AS319478",
+        "A219AS318309",
+        "A219AS318321",
+        "A219AS318333",
+        "A219AS319464",
+        "A219AS318507"
+      ],
+      "min_planned_protected_distance_m": 510.68550746405305
+    },
+    "scale_train_12": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/scale_train_12.csv",
+      "route_sha256": "dbd2da8e1a4227f1d8b6bfc4c437fd6d1a907727e807f10c4d48b77dfb55aa26",
+      "start_xyz_m": [
+        907.2713237318493,
+        -684.4254312139518,
+        0.8228111478805337
+      ],
+      "end_xyz_m": [
+        1159.6562674420868,
+        -526.3965334581046,
+        1.315319742267891
+      ],
+      "length_m": 370.3956489924267,
+      "initial_yaw_deg_map": 49.80647462363279,
+      "navigation": [
+        {
+          "link_id": "A219AS319661",
+          "entry_s_m": 122.41069431292303,
+          "exit_s_m": 159.01774434228673,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -0.545,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319528",
+          "entry_s_m": 252.59064572105996,
+          "exit_s_m": 294.0747508551019,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -90.709,
+          "max_heading_change_5m_deg": 34.82
+        }
+      ],
+      "source_links": [
+        "A219AS318792",
+        "LN000029",
+        "A219AS318796",
+        "A219AS319661",
+        "A219AS318800",
+        "A219AS318806",
+        "A219AS319528",
+        "A219AS318961"
+      ],
+      "min_planned_protected_distance_m": 210.22210660467658
+    },
+    "scale_train_13": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/scale_train_13.csv",
+      "route_sha256": "59c23162bd67f6f6bd5300506e76275b1dfca6f22db82aa3244cd33f27c60366",
+      "start_xyz_m": [
+        819.5632554772625,
+        -1057.5967683332613,
+        19.204013142345335
+      ],
+      "end_xyz_m": [
+        1046.4080883320942,
+        -829.8033627767987,
+        11.541493529275485
+      ],
+      "length_m": 410.20684474459784,
+      "initial_yaw_deg_map": -11.609189860269888,
+      "navigation": [
+        {
+          "link_id": "A219AS319799",
+          "entry_s_m": 256.80913564262784,
+          "exit_s_m": 272.96427500988517,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 0.424,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319715",
+          "entry_s_m": 324.474329365858,
+          "exit_s_m": 375.2189478706699,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left",
+          "measured_turn_deg": 92.147,
+          "max_heading_change_5m_deg": 30.68
+        }
+      ],
+      "source_links": [
+        "A219AS318811",
+        "LN000034",
+        "A219AS318815",
+        "A219AS319799",
+        "A219AS318819",
+        "A219AS318825",
+        "A219AS319715",
+        "A219AS319150",
+        "A219AS319153"
+      ],
+      "min_planned_protected_distance_m": 208.07360234902785
+    },
+    "scale_train_14": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/scale_train_14.csv",
+      "route_sha256": "32116b40be6d6457034432819d9cb435ae4b9d4ddec534c467dc5d1f03ca4af1",
+      "start_xyz_m": [
+        454.4267440247352,
+        -629.2816962752439,
+        7.450194085327395
+      ],
+      "end_xyz_m": [
+        449.1098518429363,
+        -904.8853016905565,
+        3.804398007599239
+      ],
+      "length_m": 316.85917084871016,
+      "initial_yaw_deg_map": -83.57390373653027,
+      "navigation": [
+        {
+          "link_id": "A219AS319844",
+          "entry_s_m": 59.60477348911781,
+          "exit_s_m": 87.69712561434675,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -1.76,
+          "max_heading_change_5m_deg": 3.38
+        },
+        {
+          "link_id": "A219AS319834",
+          "entry_s_m": 197.67580354548303,
+          "exit_s_m": 240.98442397620067,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -89.88,
+          "max_heading_change_5m_deg": 28.82
+        }
+      ],
+      "source_links": [
+        "A219AS318536",
+        "A219AS319844",
+        "A219AS318540",
+        "A219AS319834",
+        "A219AS318918",
+        "A219AS318921",
+        "A219AS318923"
+      ],
+      "min_planned_protected_distance_m": 46.283080082503325
+    },
+    "scale_train_15": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/scale_train_15.csv",
+      "route_sha256": "7ed7b488c01ad7f1ae5d2cd7c6245351ada08328cf932a1d7f91e3837ed2b28c",
+      "start_xyz_m": [
+        -583.7835845911968,
+        -215.3023336770253,
+        -1.3785232086682544
+      ],
+      "end_xyz_m": [
+        -344.1873841719564,
+        -215.16496031699157,
+        -0.9253983753667067
+      ],
+      "length_m": 354.71386976256326,
+      "initial_yaw_deg_map": -74.40303761349416,
+      "navigation": [
+        {
+          "link_id": "A219AS319406",
+          "entry_s_m": 106.09498759088326,
+          "exit_s_m": 152.2487001095715,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left",
+          "measured_turn_deg": 86.155,
+          "max_heading_change_5m_deg": 20.91
+        }
+      ],
+      "source_links": [
+        "A219AS319401",
+        "A219AS319296",
+        "A219AS319295",
+        "A219AS319406",
+        "A219AS319245",
+        "A219AS319217",
+        "A219AS319216"
+      ],
+      "min_planned_protected_distance_m": 34.60279791117092
+    },
+    "scale_train_16": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/scale_train_16.csv",
+      "route_sha256": "38cfee6968da7f15e1d56438999423132114f5cbcc2f7453841f524fc7aab2e9",
+      "start_xyz_m": [
+        569.8858751270518,
+        -870.7471266142943,
+        4.685857861326656
+      ],
+      "end_xyz_m": [
+        834.2583474482948,
+        -669.9151337127505,
+        1.5725238847729817
+      ],
+      "length_m": 490.9643040780109,
+      "initial_yaw_deg_map": -41.63886522220315,
+      "navigation": [
+        {
+          "link_id": "A219AS319815",
+          "entry_s_m": 98.88896546500672,
+          "exit_s_m": 151.82675803411576,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left",
+          "measured_turn_deg": 89.929,
+          "max_heading_change_5m_deg": 23.28
+        },
+        {
+          "link_id": "A219AS319737",
+          "entry_s_m": 402.6784688118418,
+          "exit_s_m": 466.9643040780111,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left",
+          "measured_turn_deg": 92.706,
+          "max_heading_change_5m_deg": 15.43
+        }
+      ],
+      "source_links": [
+        "A219AS318783",
+        "A219AS318789",
+        "A219AS319815",
+        "A219AS318663",
+        "A219AS318665",
+        "A219AS318671",
+        "A219AS318679",
+        "A219AS318681",
+        "A219AS318689",
+        "A219AS319737",
+        "A219AS318714"
+      ],
+      "min_planned_protected_distance_m": 75.93742498726844
+    },
+    "scale_train_17": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/scale_train_17.csv",
+      "route_sha256": "1c9a29e122a2c8418be27adf524685e3e7effd8d69c66a5862b6d00507eba14a",
+      "start_xyz_m": [
+        500.27321272868073,
+        -806.4639681183152,
+        5.90168672615903
+      ],
+      "end_xyz_m": [
+        523.3086806044872,
+        -449.299379623839,
+        0.30618451685905057
+      ],
+      "length_m": 474.6113799571511,
+      "initial_yaw_deg_map": 140.0565085161284,
+      "navigation": [
+        {
+          "link_id": "A219AS319842",
+          "entry_s_m": 106.60884895905376,
+          "exit_s_m": 129.90415431109702,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 2.956,
+          "max_heading_change_5m_deg": 8.01
+        },
+        {
+          "link_id": "A219AS319845",
+          "entry_s_m": 211.92961261194728,
+          "exit_s_m": 233.71232426602924,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 5.046,
+          "max_heading_change_5m_deg": 3.98
+        },
+        {
+          "link_id": "A219AS319874",
+          "entry_s_m": 325.8951105439803,
+          "exit_s_m": 335.5619001785052,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -0.71,
+          "max_heading_change_5m_deg": 12.87
+        },
+        {
+          "link_id": "A219AS319776",
+          "entry_s_m": 404.0706770847505,
+          "exit_s_m": 450.61137995715114,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -90.471,
+          "max_heading_change_5m_deg": 30.26
+        }
+      ],
+      "source_links": [
+        "A219AS318542",
+        "A219AS318546",
+        "A219AS319842",
+        "A219AS318548",
+        "A219AS318550",
+        "A219AS319845",
+        "A219AS318552",
+        "LN000073",
+        "A219AS319874",
+        "A219AS318554",
+        "A219AS319776",
+        "A219AS318564"
+      ],
+      "min_planned_protected_distance_m": 141.2576599403759
+    },
+    "scale_train_18": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/scale_train_18.csv",
+      "route_sha256": "7dd5ab0d58c7cb6628246d780b861db7aea8b4ae2f2224d7622dbacf6a7dc4ea",
+      "start_xyz_m": [
+        1051.6013353650835,
+        -494.3008918557523,
+        -2.361782265797426
+      ],
+      "end_xyz_m": [
+        786.5882570553387,
+        -621.1467779203747,
+        0.7369568535514115
+      ],
+      "length_m": 374.5296612324407,
+      "initial_yaw_deg_map": -130.28617783794948,
+      "navigation": [
+        {
+          "link_id": "A219AS319663",
+          "entry_s_m": 79.48686944088752,
+          "exit_s_m": 116.02530972728599,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 0.236,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319731",
+          "entry_s_m": 235.93355263081213,
+          "exit_s_m": 282.95403801077856,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -88.332,
+          "max_heading_change_5m_deg": 23.61
+        }
+      ],
+      "source_links": [
+        "A219AS318690",
+        "A219AS319663",
+        "A219AS318696",
+        "LN000001",
+        "A219AS318704",
+        "A219AS318712",
+        "A219AS319731",
+        "A219AS318720",
+        "A219AS318728",
+        "A219AS318736"
+      ],
+      "min_planned_protected_distance_m": 77.62414266207219
+    },
+    "scale_train_19": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/scale_train_19.csv",
+      "route_sha256": "271f07d58d7b46f59ebee493be1240da7f1033ea91f82d21a6cc6ee70adf2bd3",
+      "start_xyz_m": [
+        342.61691970132114,
+        -296.94806734084034,
+        0.8404599674159814
+      ],
+      "end_xyz_m": [
+        605.0440424819352,
+        -268.84502350741536,
+        0.3298614931786013
+      ],
+      "length_m": 351.106801930244,
+      "initial_yaw_deg_map": -37.73783553370402,
+      "navigation": [
+        {
+          "link_id": "A219AS319769",
+          "entry_s_m": 145.3136451966197,
+          "exit_s_m": 209.80410343036002,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left",
+          "measured_turn_deg": 88.038,
+          "max_heading_change_5m_deg": 14.79
+        }
+      ],
+      "source_links": [
+        "A219AS318070",
+        "A219AS318076",
+        "A219AS318077",
+        "A219AS318082",
+        "A219AS319769",
+        "A219AS318237",
+        "A219AS318238",
+        "A219AS318241",
+        "A219AS318248"
+      ],
+      "min_planned_protected_distance_m": 41.657825972190786
+    },
+    "scale_train_20": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/scale_train_20.csv",
+      "route_sha256": "9c35920b3416a61366f1c20f72ec079d9f87f8c2a89cf97f51277e22b1444395",
+      "start_xyz_m": [
+        453.19606202226527,
+        -749.9574371624312,
+        6.5173050761901985
+      ],
+      "end_xyz_m": [
+        663.7784471542549,
+        -661.1285776498462,
+        1.7872348280109924
+      ],
+      "length_m": 318.8059072628914,
+      "initial_yaw_deg_map": -77.16909729188886,
+      "navigation": [
+        {
+          "link_id": "A219AS319832",
+          "entry_s_m": 73.6901996211856,
+          "exit_s_m": 130.27873375733162,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left",
+          "measured_turn_deg": 90.212,
+          "max_heading_change_5m_deg": 21.53
+        }
+      ],
+      "source_links": [
+        "A219AS318538",
+        "A219AS319832",
+        "A219AS318941",
+        "A219AS318944",
+        "A219AS318947",
+        "A219AS318950"
+      ],
+      "min_planned_protected_distance_m": 34.260015756772944
+    },
+    "scale_train_21": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/scale_train_21.csv",
+      "route_sha256": "e70ee7b558b50e20204f2414112d6ca7c8ca17813338a59a4b255ae7b3922e57",
+      "start_xyz_m": [
+        -308.11394142833507,
+        -523.119021643805,
+        0.8388844040202494
+      ],
+      "end_xyz_m": [
+        -1.647341654046431,
+        -504.7027006151891,
+        -1.4435078899188372
+      ],
+      "length_m": 428.5649788922258,
+      "initial_yaw_deg_map": -37.86350193264581,
+      "navigation": [
+        {
+          "link_id": "A219AS319414",
+          "entry_s_m": 183.8353979804728,
+          "exit_s_m": 255.88375781725668,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left",
+          "measured_turn_deg": 89.919,
+          "max_heading_change_5m_deg": 21.59
+        },
+        {
+          "link_id": "A219AS319605",
+          "entry_s_m": 293.3053985764289,
+          "exit_s_m": 315.0087582234882,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 0.767,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319603",
+          "entry_s_m": 338.51194624118176,
+          "exit_s_m": 374.2979440427745,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -1.133,
+          "max_heading_change_5m_deg": 0.07
+        },
+        {
+          "link_id": "A219AS319600",
+          "entry_s_m": 374.2979440427745,
+          "exit_s_m": 404.56497889222544,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 9.568,
+          "max_heading_change_5m_deg": 4.14
+        }
+      ],
+      "source_links": [
+        "A219AS319207",
+        "A219AS319380",
+        "A219AS319379",
+        "A219AS319414",
+        "A219AS319227",
+        "A219AS319605",
+        "A219AS319225",
+        "A219AS319603",
+        "A219AS319600",
+        "A219AS319223"
+      ],
+      "min_planned_protected_distance_m": 260.41742792552014
+    },
+    "scale_train_22": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/scale_train_22.csv",
+      "route_sha256": "64b1eae596d82e9fbe4dd3e7beca0291336c89c84dcaba2444f6eade16511e54",
+      "start_xyz_m": [
+        600.6347958263991,
+        -259.3308024598144,
+        0.360487464311721
+      ],
+      "end_xyz_m": [
+        302.9027232662413,
+        -242.6244093696379,
+        0.4268087962168019
+      ],
+      "length_m": 402.04294557554476,
+      "initial_yaw_deg_map": -129.76046801067707,
+      "navigation": [
+        {
+          "link_id": "A219AS319768",
+          "entry_s_m": 142.9129645532578,
+          "exit_s_m": 187.14152478827833,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -87.654,
+          "max_heading_change_5m_deg": 28.25
+        }
+      ],
+      "source_links": [
+        "A219AS318228",
+        "A219AS318230",
+        "A219AS318234",
+        "A219AS319768",
+        "A219AS318090",
+        "A219AS318096",
+        "A219AS318101",
+        "A219AS318108",
+        "A219AS318115",
+        "A219AS318120",
+        "A219AS318128"
+      ],
+      "min_planned_protected_distance_m": 34.60175061255883
+    },
+    "scale_train_23": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/scale_train_23.csv",
+      "route_sha256": "32449c114156c18f6cf94ac809e8eadd05cc4256eebe298a9b8a63bcd64a1fc2",
+      "start_xyz_m": [
+        1315.933383727622,
+        -1045.4665117148616,
+        3.1656621297469627
+      ],
+      "end_xyz_m": [
+        1527.9535865564244,
+        -1027.6146413941588,
+        1.155301024226286
+      ],
+      "length_m": 292.7482974738602,
+      "initial_yaw_deg_map": -22.482306435917916,
+      "navigation": [
+        {
+          "link_id": "A219AS319489",
+          "entry_s_m": 129.30609962890128,
+          "exit_s_m": 173.20318066855253,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left",
+          "measured_turn_deg": 90.694,
+          "max_heading_change_5m_deg": 32.29
+        }
+      ],
+      "source_links": [
+        "A219AS319073",
+        "A219AS319078",
+        "A219AS319079",
+        "A219AS319489",
+        "A219AS319083",
+        "A219AS319087",
+        "A219AS319091"
+      ],
+      "min_planned_protected_distance_m": 33.34147881508844
+    },
+    "scale_train_24": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/scale_train_24.csv",
+      "route_sha256": "7c2904a7286749a2f9360d1d5fd9804e4de484c6af622d763aa09fa4fc314c69",
+      "start_xyz_m": [
+        -69.37572872584018,
+        -1378.096293037925,
+        21.20668841194506
+      ],
+      "end_xyz_m": [
+        -279.3550758372068,
+        -1445.2692934514148,
+        24.636728888622603
+      ],
+      "length_m": 302.7067653438208,
+      "initial_yaw_deg_map": -126.8317767078526,
+      "navigation": [
+        {
+          "link_id": "A2218C100014",
+          "entry_s_m": 76.36648230985078,
+          "exit_s_m": 121.01940605200151,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -1.031,
+          "max_heading_change_5m_deg": 0.94
+        },
+        {
+          "link_id": "A2218C100041",
+          "entry_s_m": 158.56010837808452,
+          "exit_s_m": 190.3961977962305,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -90.527,
+          "max_heading_change_5m_deg": 28.68
+        }
+      ],
+      "source_links": [
+        "A2218C100005",
+        "A2218C100004",
+        "A2218C100014",
+        "A2218C100015",
+        "A2218C100041",
+        "A2218C100042"
+      ],
+      "min_planned_protected_distance_m": 542.0235014444801
+    },
+    "scale_train_25": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/scale_train_25.csv",
+      "route_sha256": "688a4d95ecb959eb24957b9e34a6b6c6ee8ad942d294ab819244858b5e020e65",
+      "start_xyz_m": [
+        1166.8541128523652,
+        -1496.6353058633385,
+        3.6345927453678795
+      ],
+      "end_xyz_m": [
+        1002.2802866981474,
+        -1802.4584184512578,
+        3.0814193269210874
+      ],
+      "length_m": 381.68180018452017,
+      "initial_yaw_deg_map": -118.45862845538895,
+      "navigation": [
+        {
+          "link_id": "A219AS319476",
+          "entry_s_m": 136.32601440734177,
+          "exit_s_m": 189.79355153110774,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -0.033,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319462",
+          "entry_s_m": 302.6880460056386,
+          "exit_s_m": 357.6818001845202,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left",
+          "measured_turn_deg": 88.648,
+          "max_heading_change_5m_deg": 24.11
+        }
+      ],
+      "source_links": [
+        "A219AS318291",
+        "A219AS318295",
+        "A219AS319476",
+        "A219AS318305",
+        "A219AS318317",
+        "A219AS318329",
+        "A219AS319462",
+        "A219AS318509"
+      ],
+      "min_planned_protected_distance_m": 507.43689831162834
+    },
+    "scale_train_26": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/scale_train_26.csv",
+      "route_sha256": "4464ebf08d531d1b5175f63da5e46d92e53ea3cb28baaf79449a9790761ffe6b",
+      "start_xyz_m": [
+        -24.889751515743214,
+        -459.56572758494167,
+        -1.487354311800764
+      ],
+      "end_xyz_m": [
+        -230.82921702830393,
+        -565.2698156518204,
+        0.5916320759609193
+      ],
+      "length_m": 373.1897519537679,
+      "initial_yaw_deg_map": -41.62180424116104,
+      "navigation": [
+        {
+          "link_id": "A219AS319599",
+          "entry_s_m": 70.96289937409688,
+          "exit_s_m": 97.00537595510217,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -8.42,
+          "max_heading_change_5m_deg": 3.53
+        },
+        {
+          "link_id": "A219AS319602",
+          "entry_s_m": 102.96554876601888,
+          "exit_s_m": 135.76156782723598,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 0.765,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319604",
+          "entry_s_m": 159.18121913098537,
+          "exit_s_m": 181.28854725888914,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 0.162,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319423",
+          "entry_s_m": 215.55805810406298,
+          "exit_s_m": 272.8926569345222,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -89.394,
+          "max_heading_change_5m_deg": 25.23
+        }
+      ],
+      "source_links": [
+        "A219AS319233",
+        "A219AS319599",
+        "A219AS319402",
+        "A219AS319602",
+        "A219AS319230",
+        "A219AS319604",
+        "A219AS319228",
+        "A219AS319423",
+        "A219AS319341",
+        "A219AS319337"
+      ],
+      "min_planned_protected_distance_m": 242.94961034497155
+    },
+    "scale_train_27": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/scale_train_27.csv",
+      "route_sha256": "6af2676b5e15c0d8efe4b213b60bda92cc27e71bb390476aa05f7946eaa8622b",
+      "start_xyz_m": [
+        428.114813287246,
+        -492.7401139505351,
+        2.3158299903774564
+      ],
+      "end_xyz_m": [
+        664.9560516086516,
+        -554.8359225773899,
+        0.500123676267126
+      ],
+      "length_m": 315.08410449715615,
+      "initial_yaw_deg_map": 79.33998884134724,
+      "navigation": [
+        {
+          "link_id": "A219AS319776",
+          "entry_s_m": 67.50877690624525,
+          "exit_s_m": 114.04947977864617,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -90.471,
+          "max_heading_change_5m_deg": 30.26
+        }
+      ],
+      "source_links": [
+        "A219AS318554",
+        "A219AS319776",
+        "A219AS318564",
+        "A219AS318572",
+        "A219AS318578",
+        "A219AS318584"
+      ],
+      "min_planned_protected_distance_m": 58.03608128825538
+    },
+    "scale_train_28": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/scale_train_28.csv",
+      "route_sha256": "568fedaba4fbc25741bb8aff8b76e728878dfa95e5fa66aa84c14a7a8a2a5500",
+      "start_xyz_m": [
+        637.0956664413036,
+        -516.9612252245944,
+        0.6548153325154726
+      ],
+      "end_xyz_m": [
+        430.43415225419534,
+        -472.78650195706473,
+        1.7504268426060732
+      ],
+      "length_m": 265.8526232410155,
+      "initial_yaw_deg_map": 142.1962157500923,
+      "navigation": [
+        {
+          "link_id": "A219AS319760",
+          "entry_s_m": 152.04725084282114,
+          "exit_s_m": 212.0952105652756,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left",
+          "measured_turn_deg": 89.897,
+          "max_heading_change_5m_deg": 19.9
+        }
+      ],
+      "source_links": [
+        "A219AS318616",
+        "A219AS318634",
+        "A219AS318636",
+        "A219AS318648",
+        "A219AS319760",
+        "A219AS318556"
+      ],
+      "min_planned_protected_distance_m": 103.77897087964996
+    },
+    "scale_train_29": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/scale_train_29.csv",
+      "route_sha256": "ec0eab31a77a9d1d8fd05f4add2ec89d897478fb6357c39132b5f4425de85dcb",
+      "start_xyz_m": [
+        974.0823345006869,
+        -781.573219214621,
+        6.664435380272765
+      ],
+      "end_xyz_m": [
+        690.6264802880694,
+        -925.9036372393174,
+        3.428797426471638
+      ],
+      "length_m": 397.3471281756668,
+      "initial_yaw_deg_map": 141.86345493205658,
+      "navigation": [
+        {
+          "link_id": "A219AS319723",
+          "entry_s_m": 82.65525941194458,
+          "exit_s_m": 147.78716284178813,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left",
+          "measured_turn_deg": 87.61,
+          "max_heading_change_5m_deg": 15.46
+        }
+      ],
+      "source_links": [
+        "A219AS319156",
+        "A219AS319160",
+        "A219AS319723",
+        "A219AS318701",
+        "A219AS318705",
+        "A219AS318709",
+        "A219AS318713",
+        "A219AS318717",
+        "A219AS318725",
+        "A219AS318733"
+      ],
+      "min_planned_protected_distance_m": 109.627862351872
+    },
+    "scale_train_30": {
+      "split": "train",
+      "route_csv": "routes/experiments/sangam_distribution/scale_train_30.csv",
+      "route_sha256": "6d5743ed900df3b7e2e47840ab917ff6ae05cdce9605e897fa8b24a5f525acee",
+      "start_xyz_m": [
+        428.2099970221254,
+        -492.2344339916392,
+        2.2920080135651433
+      ],
+      "end_xyz_m": [
+        290.32071609406273,
+        -244.7009075468695,
+        0.7143193988102199
+      ],
+      "length_m": 353.3248187041906,
+      "initial_yaw_deg_map": 79.33998884134844,
+      "navigation": [
+        {
+          "link_id": "A219AS319774",
+          "entry_s_m": 66.99421674045847,
+          "exit_s_m": 129.8012071681925,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left",
+          "measured_turn_deg": 89.403,
+          "max_heading_change_5m_deg": 19.69
+        }
+      ],
+      "source_links": [
+        "A219AS318554",
+        "A219AS319774",
+        "A219AS318087",
+        "A219AS318093",
+        "A219AS318098",
+        "A219AS318105",
+        "A219AS318111",
+        "A219AS318117",
+        "A219AS318125"
+      ],
+      "min_planned_protected_distance_m": 53.9856902028745
+    },
+    "arterial_right_straight": {
+      "split": "test",
+      "route_csv": "routes/experiments/sangam_distribution/arterial_right_straight.csv",
+      "route_sha256": "677e2eaa1e2fd574adf4311b20670c44065eb8cfeb78910b7339d4d3c953514d",
+      "start_xyz_m": [
+        886.6395710637873,
+        -285.84469475324244,
+        0.8861254115403362
+      ],
+      "end_xyz_m": [
+        677.6574260555119,
+        -629.8057006381048,
+        0.9007801529280485
+      ],
+      "length_m": 451.74914763447833,
+      "initial_yaw_deg_map": -42.23011783362698,
+      "navigation": [
+        {
+          "link_id": "A219AS319534",
+          "entry_s_m": 48.12268453593995,
+          "exit_s_m": 77.67032556632604,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -87.417,
+          "max_heading_change_5m_deg": 30.38
+        },
+        {
+          "link_id": "A219AS319749",
+          "entry_s_m": 349.8917013935284,
+          "exit_s_m": 427.7491476344785,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 0.828,
+          "max_heading_change_5m_deg": 0.0
+        }
+      ],
+      "source_links": [
+        "A219AS318676",
+        "A219AS319534",
+        "A219AS318842",
+        "A219AS318848",
+        "LN000031",
+        "LN000026",
+        "A219AS318860",
+        "A219AS319749",
+        "A219AS318896"
+      ],
+      "evaluation_scope": "unseen ordinary roads with at least two lanes in each direction",
+      "lane_pairs_median": [
+        3.0,
+        3.0
+      ],
+      "share_probes_4_lanes": 1.0,
+      "max_join_deg": 8.127745030397172,
+      "separation_m": {
+        "train": 92.87853137628598,
+        "val": 238.32768727441143
+      },
+      "distance_from_original_start_m": 417.7097827429629
+    },
+    "arterial_straight_right": {
+      "split": "test",
+      "route_csv": "routes/experiments/sangam_distribution/arterial_straight_right.csv",
+      "route_sha256": "8a54247639338b34e1fdfc1018004eefac724dbf3fd0220e0805f8a15b3a38bb",
+      "start_xyz_m": [
+        1339.6386579534253,
+        -1019.5213711033429,
+        2.2460702183323145
+      ],
+      "end_xyz_m": [
+        1598.1978144756906,
+        -914.1017568159547,
+        2.2800544278330697
+      ],
+      "length_m": 367.8428532323938,
+      "initial_yaw_deg_map": 47.98613845279142,
+      "navigation": [
+        {
+          "link_id": "A219AS319698",
+          "entry_s_m": 50.625928050455016,
+          "exit_s_m": 83.23766204539649,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 0.271,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319677",
+          "entry_s_m": 134.74181805031682,
+          "exit_s_m": 163.7500696188323,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -0.019,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319510",
+          "entry_s_m": 234.52209556015396,
+          "exit_s_m": 256.2952384527099,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -90.526,
+          "max_heading_change_5m_deg": 40.22
+        }
+      ],
+      "source_links": [
+        "A219AS318989",
+        "A219AS319698",
+        "A219AS318992",
+        "A219AS319677",
+        "A219AS318994",
+        "A219AS319510",
+        "A219AS319038",
+        "A219AS319039",
+        "A219AS319035"
+      ],
+      "evaluation_scope": "unseen ordinary roads with at least two lanes in each direction",
+      "lane_pairs_median": [
+        2.0,
+        2.0
+      ],
+      "share_probes_4_lanes": 0.9655172413793104,
+      "max_join_deg": 3.963057097685629,
+      "separation_m": {
+        "train": 293.235484161173,
+        "val": 1058.6899386303357
+      },
+      "distance_from_original_start_m": 1253.9252438094954
+    },
+    "arterial_two_lefts": {
+      "split": "test",
+      "route_csv": "routes/experiments/sangam_distribution/arterial_two_lefts.csv",
+      "route_sha256": "5cd715515d79e2637360ca7ed94d2067cec50cf57ffae9bff230025b9d3c0e15",
+      "start_xyz_m": [
+        275.5916947733528,
+        116.8193513253768,
+        3.072219794224995
+      ],
+      "end_xyz_m": [
+        27.879102133885393,
+        -49.61309535083964,
+        -0.20627688000192912
+      ],
+      "length_m": 423.85689600442464,
+      "initial_yaw_deg_map": 148.52751019932992,
+      "navigation": [
+        {
+          "link_id": "A219AS319558",
+          "entry_s_m": 69.3059415664851,
+          "exit_s_m": 119.22129373735098,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left_unprotected",
+          "measured_turn_deg": 72.786,
+          "max_heading_change_5m_deg": 25.91
+        },
+        {
+          "link_id": "A219AS319571",
+          "entry_s_m": 347.8085093549054,
+          "exit_s_m": 384.2509145598009,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left",
+          "measured_turn_deg": 101.715,
+          "max_heading_change_5m_deg": 27.83
+        }
+      ],
+      "source_links": [
+        "A219AS318213",
+        "A219AS318217",
+        "A219AS319558",
+        "A219AS318014",
+        "A219AS318019",
+        "A219AS318025",
+        "A219AS318037",
+        "A219AS319571",
+        "A219AS318043",
+        "A219AS318045",
+        "A219AS318048"
+      ],
+      "evaluation_scope": "unseen ordinary roads with at least two lanes in each direction",
+      "lane_pairs_median": [
+        4.0,
+        4.0
+      ],
+      "share_probes_4_lanes": 0.9538461538461539,
+      "max_join_deg": 6.354474474870804,
+      "separation_m": {
+        "train": 71.43902578817324,
+        "val": 129.07801699173544
+      },
+      "distance_from_original_start_m": 314.08744167054823
+    }
+  },
+  "training_route_seed": 71,
+  "frozen_evaluation": "ef397ba770a7ca7a66ca33c24f9f1f1f98fbc23769082e38f7003f815a8db26e",
+  "unfiltered_evaluation_candidates": "4e56a75358e51142fd17a8898e7c416b14d84cea63ca5fa07593ab456ce11ff2",
+  "selection": "Expand coverage outside every prior and reserved evaluation and validation location.",
+  "evaluation_manifest_sha256": "ef397ba770a7ca7a66ca33c24f9f1f1f98fbc23769082e38f7003f815a8db26e"
+}

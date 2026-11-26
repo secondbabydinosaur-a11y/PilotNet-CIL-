@@ -55,6 +55,7 @@ def inspect(session, decode_all=True):  # 세션 하나의 원본 품질을 검�
     ego_stamps = [int(row["stamp_ns"]) for row in vehicle]  # 영상과 대응할 기준이다.
     teacher_stamps = [int(row["ego_stamp_ns"]) for row in commands]  # Teacher가 참조한 센서 시각이다.
     quality = cfg["quality"]  # 이번 실행의 시각 정렬 기준이다.
+    max_stream_gap_s = float(cfg["collection"].get("max_capture_gap_s", 0.25))
     for name in cfg["cameras"]:  # 세 카메라를 따로 검사한다.
         stamps = [int(row["stamp_ns"]) for row in images if row["camera"] == name]  # 이미지 센서 시각이다.
         stat = stream_stats(stamps)  # 수신 주기와 공백이다.
@@ -62,11 +63,11 @@ def inspect(session, decode_all=True):  # 세션 하나의 원본 품질을 검�
         stat["teacher_match_fraction"] = match_fraction(stamps, teacher_stamps, quality["max_pair_delta_ms"], quality["max_interpolation_gap_ms"])  # Teacher 대응이다.
         streams[name] = stat  # 카메라별 보고서다.
         if stat["hz"] < cfg["camera_common"]["fps"] * 0.85: errors.append(name + ": low camera rate")  # 저주기 수신을 검출한다.
-        if stat["max_gap_s"] > 0.25: errors.append(name + ": long camera gap")  # 긴 영상 누락을 검출한다.
+        if stat["max_gap_s"] > max_stream_gap_s: errors.append(name + ": long camera gap")  # 긴 영상 누락을 검출한다.
         if stat["ego_match_fraction"] < 0.95: errors.append(name + ": insufficient Ego matches")  # 잘못된 시각 대응이다.
         if stat["teacher_match_fraction"] < 0.94: errors.append(name + ": insufficient Teacher matches")  # 발진 전 짧은 준비 영상은 허용한다.
     if streams["ego"]["hz"] < cfg["ego"]["hz"] * 0.85: errors.append("low Ego rate")  # 상태 수신 주기를 검사한다.
-    if streams["ego"]["max_gap_s"] > 0.25: errors.append("long Ego gap")  # 상태 누락을 검사한다.
+    if streams["ego"]["max_gap_s"] > max_stream_gap_s: errors.append("long Ego gap")  # 상태 누락을 검사한다.
     valid = [row for row in commands if row.get("label_valid") == "1"]  # 임의 경로 끝 정차를 제외한다.
     if not valid: errors.append("no valid Teacher driving samples")  # 학습 가능한 주행이 있어야 한다.
     cte = np.array([abs(float(row["cte_m"])) for row in commands])  # 실제 추종 오차다.
@@ -97,8 +98,9 @@ def inspect(session, decode_all=True):  # 세션 하나의 원본 품질을 검�
     if bad_images: errors.append(f"{bad_images} missing/undecodable/wrong-size images")  # 파일 손실을 검출한다.
     plan = json.loads((BASE / cfg["paths"]["route_plan"]).read_text())  # 시험 구역 정의다.
     protected = {name: np.array(value["guard_reference_xyz"]) for name, value in plan["test_reservations"].items()}  # 기존 시험 구역이다.
-    for name in ("P2Q", "V1", "V2"):  # 새 시험과 Validation을 보호한다.
-        if name == "P2Q" or metadata["split"] == "train": protected[name] = np.loadtxt(BASE / plan["routes"][name]["route_csv"], delimiter=",", skiprows=1)[:,1:4]  # 좌표다.
+    for name, info in plan["routes"].items():
+        if info["split"] == "test" or (info["split"] == "validation" and metadata["split"] == "train"):
+            protected[name] = np.loadtxt(BASE / info["route_csv"], delimiter=",", skiprows=1)[:, 1:4]
     actual = np.array([[float(row["x_m"]), float(row["y_m"])] for row in vehicle])  # 실제 수집 위치다.
     separations = {name: float(cKDTree(xyz[:,:2]).query(actual)[0].min()) for name,xyz in protected.items()} if len(actual) else {}  # 실제 최소 거리다.
     if any(value < 20 for value in separations.values()): errors.append("actual capture entered a protected spatial guard")  # 후보 경로만 보고 통과시키지 않는다.

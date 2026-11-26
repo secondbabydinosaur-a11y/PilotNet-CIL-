@@ -437,6 +437,9 @@ def main():  # 경로별 Teacher 주행 데이터를 수집한다.
     cap = float(cfg["collection"]["speed_cap_kph"])  # 설정된 속도 상한이다.
     hz = float(cfg["control"]["hz"])  # 제어 명령을 보낼 주기다.
     cruise = cap - 1.0 if args.speed is None else args.speed  # 기본 순항 목표는 19km/h다.
+    sensor_hold_limit_s = float(cfg["collection"].get("sensor_hold_limit_s", 0.0))
+    if not math.isfinite(sensor_hold_limit_s) or sensor_hold_limit_s < 0:
+        raise ValueError("sensor_hold_limit_s must be finite and nonnegative")
     if not 1.0 < cap <= 20.0 or not 1.0 <= hz <= 100.0 or not 0 < cruise < cap:  # 검증할 수집 설정 범위다.
         raise ValueError("require 0<cruise<cap<=20 kph and control rate 1~100 Hz")  # 잘못된 설정을 거부한다.
     route.make_speed_profile(cruise)  # 곡선 진입 전 감속 프로파일을 준비한다.
@@ -464,10 +467,11 @@ def main():  # 경로별 Teacher 주행 데이터를 수집한다.
         "collision_ground_truth": "not_instrumented; tracking and images are checked separately",
     }
     if args.auto_reset:  # 옵션을 지정했을 때만 시뮬레이터에서 차량을 재배치한다.
-        from tools.simulator import Simulator  # CIL 수집용 로컬 MORAI API 어댑터다.
-        metadata["actual_start_state"] = Simulator().setup(info, cfg, args.initial_offset, hour=args.hour,
-                                                         heading_offset_deg=args.initial_heading_offset)
-    rig = BASE / "runs/collection_setup/sensor_rig.json"  # 확인한 센서 설정의 기록이다.
+        from tools.simulator import simulator_for
+        metadata["actual_start_state"] = simulator_for(cfg).setup(
+            info, cfg, args.initial_offset, hour=args.hour, heading_offset_deg=args.initial_heading_offset,
+        )
+    rig = BASE / cfg["paths"].get("rig_snapshot", "runs/collection_setup/sensor_rig.json")
     if rig.exists():  # 센서 설정 증거가 있다면
         metadata["rig_snapshot"] = json.loads(rig.read_text())  # 실행 조건과 함께 보존한다.
     write_json(output / "session.json", metadata)  # 수집 시작 상태를 저장한다.
@@ -479,6 +483,7 @@ def main():  # 경로별 Teacher 주행 데이터를 수집한다.
     noise = SteeringNoise(noisy, args.seed, first_time_s=0.0 if junction_noise else 8.0, peak_range=peak_range)
     recovery_commands = ("left", "right", "straight") if args.junction_recovery or args.curve_recovery else ("left", "right")
     reason, failure, capture_stats = "starting", "", {}  # 종료 상태와 오류·수신 통계를 준비한다.
+    sensor_hold_start, sensor_holds = None, 0
     print("Saving:", output, flush=True)  # 실제 저장 위치를 출력한다.
     try:  # 제어·저장 실패에도 최종 정리를 수행한다.
         with MoraiClient(cfg) as client:  # 센서 수신과 제어 송신 소켓을 연다.
@@ -512,9 +517,21 @@ def main():  # 경로별 Teacher 주행 데이터를 수집한다.
                         if distance > 1.0 or heading0 > 10.0 or abs(ego["speed_kph"]) > 1.0: raise RuntimeError("place the stopped vehicle at route start")  # 정차한 차량이 출발점에 있는지 확인한다.
                         if abs(ego["z_m"] - info["start_xyz_m"][2]) > 1.0: raise RuntimeError("start height mismatch")  # 입체 도로에서 다른 높이의 도로를 구분한다.
                         armed, started, next_tick, initial_stamp = True, now, now, ego["stamp_ns"]  # 주행 제어를 시작한다.
-                    if not fresh or ego["ctrl_mode"] != 2 or ego["gear"] != 4:  # 주행 중에도 센서와 제어 모드를 확인한다.
+                    external_control = ego is not None and ego["ctrl_mode"] == 2 and ego["gear"] == 4
+                    if not fresh and external_control and sensor_hold_limit_s:
+                        if sensor_hold_start is None:
+                            sensor_hold_start = now
+                            sensor_holds += 1
+                            print("Temporarily braking while sensors catch up", flush=True)
+                        if now - sensor_hold_start <= sensor_hold_limit_s:
+                            if now >= next_tick:
+                                client.send_control(last_steer, 0.0, 0.25)
+                                next_tick = now + 1.0 / hz
+                            continue  # No Teacher labels are emitted during the sensor hold.
+                    if not fresh or not external_control:  # 주행 중에도 센서와 제어 모드를 확인한다.
                         camera_ages = {name: round((now_ns - cameras.get(name, 0)) / 1e9, 3) for name in cfg["cameras"]}  # 중단한 센서를 구분할 진단값이다.
                         raise RuntimeError(f"sensor/control check failed: ego_age={age:.3f}s, cameras={camera_ages}, mode={ego['ctrl_mode']}, gear={ego['gear']}")  # 실제 원인을 기록하고 제동한다.
+                    sensor_hold_start = None
                     if now - started >= args.seconds: reason = "time_limit"; break  # 시간 제한 종료를 완주와 구분해 기록한다.
                     if now < next_tick: continue  # 제어 주기 사이에도 센서 수신을 계속한다.
                     next_tick = now + 1.0 / hz  # 지연이 생겨도 명령을 한꺼번에 몰아 보내지 않는다.
@@ -567,7 +584,7 @@ def main():  # 경로별 Teacher 주행 데이터를 수집한다.
     finally:  # 저장을 마치고 최종 상태를 기록한다.
         try: writer.close()  # 대기 중인 저장 작업을 끝낸다.
         except Exception as exc: reason, failure = "error", (failure + " " + str(exc)).strip()  # 디스크 저장 실패도 오류로 기록한다.
-        metadata.update(status=reason, error=failure, saved=dict(writer.counts), training_ready=False, capture_stats=capture_stats, noise_episodes=noise.episode)  # 학습용 시각 매칭과 품질 검사는 별도로 진행한다.
+        metadata.update(status=reason, error=failure, saved=dict(writer.counts), training_ready=False, capture_stats=capture_stats, noise_episodes=noise.episode, sensor_holds=sensor_holds)  # 학습용 시각 매칭과 품질 검사는 별도로 진행한다.
         write_json(output / "session.json", metadata)  # 최종 세션 상태를 저장한다.
     print("Finished:", reason, failure, "Saved:", dict(writer.counts), flush=True)  # 수집 결과를 출력한다.
     return 0 if reason == "route_finished" else 1  # 완주 여부를 종료 코드로도 구분한다.

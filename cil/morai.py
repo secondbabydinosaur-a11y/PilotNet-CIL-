@@ -45,8 +45,10 @@ def sensor_stamp(sec, nsec):  # 초·나노초를 하나의 정수 시각으로 
     return sec * 1_000_000_000 + nsec  # 부동소수점 오차 없이 ns로 반환한다.
 
 
-def parse_ego(packet):  # 일반 Ego Vehicle Status 패킷을 해석한다.
-    if len(packet) not in (181, 229) or packet[:11] != b"#MoraiInfo$":  # 종류·길이다.
+def parse_ego(packet, legacy_receive_ns=None):  # 일반 Ego Vehicle Status 패킷을 해석한다.
+    legacy = legacy_receive_ns is not None
+    expected_lengths = (161,) if legacy else (181, 229)
+    if len(packet) not in expected_lengths or packet[:11] != b"#MoraiInfo$":  # 종류·길이다.
         raise ValueError("expected ordinary Ego Vehicle Status")  # 다른 형식은 거부한다.
 
     size = struct.unpack_from("<I", packet, 11)[0]  # 본문 길이를 uint32로 읽는다.
@@ -55,8 +57,7 @@ def parse_ego(packet):  # 일반 Ego Vehicle Status 패킷을 해석한다.
         raise ValueError("invalid Ego packet size or tail")  # 손상된 패킷을 거부한다.
 
     payload = packet[27:-2]  # 헤더와 종료 문자를 제외한 본문이다.
-    sec, nsec = struct.unpack_from("<II", payload, 0)  # 센서 시각을 읽는다.
-    ctrl_mode, gear = struct.unpack_from("<bb", payload, 8)  # 제어 모드·기어다.
+    ctrl_mode, gear = struct.unpack_from("<bb", payload, 0 if legacy else 8)  # 제어 모드·기어다.
 
     offsets = {  # 각 float32 값이 본문에서 시작하는 바이트 위치다.
         "speed_kph": 10,  # 차량 속도다.
@@ -74,6 +75,11 @@ def parse_ego(packet):  # 일반 Ego Vehicle Status 패킷을 해석한다.
         "yaw_rate_deg_s": 94,  # 초당 헤딩 변화량이다.
         "steer_raw_deg": 110,  # 상태 패킷의 실제 조향 값이다.
     }
+    if legacy:
+        # The older packet omits the timestamp and three angular velocity fields.
+        del offsets["yaw_rate_deg_s"]
+        offsets = {key: pos - 8 for key, pos in offsets.items()}
+        offsets["steer_raw_deg"] -= 12
 
     values = {  # 지정한 위치에서 float32 값을 하나씩 추출한다.
         key: struct.unpack_from("<f", payload, pos)[0]  # <f는 little-endian float32다.
@@ -86,11 +92,15 @@ def parse_ego(packet):  # 일반 Ego Vehicle Status 패킷을 해석한다.
     if abs(values["speed_kph"]) > 400 or abs(values["steer_raw_deg"]) > 90:  # 범위다.
         raise ValueError("implausible Ego speed or steering")  # 해석 오류를 의심한다.
 
-    values["stamp_ns"] = sensor_stamp(sec, nsec)  # 이미지와 매칭할 센서 시각이다.
+    if legacy:
+        values["yaw_rate_deg_s"] = None
+        values["stamp_ns"] = legacy_receive_ns
+    else:
+        values["stamp_ns"] = sensor_stamp(*struct.unpack_from("<II", payload))
     values["ctrl_mode"] = ctrl_mode  # 현재 제어 모드를 보관한다.
     values["gear"] = gear  # 현재 기어를 보관한다.
     values["link_id"] = (  # 차량 상태 패킷에 담긴 지도 링크 ID를 읽는다.
-        payload[114:152]  # 링크 ID가 들어 있는 바이트 범위다.
+        (payload[94:132] if legacy else payload[114:152])  # 링크 ID가 들어 있는 바이트 범위다.
         .split(b"\x00", 1)[0]  # 문자열 뒤의 빈 패딩을 제거한다.
         .decode("ascii", errors="replace")  # 바이트를 문자열로 변환한다.
     )
@@ -108,7 +118,7 @@ class CameraAssembler:  # UDP 조각을 JPEG 한 장으로 조립한다.
         self.completed = deque(maxlen=128)  # 이미 완성한 이미지의 시각을 기억한다.
         self.evicted = 0  # 미완성 상태로 폐기한 이미지 수다.
 
-    def push(self, packet):  # 새 UDP 조각 하나를 추가한다.
+    def push(self, packet, receive_ns=None):  # 새 UDP 조각 하나를 추가한다.
         if len(packet) < 19 or packet[:3] != b"MOR":  # 카메라 헤더를 검사한다.
             raise ValueError("invalid camera header")  # 다른 패킷을 거부한다.
 
@@ -153,7 +163,38 @@ class CameraAssembler:  # UDP 조각을 JPEG 한 장으로 조립한다.
         self.completed.append(stamp)  # 이 이미지는 이미 처리했다고 기록한다.
 
         return stamp, jpeg  # 센서 시각과 완성된 JPEG 바이트를 반환한다.
-    
+
+
+class LegacyCameraAssembler:
+    """Assemble the older MOR/AI/EI format, which has no frame identifier or clock."""
+
+    def __init__(self):
+        self.fragments = []
+        self.stamp = None
+        self.evicted = 0
+
+    def push(self, packet, receive_ns):
+        if len(packet) < 14 or packet[:3] != b"MOR" or packet[-2:] not in (b"AI", b"EI"):
+            raise ValueError("invalid legacy camera envelope")
+        index, length = struct.unpack_from("<II", packet, 3)
+        if index >= 512 or not 0 < length <= len(packet) - 13:
+            raise ValueError("invalid legacy camera fragment")
+        fragment = packet[11:11 + length]
+        if index == 0:
+            self.evicted += bool(self.fragments)
+            self.fragments.clear()
+            self.stamp = receive_ns
+        if index != len(self.fragments) or (index == 0 and not fragment.startswith(b"\xff\xd8")):
+            self.fragments.clear()
+            return None
+        self.fragments.append(fragment)
+        if packet[-2:] == b"EI":
+            jpeg = b"".join(self.fragments)
+            self.fragments.clear()
+            if not jpeg.endswith(b"\xff\xd9"):
+                raise ValueError("incomplete legacy camera JPEG")
+            return self.stamp, jpeg
+        return None
 
 def encode_control(steer, throttle, brake):  # 제어값을 MORAI 패킷으로 변환한다.
     if not all(math.isfinite(v) for v in (steer, throttle, brake)):  # 값을 검사한다.
@@ -189,12 +230,14 @@ def encode_control(steer, throttle, brake):  # 제어값을 MORAI 패킷으로 �
 class MoraiClient:  # 센서 수신과 제어 송신을 묶는 인터페이스다.
     def __init__(self, config):  # 설정 딕셔너리를 받는다.
         self.config = config  # 송신 주소 등에 사용할 설정이다.
+        self.legacy = config.get("udp_protocol") == "legacy_2023"
         self.selector = selectors.DefaultSelector()  # 수신 가능한 소켓을 찾는다.
         self.receivers = []  # 종료할 때 닫을 수신 소켓 목록이다.
         self.sender = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # 송신 소켓이다.
 
+        assembler_type = LegacyCameraAssembler if self.legacy else CameraAssembler
         self.assemblers = {  # 카메라마다 독립적인 이미지 조립기를 만든다.
-            name: CameraAssembler()  # 서로 다른 카메라의 조각이 섞이지 않게 한다.
+            name: assembler_type()  # 서로 다른 카메라의 조각이 섞이지 않게 한다.
             for name in config["cameras"]  # left·center·right를 순회한다.
         }
 
@@ -245,7 +288,7 @@ class MoraiClient:  # 센서 수신과 제어 송신을 묶는 인터페이스�
 
                 try:  # 손상된 패킷은 기록하고 다음 패킷을 처리한다.
                     if name == "ego":  # 차량 상태 패킷이라면
-                        data = parse_ego(packet)  # 상태 딕셔너리로 변환한다.
+                        data = parse_ego(packet, recv_ns if self.legacy else None)
                         self.latest_ego = data  # 최신 차량 상태를 갱신한다.
                         self.latest_ego_recv_ns = recv_ns  # 수신 시각도 갱신한다.
 
@@ -257,7 +300,7 @@ class MoraiClient:  # 센서 수신과 제어 송신을 묶는 인터페이스�
                         }
 
                     else:  # 카메라 패킷이라면
-                        frame = self.assemblers[name].push(packet)  # 조각을 추가한다.
+                        frame = self.assemblers[name].push(packet, recv_ns)  # 조각을 추가한다.
 
                         if frame is None:  # 이미지가 아직 완성되지 않았다면
                             continue  # 다음 조각을 받는다.
@@ -282,7 +325,10 @@ class MoraiClient:  # 센서 수신과 제어 송신을 묶는 인터페이스�
         return events  # 수신한 데이터가 없으면 빈 목록을 반환한다.
 
     def send_control(self, steer, throttle, brake):  # 호출받은 제어값을 송신한다.
-        packet = encode_control(steer, throttle, brake)  # 제어 패킷을 생성한다.
+        sign = self.config["control"].get("steering_sign", 1)
+        if sign not in (-1, 1):
+            raise ValueError("steering_sign must be -1 or 1")
+        packet = encode_control(sign * steer, throttle, brake)  # 제어 패킷을 생성한다.
         address = (  # 제어 명령을 받을 MORAI 주소다.
             self.config["network"]["morai_ip"],  # MORAI가 실행 중인 PC의 IP다.
             self.config["control"]["host_port"],  # 제어는 MORAI의 Host Port로 보낸다.
@@ -371,4 +417,4 @@ def main():  # 이 파일을 직접 실행하면 수신 상태만 점검한다.
 
 
 if __name__ == "__main__":  # 다른 파일에서 import할 때는 실행하지 않는다.
-    main()  # 직접 실행했을 때만 수신 점검을 시작한다.    
+    main()  # 직접 실행했을 때만 수신 점검을 시작한다.

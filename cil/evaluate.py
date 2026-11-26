@@ -1,4 +1,4 @@
-"""저장된 이미지·속도·명령으로 CIL의 제어값을 예측해 Teacher와 비교한다.
+"""저장된 영상·속도·경로 조건으로 CIL 제어값을 예측해 시범과 비교한다.
 
 학습이나 MORAI 제어는 하지 않는다. 기본 입력은 모델 선택에 사용한 Validation이다.
 """
@@ -18,8 +18,13 @@ import numpy as np
 import torch
 from torch.utils.data import DataLoader
 
+from attention_model import AttentionCIL
 from dataset import CILDataset, CROP, IMAGE_SIZE, SPEED_SCALE_KPH
+from distribution_model import DISTRIBUTION_ARCHITECTURES, distribution_from_checkpoint
 from model import CILModel
+from ordinal_model import OrdinalCIL
+from turn_ordinal_model import TurnOrdinalCIL
+from path_model import PATH_SPEC, PathCIL
 
 BASE = Path(__file__).resolve().parent  # 상대경로는 cil 폴더를 기준으로 한다.
 CONTROLS = ("steer", "throttle", "brake")  # 모델 출력과 정답의 공통 순서다.
@@ -51,10 +56,8 @@ def evaluate(model, loader, device):
     with torch.inference_mode():  # 가중치 갱신과 gradient 계산을 모두 끈다.
         for batch in loader:
             output = model(
-                batch["image"].to(device),
-                batch["speed"].to(device),
-                batch["command"].to(device),
-            )  # 각 이미지에 기록된 명령의 branch 출력을 선택한다.
+                batch["image"].to(device), batch["speed"].to(device), batch["command"].to(device),
+            )
             targets.append(batch["target"].numpy())
             predictions.append(output["control"].cpu().numpy())  # 손실 계산 전 출력을 자르지 않는다.
             speeds.append(batch["speed"].numpy().reshape(-1) * SPEED_SCALE_KPH)
@@ -69,7 +72,7 @@ def evaluate(model, loader, device):
     return (*arrays, np.concatenate(commands), paths)
 
 
-def save_predictions(output_dir, target, prediction, speed, pred_speed, command, paths):
+def save_predictions(output_dir, target, prediction, speed, pred_speed, command, paths, input_name):
     fields = ["image_path", "command", "command_name", "speed_kph", "pred_speed_kph"]
     fields += [prefix + name for name in CONTROLS for prefix in ("target_", "pred_", "abs_error_")]
     with (output_dir / "predictions.csv").open("w", newline="", encoding="utf-8") as stream:
@@ -95,7 +98,7 @@ def save_predictions(output_dir, target, prediction, speed, pred_speed, command,
         axis.grid(alpha=.25)
         axis.legend(loc="upper right")
     axes[-1].set_xlabel("Sample index (CSV order; separate sessions concatenated)")
-    fig.suptitle("CIL open-loop: center camera, no augmentation")
+    fig.suptitle(f"CIL open-loop: {input_name}, no augmentation")
     fig.tight_layout()
     fig.savefig(output_dir / "predictions.png", dpi=160)
     plt.close(fig)
@@ -124,12 +127,41 @@ def main():
     settings = checkpoint["settings"]  # 가중치가 기대하는 입출력 조건을 확인한다.
     expected = {"crop": list(CROP), "image_size_wh": list(IMAGE_SIZE),
                 "color": "RGB", "pixel_range": [0, 1], "speed_scale_kph": SPEED_SCALE_KPH}
-    if (settings["architecture"] != CILModel.architecture
+    ordinal_types = {variant.architecture: variant for variant in (OrdinalCIL, TurnOrdinalCIL)}
+    ordinal_mode = settings["architecture"] in ordinal_types
+    distribution_mode = ordinal_mode or settings["architecture"] in DISTRIBUTION_ARCHITECTURES.values()
+    attention_mode = settings["architecture"] == AttentionCIL.architecture
+    path_mode = settings["architecture"] == PathCIL.architecture
+    model_type = CILModel
+    if attention_mode:
+        model_type = AttentionCIL
+    elif path_mode:
+        if settings.get("predicted_path") != PATH_SPEC:
+            raise ValueError("checkpoint path output contract mismatch")
+        model_type = PathCIL
+    if ordinal_mode:
+        allowed_architecture = ordinal_types
+    elif distribution_mode:
+        allowed_architecture = DISTRIBUTION_ARCHITECTURES.values()
+    else:
+        allowed_architecture = (model_type.architecture,)
+    if (settings["architecture"] not in allowed_architecture
             or settings["command_names"] != list(CILModel.command_names)
             or settings["control_order"] != list(CONTROLS)
             or json.loads(json.dumps(settings["preprocess"])) != expected):  # tuple·list 표기 차이는 허용한다.
         raise ValueError("checkpoint architecture or preprocessing mismatch")
-    for name in ("model.py", "dataset.py"):
+    contract_files = ["model.py", "dataset.py"]
+    if distribution_mode:
+        contract_files.append("distribution_model.py")
+        if ordinal_mode:
+            contract_files.append("ordinal_model.py")
+            if settings["architecture"] == TurnOrdinalCIL.architecture:
+                contract_files.append("turn_ordinal_model.py")
+    elif attention_mode:
+        contract_files.append("attention_model.py")
+    elif path_mode:
+        contract_files.append("path_model.py")
+    for name in contract_files:
         if sha256(BASE / name) != settings["hashes"][name]:
             raise ValueError(name + " changed since training; review before evaluating")
 
@@ -147,10 +179,19 @@ def main():
     elif csv_hash == settings["hashes"]["train.csv"]:
         scope = "training_data"
 
+    input_name = "center camera, speed and command"
     dataset = CILDataset(csv_path, split="val", cameras=("center",), augment=False)
     loader = DataLoader(dataset, batch_size=args.batch_size, shuffle=False,
                         num_workers=args.workers, pin_memory=device.type == "cuda")
-    model = CILModel().to(device)
+    if ordinal_mode:
+        model = ordinal_types[settings["architecture"]].from_settings(settings)
+    elif distribution_mode:
+        model = distribution_from_checkpoint(settings)
+    else:
+        model = model_type()
+    model.to(device)
+    if model.architecture != settings["architecture"]:
+        raise ValueError("image mask and architecture do not match")
     model.load_state_dict(checkpoint["model_state_dict"], strict=True)
     target, prediction, speed, pred_speed, command, paths = evaluate(model, loader, device)
     per_command = {}
@@ -167,7 +208,7 @@ def main():
     timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S_%fZ")
     output_dir = resolve_path(args.output or "runs/evaluation/" + timestamp)
     output_dir.mkdir(parents=True, exist_ok=False)
-    save_predictions(output_dir, target, prediction, speed, pred_speed, command, paths)
+    save_predictions(output_dir, target, prediction, speed, pred_speed, command, paths, input_name)
     report = {"evaluation_scope": scope, "checkpoint": str(checkpoint_path.relative_to(BASE))
               if BASE in checkpoint_path.parents else str(checkpoint_path),
               "checkpoint_sha256": checkpoint_hash, "epoch": checkpoint["epoch"],
@@ -177,6 +218,10 @@ def main():
               "notes": ["Raw linear outputs are evaluated without clamping.",
                         "Steering errors use normalized control units, not degrees.",
                         "Open-loop agreement does not measure closed-loop route completion."]}
+    if distribution_mode:
+        report["steering_distribution"] = settings["steering_distribution"]
+    elif path_mode:
+        report["predicted_path"] = settings["predicted_path"]
     (output_dir / "metrics.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(f"{scope}: {len(dataset)} images, epoch={checkpoint['epoch']}")
     print(f"mean_command_mse={metrics['mean_command_mse']:.8f}, steer_mae={metrics['steer_mae']:.8f}")

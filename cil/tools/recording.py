@@ -251,17 +251,21 @@ class ScreenVideo(_Recorder):
         if not ids:
             raise RuntimeError("visible Simulator X11 window was not found")
         self.window_id = ids[-1]
-        subprocess.run(
+        focus = subprocess.run(
             ["xdotool", "windowactivate", "--sync", self.window_id],
-            check=True, timeout=5,
+            capture_output=True, timeout=5,
         )  # 녹화 시작 시점에만 창을 앞으로 가져온다.
+        if focus.returncode != 0:
+            subprocess.run(["xdotool", "windowraise", self.window_id], check=True, timeout=5)
         geometry = subprocess.check_output(
-            ["xdotool", "getwindowgeometry", "--shell", self.window_id],
-            text=True, timeout=5,
+            ["xwininfo", "-id", self.window_id], text=True, timeout=5,
+            env={**os.environ, "LC_ALL": "C"},
         )
-        values = dict(line.split("=", 1) for line in geometry.splitlines() if "=" in line)
-        x, y = int(values["X"]), int(values["Y"])
-        width, height = int(values["WIDTH"]) // 2 * 2, int(values["HEIGHT"]) // 2 * 2
+        values = {key.strip(): int(value) for key, value in re.findall(
+            r"^ *([A-Za-z -]+):\s*(-?\d+)\s*$", geometry, re.MULTILINE,
+        )}
+        x, y = values["Absolute upper-left X"], values["Absolute upper-left Y"]
+        width, height = values["Width"] // 2 * 2, values["Height"] // 2 * 2
         if width <= 0 or height <= 0 or x < 0 or y < 0:
             raise RuntimeError("Simulator window has an unsupported screen geometry")
         self.geometry = dict(x=x, y=y, width=width, height=height, display=display)
@@ -302,10 +306,13 @@ class ScreenVideo(_Recorder):
 
     def update_command(self, name, command_id, elapsed_s, reason="model", course=""):
         """주행 루프의 현재 명령만 녹화 자막으로 갱신한다."""
+        self.update_overlay(command_overlay_text(name, command_id, elapsed_s, reason=reason, course=course))
+
+    def update_overlay(self, text):
+        """두 줄의 주행 상태를 영상 및 실시간 배너에 전달한다."""
         self.check()  # 녹화가 먼저 종료되었으면 주행 루프에서 즉시 알 수 있다.
         if not self.command_overlay:
             raise RuntimeError("command overlay was not enabled for this screen recording")
-        text = command_overlay_text(name, command_id, elapsed_s, reason=reason, course=course)
         if text != self._overlay_last_text:
             if getattr(self, "overlay_video_text_path", None) is not None:
                 body, warning = video_overlay_parts(text)

@@ -168,9 +168,11 @@ def preprocessing_constants(path):  # Torch를 실행하지 않고 실제 Datase
     return result
 
 
-def build(base=BASE, output=None, sample_hz=10.0, recovery_s=2.0, min_lookahead_m=6.0, *, plan=None, completion=None):
+def build(base=BASE, output=None, sample_hz=10.0, recovery_s=2.0, min_lookahead_m=6.0, *, plan=None, completion=None,
+          config="config.json"):
     base = Path(base).resolve()
-    cfg = json.loads((base / "config.json").read_text())
+    config_path = base / config
+    cfg = json.loads(config_path.read_text())
     plan_path = base / (plan if plan is not None else cfg["paths"]["route_plan"])
     plan = json.loads(plan_path.read_text())
     completion_path = base / (completion if completion is not None else "data/collection_completion.json")
@@ -188,15 +190,17 @@ def build(base=BASE, output=None, sample_hz=10.0, recovery_s=2.0, min_lookahead_
     max_delta = round(cfg["quality"]["max_pair_delta_ms"] * 1e6)
     max_gap = round(cfg["quality"]["max_interpolation_gap_ms"] * 1e6)
     protected = {name: np.array(value["guard_reference_xyz"])[:, :2] for name, value in plan["test_reservations"].items()}
-    for name in ("P2Q", "V1", "V2"):
-        protected[name] = np.loadtxt(base / plan["routes"][name]["route_csv"], delimiter=",", skiprows=1)[:, 1:3]
+    validation = {name for name, info in plan["routes"].items() if info["split"] == "validation"}
+    for name, info in plan["routes"].items():
+        if info["split"] in ("test", "validation"):
+            protected[name] = np.loadtxt(base / info["route_csv"], delimiter=",", skiprows=1)[:, 1:3]
     trees = {name: cKDTree(points) for name, points in protected.items()}
 
     def remember(path):  # 입력 색인·설정이 준비 도중 바뀌지 않는지 확인한다.
         sources[str(path.relative_to(base))] = sha256(path)
 
     try:
-        for path in (base / "config.json", base / "prepare.py", base / "dataset.py", completion_path, plan_path): remember(path)
+        for path in (config_path, base / "prepare.py", base / "dataset.py", completion_path, plan_path): remember(path)
         with (stage / "train.csv").open("x", newline="", encoding="utf-8") as train_file, (stage / "val.csv").open("x", newline="", encoding="utf-8") as val_file:
             writers = {"train": csv.DictWriter(train_file, fieldnames=FIELDS), "val": csv.DictWriter(val_file, fieldnames=FIELDS)}
             for writer in writers.values(): writer.writeheader()
@@ -258,13 +262,15 @@ def build(base=BASE, output=None, sample_hz=10.0, recovery_s=2.0, min_lookahead_
                         totals[split + ":" + camera] += 1
                         selected_xy.append([ego["x_m"], ego["y_m"]])
                         break  # 100ms 시간칸마다 카메라별 유효 영상 한 장을 선택한다.
-                guards = {name: float(tree.query(np.array(selected_xy))[0].min()) for name, tree in trees.items() if selected_xy and (split == "train" or name not in ("V1", "V2"))}
+                guards = {name: float(tree.query(np.array(selected_xy))[0].min()) for name, tree in trees.items() if selected_xy and (split == "train" or name not in validation)}
                 if not selected_xy or any(value < 20.0 for value in guards.values()): raise ValueError("empty session or selected sample entered a protected guard")
                 reports.append(dict(session=session.name, route_id=meta["route_id"], split=split, accepted=dict(accepted), rejected_candidates=dict(rejected), command_counts=dict(commands), ego_duplicates=ego_table.duplicates, teacher_duplicates=teacher_table.duplicates, conflicting_teacher_stamps=len(teacher_table.conflicts), protected_min_distances_m=guards))
                 print(session.name, split, dict(accepted), flush=True)
-        if any(totals[key] == 0 for key in ("train:center", "train:left", "train:right", "val:center")): raise ValueError("required train/validation cameras are empty")
+        if totals["val:center"] == 0 or any(totals[f"train:{camera}"] == 0 for camera in cfg["cameras"]):
+            raise ValueError("required train/validation cameras are empty")
         if any(sha256(base / name) != value for name, value in sources.items()): raise ValueError("source changed during preparation")
-        summary = dict(status="prepared", created_utc=datetime.now(timezone.utc).isoformat(), counts=dict(totals), sessions=reports, nominal_sample_hz=sample_hz, sampling="one valid frame nearest bin center per camera per time bin; actual frame intervals may differ", teacher_reference="ego_stamp_ns sensor clock; first identical duplicate", validation="center-only, spatially separate routes", test="U1/U2/J/P2Q held out; no test frames generated", side_label_method="virtual_center_camera_pp_angle_delta_v1", recovery_s=recovery_s, min_lookahead_m=min_lookahead_m, side_label_note="our planar geometric approximation, not the unpublished original paper correction; over-range labels rejected", image_preprocessing=preprocessing_constants(base / "dataset.py"), source_sha256=sources, cil_model_trained=False)
+        clock = "host monotonic UDP reception" if cfg.get("udp_protocol") == "legacy_2023" else "sensor timestamp"
+        summary = dict(status="prepared", created_utc=datetime.now(timezone.utc).isoformat(), counts=dict(totals), sessions=reports, nominal_sample_hz=sample_hz, sampling="one valid frame nearest bin center per camera per time bin; actual frame intervals may differ", teacher_reference=f"ego_stamp_ns from {clock}; first identical duplicate", validation="center-only, spatially separate routes", test="spatially held-out routes in the manifest", side_label_method="virtual_center_camera_pp_angle_delta_v1", recovery_s=recovery_s, min_lookahead_m=min_lookahead_m, side_label_note="our planar geometric approximation, not the unpublished original paper correction; over-range labels rejected", image_preprocessing=preprocessing_constants(base / "dataset.py"), source_sha256=sources, cil_model_trained=False)
         (stage / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n")
         if output.exists(): output.rmdir()  # 기존의 빈 폴더만 교체한다.
         stage.rename(output)  # 검사를 마친 결과를 한 번에 확정한다.
@@ -282,11 +288,12 @@ def main():
     parser.add_argument("--min-lookahead-m", type=float, default=6.0)
     parser.add_argument("--plan", type=Path, help="use a separate CIL-relative route plan")
     parser.add_argument("--completion", type=Path, help="use a separate CIL-relative accepted session list")
+    parser.add_argument("--config", type=Path, default=Path("config.json"))
     args = parser.parse_args()
     if (args.plan or args.completion) and not args.output:
         parser.error("a separate --output is required with --plan or --completion")
     summary = build(output=args.output, sample_hz=args.sample_hz, recovery_s=args.recovery_s,
-                    min_lookahead_m=args.min_lookahead_m, plan=args.plan, completion=args.completion)
+                    min_lookahead_m=args.min_lookahead_m, plan=args.plan, completion=args.completion, config=args.config)
     print("PREPARED:", summary["counts"])
 
 

@@ -1,0 +1,140 @@
+{
+  "map": "R_KR_PR_Sangam_NoBuildings",
+  "link_set_sha256": "c81a05a1060acc70eb6e4a01ed322efd60fc1298b35e60afca9e5cbb01d3e5e7",
+  "route_selection_seed": 127,
+  "test_reservations": {},
+  "routes": {
+    "command_loss_wide_1": {
+      "split": "test",
+      "route_csv": "routes/experiments/sangam_distribution/command_loss_wide_1.csv",
+      "route_sha256": "803cc81799878427811717799208fdbc2218381d29d7938af16561cf86d8e1cb",
+      "start_xyz_m": [
+        870.2099403165033,
+        -421.4596118815568,
+        0.5845367351313748
+      ],
+      "end_xyz_m": [
+        1123.1283269014482,
+        -488.69675216259895,
+        -0.7948269877833517
+      ],
+      "initial_yaw_deg_map": 49.89357489008193,
+      "length_m": 344.7607815347611,
+      "navigation": [
+        {
+          "link_id": "A219AS319536",
+          "entry_s_m": 84.98557364245438,
+          "exit_s_m": 135.8534206914425,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -92.066,
+          "max_heading_change_5m_deg": 27.65
+        },
+        {
+          "link_id": "A219AS319524",
+          "entry_s_m": 280.3291450821469,
+          "exit_s_m": 320.76078153476107,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -0.583,
+          "max_heading_change_5m_deg": 0.0
+        }
+      ],
+      "source_links": [
+        "LN000004",
+        "A219AS318882",
+        "A219AS319536",
+        "A219AS318678",
+        "A219AS318682",
+        "A219AS319524",
+        "A219AS318960"
+      ],
+      "protected_training_routes": [
+        "scale_train_06",
+        "scale_train_12",
+        "train_07"
+      ],
+      "lane_pairs_median": [
+        2.0,
+        2.0
+      ],
+      "share_probes_4_lanes": 1.0,
+      "max_join_deg": 1.1246724200578588,
+      "evaluation_scope": "Sangam roads reserved before retraining both V4 models",
+      "minimum_learning_frame_distance_m": {
+        "train": 51.5218905001042,
+        "validation": 310.2584520080383
+      }
+    },
+    "command_loss_wide_2": {
+      "split": "test",
+      "route_csv": "routes/experiments/sangam_distribution/command_loss_wide_2.csv",
+      "route_sha256": "fe88f823e13743fb185484758744d4b75988b220a9033ca7ff074c508a5928aa",
+      "start_xyz_m": [
+        1118.675407391044,
+        -1554.0459089054923,
+        3.605284355833165
+      ],
+      "end_xyz_m": [
+        998.3772568237188,
+        -1807.4077227018645,
+        3.0599937834820725
+      ],
+      "initial_yaw_deg_map": -127.18049517837223,
+      "length_m": 315.5271056108293,
+      "navigation": [
+        {
+          "link_id": "A219AS319478",
+          "entry_s_m": 61.249522798813565,
+          "exit_s_m": 114.84892462746454,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -0.15,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319464",
+          "entry_s_m": 227.55903886584852,
+          "exit_s_m": 291.5271056108294,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left",
+          "measured_turn_deg": 87.681,
+          "max_heading_change_5m_deg": 19.09
+        }
+      ],
+      "source_links": [
+        "A219AS318299",
+        "A219AS319478",
+        "A219AS318309",
+        "A219AS318321",
+        "A219AS318333",
+        "A219AS319464",
+        "A219AS318507"
+      ],
+      "protected_training_routes": [
+        "scale_train_11",
+        "scale_train_25",
+        "train_11"
+      ],
+      "lane_pairs_median": [
+        5.0,
+        4.0
+      ],
+      "share_probes_4_lanes": 1.0,
+      "max_join_deg": 5.1194820599253825,
+      "evaluation_scope": "Sangam roads reserved before retraining both V4 models",
+      "minimum_learning_frame_distance_m": {
+        "train": 524.0625257698091,
+        "validation": 1414.8312227597378
+      }
+    }
+  }
+}

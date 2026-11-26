@@ -1,6 +1,6 @@
-"""CIL의 가운데 영상·속도·명령 기반 MORAI 주행과 실제 창 녹화.
+"""CIL의 가운데 영상·속도·경로 조건 기반 MORAI 주행과 실제 창 녹화.
 
-기본 시험에서는 지도 좌표를 배치·진행 명령·평가에만 사용한다.
+체크포인트에 따라 진행 명령 또는 차량 좌표계의 계획 경로점을 입력한다.
 --assist-east-outer-left는 첫 좌회전에서만 지도 조향을 쓰는 별도 진단이다.
 --check는 수신만, --describe는 시험 조건만 확인하며 --control부터 실제 제어한다.
 """
@@ -24,10 +24,15 @@ import cv2
 import numpy as np
 import torch
 
+from attention_model import AttentionCIL
 from dataset import CROP, IMAGE_SIZE, SPEED_SCALE_KPH, preprocess_image
+from distribution_model import DISTRIBUTION_ARCHITECTURES, distribution_from_checkpoint
 from model import CILModel
 from morai import BASE, MoraiClient, load_config
-from tools.simulator import Simulator
+from ordinal_model import OrdinalCIL
+from path_model import PATH_SPEC, PathCIL
+from tools.simulator import simulator_for
+from turn_ordinal_model import TurnOrdinalCIL
 
 
 def sha256(path):
@@ -137,6 +142,40 @@ def actuator_control(raw, speed_kph, cap_kph):
     return steer, float(throttle), float(braking), reason
 
 
+def continuous_steering_mode(logits, candidates, previous_steer, prior_width):
+    """Apply a Gaussian transition prior and select one visual mode."""
+    transition_cost = .5 * ((candidates - previous_steer) / prior_width).square()
+    return candidates[(logits - transition_cost).argmax()]
+
+
+def steering_median(probabilities, candidates):
+    """Choose the binned action minimizing expected absolute steering error."""
+    # The within-bin residual never crosses a boundary, so the candidates are ordered.
+    index = torch.count_nonzero(probabilities.cumsum(dim=0) < .5)
+    return candidates[index]
+
+
+def reached_goal(ego, station, cte, goal_station, goal_xy, max_cte, radius=None):
+    """Require actual endpoint proximity when the trial specifies a goal radius."""
+    if not (station >= goal_station - 1. and abs(cte) < max_cte):
+        return False
+    return radius is None or math.hypot(ego["x_m"] - goal_xy[0], ego["y_m"] - goal_xy[1]) <= radius
+
+
+def temporal_steering_mode(probabilities, candidates, previous, alpha):
+    """Smooth adjacent frames in the same command branch before picking a bin."""
+    filtered = probabilities if previous is None else previous.lerp(probabilities, alpha)
+    return candidates[filtered.argmax()], filtered
+
+
+def local_steering_mode(probabilities, candidates):
+    """Average adjacent angles around the three-bin window with the most probability."""
+    mass = torch.nn.functional.pad(probabilities, (1, 1)).unfold(0, 3, 1).sum(dim=1)
+    weighted = torch.nn.functional.pad(probabilities * candidates, (1, 1)).unfold(0, 3, 1).sum(dim=1)
+    window = mass.argmax()
+    return weighted[window] / mass[window]
+
+
 def load_model(checkpoint_arg, device):
     selection = json.loads((BASE / "checkpoints/selected.json").read_text()) if checkpoint_arg is None else None
     path = Path(checkpoint_arg or selection["checkpoint"])
@@ -148,20 +187,45 @@ def load_model(checkpoint_arg, device):
     settings = checkpoint["settings"]
     expected = {"crop": list(CROP), "image_size_wh": list(IMAGE_SIZE), "color": "RGB",
                 "pixel_range": [0, 1], "speed_scale_kph": SPEED_SCALE_KPH}
-    if (settings["architecture"] != CILModel.architecture
-            or settings["command_names"] != list(CILModel.command_names)
-            or settings["control_order"] != ["steer", "throttle", "brake"]
+    if (
+            settings["control_order"] != ["steer", "throttle", "brake"]
             or settings["steering_unit"] != "normalized_-1_1"
             or json.loads(json.dumps(settings["preprocess"])) != expected):
         raise ValueError("checkpoint input/output contract mismatch")
-    for name in ("model.py", "dataset.py", "config.json"):
+    sources = ["model.py", "dataset.py", "config.json"]
+    architecture = settings["architecture"]
+    if settings["command_names"] != list(CILModel.command_names):
+        raise ValueError("checkpoint command order mismatch")
+    ordinal_types = {variant.architecture: variant for variant in (OrdinalCIL, TurnOrdinalCIL)}
+    if architecture in ordinal_types:
+        sources += ["distribution_model.py", "ordinal_model.py"]
+        model_type = ordinal_types[architecture]
+        if model_type is TurnOrdinalCIL:
+            sources.append("turn_ordinal_model.py")
+        model = model_type.from_settings(settings)
+    elif architecture in DISTRIBUTION_ARCHITECTURES.values():
+        sources.append("distribution_model.py")
+        model = distribution_from_checkpoint(settings)
+    elif architecture == AttentionCIL.architecture:
+        sources.append("attention_model.py")
+        model = AttentionCIL()
+    elif architecture == PathCIL.architecture:
+        if settings.get("predicted_path") != PATH_SPEC:
+            raise ValueError("checkpoint path output contract mismatch")
+        sources.append("path_model.py")
+        model = PathCIL()
+    elif architecture == CILModel.architecture:
+        model = CILModel()
+    else:
+        raise ValueError("unsupported CIL architecture")
+    navigation = torch.zeros(1, dtype=torch.long, device=device)
+    for name in sources:
         if sha256(BASE / name) != settings["hashes"][name]:
             raise ValueError(name + " changed since training")
-    model = CILModel().to(device).eval()
+    model.to(device).eval()
     model.load_state_dict(checkpoint["model_state_dict"], strict=True)
     with torch.inference_mode():
-        model(torch.zeros(1, 3, 88, 200, device=device), torch.zeros(1, 1, device=device),
-              torch.zeros(1, dtype=torch.long, device=device))  # GPU 준비는 출발 전에 끝낸다.
+        model(torch.zeros(1, 3, 88, 200, device=device), torch.zeros(1, 1, device=device), navigation)
     return model, checkpoint, path, digest
 
 
@@ -188,10 +252,19 @@ def wait_sensors(sensors, seconds=10.):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     east_outer_courses = ("EAST_OUTER", "EAST_OUTER_EXTENDED", "EAST_OUTER_MIDDLE_LEFT_RIGHT")
-    parser.add_argument("--course", choices=("U2", "J_straight", "J_left", "J_right", "COMPETITION",
-                                             "COMPETITION_REVERSE", *east_outer_courses,
-                                             "EAST_OUTER_EXTENDED_RIGHT"), default="U2")
+    parser.add_argument("--course", default="U2", help="route name in the evaluation manifest")
+    parser.add_argument("--manifest", type=Path, default=Path("routes/test/manifest.json"))
     parser.add_argument("--checkpoint")
+    parser.add_argument("--config", type=Path, default=BASE / "config.json")
+    decoder = parser.add_mutually_exclusive_group()
+    decoder.add_argument("--steering-prior-width", type=float,
+                         help="transition prior standard deviation in normalized steering units")
+    decoder.add_argument("--posterior-median", action="store_true",
+                         help="choose the median of a binned steering distribution")
+    decoder.add_argument("--steering-ema-alpha", type=float,
+                         help="weight of the current frame when smoothing steering bin probabilities")
+    decoder.add_argument("--steering-local-mode", action="store_true",
+                         help="average angles in the most probable three-bin steering neighborhood")
     parser.add_argument("--control", action="store_true")
     parser.add_argument("--reset", action="store_true")
     parser.add_argument("--record-screen", action="store_true")
@@ -200,6 +273,8 @@ def main():
     parser.add_argument("--check", action="store_true")
     parser.add_argument("--seconds", type=float, default=240.)
     parser.add_argument("--max-cte", type=float, default=7.)  # 사용자가 추종 경향을 볼 수 있도록 정한 중단 기준이다.
+    parser.add_argument("--goal-max-cte", type=float, help="lateral tolerance at the endpoint, in metres")
+    parser.add_argument("--goal-radius-m", type=float, help="require this XY distance to the endpoint before stopping")
     parser.add_argument("--speed-cap-kph", type=float,
                         help="lower the speed cap for this evaluation run only")
     parser.add_argument("--device", choices=("auto", "cpu", "cuda"), default="auto")
@@ -214,7 +289,18 @@ def main():
         args.record_screen = True  # 실제 화면 녹화와 실시간 창이 같은 명령 원본을 사용한다.
     if not all(math.isfinite(v) and v > 0 for v in (args.seconds, args.max_cte)):
         parser.error("seconds and max-cte must be finite and positive")
-    config = load_config()
+    if args.steering_prior_width is not None and (
+        not math.isfinite(args.steering_prior_width) or not 0 < args.steering_prior_width <= 1
+    ):
+        parser.error("steering-prior-width must be in (0, 1]")
+    if args.steering_ema_alpha is not None and not 0 < args.steering_ema_alpha <= 1:
+        parser.error("steering-ema-alpha must be in (0, 1]")
+    goal_max_cte = args.max_cte if args.goal_max_cte is None else args.goal_max_cte
+    if not 0 < goal_max_cte <= args.max_cte:
+        parser.error("goal-max-cte must be positive and no greater than max-cte")
+    if args.goal_radius_m is not None and (not math.isfinite(args.goal_radius_m) or args.goal_radius_m <= 0):
+        parser.error("goal-radius-m must be finite and positive")
+    config = load_config(BASE / args.config)
     if args.speed_cap_kph is not None:
         default_cap = config["collection"]["speed_cap_kph"]
         if not math.isfinite(args.speed_cap_kph) or not 1.0 < args.speed_cap_kph <= default_cap:
@@ -231,7 +317,10 @@ def main():
         finally:
             sensors.close()
         return 0
-    manifest = json.loads((BASE / "routes/test/manifest.json").read_text())
+    manifest_path = BASE / args.manifest
+    manifest = json.loads(manifest_path.read_text())
+    if args.course not in manifest["routes"]:
+        parser.error("unknown course; available: " + ", ".join(manifest["routes"]))
     info = manifest["routes"][args.course]
     reference = Reference(info)
     if info.get("route_sha256") and sha256(reference.path) != info["route_sha256"]:
@@ -262,22 +351,47 @@ def main():
     device = torch.device("cuda" if args.device == "auto" and torch.cuda.is_available()
                           else "cpu" if args.device == "auto" else args.device)
     model, checkpoint, checkpoint_path, digest = load_model(args.checkpoint, device)
+    distribution_spec = checkpoint["settings"].get("steering_distribution")
+    path_spec = checkpoint["settings"].get("predicted_path")
+    if path_spec and (config["vehicle"]["wheelbase_m"] != path_spec["wheelbase_m"]
+                      or config["vehicle"]["max_wheel_angle_deg"] != path_spec["max_angle_deg"]):
+        parser.error("the configured vehicle dimensions do not match the learned path controller")
+    if args.steering_prior_width is not None and not distribution_spec:
+        parser.error("steering-prior-width requires a steering distribution model")
+    if args.posterior_median and (not distribution_spec or distribution_spec["distribution"] != "bins"):
+        parser.error("posterior-median requires a binned steering distribution model")
+    if args.steering_ema_alpha is not None and (not distribution_spec or distribution_spec["distribution"] != "bins"):
+        parser.error("steering-ema-alpha requires a binned steering distribution model")
+    if args.steering_local_mode and (not distribution_spec or distribution_spec["distribution"] != "bins"):
+        parser.error("steering-local-mode requires a binned steering distribution model")
     run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ") + "_" + args.course + "_" + uuid.uuid4().hex[:6]
     run = Path(args.output) if args.output else BASE / "runs/closed_loop" / run_id
     run = run if run.is_absolute() else BASE / run
     run.mkdir(parents=True, exist_ok=False)
-    settings = {"course": args.course, "checkpoint": str(checkpoint_path.relative_to(BASE)),
+    stored_checkpoint = checkpoint_path.relative_to(BASE) if BASE in checkpoint_path.parents else checkpoint_path
+    settings = {"course": args.course, "checkpoint": str(stored_checkpoint),
                 "checkpoint_sha256": digest, "epoch": checkpoint["epoch"], "sensor_config": config,
-                "route": info, "route_sha256": sha256(reference.path), "device": str(device),
-                "max_cte_m": args.max_cte, "seconds": args.seconds, "record_screen": args.record_screen,
-                "control_hz": 20, "camera": "center", "model_controls": ["steer", "throttle", "brake"],
+                "route": info, "route_sha256": sha256(reference.path),
+                "manifest_sha256": sha256(manifest_path), "device": str(device),
+                "max_cte_m": args.max_cte, "goal_max_cte_m": goal_max_cte, "goal_radius_m": args.goal_radius_m,
+                "seconds": args.seconds, "record_screen": args.record_screen,
+                "control_hz": 20, "camera": "center", "image_input_enabled": True,
+                "model_controls": ["steer", "throttle", "brake"],
                 "map_use": "reset, categorical navigation and evaluation only; no map steering or speed profile",
                 "actuator_policy": "clip raw outputs; larger pedal wins; speed cap overrides; stop on endpoint/intervention",
-                "stall_timeout_s": 12., "completion_definition": "reference station reaches final1m while absCTE<max_cte; same endpoint condition as PilotNet; then brake",
+                "stall_timeout_s": 12., "completion_definition": "reference station reaches final 1m while absCTE < goal_max_cte_m; then brake",
                 "no_retraining": True, "collision_metric": "not instrumented",
                 "screen_command_overlay": bool(args.record_screen),
                 "live_command_banner": args.show_command,
                 "screen_command_source": "same categorical command passed to the model; display only"}
+    if distribution_spec:
+        settings["steering_distribution"] = distribution_spec
+        settings["steering_prior_width"] = args.steering_prior_width
+        settings["posterior_median"] = args.posterior_median
+        settings["steering_ema_alpha"] = args.steering_ema_alpha
+        settings["steering_local_mode"] = args.steering_local_mode
+    if path_spec:
+        settings["predicted_path"] = path_spec
     if assist_info:
         settings["steering_assist"] = assist_info
         settings["map_use"] = "reset, categorical navigation, evaluation, and steering only in the declared assist interval"
@@ -286,6 +400,16 @@ def main():
         (run / "software").mkdir(exist_ok=True)
         shutil.copy2(BASE / source, run / "software" / source)
     shutil.copy2(BASE / "tools/recording.py", run / "software" / "recording.py")  # 명령 배너의 실제 구현도 보존한다.
+    if distribution_spec:
+        shutil.copy2(BASE / "distribution_model.py", run / "software" / "distribution_model.py")
+    if isinstance(model, OrdinalCIL):
+        shutil.copy2(BASE / "ordinal_model.py", run / "software" / "ordinal_model.py")
+    if isinstance(model, TurnOrdinalCIL):
+        shutil.copy2(BASE / "turn_ordinal_model.py", run / "software" / "turn_ordinal_model.py")
+    if isinstance(model, AttentionCIL):
+        shutil.copy2(BASE / "attention_model.py", run / "software" / "attention_model.py")
+    if path_spec:
+        shutil.copy2(BASE / "path_model.py", run / "software" / "path_model.py")
     if args.show_command:
         shutil.copy2(BASE / "tools/live_command_banner.py", run / "software" / "live_command_banner.py")
     if assist_info:
@@ -299,7 +423,7 @@ def main():
     assist_started, assist_handoff = None, None
     try:
         if args.reset:
-            simulator = Simulator()
+            simulator = simulator_for(config)
             write_json(run / "reset_state.json", simulator.setup(info, config))
         sensors = LatestSensors(config)
         ego, ego_recv, frame = wait_sensors(sensors)
@@ -312,9 +436,10 @@ def main():
         if args.record_screen:
             screen = ScreenVideo(run / "morai_screen.mp4", command_overlay=True)
             initial_command = reference.command(station)
-            screen.update_command(initial_command, config["commands"][initial_command], 0., reason="ready", course=args.course)
+            screen.update_command(initial_command, config["commands"][initial_command], 0.,
+                                  reason="ready", course=args.course)
             write_json(run / "screen_recording.json", {"geometry": screen.geometry,
-                       "command_overlay": True, "source": "actual model navigation input",
+                       "command_overlay": True, "source": settings["screen_command_source"],
                        "input_image_modified": False, "update_hz": 20,
                        "text_file": screen.overlay_text_path.name, "overlay_style": screen.overlay_style})
             if args.show_command:
@@ -336,6 +461,14 @@ def main():
                   "route_s_m", "cte_m", "heading_error_deg", "command", "command_name",
                   "raw_steer", "raw_throttle", "raw_brake", "steer", "throttle", "brake",
                   "camera_age_s", "ego_age_s", "sensor_delta_s", "inference_ms", "new_frame", "reason")
+        if distribution_spec:
+            fields += ("steering_probabilities", "steering_candidates", "steering_scales")
+        if args.steering_ema_alpha is not None:
+            fields += ("filtered_steering_probabilities",)
+        if path_spec:
+            fields += ("predicted_local_path_m",)
+        last_distribution, filtered_probabilities = {}, None
+        last_path = None
         if assist_info:
             fields += ("steering_source", "steering_assist_weight")
         start, next_tick = time.monotonic(), time.monotonic()
@@ -362,14 +495,45 @@ def main():
                     raise RuntimeError("external control mode or D gear lost")
                 if age_ego > .20 or age_camera > .25 or delta > .25:
                     reason = "stale_sensor"
-                if reason == "model" and (frame[0] != previous_stamp or command != last_command):
+                refresh = frame[0] != previous_stamp or command != last_command
+                if reason == "model" and refresh:
                     image = cv2.imdecode(np.frombuffer(frame[2], np.uint8), cv2.IMREAD_COLOR)
                     tensor = preprocess_image(image, augment=False).unsqueeze(0).to(device)
                     speed = torch.tensor([[ego["speed_kph"] / SPEED_SCALE_KPH]], dtype=torch.float32, device=device)
-                    command_tensor = torch.tensor([command], dtype=torch.long, device=device)
+                    navigation = torch.tensor([command], dtype=torch.long, device=device)
                     inference_start = time.monotonic_ns()
                     with torch.inference_mode():
-                        raw = model(tensor, speed, command_tensor)["control"][0].cpu().numpy()
+                        output = model(tensor, speed, navigation)
+                        raw = output["control"][0].cpu().numpy()
+                        if distribution_spec:
+                            logits = output["steering_logits"][0]
+                            candidates = output["steering_candidates"][0]
+                            probabilities = logits.softmax(dim=0)
+                            decode_mode = name in distribution_spec.get("mode_commands", (name,))
+                            if decode_mode and args.steering_prior_width is not None:
+                                raw[0] = continuous_steering_mode(
+                                    logits, candidates, applied[0], args.steering_prior_width,
+                                ).item()
+                            elif decode_mode and args.posterior_median:
+                                raw[0] = steering_median(probabilities, candidates).item()
+                            elif decode_mode and args.steering_local_mode:
+                                raw[0] = local_steering_mode(probabilities, candidates).item()
+                            last_distribution = {
+                                "steering_probabilities": probabilities.cpu().tolist(),
+                                "steering_candidates": candidates.cpu().tolist(),
+                            }
+                            if decode_mode and args.steering_ema_alpha is not None:
+                                if last_command != command or frame[0] - previous_stamp > 250_000_000:
+                                    filtered_probabilities = None
+                                angle, filtered_probabilities = temporal_steering_mode(
+                                    probabilities, candidates, filtered_probabilities, args.steering_ema_alpha,
+                                )
+                                raw[0] = angle.item()
+                                last_distribution["filtered_steering_probabilities"] = filtered_probabilities.cpu().tolist()
+                            if "steering_scales" in output:
+                                last_distribution["steering_scales"] = output["steering_scales"][0].cpu().tolist()
+                        if path_spec:
+                            last_path = (output["path"][0] * model.distances[:, None]).cpu().tolist()
                     inference_ms = (time.monotonic_ns() - inference_start) / 1e6
                     previous_stamp, last_command, new_frame = frame[0], command, True
                 if (time.monotonic_ns() - frame[1]) / 1e9 > .25:
@@ -387,7 +551,7 @@ def main():
                     status = "intervention_cte"
                 elif ego["speed_kph"] < -.5:
                     status = "intervention_reverse"
-                elif station >= reference.s[-1] - 1.:
+                elif reached_goal(ego, station, cte, reference.s[-1], reference.xy[-1], goal_max_cte, args.goal_radius_m):
                     status = "completed"
                 if station - motion_station >= .5:
                     last_motion, motion_station = time.monotonic(), station
@@ -426,6 +590,9 @@ def main():
                 row = dict(zip(fields, (elapsed, ego["stamp_ns"], frame[0], ego["x_m"], ego["y_m"], ego["yaw_deg"], ego["speed_kph"],
                     station, cte, heading, command, name, *map(float, raw), *applied, age_camera, age_ego, delta,
                     inference_ms, int(new_frame), reason)))
+                row.update({key: json.dumps(value) for key, value in last_distribution.items()})
+                if last_path is not None:
+                    row["predicted_local_path_m"] = json.dumps(last_path)
                 if assist_info:
                     row["steering_source"] = steering_source
                     row["steering_assist_weight"] = assist_weight
@@ -459,6 +626,8 @@ def main():
         if sensors:
             try:
                 hold_brake(sensors.client, steer=float(applied[0]))  # 실패한 시험도 즉시 정지한다.
+            except KeyboardInterrupt:
+                status = "interrupted"
             except Exception as exception:
                 cleanup_errors.append("brake: " + str(exception))
             try:
@@ -495,9 +664,13 @@ def main():
         completion = np.clip((last.get("route_s_m", reference.s[0]) - reference.s[0]) / (reference.s[-1] - reference.s[0]), 0., 1.)
         summary = {"status": status, "error": error, "course": args.course, "checkpoint_sha256": digest,
                    "epoch": checkpoint["epoch"], "telemetry_rows": len(rows), "elapsed_s": last.get("elapsed_s", 0.),
+                   "navigation_input": "command",
+                   "image_input_enabled": True,
+                   "goal_max_cte_m": goal_max_cte,
                    "completion_fraction": float(completion), "cte_rmse_m": float(np.sqrt(np.mean(ctes ** 2))) if len(ctes) else None,
                    "max_abs_cte_m": float(np.max(np.abs(ctes))) if len(ctes) else None,
-                   "terminal_station_m": last.get("route_s_m"), "terminal_heading_deg": last.get("heading_error_deg"),
+                   "terminal_station_m": last.get("route_s_m"), "terminal_cte_m": last.get("cte_m"),
+                   "terminal_heading_deg": last.get("heading_error_deg"),
                    "mean_speed_kph": float(np.mean([row["speed_kph"] for row in rows])) if rows else None,
                    "inference_mean_ms": float(np.mean(inference)) if inference else None,
                    "interventions": int(status.startswith("intervention")), "cleanup_errors": cleanup_errors,

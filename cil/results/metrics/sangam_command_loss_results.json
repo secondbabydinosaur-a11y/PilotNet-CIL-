@@ -1,0 +1,1121 @@
+{
+  "data_split": {
+    "source_training_images": 94077,
+    "training_images": 81208,
+    "center_training_images": 27105,
+    "validation_images": 1796,
+    "retained_training_routes": 36,
+    "excluded_training_routes": [
+      "scale_train_06",
+      "scale_train_11",
+      "scale_train_12",
+      "scale_train_25",
+      "train_07",
+      "train_11"
+    ],
+    "train_csv_sha256": "77bc26cafcfdbe8140d81ac8828b26485efa95f80ae15755a60b631a379e1770",
+    "val_csv_sha256": "5dee9e2fe40c9cf0e68dd5c09fe249ab328b52691957751b8fa36729c50ce95a",
+    "test_manifest_sha256": "11164cdfda45b45ecc2170ca671139bf5a69b2125d3489f6a45efd97d0877dc3",
+    "test_protocol_sha256": "2f8c8b18720f25fdd2a6f27d31be1c0c697aa04777a45211df82396f8257e4fb",
+    "training_epochs": 14,
+    "steps_per_epoch": 580
+  },
+  "training": {
+    "baseline": {
+      "status": "completed",
+      "run_name": "sangam_baseline_command_loss",
+      "completed_epochs": 14,
+      "best_epoch": 7,
+      "best_validation_mean_command_mse": 0.012679967214353383,
+      "stop_reason": "max_epochs",
+      "elapsed_seconds": 183.19785273699745,
+      "best_checkpoint_sha256": "6cb09d48fa1ce185297ca88935c996a060efb0276c8f4d123987d730cbd85498",
+      "training_samples": 81208,
+      "validation_samples": 1796,
+      "optimizer_updates": 8120,
+      "best_optimizer_updates": 4060,
+      "cumulative_optimizer_updates": 8120,
+      "evaluation_scope": "validation only; closed-loop performance not evaluated"
+    },
+    "turn_ordinal": {
+      "status": "completed",
+      "run_name": "sangam_turn_ordinal_command_loss",
+      "completed_epochs": 14,
+      "best_epoch": 8,
+      "best_validation_mean_command_mse": 0.01644668757217005,
+      "stop_reason": "max_epochs",
+      "elapsed_seconds": 188.91993342799833,
+      "best_checkpoint_sha256": "653c70e973ed796202f0ead99c4bacc3dac34ef3eb08a58528ed4c47d693d3ea",
+      "training_samples": 81208,
+      "validation_samples": 1796,
+      "optimizer_updates": 8120,
+      "best_optimizer_updates": 4640,
+      "cumulative_optimizer_updates": 8120,
+      "evaluation_scope": "validation only; closed-loop performance not evaluated"
+    }
+  },
+  "protocol": {
+    "manifest_sha256": "11164cdfda45b45ecc2170ca671139bf5a69b2125d3489f6a45efd97d0877dc3",
+    "speed_cap_kph": 16,
+    "max_cte_m": 15.0,
+    "goal_max_cte_m": 1.5,
+    "goal_radius_m": 2,
+    "test_repetitions": 2,
+    "validation_repetitions": 1,
+    "vehicle": "Ioniq5",
+    "screen": "same chase-camera view",
+    "model_selection": "Best validation MSE for each new fit; routing fixed before training.",
+    "baseline_arms": [
+      "published K-City CIL checkpoint",
+      "Sangam CIL with point steering regression"
+    ],
+    "candidate_arms": [
+      "ordinal steering loss for turn branches; MSE of expected steering elsewhere"
+    ],
+    "collection_and_tuning_scope": "Training roads must remain spatially separated from all reserved evaluation roads.",
+    "secondary_lateral_threshold_m": 2.2,
+    "termination_scope": "Stop on lateral error at 15 m. Require the same 2 m positional goal radius for both stop and evaluation. Stall and reverse use common drive rules.",
+    "strict_goal_stop": true
+  },
+  "selection": {
+    "selected": "turn_ordinal",
+    "checkpoint_sha256": {
+      "original": "d179b1c3fc9f9afd9b91c1449c1f430486631444b3e34cc9a15e26a9edbe569d",
+      "baseline": "6cb09d48fa1ce185297ca88935c996a060efb0276c8f4d123987d730cbd85498",
+      "turn_ordinal": "653c70e973ed796202f0ead99c4bacc3dac34ef3eb08a58528ed4c47d693d3ea"
+    }
+  },
+  "models": {
+    "original": {
+      "runs": 4,
+      "goals": 0,
+      "mean_progress_pct": 56.20627365290769,
+      "mean_progress_m": 190.94942408179148,
+      "mean_near_route_progress_pct": 43.157253297883024,
+      "mean_near_route_progress_m": 148.2652105311476,
+      "mean_progress_before_2_2_m_m": 17.878651280756433,
+      "mean_relative_progress_before_2_2_m_pct": 5.3409333101380545,
+      "mean_trial_max_cte_m": 15.059414671359239,
+      "mean_trial_p95_abs_cte_m": 10.801609006291597,
+      "aligned_intersections": 0,
+      "planned_intersections": 8,
+      "intersection_exits_by_command": {
+        "right": {
+          "planned": 2,
+          "entered": 2,
+          "aligned": 0
+        },
+        "left": {
+          "planned": 2,
+          "entered": 0,
+          "aligned": 0
+        },
+        "straight": {
+          "planned": 4,
+          "entered": 2,
+          "aligned": 0
+        }
+      }
+    },
+    "baseline": {
+      "runs": 4,
+      "goals": 0,
+      "mean_progress_pct": 68.53420846683656,
+      "mean_progress_m": 224.35842800111124,
+      "mean_near_route_progress_pct": 30.104115566720136,
+      "mean_near_route_progress_m": 102.5341057937665,
+      "mean_progress_before_2_2_m_m": 43.28387292225686,
+      "mean_relative_progress_before_2_2_m_pct": 12.921111874815956,
+      "mean_trial_max_cte_m": 12.216165576520641,
+      "mean_trial_p95_abs_cte_m": 8.055483252952783,
+      "aligned_intersections": 0,
+      "planned_intersections": 8,
+      "intersection_exits_by_command": {
+        "right": {
+          "planned": 2,
+          "entered": 1,
+          "aligned": 0
+        },
+        "left": {
+          "planned": 2,
+          "entered": 2,
+          "aligned": 0
+        },
+        "straight": {
+          "planned": 4,
+          "entered": 3,
+          "aligned": 0
+        }
+      }
+    },
+    "turn_ordinal": {
+      "runs": 4,
+      "goals": 0,
+      "mean_progress_pct": 80.0856152643033,
+      "mean_progress_m": 265.1333422483399,
+      "mean_near_route_progress_pct": 52.18051340161856,
+      "mean_near_route_progress_m": 168.86310602140173,
+      "mean_progress_before_2_2_m_m": 91.72647862723167,
+      "mean_relative_progress_before_2_2_m_pct": 27.730723950856458,
+      "mean_trial_max_cte_m": 14.669911912379604,
+      "mean_trial_p95_abs_cte_m": 9.928252974740058,
+      "aligned_intersections": 0,
+      "planned_intersections": 8,
+      "intersection_exits_by_command": {
+        "right": {
+          "planned": 2,
+          "entered": 2,
+          "aligned": 0
+        },
+        "left": {
+          "planned": 2,
+          "entered": 2,
+          "aligned": 0
+        },
+        "straight": {
+          "planned": 4,
+          "entered": 4,
+          "aligned": 0
+        }
+      }
+    }
+  },
+  "by_course": {
+    "command_loss_wide_1": {
+      "length_m": 344.7607815347611,
+      "commands": [
+        "right",
+        "straight"
+      ],
+      "route_minimum_learning_frame_distance_m": {
+        "train": 51.5218905001042,
+        "val": 310.2584520080383
+      },
+      "original": {
+        "runs": 2,
+        "goals": 0,
+        "mean_progress_pct": 93.0670020537357,
+        "mean_progress_m": 320.8585236316537,
+        "mean_near_route_progress_pct": 82.72909893828191,
+        "mean_near_route_progress_m": 285.21748805628647,
+        "mean_progress_before_2_2_m_m": 24.21298520350166,
+        "mean_relative_progress_before_2_2_m_pct": 7.023126324204698,
+        "mean_trial_max_cte_m": 15.045370506170926,
+        "mean_trial_p95_abs_cte_m": 7.888532129688523,
+        "aligned_intersections": 0,
+        "planned_intersections": 4,
+        "intersection_exits_by_command": {
+          "right": {
+            "planned": 2,
+            "entered": 2,
+            "aligned": 0
+          },
+          "left": {
+            "planned": 0,
+            "entered": 0,
+            "aligned": 0
+          },
+          "straight": {
+            "planned": 2,
+            "entered": 2,
+            "aligned": 0
+          }
+        }
+      },
+      "baseline": {
+        "runs": 2,
+        "goals": 0,
+        "mean_progress_pct": 55.515871247643005,
+        "mean_progress_m": 191.39695158933839,
+        "mean_near_route_progress_pct": 51.635389924923615,
+        "mean_near_route_progress_m": 178.01857385368797,
+        "mean_progress_before_2_2_m_m": 59.30278114715999,
+        "mean_relative_progress_before_2_2_m_pct": 17.201138970379287,
+        "mean_trial_max_cte_m": 9.382268721829409,
+        "mean_trial_p95_abs_cte_m": 5.973936017799988,
+        "aligned_intersections": 0,
+        "planned_intersections": 4,
+        "intersection_exits_by_command": {
+          "right": {
+            "planned": 2,
+            "entered": 1,
+            "aligned": 0
+          },
+          "left": {
+            "planned": 0,
+            "entered": 0,
+            "aligned": 0
+          },
+          "straight": {
+            "planned": 2,
+            "entered": 1,
+            "aligned": 0
+          }
+        }
+      },
+      "turn_ordinal": {
+        "runs": 2,
+        "goals": 0,
+        "mean_progress_pct": 85.11923348897156,
+        "mean_progress_m": 293.45773461317975,
+        "mean_near_route_progress_pct": 28.866998480677445,
+        "mean_near_route_progress_m": 99.52208956761118,
+        "mean_progress_before_2_2_m_m": 99.73638723893413,
+        "mean_relative_progress_before_2_2_m_pct": 28.929156847522123,
+        "mean_trial_max_cte_m": 15.121805905894021,
+        "mean_trial_p95_abs_cte_m": 5.770070166291086,
+        "aligned_intersections": 0,
+        "planned_intersections": 4,
+        "intersection_exits_by_command": {
+          "right": {
+            "planned": 2,
+            "entered": 2,
+            "aligned": 0
+          },
+          "left": {
+            "planned": 0,
+            "entered": 0,
+            "aligned": 0
+          },
+          "straight": {
+            "planned": 2,
+            "entered": 2,
+            "aligned": 0
+          }
+        }
+      }
+    },
+    "command_loss_wide_2": {
+      "length_m": 315.5271056108293,
+      "commands": [
+        "straight",
+        "left"
+      ],
+      "route_minimum_learning_frame_distance_m": {
+        "train": 524.0625257698091,
+        "val": 1414.8312227597378
+      },
+      "original": {
+        "runs": 2,
+        "goals": 0,
+        "mean_progress_pct": 19.345545252079667,
+        "mean_progress_m": 61.04032453192923,
+        "mean_near_route_progress_pct": 3.5854076574841507,
+        "mean_near_route_progress_m": 11.312933006008778,
+        "mean_progress_before_2_2_m_m": 11.544317358011206,
+        "mean_relative_progress_before_2_2_m_pct": 3.65874029607141,
+        "mean_trial_max_cte_m": 15.073458836547552,
+        "mean_trial_p95_abs_cte_m": 13.714685882894674,
+        "aligned_intersections": 0,
+        "planned_intersections": 4,
+        "intersection_exits_by_command": {
+          "right": {
+            "planned": 0,
+            "entered": 0,
+            "aligned": 0
+          },
+          "left": {
+            "planned": 2,
+            "entered": 0,
+            "aligned": 0
+          },
+          "straight": {
+            "planned": 2,
+            "entered": 0,
+            "aligned": 0
+          }
+        }
+      },
+      "baseline": {
+        "runs": 2,
+        "goals": 0,
+        "mean_progress_pct": 81.55254568603011,
+        "mean_progress_m": 257.31990441288406,
+        "mean_near_route_progress_pct": 8.572841208516651,
+        "mean_near_route_progress_m": 27.04963773384503,
+        "mean_progress_before_2_2_m_m": 27.26496469735373,
+        "mean_relative_progress_before_2_2_m_pct": 8.641084779252626,
+        "mean_trial_max_cte_m": 15.050062431211874,
+        "mean_trial_p95_abs_cte_m": 10.137030488105577,
+        "aligned_intersections": 0,
+        "planned_intersections": 4,
+        "intersection_exits_by_command": {
+          "right": {
+            "planned": 0,
+            "entered": 0,
+            "aligned": 0
+          },
+          "left": {
+            "planned": 2,
+            "entered": 2,
+            "aligned": 0
+          },
+          "straight": {
+            "planned": 2,
+            "entered": 2,
+            "aligned": 0
+          }
+        }
+      },
+      "turn_ordinal": {
+        "runs": 2,
+        "goals": 0,
+        "mean_progress_pct": 75.05199703963505,
+        "mean_progress_m": 236.80894988350002,
+        "mean_near_route_progress_pct": 75.49402832255967,
+        "mean_near_route_progress_m": 238.20412247519226,
+        "mean_progress_before_2_2_m_m": 83.71657001552921,
+        "mean_relative_progress_before_2_2_m_pct": 26.5322910541908,
+        "mean_trial_max_cte_m": 14.218017918865186,
+        "mean_trial_p95_abs_cte_m": 14.08643578318903,
+        "aligned_intersections": 0,
+        "planned_intersections": 4,
+        "intersection_exits_by_command": {
+          "right": {
+            "planned": 0,
+            "entered": 0,
+            "aligned": 0
+          },
+          "left": {
+            "planned": 2,
+            "entered": 2,
+            "aligned": 0
+          },
+          "straight": {
+            "planned": 2,
+            "entered": 2,
+            "aligned": 0
+          }
+        }
+      }
+    }
+  },
+  "trials": [
+    {
+      "course": "command_loss_wide_1",
+      "model": "original",
+      "repeat": 1,
+      "goal_reached": false,
+      "status": "intervention_cte",
+      "progress_m": 320.7708517586195,
+      "course_length_m": 344.7607815347611,
+      "progress_pct": 93.04157228395624,
+      "max_abs_cte_m": 15.034048571285014,
+      "p95_abs_cte_m": 7.757667303808064,
+      "progress_at_first_2p2m_m": 23.35836390253674,
+      "goal_distance_m": 28.354628021165713,
+      "checkpoint_sha256": "d179b1c3fc9f9afd9b91c1449c1f430486631444b3e34cc9a15e26a9edbe569d",
+      "checkpoint_epoch": 3,
+      "steering_ema_alpha": null,
+      "steering_local_mode": false,
+      "steer_change_mean": 0.020829407125931093,
+      "start_position_m": [
+        870.20849609375,
+        -421.4565734863281
+      ],
+      "start_yaw_deg": 51.17876052856445,
+      "elapsed_s": 84.80846250499962,
+      "aligned_intersections": 0,
+      "planned_intersections": 2,
+      "turns": [
+        {
+          "command": "right",
+          "link_id": "A219AS319536",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 27.65,
+          "max_abs_cte_m": 3.5634430388862235
+        },
+        {
+          "command": "straight",
+          "link_id": "A219AS319524",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": 14.527786171007723
+        }
+      ],
+      "minimum_goal_distance_m": 28.26093722091073,
+      "near_route_progress_m": 285.2331336286432,
+      "near_route_progress_pct": 82.73363703344664,
+      "actual_learning_frame_distance_m": {
+        "train": 54.18869295424236,
+        "val": 303.07376233783356
+      },
+      "video_sha256": "520d2c490980c0ac20e9071459cf240368b596bddfbcb9694e0bfcfa155bcba1"
+    },
+    {
+      "course": "command_loss_wide_1",
+      "model": "baseline",
+      "repeat": 1,
+      "goal_reached": false,
+      "status": "intervention_stalled",
+      "progress_m": 81.5202003557557,
+      "course_length_m": 344.7607815347611,
+      "progress_pct": 23.64543901797595,
+      "max_abs_cte_m": 3.749388467231327,
+      "p95_abs_cte_m": 3.6530293569471524,
+      "progress_at_first_2p2m_m": 59.30807593910275,
+      "goal_distance_m": 241.95019802859358,
+      "checkpoint_sha256": "6cb09d48fa1ce185297ca88935c996a060efb0276c8f4d123987d730cbd85498",
+      "checkpoint_epoch": 7,
+      "steering_ema_alpha": null,
+      "steering_local_mode": false,
+      "steer_change_mean": 0.0018654143239589449,
+      "start_position_m": [
+        870.2091064453125,
+        -421.4559631347656
+      ],
+      "start_yaw_deg": 51.23414993286133,
+      "elapsed_s": 35.26480087899836,
+      "aligned_intersections": 0,
+      "planned_intersections": 2,
+      "turns": [
+        {
+          "command": "right",
+          "link_id": "A219AS319536",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 27.65,
+          "max_abs_cte_m": null
+        },
+        {
+          "command": "straight",
+          "link_id": "A219AS319524",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": null
+        }
+      ],
+      "minimum_goal_distance_m": 241.95019802843603,
+      "near_route_progress_m": 59.04978296963339,
+      "near_route_progress_pct": 17.12775528201417,
+      "actual_learning_frame_distance_m": {
+        "train": 185.40315215703598,
+        "val": 306.64739498586493
+      },
+      "video_sha256": "68a4b0a71cd49951e0d98bd3caf454b79580d0c8aff36260f2093403ee4c639c"
+    },
+    {
+      "course": "command_loss_wide_1",
+      "model": "turn_ordinal",
+      "repeat": 1,
+      "goal_reached": false,
+      "status": "intervention_cte",
+      "progress_m": 293.43149359014,
+      "course_length_m": 344.7607815347611,
+      "progress_pct": 85.11162211771206,
+      "max_abs_cte_m": 15.039461613654309,
+      "p95_abs_cte_m": 5.8123713240920605,
+      "progress_at_first_2p2m_m": 99.91652753876102,
+      "goal_distance_m": 53.330711731611956,
+      "checkpoint_sha256": "653c70e973ed796202f0ead99c4bacc3dac34ef3eb08a58528ed4c47d693d3ea",
+      "checkpoint_epoch": 8,
+      "steering_ema_alpha": null,
+      "steering_local_mode": true,
+      "steer_change_mean": 0.00808561361787121,
+      "start_position_m": [
+        870.2083129882812,
+        -421.45574951171875
+      ],
+      "start_yaw_deg": 51.18165969848633,
+      "elapsed_s": 73.56662857500123,
+      "aligned_intersections": 0,
+      "planned_intersections": 2,
+      "turns": [
+        {
+          "command": "right",
+          "link_id": "A219AS319536",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 27.65,
+          "max_abs_cte_m": 5.891761743400112
+        },
+        {
+          "command": "straight",
+          "link_id": "A219AS319524",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": 15.039461613654309
+        }
+      ],
+      "minimum_goal_distance_m": 53.330711731375516,
+      "near_route_progress_m": 99.68183833500566,
+      "near_route_progress_pct": 28.913334600082717,
+      "actual_learning_frame_distance_m": {
+        "train": 36.49197409956476,
+        "val": 310.10591863431154
+      },
+      "video_sha256": "c9cd854d7d3afe2aab1f0db3e1c5ad58e59e9784e7ffc6d5debd1a16057bc8fd"
+    },
+    {
+      "course": "command_loss_wide_2",
+      "model": "original",
+      "repeat": 1,
+      "goal_reached": false,
+      "status": "intervention_cte",
+      "progress_m": 61.070155868828465,
+      "course_length_m": 315.5271056108293,
+      "progress_pct": 19.354999714885025,
+      "max_abs_cte_m": 15.075682011664927,
+      "p95_abs_cte_m": 13.72554301995611,
+      "progress_at_first_2p2m_m": 11.638196664431625,
+      "goal_distance_m": 217.5983536447648,
+      "checkpoint_sha256": "d179b1c3fc9f9afd9b91c1449c1f430486631444b3e34cc9a15e26a9edbe569d",
+      "checkpoint_epoch": 3,
+      "steering_ema_alpha": null,
+      "steering_local_mode": false,
+      "steer_change_mean": 0.025968994329900515,
+      "start_position_m": [
+        1118.703125,
+        -1554.07421875
+      ],
+      "start_yaw_deg": -128.08944702148438,
+      "elapsed_s": 16.962698650000675,
+      "aligned_intersections": 0,
+      "planned_intersections": 2,
+      "turns": [
+        {
+          "command": "straight",
+          "link_id": "A219AS319478",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": null
+        },
+        {
+          "command": "left",
+          "link_id": "A219AS319464",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 19.09,
+          "max_abs_cte_m": null
+        }
+      ],
+      "minimum_goal_distance_m": 217.59835364476334,
+      "near_route_progress_m": 11.443024634177002,
+      "near_route_progress_pct": 3.626637594898364,
+      "actual_learning_frame_distance_m": {
+        "train": 524.0690429382195,
+        "val": 1414.8674855069232
+      },
+      "video_sha256": "481a26377294d81753970e8be89981b19713e1eb18c1237812fc680b1ddc5aab"
+    },
+    {
+      "course": "command_loss_wide_2",
+      "model": "baseline",
+      "repeat": 1,
+      "goal_reached": false,
+      "status": "intervention_cte",
+      "progress_m": 257.267990556547,
+      "course_length_m": 315.5271056108293,
+      "progress_pct": 81.53609259760569,
+      "max_abs_cte_m": 15.094850901807154,
+      "p95_abs_cte_m": 10.096933183122752,
+      "progress_at_first_2p2m_m": 27.563293702405996,
+      "goal_distance_m": 45.94748729208604,
+      "checkpoint_sha256": "6cb09d48fa1ce185297ca88935c996a060efb0276c8f4d123987d730cbd85498",
+      "checkpoint_epoch": 7,
+      "steering_ema_alpha": null,
+      "steering_local_mode": false,
+      "steer_change_mean": 0.017030488850383524,
+      "start_position_m": [
+        1118.674560546875,
+        -1554.0494384765625
+      ],
+      "start_yaw_deg": -125.89065551757812,
+      "elapsed_s": 63.65741180199984,
+      "aligned_intersections": 0,
+      "planned_intersections": 2,
+      "turns": [
+        {
+          "command": "straight",
+          "link_id": "A219AS319478",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": 3.76888236389235
+        },
+        {
+          "command": "left",
+          "link_id": "A219AS319464",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 19.09,
+          "max_abs_cte_m": 15.094850901807154
+        }
+      ],
+      "minimum_goal_distance_m": 45.947487292303094,
+      "near_route_progress_m": 27.353125794480523,
+      "near_route_progress_pct": 8.669025674205573,
+      "actual_learning_frame_distance_m": {
+        "train": 524.0657794627614,
+        "val": 1414.8341183993994
+      },
+      "video_sha256": "719444faa79dd6ede466740e20b6ac33e58f913dc8d76965fdb80ef6650b3cc9"
+    },
+    {
+      "course": "command_loss_wide_2",
+      "model": "turn_ordinal",
+      "repeat": 1,
+      "goal_reached": false,
+      "status": "timeout",
+      "progress_m": 236.558952288,
+      "course_length_m": 315.5271056108293,
+      "progress_pct": 74.97276515753511,
+      "max_abs_cte_m": 14.182911028210297,
+      "p95_abs_cte_m": 14.010934639986056,
+      "progress_at_first_2p2m_m": 80.48887065590002,
+      "goal_distance_m": 234.9516593515651,
+      "checkpoint_sha256": "653c70e973ed796202f0ead99c4bacc3dac34ef3eb08a58528ed4c47d693d3ea",
+      "checkpoint_epoch": 8,
+      "steering_ema_alpha": null,
+      "steering_local_mode": true,
+      "steer_change_mean": 0.026548084605826815,
+      "start_position_m": [
+        1118.674560546875,
+        -1554.049560546875
+      ],
+      "start_yaw_deg": -125.89126586914062,
+      "elapsed_s": 131.9736902650002,
+      "aligned_intersections": 0,
+      "planned_intersections": 2,
+      "turns": [
+        {
+          "command": "straight",
+          "link_id": "A219AS319478",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": 5.86182377796257
+        },
+        {
+          "command": "left",
+          "link_id": "A219AS319464",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 19.09,
+          "max_abs_cte_m": 14.182911028210297
+        }
+      ],
+      "minimum_goal_distance_m": 59.88358476577774,
+      "near_route_progress_m": 237.66226385348915,
+      "near_route_progress_pct": 75.32229707916804,
+      "actual_learning_frame_distance_m": {
+        "train": 524.0659768902273,
+        "val": 1414.834347100672
+      },
+      "video_sha256": "06310f8f17dc9794cfc3d2613632e7ba376a026b9b0948684e6c901af7577494"
+    },
+    {
+      "course": "command_loss_wide_1",
+      "model": "turn_ordinal",
+      "repeat": 2,
+      "goal_reached": false,
+      "status": "intervention_cte",
+      "progress_m": 293.4839756362195,
+      "course_length_m": 344.7607815347611,
+      "progress_pct": 85.12684486023105,
+      "max_abs_cte_m": 15.204150198133735,
+      "p95_abs_cte_m": 5.727769008490112,
+      "progress_at_first_2p2m_m": 99.55624693910724,
+      "goal_distance_m": 53.325246697580596,
+      "checkpoint_sha256": "653c70e973ed796202f0ead99c4bacc3dac34ef3eb08a58528ed4c47d693d3ea",
+      "checkpoint_epoch": 8,
+      "steering_ema_alpha": null,
+      "steering_local_mode": true,
+      "steer_change_mean": 0.005505758137432006,
+      "start_position_m": [
+        870.2077026367188,
+        -421.45574951171875
+      ],
+      "start_yaw_deg": 51.14780044555664,
+      "elapsed_s": 73.9080035650004,
+      "aligned_intersections": 0,
+      "planned_intersections": 2,
+      "turns": [
+        {
+          "command": "right",
+          "link_id": "A219AS319536",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 27.65,
+          "max_abs_cte_m": 5.7805152878523876
+        },
+        {
+          "command": "straight",
+          "link_id": "A219AS319524",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": 15.204150198133735
+        }
+      ],
+      "minimum_goal_distance_m": 53.32524669734236,
+      "near_route_progress_m": 99.3623408002167,
+      "near_route_progress_pct": 28.820662361272177,
+      "actual_learning_frame_distance_m": {
+        "train": 36.32615879201724,
+        "val": 310.0827427377347
+      },
+      "video_sha256": "4c507403d86976f90345e0d5d9c77356be9ea1daf728eb90843c3270c2a2a7d4"
+    },
+    {
+      "course": "command_loss_wide_1",
+      "model": "baseline",
+      "repeat": 2,
+      "goal_reached": false,
+      "status": "intervention_cte",
+      "progress_m": 301.27370282292105,
+      "course_length_m": 344.7607815347611,
+      "progress_pct": 87.38630347731007,
+      "max_abs_cte_m": 15.015148976427492,
+      "p95_abs_cte_m": 8.294842678652824,
+      "progress_at_first_2p2m_m": 59.29748635521723,
+      "goal_distance_m": 45.82562633324182,
+      "checkpoint_sha256": "6cb09d48fa1ce185297ca88935c996a060efb0276c8f4d123987d730cbd85498",
+      "checkpoint_epoch": 7,
+      "steering_ema_alpha": null,
+      "steering_local_mode": false,
+      "steer_change_mean": 0.009248779979380466,
+      "start_position_m": [
+        870.2090454101562,
+        -421.45599365234375
+      ],
+      "start_yaw_deg": 51.234378814697266,
+      "elapsed_s": 87.71032549200027,
+      "aligned_intersections": 0,
+      "planned_intersections": 2,
+      "turns": [
+        {
+          "command": "right",
+          "link_id": "A219AS319536",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 27.65,
+          "max_abs_cte_m": 3.609156227121988
+        },
+        {
+          "command": "straight",
+          "link_id": "A219AS319524",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": 15.015148976427492
+        }
+      ],
+      "minimum_goal_distance_m": 44.5644411775016,
+      "near_route_progress_m": 296.98736473774255,
+      "near_route_progress_pct": 86.14302456783307,
+      "actual_learning_frame_distance_m": {
+        "train": 37.172889392430164,
+        "val": 306.65190932568976
+      },
+      "video_sha256": "3ae85c1d8f05c53a7aee3cec230658d7984f2340c6cf157e18b21947f3c813fc"
+    },
+    {
+      "course": "command_loss_wide_1",
+      "model": "original",
+      "repeat": 2,
+      "goal_reached": false,
+      "status": "intervention_cte",
+      "progress_m": 320.946195504688,
+      "course_length_m": 344.7607815347611,
+      "progress_pct": 93.09243182351518,
+      "max_abs_cte_m": 15.056692441056839,
+      "p95_abs_cte_m": 8.01939695556898,
+      "progress_at_first_2p2m_m": 25.067606504466582,
+      "goal_distance_m": 28.21857224835375,
+      "checkpoint_sha256": "d179b1c3fc9f9afd9b91c1449c1f430486631444b3e34cc9a15e26a9edbe569d",
+      "checkpoint_epoch": 3,
+      "steering_ema_alpha": null,
+      "steering_local_mode": false,
+      "steer_change_mean": 0.020465125582427128,
+      "start_position_m": [
+        870.2094116210938,
+        -421.45635986328125
+      ],
+      "start_yaw_deg": 51.26921463012695,
+      "elapsed_s": 87.0138124010009,
+      "aligned_intersections": 0,
+      "planned_intersections": 2,
+      "turns": [
+        {
+          "command": "right",
+          "link_id": "A219AS319536",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 27.65,
+          "max_abs_cte_m": 3.838513027510041
+        },
+        {
+          "command": "straight",
+          "link_id": "A219AS319524",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": 14.189431888738198
+        }
+      ],
+      "minimum_goal_distance_m": 28.131307786912828,
+      "near_route_progress_m": 285.2018424839297,
+      "near_route_progress_pct": 82.72456084311716,
+      "actual_learning_frame_distance_m": {
+        "train": 54.19697225486954,
+        "val": 303.04947363560956
+      },
+      "video_sha256": "172a2eeef78216c5857d67f0e4d15c50ebbb1860310f83a1a95e5b79f3c6e8fd"
+    },
+    {
+      "course": "command_loss_wide_2",
+      "model": "turn_ordinal",
+      "repeat": 2,
+      "goal_reached": false,
+      "status": "timeout",
+      "progress_m": 237.058947479,
+      "course_length_m": 315.5271056108293,
+      "progress_pct": 75.131228921735,
+      "max_abs_cte_m": 14.253124809520074,
+      "p95_abs_cte_m": 14.161936926392004,
+      "progress_at_first_2p2m_m": 86.94426937515841,
+      "goal_distance_m": 251.01254866967386,
+      "checkpoint_sha256": "653c70e973ed796202f0ead99c4bacc3dac34ef3eb08a58528ed4c47d693d3ea",
+      "checkpoint_epoch": 8,
+      "steering_ema_alpha": null,
+      "steering_local_mode": true,
+      "steer_change_mean": 0.019549662931686813,
+      "start_position_m": [
+        1118.6983642578125,
+        -1554.06982421875
+      ],
+      "start_yaw_deg": -127.6734619140625,
+      "elapsed_s": 131.96981971900095,
+      "aligned_intersections": 0,
+      "planned_intersections": 2,
+      "turns": [
+        {
+          "command": "straight",
+          "link_id": "A219AS319478",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": 5.392253595599513
+        },
+        {
+          "command": "left",
+          "link_id": "A219AS319464",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 19.09,
+          "max_abs_cte_m": 14.253124809520074
+        }
+      ],
+      "minimum_goal_distance_m": 60.3429371137674,
+      "near_route_progress_m": 238.7459810968954,
+      "near_route_progress_pct": 75.66575956595132,
+      "actual_learning_frame_distance_m": {
+        "train": 524.0682894323197,
+        "val": 1414.8617027261914
+      },
+      "video_sha256": "1ecd92390dafdd5f3948db141151600226a4a28425558718a167ddbe4d077f85"
+    },
+    {
+      "course": "command_loss_wide_2",
+      "model": "baseline",
+      "repeat": 2,
+      "goal_reached": false,
+      "status": "intervention_cte",
+      "progress_m": 257.3718182692212,
+      "course_length_m": 315.5271056108293,
+      "progress_pct": 81.56899877445454,
+      "max_abs_cte_m": 15.005273960616591,
+      "p95_abs_cte_m": 10.177127793088403,
+      "progress_at_first_2p2m_m": 26.966635692301463,
+      "goal_distance_m": 45.89328845274425,
+      "checkpoint_sha256": "6cb09d48fa1ce185297ca88935c996a060efb0276c8f4d123987d730cbd85498",
+      "checkpoint_epoch": 7,
+      "steering_ema_alpha": null,
+      "steering_local_mode": false,
+      "steer_change_mean": 0.01439975051841927,
+      "start_position_m": [
+        1118.6746826171875,
+        -1554.04931640625
+      ],
+      "start_yaw_deg": -125.89073181152344,
+      "elapsed_s": 63.60983162100092,
+      "aligned_intersections": 0,
+      "planned_intersections": 2,
+      "turns": [
+        {
+          "command": "straight",
+          "link_id": "A219AS319478",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": 3.5138534038543656
+        },
+        {
+          "command": "left",
+          "link_id": "A219AS319464",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 19.09,
+          "max_abs_cte_m": 15.005273960616591
+        }
+      ],
+      "minimum_goal_distance_m": 45.893288452961926,
+      "near_route_progress_m": 26.746149673209537,
+      "near_route_progress_pct": 8.47665674282773,
+      "actual_learning_frame_distance_m": {
+        "train": 524.0656089384404,
+        "val": 1414.8340467698856
+      },
+      "video_sha256": "752e8055d70986548b2dbcd8953b045303c3eafa40378a340e1bfcf3ece0978c"
+    },
+    {
+      "course": "command_loss_wide_2",
+      "model": "original",
+      "repeat": 2,
+      "goal_reached": false,
+      "status": "intervention_cte",
+      "progress_m": 61.01049319502999,
+      "course_length_m": 315.5271056108293,
+      "progress_pct": 19.33609078927431,
+      "max_abs_cte_m": 15.071235661430174,
+      "p95_abs_cte_m": 13.703828745833237,
+      "progress_at_first_2p2m_m": 11.450438051590789,
+      "goal_distance_m": 217.65773468565672,
+      "checkpoint_sha256": "d179b1c3fc9f9afd9b91c1449c1f430486631444b3e34cc9a15e26a9edbe569d",
+      "checkpoint_epoch": 3,
+      "steering_ema_alpha": null,
+      "steering_local_mode": false,
+      "steer_change_mean": 0.026091452500612074,
+      "start_position_m": [
+        1118.674560546875,
+        -1554.049560546875
+      ],
+      "start_yaw_deg": -125.89126586914062,
+      "elapsed_s": 16.907640969999193,
+      "aligned_intersections": 0,
+      "planned_intersections": 2,
+      "turns": [
+        {
+          "command": "straight",
+          "link_id": "A219AS319478",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": null
+        },
+        {
+          "command": "left",
+          "link_id": "A219AS319464",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 19.09,
+          "max_abs_cte_m": null
+        }
+      ],
+      "minimum_goal_distance_m": 217.6577346856552,
+      "near_route_progress_m": 11.182841377840555,
+      "near_route_progress_pct": 3.5441777200699374,
+      "actual_learning_frame_distance_m": {
+        "train": 524.0659768902273,
+        "val": 1414.834347100672
+      },
+      "video_sha256": "3d76e06dfd08d79a8ae49e523acc46273217e5268d0a8293d0acda0c22f2a26f"
+    }
+  ],
+  "paired": [
+    {
+      "course": "command_loss_wide_1",
+      "repeat": 1,
+      "control": "original",
+      "goal_delta": 0,
+      "aligned_intersection_delta": 0,
+      "near_route_progress_delta_m": -185.55129529363754,
+      "progress_before_first_2_2_m_delta_m": 76.55816363622428,
+      "start_position_delta_m": 0.0008440745047570393,
+      "start_yaw_delta_deg": 0.002899169921875
+    },
+    {
+      "course": "command_loss_wide_1",
+      "repeat": 1,
+      "control": "baseline",
+      "goal_delta": 0,
+      "aligned_intersection_delta": 0,
+      "near_route_progress_delta_m": 40.632055365372274,
+      "progress_before_first_2_2_m_delta_m": 40.60845159965827,
+      "start_position_delta_m": 0.0008217109385886389,
+      "start_yaw_delta_deg": 0.052490234375
+    },
+    {
+      "course": "command_loss_wide_1",
+      "repeat": 2,
+      "control": "original",
+      "goal_delta": 0,
+      "aligned_intersection_delta": 0,
+      "near_route_progress_delta_m": -185.83950168371297,
+      "progress_before_first_2_2_m_delta_m": 74.48864043464066,
+      "start_position_delta_m": 0.0018147056576316536,
+      "start_yaw_delta_deg": 0.1214141845703125
+    },
+    {
+      "course": "command_loss_wide_1",
+      "repeat": 2,
+      "control": "baseline",
+      "goal_delta": 0,
+      "aligned_intersection_delta": 0,
+      "near_route_progress_delta_m": -197.62502393752584,
+      "progress_before_first_2_2_m_delta_m": 40.25876058389001,
+      "start_position_delta_m": 0.0013647875839232113,
+      "start_yaw_delta_deg": 0.086578369140625
+    },
+    {
+      "course": "command_loss_wide_2",
+      "repeat": 1,
+      "control": "original",
+      "goal_delta": 0,
+      "aligned_intersection_delta": 0,
+      "near_route_progress_delta_m": 226.21923921931216,
+      "progress_before_first_2_2_m_delta_m": 68.8506739914684,
+      "start_position_delta_m": 0.03773532779351575,
+      "start_yaw_delta_deg": 2.19818115234375
+    },
+    {
+      "course": "command_loss_wide_2",
+      "repeat": 1,
+      "control": "baseline",
+      "goal_delta": 0,
+      "aligned_intersection_delta": 0,
+      "near_route_progress_delta_m": 210.30913805900863,
+      "progress_before_first_2_2_m_delta_m": 52.925576953494016,
+      "start_position_delta_m": 0.0001220703125,
+      "start_yaw_delta_deg": 0.0006103515625
+    },
+    {
+      "course": "command_loss_wide_2",
+      "repeat": 2,
+      "control": "original",
+      "goal_delta": 0,
+      "aligned_intersection_delta": 0,
+      "near_route_progress_delta_m": 227.56313971905485,
+      "progress_before_first_2_2_m_delta_m": 75.49383132356762,
+      "start_position_delta_m": 0.031260726994964835,
+      "start_yaw_delta_deg": 1.782196044921875
+    },
+    {
+      "course": "command_loss_wide_2",
+      "repeat": 2,
+      "control": "baseline",
+      "goal_delta": 0,
+      "aligned_intersection_delta": 0,
+      "near_route_progress_delta_m": 211.99983142368586,
+      "progress_before_first_2_2_m_delta_m": 59.97763368285695,
+      "start_position_delta_m": 0.03132715237979358,
+      "start_yaw_delta_deg": 1.7827301025390625
+    }
+  ]
+}

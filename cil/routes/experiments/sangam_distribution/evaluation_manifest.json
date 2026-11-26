@@ -1,0 +1,502 @@
+{
+  "map": "R_KR_PR_Sangam_NoBuildings",
+  "link_set_sha256": "c81a05a1060acc70eb6e4a01ed322efd60fc1298b35e60afca9e5cbb01d3e5e7",
+  "seed": 97,
+  "route_guard_m": 30.0,
+  "test_reservations": {},
+  "routes": {
+    "val_mixed": {
+      "split": "validation",
+      "route_csv": "routes/experiments/sangam_distribution/val_mixed_closed_loop.csv",
+      "route_sha256": "2b75730b3d620992e49f0f1c854417109539fafff3fbf5875098b7f5aad34528",
+      "start_xyz_m": [
+        580.9315258784585,
+        -888.1004922574587,
+        4.27295430467098
+      ],
+      "end_xyz_m": [
+        514.4645815028717,
+        -1198.9568984060368,
+        0.7377301419901678
+      ],
+      "initial_yaw_deg_map": -40.0575352822198,
+      "length_m": 404.7692537345243,
+      "navigation": [
+        {
+          "link_id": "A219AS319818",
+          "entry_s_m": 79.21976491536864,
+          "exit_s_m": 117.57728964658992,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -89.877,
+          "max_heading_change_5m_deg": 37.16
+        },
+        {
+          "link_id": "A219AS319825",
+          "entry_s_m": 263.2136498153334,
+          "exit_s_m": 282.5126162350461,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -0.03,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319450",
+          "entry_s_m": 325.4312319754524,
+          "exit_s_m": 380.76925373452457,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left_unprotected",
+          "measured_turn_deg": 77.282,
+          "max_heading_change_5m_deg": 27.54
+        }
+      ],
+      "source_links": [
+        "A219AS318787",
+        "A219AS318793",
+        "A219AS319818",
+        "A219AS318745",
+        "A219AS318749",
+        "A219AS318757",
+        "A219AS318761",
+        "A219AS319825",
+        "A219AS318767",
+        "A219AS318771",
+        "A219AS319450",
+        "A219AS318433"
+      ],
+      "other_split_min_distances_m": {
+        "test_two_rights": 723.2450641378266,
+        "test_left_right": 691.3330896169368,
+        "test_sharp_right": 804.917176388062,
+        "train_01": 697.8042418972921,
+        "train_02": 328.506848673489,
+        "train_03": 691.429758102702,
+        "train_04": 290.73306055370506,
+        "train_05": 339.1398828925622,
+        "train_06": 36.09900714668694,
+        "train_07": 465.31210126385054,
+        "train_08": 84.97521905920193,
+        "train_09": 492.6505711268161,
+        "train_10": 344.91909925637947,
+        "train_11": 702.3680220042181,
+        "train_12": 869.7677589340418
+      },
+      "evaluation_scope": "validation"
+    },
+    "val_rights": {
+      "split": "validation",
+      "route_csv": "routes/experiments/sangam_distribution/val_rights.csv",
+      "route_sha256": "6a186265071beb4e6ba602bed3c166df8b516f802e365360438b3d757f0aa31d",
+      "start_xyz_m": [
+        625.7955377445893,
+        -107.98906808613883,
+        0.497047019779902
+      ],
+      "end_xyz_m": [
+        564.9782641838723,
+        -188.84076702081538,
+        0.49759693159462914
+      ],
+      "initial_yaw_deg_map": -31.3845442175939,
+      "length_m": 249.68802147305152,
+      "navigation": [
+        {
+          "link_id": "A219AS319545",
+          "entry_s_m": 60.18407619825736,
+          "exit_s_m": 93.75622022504234,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -99.277,
+          "max_heading_change_5m_deg": 32.31
+        },
+        {
+          "link_id": "A219AS319656",
+          "entry_s_m": 165.55706959987293,
+          "exit_s_m": 193.1365905160082,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -89.126,
+          "max_heading_change_5m_deg": 36.26
+        }
+      ],
+      "source_links": [
+        "A219AS318199",
+        "A219AS319545",
+        "A219AS318222",
+        "A219AS318226",
+        "A219AS319656",
+        "A219AS318274"
+      ],
+      "other_split_min_distances_m": {
+        "test_two_rights": 30.91728220375946,
+        "test_left_right": 857.2517653196032,
+        "test_sharp_right": 1059.1939829863109,
+        "train_01": 644.9647361095324,
+        "train_02": 212.2025459537173,
+        "train_03": 648.7166856842554,
+        "train_04": 715.3010607274712,
+        "train_05": 661.6776480904671,
+        "train_06": 676.9539244606142,
+        "train_07": 391.2975912032655,
+        "train_08": 437.40658077213226,
+        "train_09": 1203.3473227038653,
+        "train_10": 523.6354296550697,
+        "train_11": 1427.3021079159041,
+        "train_12": 275.05673650204193
+      },
+      "evaluation_scope": "validation"
+    },
+    "val_left": {
+      "split": "validation",
+      "route_csv": "routes/experiments/sangam_distribution/val_left.csv",
+      "route_sha256": "c41323459adf0a0276831e2d091bb554a1bb5274eecf0ccf17aa710f8d0b1c1d",
+      "start_xyz_m": [
+        518.1426635858512,
+        -30.535097395801237,
+        0.7739754908181334
+      ],
+      "end_xyz_m": [
+        407.5242621975444,
+        -101.01372294154166,
+        0.3881590582288854
+      ],
+      "initial_yaw_deg_map": 161.5032658730462,
+      "length_m": 281.23291446250164,
+      "navigation": [
+        {
+          "link_id": "A219AS319549",
+          "entry_s_m": 68.23213050861095,
+          "exit_s_m": 123.60926642916789,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left",
+          "measured_turn_deg": 80.62,
+          "max_heading_change_5m_deg": 22.84
+        },
+        {
+          "link_id": "A219AS319619",
+          "entry_s_m": 200.226656673309,
+          "exit_s_m": 240.26353673146673,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left",
+          "measured_turn_deg": 105.153,
+          "max_heading_change_5m_deg": 45.43
+        }
+      ],
+      "source_links": [
+        "A219AS318205",
+        "A219AS319549",
+        "A219AS318328",
+        "A219AS318332",
+        "A219AS319619",
+        "A219AS318292"
+      ],
+      "other_split_min_distances_m": {
+        "test_two_rights": 31.747416213541197,
+        "test_left_right": 1068.4200877176459,
+        "test_sharp_right": 1270.8509513798933,
+        "train_01": 545.2504196585148,
+        "train_02": 249.5837917886756,
+        "train_03": 560.2176215341788,
+        "train_04": 939.3771205898304,
+        "train_05": 885.8415648253562,
+        "train_06": 859.6484012881981,
+        "train_07": 601.9365555769875,
+        "train_08": 537.8162988171363,
+        "train_09": 1233.2425374969123,
+        "train_10": 746.930890367899,
+        "train_11": 1629.4369491928858,
+        "train_12": 31.355513409546734
+      },
+      "evaluation_scope": "validation"
+    },
+    "arterial_right_straight": {
+      "split": "test",
+      "route_csv": "routes/experiments/sangam_distribution/arterial_right_straight.csv",
+      "route_sha256": "677e2eaa1e2fd574adf4311b20670c44065eb8cfeb78910b7339d4d3c953514d",
+      "start_xyz_m": [
+        886.6395710637873,
+        -285.84469475324244,
+        0.8861254115403362
+      ],
+      "end_xyz_m": [
+        677.6574260555119,
+        -629.8057006381048,
+        0.9007801529280485
+      ],
+      "length_m": 451.74914763447833,
+      "initial_yaw_deg_map": -42.23011783362698,
+      "navigation": [
+        {
+          "link_id": "A219AS319534",
+          "entry_s_m": 48.12268453593995,
+          "exit_s_m": 77.67032556632604,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -87.417,
+          "max_heading_change_5m_deg": 30.38
+        },
+        {
+          "link_id": "A219AS319749",
+          "entry_s_m": 349.8917013935284,
+          "exit_s_m": 427.7491476344785,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 0.828,
+          "max_heading_change_5m_deg": 0.0
+        }
+      ],
+      "source_links": [
+        "A219AS318676",
+        "A219AS319534",
+        "A219AS318842",
+        "A219AS318848",
+        "LN000031",
+        "LN000026",
+        "A219AS318860",
+        "A219AS319749",
+        "A219AS318896"
+      ],
+      "evaluation_scope": "unseen ordinary roads with at least two lanes in each direction",
+      "lane_pairs_median": [
+        3.0,
+        3.0
+      ],
+      "share_probes_4_lanes": 1.0,
+      "max_join_deg": 8.127745030397172,
+      "separation_m": {
+        "train": 92.87853137628598,
+        "val": 238.32768727441143
+      },
+      "distance_from_original_start_m": 417.7097827429629
+    },
+    "arterial_straight_right": {
+      "split": "test",
+      "route_csv": "routes/experiments/sangam_distribution/arterial_straight_right.csv",
+      "route_sha256": "8a54247639338b34e1fdfc1018004eefac724dbf3fd0220e0805f8a15b3a38bb",
+      "start_xyz_m": [
+        1339.6386579534253,
+        -1019.5213711033429,
+        2.2460702183323145
+      ],
+      "end_xyz_m": [
+        1598.1978144756906,
+        -914.1017568159547,
+        2.2800544278330697
+      ],
+      "length_m": 367.8428532323938,
+      "initial_yaw_deg_map": 47.98613845279142,
+      "navigation": [
+        {
+          "link_id": "A219AS319698",
+          "entry_s_m": 50.625928050455016,
+          "exit_s_m": 83.23766204539649,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": 0.271,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319677",
+          "entry_s_m": 134.74181805031682,
+          "exit_s_m": 163.7500696188323,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -0.019,
+          "max_heading_change_5m_deg": 0.0
+        },
+        {
+          "link_id": "A219AS319510",
+          "entry_s_m": 234.52209556015396,
+          "exit_s_m": 256.2952384527099,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "right",
+          "map_related_signal": "right_unprotected",
+          "measured_turn_deg": -90.526,
+          "max_heading_change_5m_deg": 40.22
+        }
+      ],
+      "source_links": [
+        "A219AS318989",
+        "A219AS319698",
+        "A219AS318992",
+        "A219AS319677",
+        "A219AS318994",
+        "A219AS319510",
+        "A219AS319038",
+        "A219AS319039",
+        "A219AS319035"
+      ],
+      "evaluation_scope": "unseen ordinary roads with at least two lanes in each direction",
+      "lane_pairs_median": [
+        2.0,
+        2.0
+      ],
+      "share_probes_4_lanes": 0.9655172413793104,
+      "max_join_deg": 3.963057097685629,
+      "separation_m": {
+        "train": 293.235484161173,
+        "val": 1058.6899386303357
+      },
+      "distance_from_original_start_m": 1253.9252438094954
+    },
+    "arterial_two_lefts": {
+      "split": "test",
+      "route_csv": "routes/experiments/sangam_distribution/arterial_two_lefts.csv",
+      "route_sha256": "5cd715515d79e2637360ca7ed94d2067cec50cf57ffae9bff230025b9d3c0e15",
+      "start_xyz_m": [
+        275.5916947733528,
+        116.8193513253768,
+        3.072219794224995
+      ],
+      "end_xyz_m": [
+        27.879102133885393,
+        -49.61309535083964,
+        -0.20627688000192912
+      ],
+      "length_m": 423.85689600442464,
+      "initial_yaw_deg_map": 148.52751019932992,
+      "navigation": [
+        {
+          "link_id": "A219AS319558",
+          "entry_s_m": 69.3059415664851,
+          "exit_s_m": 119.22129373735098,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left_unprotected",
+          "measured_turn_deg": 72.786,
+          "max_heading_change_5m_deg": 25.91
+        },
+        {
+          "link_id": "A219AS319571",
+          "entry_s_m": 347.8085093549054,
+          "exit_s_m": 384.2509145598009,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left",
+          "measured_turn_deg": 101.715,
+          "max_heading_change_5m_deg": 27.83
+        }
+      ],
+      "source_links": [
+        "A219AS318213",
+        "A219AS318217",
+        "A219AS319558",
+        "A219AS318014",
+        "A219AS318019",
+        "A219AS318025",
+        "A219AS318037",
+        "A219AS319571",
+        "A219AS318043",
+        "A219AS318045",
+        "A219AS318048"
+      ],
+      "evaluation_scope": "unseen ordinary roads with at least two lanes in each direction",
+      "lane_pairs_median": [
+        4.0,
+        4.0
+      ],
+      "share_probes_4_lanes": 0.9538461538461539,
+      "max_join_deg": 6.354474474870804,
+      "separation_m": {
+        "train": 71.43902578817324,
+        "val": 129.07801699173544
+      },
+      "distance_from_original_start_m": 314.08744167054823
+    },
+    "arterial_left_straight_confirmation": {
+      "split": "test",
+      "route_csv": "routes/experiments/sangam_distribution/arterial_left_straight_confirmation.csv",
+      "route_sha256": "80663cd11c72af89d44125981b21dc72f96fa0582a096c45dc1bc046ef65adea",
+      "start_xyz_m": [
+        420.7054399804052,
+        -943.346075861081,
+        2.6977916584274313
+      ],
+      "end_xyz_m": [
+        514.4645815028717,
+        -1198.9568984060368,
+        0.7377301419901678
+      ],
+      "initial_yaw_deg_map": -130.35673820387711,
+      "length_m": 345.2610771087544,
+      "navigation": [
+        {
+          "link_id": "A219AS319439",
+          "entry_s_m": 80.24095089542014,
+          "exit_s_m": 137.29414762520474,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "left",
+          "map_related_signal": "left_unprotected",
+          "measured_turn_deg": 92.819,
+          "max_heading_change_5m_deg": 18.6
+        },
+        {
+          "link_id": "A219AS319443",
+          "entry_s_m": 273.4189611508028,
+          "exit_s_m": 321.2610771087547,
+          "approach_m": 18.0,
+          "exit_hold_m": 6.0,
+          "command": "straight",
+          "map_related_signal": "straight",
+          "measured_turn_deg": -5.075,
+          "max_heading_change_5m_deg": 0.0
+        }
+      ],
+      "source_links": [
+        "A219AS318924",
+        "A219AS319439",
+        "A219AS318411",
+        "A219AS318417",
+        "A219AS318425",
+        "A219AS319443",
+        "A219AS318433"
+      ],
+      "minimum_learning_frame_distance_m": 64.31068657491787,
+      "minimum_earlier_course_distance_m": 7.95990554070846e-12,
+      "lane_pairs_median": [
+        3.0,
+        4.0
+      ],
+      "share_probes_4_lanes": 1.0,
+      "max_join_deg": 2.8331673759735687,
+      "evaluation_scope": "independent Sangam wide-road confirmation with the locked V3 models"
+    }
+  },
+  "selection": "Three physically separate corridors, at least two lanes each way and two or three signed junction moves. Individual lane markings verified before recordings.",
+  "candidates_sha256": "4e56a75358e51142fd17a8898e7c416b14d84cea63ca5fa07593ab456ce11ff2",
+  "verified_surveys": {
+    "arterial_right_straight": "surveys/wide_candidate_1.jpg",
+    "arterial_straight_right": "surveys/wide_candidate_3.jpg",
+    "arterial_two_lefts": "surveys/wide_candidate_4.jpg"
+  },
+  "reserve_note": "Two additional ordinary marked candidates from the single-junction survey remain available. The mixed candidate 2 is withheld pending a clearer left-turn marking.",
+  "development_overlap": {
+    "arterial_right_straight": "Shares one intersection with the earlier short-course study; the other two full paths are new."
+  }
+}

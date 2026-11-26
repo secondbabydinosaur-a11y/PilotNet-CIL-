@@ -1,0 +1,31 @@
+{
+  "stage": "initial Sangam test",
+  "configured_lateral_stop_m": 2.2,
+  "bypass_steering": false,
+  "planned_fork_link": "A219AS318196",
+  "straight_link": "A219AS318200",
+  "last_navigation_command": "follow_road",
+  "first_right_entry_m": 151.520555734,
+  "last_ordinal_distance_to_straight_center_m": 0.15521965157267856,
+  "trial_pair": [
+    {
+      "model": "original",
+      "course_length_m": 311.79421252446036,
+      "progress_m": 11.945718862052278,
+      "status": "intervention_cte",
+      "max_abs_cte_m": 2.228051817077634,
+      "goal_reached": false,
+      "checkpoint_sha256": "d179b1c3fc9f9afd9b91c1449c1f430486631444b3e34cc9a15e26a9edbe569d"
+    },
+    {
+      "model": "ordinal",
+      "course_length_m": 311.79421252446036,
+      "progress_m": 67.49237317193027,
+      "status": "intervention_cte",
+      "max_abs_cte_m": 2.2580036019860983,
+      "goal_reached": false,
+      "checkpoint_sha256": "98c90d2037a3d6066d906df084bcedbe651df51995ddf94428dc78a26e903b84"
+    }
+  ],
+  "video_sha256": "ff62d317610baa39ee9b5d65868861bb9d8fd0582a78794f99d1ad355c05ae8e"
+}

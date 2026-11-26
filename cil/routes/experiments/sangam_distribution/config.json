@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "network": {
+    "bind_ip": "0.0.0.0",
+    "morai_ip": "127.0.0.1"
+  },
+  "vehicle": {
+    "name": "Ioniq5",
+    "wheelbase_m": 3.0,
+    "max_wheel_angle_deg": 40.0
+  },
+  "camera_common": {
+    "width": 1280,
+    "height": 720,
+    "horizontal_fov_deg": 90.0,
+    "fps": 20,
+    "compression_ratio": 90
+  },
+  "cameras": {
+    "left": {
+      "morai_name": "Camera_2",
+      "destination_port": 19096,
+      "host_port": 19196,
+      "xyz_m": [
+        2.6,
+        0.4,
+        1.18
+      ],
+      "rpy_deg": [
+        0.0,
+        2.0,
+        30.0
+      ]
+    },
+    "center": {
+      "morai_name": "Camera_4",
+      "destination_port": 19105,
+      "host_port": 19205,
+      "xyz_m": [
+        2.6,
+        0.0,
+        1.18
+      ],
+      "rpy_deg": [
+        0.0,
+        2.0,
+        0.0
+      ]
+    },
+    "right": {
+      "morai_name": "Camera_3",
+      "destination_port": 19097,
+      "host_port": 19197,
+      "xyz_m": [
+        2.6,
+        -0.4,
+        1.18
+      ],
+      "rpy_deg": [
+        0.0,
+        2.0,
+        -30.0
+      ]
+    }
+  },
+  "ego": {
+    "destination_port": 19301,
+    "host_port": 19300,
+    "hz": 50
+  },
+  "control": {
+    "host_port": 19093,
+    "destination_port": 19094,
+    "hz": 50,
+    "steering_sign": -1
+  },
+  "commands": {
+    "follow_road": 0,
+    "left": 1,
+    "straight": 2,
+    "right": 3
+  },
+  "paths": {
+    "route_plan": "routes/experiments/sangam_distribution/manifest.json",
+    "raw_data": "runs/sangam_study/raw",
+    "prepared_data": "runs/sangam_study/prepared",
+    "runs": "runs",
+    "checkpoints": "checkpoints",
+    "rig_snapshot": "runs/sangam_study/rig_snapshot.json"
+  },
+  "collection": {
+    "speed_cap_kph": 20.0,
+    "noise_enabled": false,
+    "max_ego_age_s": 0.2,
+    "sensor_hold_limit_s": 0.65,
+    "max_capture_gap_s": 0.88
+  },
+  "quality": {
+    "max_pair_delta_ms": 25.0,
+    "max_interpolation_gap_ms": 50.0
+  },
+  "simulator_api": {
+    "version": "v.S2.230426.ADCompetition3",
+    "actor_id": "0"
+  },
+  "udp_protocol": "legacy_2023"
+}
