@@ -63,7 +63,7 @@ https://github.com/user-attachments/assets/6d53fb0e-0b20-41b6-929e-d573456649d6
 
 여러 교차로를 이어 달리자 초기 CIL은 첫 우회전에서 멈췄다. 명령별 표본 수를 유지하면서 급우회전, 회전 중 복귀, 직진 교차로 시범을 보강했다.
 
-<img src="docs/figures/kcity-test-course.png" width="620" alt="K-City 452.2 m 코스의 출발점, 초기·보강 모델의 중단 지점, 목적지">
+https://github.com/user-attachments/assets/4e630791-cd46-4c05-bfa6-408bded24454
 
 초기 모델은 20 km/h 상한에서 **18.9%**, 보강 모델은 15 km/h 상한과 조향 보조 1회로 **95.5%**까지 진행했다. 보강 모델도 20 km/h 상한·무보조 조건에서는 첫 우회전에서 멈췄다.
 
@@ -73,7 +73,7 @@ https://github.com/user-attachments/assets/6d53fb0e-0b20-41b6-929e-d573456649d6
 
 보강 모델의 K-City 가중치를 그대로 적용해 MORAI 상암 311.8 m 경로에 배치했다. 초기 탐색 재촬영에서 차는 갈림길 전 28.4 m까지 진행했고 횡오차가 7.05 m에 이르러 멈췄다.
 
-[![상암 초기 탐색 · 횡오차 7 m 중단 기준 영상 열기](cil/results/images/sangam-initial-fork-cte7.jpg)](cil/results/videos/sangam-initial-fork-cte7.mp4)
+https://github.com/user-attachments/assets/3535eda5-a8d7-4bd2-9963-fd6bd18015ba
 
 이후 상암에서 시범을 모아, 학습에 쓰지 않은 두 경로에서 직진과 좌·우회전이 이어지는 주행을 시험했다. [상암 코스와 초기 주행 기록](cil/results/README.md#상암에서-어디를-달렸나)
 
@@ -101,15 +101,29 @@ https://github.com/user-attachments/assets/6d53fb0e-0b20-41b6-929e-d573456649d6
 
 #### 직진 → 좌회전
 
-[![상암 직진 후 좌회전 · 기본 CIL과 제안 CIL 1·2회차 전체 비교 영상 열기](cil/results/images/sangam-straight-left-reviewed.jpg)](cil/results/videos/sangam-straight-left-reviewed.mp4)
+https://github.com/user-attachments/assets/ac789dfe-db2a-49ba-bb3f-ffa9c6e1f76c
 
-첫 횡오차 2.2 m까지 평균 **27.0 m → 83.8 m**. [3회차 전체 비교 영상](cil/results/videos/sangam-straight-left-repeat3.mp4)
+첫 횡오차 2.2 m까지 평균 **27.0 m → 83.8 m**.
+
+<details>
+<summary>3회차 전체 비교 영상</summary>
+
+https://github.com/user-attachments/assets/89669b75-b0ad-4926-a0dc-a00deadd933e
+
+</details>
 
 #### 우회전 → 직진
 
-[![상암 우회전 후 직진 · 기본 CIL과 제안 CIL 1·2회차 전체 비교 영상 열기](cil/results/images/sangam-right-straight-reviewed.jpg)](cil/results/videos/sangam-right-straight-reviewed.mp4)
+https://github.com/user-attachments/assets/deff52f8-9ecb-406d-9b69-9058303aadb4
 
-첫 횡오차 2.2 m까지 평균 **59.3 m → 99.7 m**. [3회차 전체 비교 영상](cil/results/videos/sangam-right-straight-repeat3.mp4)
+첫 횡오차 2.2 m까지 평균 **59.3 m → 99.7 m**.
+
+<details>
+<summary>3회차 전체 비교 영상</summary>
+
+https://github.com/user-attachments/assets/d88b0b01-6fde-44bc-ae43-f659d045f212
+
+</details>
 
 영상의 왼쪽은 기본 CIL, 오른쪽은 제안 모델이다. 각 주행은 2배속이며 먼저 끝난 화면은 마지막 장면을 유지한다.
 
@@ -117,7 +131,14 @@ https://github.com/user-attachments/assets/6d53fb0e-0b20-41b6-929e-d573456649d6
 
 우회전 코스의 2·3회차에서는 기본 CIL이 첫 이탈 뒤 경로 근처의 더 먼 지점까지 갔다. 제안 모델은 좌회전 코스의 세 회차 모두 교차로에서 기준 진행 방향과 반대로 달렸다. 두 코스에서 세 모델 모두 목적지 도달 **0/6회**, 교차로 출구 정렬 **0/12회**였다. [회차별 수치와 종료 기록](cil/results/README.md#그래서-어디까지-갔나)
 
-별도 갈림길에서도 초기 분포 모델이 예정된 우측 출구를 놓쳤다. [갈림길 실패 영상](cil/results/videos/sangam_fork_failure.mp4)
+별도 갈림길에서도 초기 분포 모델이 예정된 우측 출구를 놓쳤다.
+
+<details>
+<summary>갈림길 실패 영상</summary>
+
+https://github.com/user-attachments/assets/beaebb43-dd56-4b7f-97b7-727e78b3789d
+
+</details>
 
 ## 실행과 재현
 

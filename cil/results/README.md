@@ -24,7 +24,7 @@ MORAI K-City의 곡선·교차로 시험과 K-City·상암의 연속 주행을 �
 <details>
 <summary>기본 모델의 곡선·연결도로 시험 · 중단</summary>
 
-[곡선·연결도로 원본 영상](videos/01_curve.mp4)
+https://github.com/user-attachments/assets/d41911e4-ea73-4870-9b94-67535cfd0919
 
 </details>
 
@@ -40,21 +40,21 @@ https://github.com/user-attachments/assets/6d53fb0e-0b20-41b6-929e-d573456649d6
 <details>
 <summary>시험 교차로 · 직진</summary>
 
-[직진 원본 영상](videos/02_intersection_straight.mp4)
+https://github.com/user-attachments/assets/63fbbd4e-ff00-4bc6-b5d7-b65d74dbff27
 
 </details>
 
 <details>
 <summary>시험 교차로 · 좌회전</summary>
 
-[좌회전 원본 영상](videos/03_intersection_left.mp4)
+https://github.com/user-attachments/assets/b9abc75d-7825-44f3-a835-31c9f7326e68
 
 </details>
 
 <details>
 <summary>시험 교차로 · 우회전</summary>
 
-[우회전 원본 영상](videos/04_intersection_right.mp4)
+https://github.com/user-attachments/assets/c0cd68c8-ff82-48b2-9535-f95c82ce94d7
 
 </details>
 
@@ -71,7 +71,7 @@ https://github.com/user-attachments/assets/6d53fb0e-0b20-41b6-929e-d573456649d6
 | 초기 모델 | 첫 우회전 | 18.9% (85.6 m) | 20 km/h | 0회 |
 | 보강 모델 | 마지막 우회전 | **95.5% (431.7 m)** | 15 km/h | 초반 좌회전 1회 |
 
-진행률은 중단 위치를 기준 경로에 투영한 거리를 전체 코스 길이 452.2 m로 나눈 값이다. 두 주행의 속도 상한과 조향 보조 조건이 다르다. [경로 CSV](../routes/test/EAST_OUTER_EXTENDED.csv) · [실행·체크포인트 기록](metrics/point_to_point.json)
+진행률은 중단 위치를 기준 경로에 투영한 거리를 전체 코스 길이 452.2 m로 나눈 값이다. 두 주행의 속도 상한과 조향 보조 조건이 다르다. [비교 영상](../../README.md#k-city-연속-주행--경로-955-진행) · [경로 CSV](../routes/test/EAST_OUTER_EXTENDED.csv) · [실행·체크포인트 기록](metrics/point_to_point.json)
 
 <details>
 <summary>데이터 보강과 추가 실행 기록</summary>
@@ -103,7 +103,7 @@ K-City에서 살펴본 회전 문제를 새 도로에서 확인하려고 상암�
 
 본시험은 왕복 4차선 이상 도로에서 했다. 두 상암 모델을 학습하기 전에 시험 경로 인근 수집 경로 6개를 제외했다. 모델마다 두 코스를 2회씩 주행한 뒤 같은 경로와 가중치로 1회씩 재확인했다. [경로·명령 매니페스트](../routes/experiments/sangam_distribution/command_loss_manifest.json)
 
-상암 초기 탐색은 기존 K-City 모델을 그대로 옮긴 311.8 m 별도 경로였다. 횡오차 7 m 기준으로 재촬영한 실행은 첫 갈림길 전 28.4 m에서 멈췄다. [초기 탐색 전체 영상](videos/sangam-initial-fork-cte7.mp4) · [재촬영 기록](metrics/sangam_fork_7m_replay.json)
+상암 초기 탐색은 기존 K-City 모델을 그대로 옮긴 311.8 m 별도 경로였다. 횡오차 7 m 기준으로 재촬영한 실행은 첫 갈림길 전 28.4 m에서 멈췄다. [초기 탐색 전체 영상](../../README.md#상암에서-여러-교차로-주행) · [재촬영 기록](metrics/sangam_fork_7m_replay.json)
 
 <details>
 <summary>학습·검증·본시험 구간 지도</summary>
@@ -146,8 +146,8 @@ CNN과 명령별 네 분기를 유지했다. 각 분기의 마지막 선형층�
 
 | 코스 | 기존 K-City CIL | 상암 기본 CIL | 상암 제안 CIL | 기본·제안 전체 비교 |
 |---|---:|---:|---:|---|
-| 우회전 → 직진 | 22.9 m | 59.3 m | **99.7 m** | [1·2회차](videos/sangam-right-straight-reviewed.mp4) · [3회차](videos/sangam-right-straight-repeat3.mp4) |
-| 직진 → 좌회전 | 11.2 m | 27.0 m | **83.8 m** | [1·2회차](videos/sangam-straight-left-reviewed.mp4) · [3회차](videos/sangam-straight-left-repeat3.mp4) |
+| 우회전 → 직진 | 22.9 m | 59.3 m | **99.7 m** | [1~3회차](../../README.md#우회전--직진) |
+| 직진 → 좌회전 | 11.2 m | 27.0 m | **83.8 m** | [1~3회차](../../README.md#직진--좌회전) |
 | 6회 평균 | 17.1 m | 43.2 m | **91.8 m** | |
 
 제안 모델의 거리가 같은 데이터 기본형보다 6쌍 모두 길었다. 기존 평가의 2.2 m 기준으로 1·2회차 기록을 재분석하고, 이 지표를 정한 뒤 3회차를 추가했다. 1.5 m와 3.0 m로도 다시 계산했을 때 비교 방향은 6쌍 모두 같았다. 세 모델 모두 목적지 도달 0/6회, 교차로 출구 정렬 0/12회였다. [실행별 CSV](metrics/sangam_repeated_trials.csv) · [조건·해시·집계](metrics/sangam_repeated_evaluation.json) · [지표 산출에 사용한 프레임 기록](metrics/sangam_repeated_telemetry.csv.gz)
