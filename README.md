@@ -75,6 +75,8 @@ https://github.com/user-attachments/assets/4e630791-cd46-4c05-bfa6-408bded24454
 
 https://github.com/user-attachments/assets/224a0747-858c-4417-b5a2-872e2f4b6170
 
+[초기 탐색 영상 브라우저에서 재생](https://cdn.jsdelivr.net/gh/secondbabydinosaur-a11y/PilotNet-CIL-@36093a4ed4fe4d20bd30e98627c6af60b49a7c48/cil/results/videos/sangam-initial-fork-cte7.mp4)
+
 이후 상암에서 시범을 모아, 학습에 쓰지 않은 두 경로에서 직진과 좌·우회전이 이어지는 주행을 시험했다. [상암 코스와 초기 주행 기록](cil/results/README.md#상암에서-어디를-달렸나)
 
 ## 상암에서 회전 조향 개선하기
@@ -113,12 +115,14 @@ https://github.com/user-attachments/assets/224a0747-858c-4417-b5a2-872e2f4b6170
 
 https://github.com/user-attachments/assets/606045f9-f866-40c4-97c9-ef8b386bd64e
 
-첫 횡오차 2.2 m까지 **26.5 m → 80.7 m** (10회 평균).
+첫 횡오차 2.2 m까지 **26.5 m → 80.7 m** (10회 평균). [1·2회차 영상 브라우저에서 재생](https://cdn.jsdelivr.net/gh/secondbabydinosaur-a11y/PilotNet-CIL-@36093a4ed4fe4d20bd30e98627c6af60b49a7c48/cil/results/videos/sangam-straight-left-reviewed.mp4)
 
 <details>
 <summary>3회차 전체 비교 영상</summary>
 
 https://github.com/user-attachments/assets/e4d0c142-a0c3-4091-8038-132c08fb0101
+
+[3회차 영상 브라우저에서 재생](https://cdn.jsdelivr.net/gh/secondbabydinosaur-a11y/PilotNet-CIL-@36093a4ed4fe4d20bd30e98627c6af60b49a7c48/cil/results/videos/sangam-straight-left-repeat3.mp4)
 
 </details>
 
@@ -126,12 +130,14 @@ https://github.com/user-attachments/assets/e4d0c142-a0c3-4091-8038-132c08fb0101
 
 https://github.com/user-attachments/assets/328046a7-085e-4137-9387-58eb809284cb
 
-첫 횡오차 2.2 m까지 **59.7 m → 99.6 m** (10회 평균).
+첫 횡오차 2.2 m까지 **59.7 m → 99.6 m** (10회 평균). [1·2회차 영상 브라우저에서 재생](https://cdn.jsdelivr.net/gh/secondbabydinosaur-a11y/PilotNet-CIL-@36093a4ed4fe4d20bd30e98627c6af60b49a7c48/cil/results/videos/sangam-right-straight-reviewed.mp4)
 
 <details>
 <summary>3회차 전체 비교 영상</summary>
 
 https://github.com/user-attachments/assets/3f69b96c-6240-489e-a848-f708607f06e4
+
+[3회차 영상 브라우저에서 재생](https://cdn.jsdelivr.net/gh/secondbabydinosaur-a11y/PilotNet-CIL-@36093a4ed4fe4d20bd30e98627c6af60b49a7c48/cil/results/videos/sangam-right-straight-repeat3.mp4)
 
 </details>
 
@@ -147,6 +153,8 @@ https://github.com/user-attachments/assets/3f69b96c-6240-489e-a848-f708607f06e4
 <summary>갈림길 실패 영상</summary>
 
 https://github.com/user-attachments/assets/bdf516fb-e69c-47b2-af9d-e5ec49cdaa25
+
+[갈림길 영상 브라우저에서 재생](https://cdn.jsdelivr.net/gh/secondbabydinosaur-a11y/PilotNet-CIL-@36093a4ed4fe4d20bd30e98627c6af60b49a7c48/cil/results/videos/sangam_fork_failure.mp4)
 
 </details>
 
