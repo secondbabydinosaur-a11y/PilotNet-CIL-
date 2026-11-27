@@ -71,9 +71,9 @@ https://github.com/user-attachments/assets/4e630791-cd46-4c05-bfa6-408bded24454
 
 ### 상암에서 여러 교차로 주행
 
-보강 모델의 K-City 가중치를 그대로 적용해 MORAI 상암 311.8 m 경로에 배치했다. 초기 탐색 재촬영에서 차는 갈림길 전 28.4 m까지 진행했고 횡오차가 7.05 m에 이르러 멈췄다.
+기존 K-City 모델을 MORAI 상암 311.8 m 경로에 배치했다. 횡오차 5 m 기준으로 재촬영한 실행은 20.3 m 지점에서 절대 횡오차 5.04 m로 멈췄다.
 
-https://github.com/user-attachments/assets/3535eda5-a8d7-4bd2-9963-fd6bd18015ba
+https://github.com/user-attachments/assets/e5d0f5e3-f25f-4d8c-a340-952889536599
 
 이후 상암에서 시범을 모아, 학습에 쓰지 않은 두 경로에서 직진과 좌·우회전이 이어지는 주행을 시험했다. [상암 코스와 초기 주행 기록](cil/results/README.md#상암에서-어디를-달렸나)
 
@@ -95,33 +95,33 @@ https://github.com/user-attachments/assets/3535eda5-a8d7-4bd2-9963-fd6bd18015ba
 
 ### 같은 상암 데이터로 학습한 두 모델 비교
 
-두 모델을 같은 상암 시범 이미지 81,208장으로 학습하고, 학습에 쓰지 않은 두 코스에서 각각 세 번씩 달렸다. 속도 상한은 16 km/h, 횡오차 중단 기준은 15 m로 맞췄다.
+두 모델을 같은 상암 시범 이미지 81,208장으로 학습했다. 학습에 쓰지 않은 두 코스에서 각 모델의 기존 가중치로 세 번씩 재주행했다. 속도 상한은 16 km/h로 맞추고 **절대 횡오차가 처음 5 m 이상으로 측정된 프레임에서 즉시 제동하고 시험을 끝냈다.**
 
-두 코스 모두 **횡오차가 처음 2.2 m에 닿을 때까지의 경로 진행 거리**를 비교했다. 평균은 기본 CIL **43.2 m**, 제안 모델 **91.8 m**였고, 제안 모델이 **6쌍 모두** 더 길었다.
+첫 횡오차 2.2 m까지 평균 진행 거리는 기본 CIL **42.8 m**, 제안 모델 **90.4 m**였다. 제안 모델이 **6쌍 중 6쌍**에서 더 길었다.
 
 #### 직진 → 좌회전
 
-https://github.com/user-attachments/assets/ac789dfe-db2a-49ba-bb3f-ffa9c6e1f76c
+https://github.com/user-attachments/assets/502a7cd3-da10-43e4-a51b-3776b23a0593
 
-첫 횡오차 2.2 m까지 평균 **27.0 m → 83.8 m**.
+첫 횡오차 2.2 m까지 **26.5 m → 81.3 m** · 종료 위치 **166.3 m → 106.9 m** (3회 평균).
 
 <details>
 <summary>3회차 전체 비교 영상</summary>
 
-https://github.com/user-attachments/assets/89669b75-b0ad-4926-a0dc-a00deadd933e
+https://github.com/user-attachments/assets/1a8a4fec-261f-4c89-b8a2-a2940b50b366
 
 </details>
 
 #### 우회전 → 직진
 
-https://github.com/user-attachments/assets/deff52f8-9ecb-406d-9b69-9058303aadb4
+https://github.com/user-attachments/assets/a96ff44c-64b5-4b5f-8e0e-a5ac7a7f3b29
 
-첫 횡오차 2.2 m까지 평균 **59.3 m → 99.7 m**.
+첫 횡오차 2.2 m까지 **59.2 m → 99.5 m** · 종료 위치 **125.7 m → 115.8 m** (3회 평균).
 
 <details>
 <summary>3회차 전체 비교 영상</summary>
 
-https://github.com/user-attachments/assets/d88b0b01-6fde-44bc-ae43-f659d045f212
+https://github.com/user-attachments/assets/614249d2-82eb-44bc-aaf1-1f2617d92853
 
 </details>
 
@@ -129,14 +129,14 @@ https://github.com/user-attachments/assets/d88b0b01-6fde-44bc-ae43-f659d045f212
 
 ### 한계
 
-우회전 코스의 2·3회차에서는 기본 CIL이 첫 이탈 뒤 경로 근처의 더 먼 지점까지 갔다. 제안 모델은 좌회전 코스의 세 회차 모두 교차로에서 기준 진행 방향과 반대로 달렸다. 두 코스에서 세 모델 모두 목적지 도달 **0/6회**, 교차로 출구 정렬 **0/12회**였다. [회차별 수치와 종료 기록](cil/results/README.md#그래서-어디까지-갔나)
+우회전 → 직진에서 기본 CIL의 3회차 종료 위치는 213.9 m로 앞 회차보다 멀었다. 직진 → 좌회전 코스에서 제안 모델의 첫 2.2 m 지점은 세 회차 모두 첫 직진 교차로 구간이었다. 5 m 중단 기준으로 재주행하자 최종 좌회전 교차로에 도달하기 전에 멈췄다. 세 모델 모두 목적지 도달 **0/6회**, 계획된 교차로 출구 정렬 **0/12회**였다. [회차별 수치와 종료 기록](cil/results/README.md#그래서-어디까지-갔나)
 
-별도 갈림길에서도 초기 분포 모델이 예정된 우측 출구를 놓쳤다.
+별도 갈림길에서는 초기 분포 모델도 같은 5 m 조건으로 다시 시험했다.
 
 <details>
 <summary>갈림길 실패 영상</summary>
 
-https://github.com/user-attachments/assets/beaebb43-dd56-4b7f-97b7-727e78b3789d
+https://github.com/user-attachments/assets/a57e84c6-5ffd-4468-88e2-3b8cb6a0943e
 
 </details>
 

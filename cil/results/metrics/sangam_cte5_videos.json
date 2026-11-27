@@ -1,0 +1,466 @@
+{
+  "videos/sangam-right-straight-reviewed.mp4": {
+    "comparison_sha256": "f32d820982b90f4054a62ac81760270772dd624313dccee63ee62989b0421e62",
+    "lateral_stop_m": 5.0,
+    "playback_speed": 2.0,
+    "omitted_intervals": [],
+    "sources": [
+      {
+        "group": "main",
+        "course": "command_loss_wide_1",
+        "repeat": 1,
+        "model": "baseline",
+        "recording_sha256": "a1a38d492ba62302b919c096f16890d3a10778bb100bf5d8759b7e85e3931dc6",
+        "status": "intervention_stalled",
+        "terminal_cte_m": 3.3951898383925228,
+        "terminal_station_m": 81.54274911551255,
+        "retained_recording_seconds": 39.75
+      },
+      {
+        "group": "main",
+        "course": "command_loss_wide_1",
+        "repeat": 1,
+        "model": "turn_ordinal",
+        "recording_sha256": "b5f236701768d10433ad9f42aa2c2f087e6902bd0018479736976344603c54b1",
+        "status": "intervention_cte",
+        "terminal_cte_m": -5.049614756756651,
+        "terminal_station_m": 116.34514534787488,
+        "retained_recording_seconds": 34.9
+      },
+      {
+        "group": "main",
+        "course": "command_loss_wide_1",
+        "repeat": 2,
+        "model": "baseline",
+        "recording_sha256": "96a3b47c1791ecff9e663fa7c0b745cbf9217cebad4b433394e10321633d4d16",
+        "status": "intervention_stalled",
+        "terminal_cte_m": 3.4071744858302893,
+        "terminal_station_m": 81.59913998951683,
+        "retained_recording_seconds": 39.7
+      },
+      {
+        "group": "main",
+        "course": "command_loss_wide_1",
+        "repeat": 2,
+        "model": "turn_ordinal",
+        "recording_sha256": "b9442003e458e1d3baf86f1388e7b283631f7fdf8b326e6b7751f7ccf0c8cb43",
+        "status": "intervention_cte",
+        "terminal_cte_m": -5.050840569168847,
+        "terminal_station_m": 115.57197574261515,
+        "retained_recording_seconds": 31.95
+      }
+    ],
+    "inline_attachment": "https://github.com/user-attachments/assets/a96ff44c-64b5-4b5f-8e0e-a5ac7a7f3b29"
+  },
+  "videos/sangam-right-straight-repeat3.mp4": {
+    "comparison_sha256": "9f590988b4c2712a2dbf44056dfca6214c44a89832f56ede6d7878193d8c9601",
+    "lateral_stop_m": 5.0,
+    "playback_speed": 2.0,
+    "omitted_intervals": [],
+    "sources": [
+      {
+        "group": "main",
+        "course": "command_loss_wide_1",
+        "repeat": 3,
+        "model": "baseline",
+        "recording_sha256": "5ff3483d30c90220fceef4617f63384712d6db468090ace2f2555c04905797ee",
+        "status": "intervention_cte",
+        "terminal_cte_m": 5.000841495510677,
+        "terminal_station_m": 213.93610681191586,
+        "retained_recording_seconds": 71.1
+      },
+      {
+        "group": "main",
+        "course": "command_loss_wide_1",
+        "repeat": 3,
+        "model": "turn_ordinal",
+        "recording_sha256": "c60cc0fb97bbfbdd1fb576cd92464ae9bf6d29d5d7a6f9d4d5e20d575802508f",
+        "status": "intervention_cte",
+        "terminal_cte_m": -5.002467998477543,
+        "terminal_station_m": 115.55419864437154,
+        "retained_recording_seconds": 34.85
+      }
+    ],
+    "inline_attachment": "https://github.com/user-attachments/assets/614249d2-82eb-44bc-aaf1-1f2617d92853"
+  },
+  "videos/command_loss_wide_1_vs_baseline.mp4": {
+    "comparison_sha256": "3d1c9bb5f5f22e7e042812414d2b91a976257e709aa764e62ff9f6819aa6d3b1",
+    "lateral_stop_m": 5.0,
+    "playback_speed": 2.0,
+    "omitted_intervals": [],
+    "sources": [
+      {
+        "group": "main",
+        "course": "command_loss_wide_1",
+        "repeat": 1,
+        "model": "baseline",
+        "recording_sha256": "a1a38d492ba62302b919c096f16890d3a10778bb100bf5d8759b7e85e3931dc6",
+        "status": "intervention_stalled",
+        "terminal_cte_m": 3.3951898383925228,
+        "terminal_station_m": 81.54274911551255,
+        "retained_recording_seconds": 39.75
+      },
+      {
+        "group": "main",
+        "course": "command_loss_wide_1",
+        "repeat": 1,
+        "model": "turn_ordinal",
+        "recording_sha256": "b5f236701768d10433ad9f42aa2c2f087e6902bd0018479736976344603c54b1",
+        "status": "intervention_cte",
+        "terminal_cte_m": -5.049614756756651,
+        "terminal_station_m": 116.34514534787488,
+        "retained_recording_seconds": 34.9
+      }
+    ]
+  },
+  "videos/sangam-straight-left-reviewed.mp4": {
+    "comparison_sha256": "00da4e76b7ea1d701768de2b195aecfc3ff96a049789b9ae28d49873670f14bc",
+    "lateral_stop_m": 5.0,
+    "playback_speed": 2.0,
+    "omitted_intervals": [],
+    "sources": [
+      {
+        "group": "main",
+        "course": "command_loss_wide_2",
+        "repeat": 1,
+        "model": "baseline",
+        "recording_sha256": "bf72c2b8c36f1dbed77733ac5ba15883be79b28da715c89ae2ef3019e28ca935",
+        "status": "intervention_cte",
+        "terminal_cte_m": 5.020107561442128,
+        "terminal_station_m": 168.74916387357828,
+        "retained_recording_seconds": 44.4
+      },
+      {
+        "group": "main",
+        "course": "command_loss_wide_2",
+        "repeat": 1,
+        "model": "turn_ordinal",
+        "recording_sha256": "dcf2ebd112e6ed02f5825a6334603de04cde90b75b41499351770028b4646b5a",
+        "status": "intervention_cte",
+        "terminal_cte_m": -5.006148349956842,
+        "terminal_station_m": 108.21449127673279,
+        "retained_recording_seconds": 33.7
+      },
+      {
+        "group": "main",
+        "course": "command_loss_wide_2",
+        "repeat": 2,
+        "model": "baseline",
+        "recording_sha256": "bea7ce8c2cbe2a5737dd8895086716112256801c242531e2100689aa1e4caa06",
+        "status": "intervention_cte",
+        "terminal_cte_m": 5.0171312430303345,
+        "terminal_station_m": 165.54192984529448,
+        "retained_recording_seconds": 46.2
+      },
+      {
+        "group": "main",
+        "course": "command_loss_wide_2",
+        "repeat": 2,
+        "model": "turn_ordinal",
+        "recording_sha256": "57c750d8f847aaf7b6ca9571ef91eb3e70cd12b63ffc8ae6f3263a9415ec0599",
+        "status": "intervention_cte",
+        "terminal_cte_m": -5.0167369421925185,
+        "terminal_station_m": 105.95237031926547,
+        "retained_recording_seconds": 33.15
+      }
+    ],
+    "inline_attachment": "https://github.com/user-attachments/assets/502a7cd3-da10-43e4-a51b-3776b23a0593"
+  },
+  "videos/sangam-straight-left-repeat3.mp4": {
+    "comparison_sha256": "d0bcc9ecf2eff0ffab74445224c5336d282f94ed91bbe9b261e1fbf1eb113966",
+    "lateral_stop_m": 5.0,
+    "playback_speed": 2.0,
+    "omitted_intervals": [],
+    "sources": [
+      {
+        "group": "main",
+        "course": "command_loss_wide_2",
+        "repeat": 3,
+        "model": "baseline",
+        "recording_sha256": "3534c51b01b902dc0dff761d775e096ae5462a2edadfb4b2afd39465d8aff3e6",
+        "status": "intervention_cte",
+        "terminal_cte_m": 5.003976910316914,
+        "terminal_station_m": 164.61634956469004,
+        "retained_recording_seconds": 46.1
+      },
+      {
+        "group": "main",
+        "course": "command_loss_wide_2",
+        "repeat": 3,
+        "model": "turn_ordinal",
+        "recording_sha256": "222ef7be9c2fc2a6dbbc12a765aee2eb1de50583a4dd89703666316c559a908b",
+        "status": "intervention_cte",
+        "terminal_cte_m": -5.0068703725879065,
+        "terminal_station_m": 106.46077976097709,
+        "retained_recording_seconds": 33.4
+      }
+    ],
+    "inline_attachment": "https://github.com/user-attachments/assets/1a8a4fec-261f-4c89-b8a2-a2940b50b366"
+  },
+  "videos/command_loss_wide_2_vs_baseline.mp4": {
+    "comparison_sha256": "0b40a86368c79f7237fb9b6407e33bb52fef69d7b207304d1b73468b385b57db",
+    "lateral_stop_m": 5.0,
+    "playback_speed": 2.0,
+    "omitted_intervals": [],
+    "sources": [
+      {
+        "group": "main",
+        "course": "command_loss_wide_2",
+        "repeat": 1,
+        "model": "baseline",
+        "recording_sha256": "bf72c2b8c36f1dbed77733ac5ba15883be79b28da715c89ae2ef3019e28ca935",
+        "status": "intervention_cte",
+        "terminal_cte_m": 5.020107561442128,
+        "terminal_station_m": 168.74916387357828,
+        "retained_recording_seconds": 44.4
+      },
+      {
+        "group": "main",
+        "course": "command_loss_wide_2",
+        "repeat": 1,
+        "model": "turn_ordinal",
+        "recording_sha256": "dcf2ebd112e6ed02f5825a6334603de04cde90b75b41499351770028b4646b5a",
+        "status": "intervention_cte",
+        "terminal_cte_m": -5.006148349956842,
+        "terminal_station_m": 108.21449127673279,
+        "retained_recording_seconds": 33.7
+      }
+    ]
+  },
+  "videos/command_loss_wide_2_vs_original.mp4": {
+    "comparison_sha256": "3d32b03b43127e25b8f98ec3a620b857d721361f5926dfad827256e6931addfa",
+    "lateral_stop_m": 5.0,
+    "playback_speed": 2.0,
+    "omitted_intervals": [],
+    "sources": [
+      {
+        "group": "main",
+        "course": "command_loss_wide_2",
+        "repeat": 1,
+        "model": "original",
+        "recording_sha256": "9b8e3b0e852a2401a0142e9484c2df85f951b9379ce5d2b631fef1b653f4c7d7",
+        "status": "intervention_cte",
+        "terminal_cte_m": 5.018714542077889,
+        "terminal_station_m": 19.80017361927621,
+        "retained_recording_seconds": 11.25
+      },
+      {
+        "group": "main",
+        "course": "command_loss_wide_2",
+        "repeat": 1,
+        "model": "turn_ordinal",
+        "recording_sha256": "dcf2ebd112e6ed02f5825a6334603de04cde90b75b41499351770028b4646b5a",
+        "status": "intervention_cte",
+        "terminal_cte_m": -5.006148349956842,
+        "terminal_station_m": 108.21449127673279,
+        "retained_recording_seconds": 33.7
+      }
+    ]
+  },
+  "videos/sangam-initial-fork-cte5.mp4": {
+    "comparison_sha256": "08fc5379c21532570bb054d8c09f1338c8a914f96fb7a8a28b277bc0d9371aee",
+    "lateral_stop_m": 5.0,
+    "playback_speed": 1.0,
+    "omitted_intervals": [],
+    "sources": [
+      {
+        "group": "fork",
+        "course": "test_two_rights",
+        "repeat": 1,
+        "model": "original",
+        "recording_sha256": "47e24e1e76c5d087d75bde2442bd76603fb2f828774edf9c2fc0c9c1ab37a15c",
+        "status": "intervention_cte",
+        "terminal_cte_m": 5.038304094961198,
+        "terminal_station_m": 20.266138109325453,
+        "retained_recording_seconds": 9.25
+      }
+    ],
+    "inline_attachment": "https://github.com/user-attachments/assets/e5d0f5e3-f25f-4d8c-a340-952889536599"
+  },
+  "videos/sangam_fork_failure.mp4": {
+    "comparison_sha256": "05e6883fb6d0a6b0230526bdd4905162aea2c72af3db33b92238397516c1175d",
+    "lateral_stop_m": 5.0,
+    "playback_speed": 2.0,
+    "omitted_intervals": [],
+    "sources": [
+      {
+        "group": "fork",
+        "course": "test_two_rights",
+        "repeat": 1,
+        "model": "original",
+        "recording_sha256": "47e24e1e76c5d087d75bde2442bd76603fb2f828774edf9c2fc0c9c1ab37a15c",
+        "status": "intervention_cte",
+        "terminal_cte_m": 5.038304094961198,
+        "terminal_station_m": 20.266138109325453,
+        "retained_recording_seconds": 9.25
+      },
+      {
+        "group": "fork",
+        "course": "test_two_rights",
+        "repeat": 1,
+        "model": "ordinal",
+        "recording_sha256": "7cc3e0784573464b649f7f37169ae02b205ba33859214a9ba3de66fed9535d65",
+        "status": "intervention_cte",
+        "terminal_cte_m": 5.067525821504066,
+        "terminal_station_m": 70.604478822859,
+        "retained_recording_seconds": 27.0
+      }
+    ],
+    "inline_attachment": "https://github.com/user-attachments/assets/a57e84c6-5ffd-4468-88e2-3b8cb6a0943e"
+  },
+  "videos/sangam_same_data_comparison.mp4": {
+    "comparison_sha256": "6aa1d71b0c2bec2834bdaecd004dea7b2eb616e09d0aca10bbbc27b36e307dfa",
+    "lateral_stop_m": 5.0,
+    "playback_speed": 2.0,
+    "omitted_intervals": [],
+    "sources": [
+      {
+        "group": "arterials",
+        "course": "arterial_right_straight",
+        "repeat": 1,
+        "model": "baseline",
+        "recording_sha256": "6212812e689a6cb81c821e25a82fde72892dd31d2545f7255253654d1b279e3d",
+        "status": "intervention_cte",
+        "terminal_cte_m": 5.006435512809204,
+        "terminal_station_m": 121.31212009961972,
+        "retained_recording_seconds": 38.9
+      },
+      {
+        "group": "arterials",
+        "course": "arterial_right_straight",
+        "repeat": 1,
+        "model": "ordinal_local",
+        "recording_sha256": "3cf88edfeba99f28218cc7ac33eb23ee56ec84488d6f335d10cd9a6a0f22904e",
+        "status": "intervention_cte",
+        "terminal_cte_m": -5.117567548323171,
+        "terminal_station_m": 374.2742331389598,
+        "retained_recording_seconds": 95.45
+      }
+    ],
+    "inline_attachment": "https://github.com/user-attachments/assets/961c8d49-a388-4a03-a5af-570e41013fdd"
+  },
+  "videos/sangam_original_comparison.mp4": {
+    "comparison_sha256": "e3a263a9900d65645d6fd7e13bbaaafe0eae0661cbc4fbe10f58d31cd638aa97",
+    "lateral_stop_m": 5.0,
+    "playback_speed": 2.0,
+    "omitted_intervals": [],
+    "sources": [
+      {
+        "group": "arterials",
+        "course": "arterial_right_straight",
+        "repeat": 1,
+        "model": "original",
+        "recording_sha256": "f04ce0b5fe7c5639106afb222aed3caee18920a6ca409e55e3e22f31e6e1cdbb",
+        "status": "intervention_cte",
+        "terminal_cte_m": 5.059088777142101,
+        "terminal_station_m": 61.414529004410774,
+        "retained_recording_seconds": 21.85
+      },
+      {
+        "group": "arterials",
+        "course": "arterial_right_straight",
+        "repeat": 1,
+        "model": "ordinal_local",
+        "recording_sha256": "3cf88edfeba99f28218cc7ac33eb23ee56ec84488d6f335d10cd9a6a0f22904e",
+        "status": "intervention_cte",
+        "terminal_cte_m": -5.117567548323171,
+        "terminal_station_m": 374.2742331389598,
+        "retained_recording_seconds": 95.45
+      }
+    ],
+    "inline_attachment": "https://github.com/user-attachments/assets/08041d87-ace3-4c3b-a569-ad17f7131643"
+  },
+  "videos/arterial_straight_right_vs_baseline.mp4": {
+    "comparison_sha256": "7f81b6354e48b3d7da9e4635c3478e0500dfa47903d05c6ea32db0cd0f5fd85a",
+    "lateral_stop_m": 5.0,
+    "playback_speed": 2.0,
+    "omitted_intervals": [],
+    "sources": [
+      {
+        "group": "arterials",
+        "course": "arterial_straight_right",
+        "repeat": 1,
+        "model": "baseline",
+        "recording_sha256": "fe9b7f26b898e50be1bd3fc65d5e38e5e21a0f5c87fb90248d698d36898e1acb",
+        "status": "intervention_cte",
+        "terminal_cte_m": 5.018803139719132,
+        "terminal_station_m": 302.90114251910313,
+        "retained_recording_seconds": 83.55
+      },
+      {
+        "group": "arterials",
+        "course": "arterial_straight_right",
+        "repeat": 1,
+        "model": "ordinal_local",
+        "recording_sha256": "6a52cb8d5817bb366cd8b8aaa94ca9ed0b5ae4691987339bdbb0ba7c9608e68e",
+        "status": "intervention_cte",
+        "terminal_cte_m": -5.0689855600781,
+        "terminal_station_m": 60.509417824395925,
+        "retained_recording_seconds": 21.45
+      }
+    ],
+    "inline_attachment": "https://github.com/user-attachments/assets/c89be82b-b39e-415c-abf4-271db75b7180"
+  },
+  "videos/arterial_two_lefts_vs_baseline.mp4": {
+    "comparison_sha256": "4026bd329d543bd90f6c1c7aa4b9d1c325d8842b15dec62dcd6320b11d20eb3b",
+    "lateral_stop_m": 5.0,
+    "playback_speed": 2.0,
+    "omitted_intervals": [],
+    "sources": [
+      {
+        "group": "arterials",
+        "course": "arterial_two_lefts",
+        "repeat": 1,
+        "model": "baseline",
+        "recording_sha256": "ca28dea3842991bc4ecd8f468fe26ef551a9d233456020bd3beab9e8c166dff7",
+        "status": "intervention_cte",
+        "terminal_cte_m": -5.025685030880519,
+        "terminal_station_m": 218.89970470805105,
+        "retained_recording_seconds": 73.5
+      },
+      {
+        "group": "arterials",
+        "course": "arterial_two_lefts",
+        "repeat": 1,
+        "model": "ordinal_local",
+        "recording_sha256": "78c5f904d98ddd1803f69b4be6daaf559fadbbfb9d6be0444319bed5942b9627",
+        "status": "intervention_cte",
+        "terminal_cte_m": 5.041641516943461,
+        "terminal_station_m": 98.0517287246245,
+        "retained_recording_seconds": 33.1
+      }
+    ],
+    "inline_attachment": "https://github.com/user-attachments/assets/b5a13bfc-d7f2-4afb-b1eb-4e421837509a"
+  },
+  "videos/arterial_left_straight_confirmation_vs_baseline.mp4": {
+    "comparison_sha256": "66a3b99ba95cc9dc2ee946d01355be2c15b8d85bfa857c76a21c8a52bc1bb5d1",
+    "lateral_stop_m": 5.0,
+    "playback_speed": 2.0,
+    "omitted_intervals": [],
+    "sources": [
+      {
+        "group": "confirmation",
+        "course": "arterial_left_straight_confirmation",
+        "repeat": 1,
+        "model": "baseline",
+        "recording_sha256": "0db4f4ad875e53741e29f9189967218f573cf37a447a0ceeee5b558d18a67cf3",
+        "status": "intervention_cte",
+        "terminal_cte_m": 5.013320575257876,
+        "terminal_station_m": 113.34520464995461,
+        "retained_recording_seconds": 34.95
+      },
+      {
+        "group": "confirmation",
+        "course": "arterial_left_straight_confirmation",
+        "repeat": 1,
+        "model": "ordinal_local",
+        "recording_sha256": "cbce8d6052e3770acc378d687f87bf499f691aae98384aadd23e71c01b1a78ae",
+        "status": "intervention_cte",
+        "terminal_cte_m": 5.022660676598966,
+        "terminal_station_m": 115.04006423801918,
+        "retained_recording_seconds": 31.0
+      }
+    ],
+    "inline_attachment": "https://github.com/user-attachments/assets/f499f3cd-9319-4967-9f91-c1981fa42116"
+  }
+}

@@ -42,38 +42,59 @@ K-City의 정면 `RIGHT` 표본에서 우조향 20° 이상인 표본 비중은 
 
 ## 본시험
 
-일반 왕복 4차선 이상의 서로 다른 세 경로에서 같은 출발 자세, 16 km/h 속도 상한, 횡오차 15 m 중단 기준으로 각 모델을 두 번씩 주행했다. 정체·후진·제한 시간 기준도 세 모델에 똑같이 적용했다. 정렬 통과는 교차로 출구 직후 6 m 구간에서 횡오차 1.5 m와 방향 오차 25°를 충족한 경우다. 목적지 판정에는 기준 경로 마지막 1 m 구간과 종점 반경 2 m를 함께 사용했다. 신호 준수와 충돌률은 별도 평가로 남겼다.
+영상은 서술한 모델과 코스를 유지해 다시 녹화했다. 왕복 4차선 이상의 고정된 경로에서 모델별로 한 번씩 달렸고 16 km/h 상한과 **절대 횡오차 5 m 이상 즉시 중단**을 적용했다. 각 셀은 마지막 제어 프레임의 경로상 위치와 종료 이유다.
 
-우회전 → 직진 코스는 초기 짧은 시연에 나온 교차로 한 곳을 포함한다. 일부 구간의 인접 차로에는 자율버스 표시가 있고 기준 경로는 일반 차로를 사용한다. 세 긴 경로는 학습 데이터를 추가 수집하기 전에 고정했고, 모델 선택은 별도 검증 도로에서 진행했다.
+| 코스 | 거리 | K-City CIL | 상암 MSE CIL | 상암 조향 분포 CIL |
+|---|---:|---:|---:|---:|
+| 우회전 → 직진 | 451.7 m | 61.4 m · 횡오차 | 121.3 m · 횡오차 | 374.3 m · 횡오차 |
+| 직진 → 직진 → 우회전 | 367.8 m | 53.5 m · 횡오차 | 302.9 m · 횡오차 | 60.5 m · 횡오차 |
+| 좌회전 → 좌회전 | 423.9 m | 7.5 m · 정체 | 218.9 m · 횡오차 | 98.1 m · 횡오차 |
+| 좌회전 → 직진 | 345.3 m | 27.9 m · 횡오차 | 113.3 m · 횡오차 | 115.0 m · 횡오차 |
 
-| 모델 | 목적지 도달 | 좌·우회전 정렬 | 직진 정렬 | 경로 근처 진행률 | 평균 최대 횡오차 |
-|---|---:|---:|---:|---:|---:|
-| K-City CIL 그대로 적용 | 0/6 | 0/8 | 0/6 | 8.3% | 10.17 m |
-| 상암 MSE CIL | 0/6 | 1/8 | 4/6 | 56.8% | 8.26 m |
-| 상암 순서형 조향 분포 CIL + 인접 후보 결합 | 0/6 | 3/8 | 0/6 | 50.4% | 14.80 m |
+<details>
+<summary>우회전 → 직진 · 동일 데이터 비교</summary>
 
-아래 셀은 목적지 도달 횟수와 두 번의 평균 진행 거리다. 진행 거리는 기준 경로에서 2.2 m 이내에 있었던 최장 지점으로 계산했다. 영상은 첫 번째 실행의 동일 데이터 모델 비교다.
+https://github.com/user-attachments/assets/961c8d49-a388-4a03-a5af-570e41013fdd
 
-| 코스 | 거리 | 기존 K-City | 같은 데이터 MSE | 조향 분포 | 비교 |
-|---|---:|---:|---:|---:|---|
-| 우회전 → 직진 | 451.7 m | 0/2 · 55.3 m | 0/2 · 25.8 m | 0/2 · 373.9 m | [영상](results/videos/sangam_same_data_comparison.mp4) |
-| 직진 → 직진 → 우회전 | 367.8 m | 0/2 · 38.0 m | 0/2 · 275.2 m | 0/2 · 55.7 m | [영상](results/videos/arterial_straight_right_vs_baseline.mp4) |
-| 좌회전 → 좌회전 | 423.9 m | 0/2 · 9.4 m | 0/2 · 380.6 m | 0/2 · 225.8 m | [영상](results/videos/arterial_two_lefts_vs_baseline.mp4) |
+</details>
 
-[첫 회전 궤적](results/images/sangam_turn_exit_trajectories.png) · [횡오차 그래프](results/images/sangam_arterial_tracking.png) · [실행별 JSON](results/metrics/sangam_arterial_study.json) · [실행별 CSV](results/metrics/sangam_arterial_trials.csv) · [K-City 모델 비교 영상](results/videos/sangam_original_comparison.mp4)
+<details>
+<summary>직진 → 직진 → 우회전 · 동일 데이터 비교</summary>
+
+https://github.com/user-attachments/assets/c89be82b-b39e-415c-abf4-271db75b7180
+
+</details>
+
+<details>
+<summary>좌회전 → 좌회전 · 동일 데이터 비교</summary>
+
+https://github.com/user-attachments/assets/b5a13bfc-d7f2-4afb-b1eb-4e421837509a
+
+</details>
+
+<details>
+<summary>우회전 → 직진 · K-City 모델과 비교</summary>
+
+https://github.com/user-attachments/assets/08041d87-ace3-4c3b-a569-ad17f7131643
+
+</details>
+
+[5 m 재주행 기록](results/metrics/sangam_cte5_evaluation.json) · [이전 15 m 반복 주행 기록](results/metrics/sangam_arterial_study.json)
 
 ### 추가 확인
 
-345.3 m 좌회전 → 직진 코스에서 같은 체크포인트를 모델별 두 번씩 시험했다. 학습 위치와 기준 경로는 최소 64.3 m 떨어져 있었다. 목적지 도달은 K-City 0/2회, 같은 데이터 MSE 2/2회, 분포 0/2회였다. 첫 좌회전 정렬은 K-City 0/2회, 같은 데이터 MSE 0/2회, 분포 0/2회였다. 평균 경로 근처 진행 거리는 각각 9.0 m, 344.3 m, 90.6 m였다. [추가 코스 영상](results/videos/arterial_left_straight_confirmation_vs_baseline.mp4)
+345.3 m 좌회전 → 직진 코스도 같은 가중치로 다시 시험했다. 학습 위치와 기준 경로가 최소 64.3 m 떨어진 코스다.
 
+<details>
+<summary>좌회전 → 직진 · 추가 코스 비교</summary>
+
+https://github.com/user-attachments/assets/f499f3cd-9319-4967-9f91-c1981fa42116
+
+</details>
 
 ## 남은 문제
 
-본시험에서 분포 모델은 첫 우회전의 출구 정렬을 두 차례 재현했다. 연속 좌회전 코스에서는 한 번만 첫 출구를 맞췄고, 직진이 이어지는 코스에서는 두 번 모두 첫 교차로에서 이탈했다. 후속 실험에서는 같은 분포에서 직진은 기댓값을 쓰고 회전은 확률이 높은 각도 영역을 쓰는 방식과, 연속 프레임을 함께 보는 방식을 독립된 경로에서 검증할 수 있다.
-
-초기 상암의 별도 시험에서 기준 경로가 오른쪽으로 갈라졌고 CIL은 직진 차로를 유지했다. 분포 모델의 횡오차는 기준 경로에서 2.26 m로 늘어나 당시 중단 기준 2.2 m를 넘었다. 그 구간에는 `FOLLOW ROAD`가 들어왔다. 갈림길의 원하는 출구를 언제 전달해야 하는지, 여러 프레임의 차선 움직임을 어떻게 학습할지 후속 실험에서 살펴볼 부분이다.
-
-[갈림길 실패 비교 영상](results/videos/sangam_fork_failure.mp4) · [갈림길 궤적과 횡오차](results/images/sangam_fork_trajectory.png)
+311.8 m 갈림길 경로에서 K-City 모델은 20.3 m, 초기 상암 분포 모델은 70.6 m 지점에서 횡오차 5 m 기준으로 중단했다. 갈림길의 명령 전달 시점과 연속 프레임을 활용한 복귀 동작을 후속 실험에서 확인할 부분이다. [재주행 영상](../README.md#한계) · [이전 2.2 m 시험의 궤적](results/images/sangam_fork_trajectory.png)
 
 ## 재현
 
@@ -89,7 +110,7 @@ bash run.sh cil drive.py \
     --config routes/experiments/sangam_distribution/config.json \
     --manifest routes/experiments/sangam_distribution/evaluation_manifest.json \
     --course arterial_right_straight --checkpoint checkpoints/sangam_ordinal_v3/best.pt \
-    --speed-cap-kph 16 --max-cte 15 --goal-max-cte 1.5 --goal-radius-m 2 \
+    --speed-cap-kph 16 --max-cte 5 --goal-max-cte 1.5 --goal-radius-m 2 \
     --control --reset --record-screen --steering-local-mode
 ```
 

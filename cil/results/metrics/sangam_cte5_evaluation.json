@@ -1,0 +1,1933 @@
+{
+  "protocols": {
+    "main": {
+      "manifest_sha256": "11164cdfda45b45ecc2170ca671139bf5a69b2125d3489f6a45efd97d0877dc3",
+      "speed_cap_kph": 16,
+      "max_cte_m": 5.0,
+      "goal_max_cte_m": 1.5,
+      "goal_radius_m": 2,
+      "test_repetitions": 3,
+      "validation_repetitions": 1,
+      "vehicle": "Ioniq5",
+      "screen": "same chase-camera view",
+      "model_selection": "Best validation MSE for each new fit; routing fixed before training.",
+      "baseline_arms": [
+        "published K-City CIL checkpoint",
+        "Sangam CIL with point steering regression"
+      ],
+      "candidate_arms": [
+        "ordinal steering loss for turn branches; MSE of expected steering elsewhere"
+      ],
+      "collection_and_tuning_scope": "Training roads must remain spatially separated from all reserved evaluation roads.",
+      "secondary_lateral_threshold_m": 2.2,
+      "termination_scope": "Brake and end at the first control sample with absolute cross-track error greater than or equal to 5.0 m. Common goal, stall, reverse, and elapsed-time criteria.",
+      "strict_goal_stop": true
+    },
+    "fork": {
+      "manifest_sha256": "c695e121b35a76c9c136cdb117dfd9c8987523472af9225824b94f489589b623",
+      "speed_cap_kph": 16,
+      "max_cte_m": 5.0,
+      "goal_max_cte_m": 1.5,
+      "goal_radius_m": 2,
+      "test_repetitions": 1,
+      "validation_repetitions": 1,
+      "vehicle": "Ioniq5",
+      "screen": "same chase-camera view",
+      "model_selection": "validation goal arrival count; tie-break on mean route progress and cross-track error",
+      "baseline_arms": [
+        "published K-City CIL checkpoint",
+        "Sangam CIL with point steering regression"
+      ],
+      "candidate_arms": [
+        "Sangam CIL with conditional Gaussian mixture",
+        "Sangam CIL with steering bins and residuals",
+        "Sangam CIL with squeeze-and-excitation in the CNN"
+      ],
+      "collection_and_tuning_scope": "Sangam training and validation roads only. Road splits fixed from signed lane-link geometry before training.",
+      "termination_scope": "Brake and end at the first control sample with absolute cross-track error greater than or equal to 5.0 m."
+    },
+    "arterials": {
+      "manifest_sha256": "ef397ba770a7ca7a66ca33c24f9f1f1f98fbc23769082e38f7003f815a8db26e",
+      "speed_cap_kph": 16,
+      "max_cte_m": 5.0,
+      "goal_max_cte_m": 1.5,
+      "goal_radius_m": 2,
+      "test_repetitions": 1,
+      "validation_repetitions": 1,
+      "vehicle": "Ioniq5",
+      "screen": "same chase-camera view",
+      "model_selection": "Select the trained output on frozen validation roads. Road choices precede new collection and candidate rollouts.",
+      "baseline_arms": [
+        "published K-City CIL checkpoint",
+        "Sangam CIL with point steering regression"
+      ],
+      "candidate_arms": [
+        "MSE baseline",
+        "ordinal steering distribution"
+      ],
+      "collection_and_tuning_scope": "Training roads must remain spatially separated from all reserved evaluation roads.",
+      "secondary_lateral_threshold_m": 2.2,
+      "termination_scope": "Brake and end at the first control sample with absolute cross-track error greater than or equal to 5.0 m.",
+      "strict_goal_stop": true
+    },
+    "confirmation": {
+      "manifest_sha256": "64c0815edb50d278d53289ae300899f677518006fb54a4377dd01ce560742f6d",
+      "speed_cap_kph": 16,
+      "max_cte_m": 5.0,
+      "goal_max_cte_m": 1.5,
+      "goal_radius_m": 2,
+      "test_repetitions": 1,
+      "validation_repetitions": 1,
+      "vehicle": "Ioniq5",
+      "screen": "same chase-camera view",
+      "model_selection": "Reuse the three locked main test policies without any training or decoder changes.",
+      "baseline_arms": [
+        "published K-City CIL checkpoint",
+        "Sangam CIL with point steering regression"
+      ],
+      "candidate_arms": [
+        "MSE baseline",
+        "ordinal steering distribution"
+      ],
+      "collection_and_tuning_scope": "Training roads must remain spatially separated from all reserved evaluation roads.",
+      "secondary_lateral_threshold_m": 2.2,
+      "termination_scope": "Brake and end at the first control sample with absolute cross-track error greater than or equal to 5.0 m.",
+      "strict_goal_stop": true,
+      "frozen_selection_sha256": "38ba453fc478fbed6aa08c282f1aca42247812554bc7f3fa10607901c7bf96cd"
+    }
+  },
+  "metric_definitions": {
+    "first_2p2m": "Route station at first sample with absolute cross-track error at least 2.2 m, or terminal station if never reached.",
+    "cte_stop": "Stop on the first sample whose absolute cross-track error meets or exceeds 5.0 m, with zero throttle and full brake.",
+    "terminal_progress": "Route station at the final logged sample, even if stopped for a separate terminal condition."
+  },
+  "telemetry": {
+    "file": "sangam_cte5_telemetry.csv.gz",
+    "sha256": "32fa6fcd7663fd1046ccb184fa4287da4bb14c636e8848d04aafbfc982dbfb1b",
+    "source": "Selected columns without rounding for all newly recorded 5 m runs."
+  },
+  "main_by_course": {
+    "command_loss_wide_1": {
+      "original": {
+        "runs": 3,
+        "status_counts": {
+          "intervention_cte": 3
+        },
+        "mean_first_2p2m_or_end_station_m": 20.008271763675058,
+        "mean_terminal_station_m": 49.157856278471066,
+        "mean_max_abs_cte_m": 5.031766970841318,
+        "aligned_exits": 0,
+        "planned_exits": 6,
+        "goals": 0
+      },
+      "baseline": {
+        "runs": 3,
+        "status_counts": {
+          "intervention_stalled": 2,
+          "intervention_cte": 1
+        },
+        "mean_first_2p2m_or_end_station_m": 59.23909540417308,
+        "mean_terminal_station_m": 125.69266530564842,
+        "mean_max_abs_cte_m": 4.164663596987447,
+        "aligned_exits": 0,
+        "planned_exits": 6,
+        "goals": 0
+      },
+      "turn_ordinal": {
+        "runs": 3,
+        "status_counts": {
+          "intervention_cte": 3
+        },
+        "mean_first_2p2m_or_end_station_m": 99.54005296945364,
+        "mean_terminal_station_m": 115.82377324495386,
+        "mean_max_abs_cte_m": 5.034307774801014,
+        "aligned_exits": 0,
+        "planned_exits": 6,
+        "goals": 0
+      }
+    },
+    "command_loss_wide_2": {
+      "original": {
+        "runs": 3,
+        "status_counts": {
+          "intervention_cte": 3
+        },
+        "mean_first_2p2m_or_end_station_m": 10.502472176209695,
+        "mean_terminal_station_m": 19.951252518875204,
+        "mean_max_abs_cte_m": 5.033501437264677,
+        "aligned_exits": 0,
+        "planned_exits": 6,
+        "goals": 0
+      },
+      "baseline": {
+        "runs": 3,
+        "status_counts": {
+          "intervention_cte": 3
+        },
+        "mean_first_2p2m_or_end_station_m": 26.451677559204548,
+        "mean_terminal_station_m": 166.30248109452094,
+        "mean_max_abs_cte_m": 5.013738571596459,
+        "aligned_exits": 0,
+        "planned_exits": 6,
+        "goals": 0
+      },
+      "turn_ordinal": {
+        "runs": 3,
+        "status_counts": {
+          "intervention_cte": 3
+        },
+        "mean_first_2p2m_or_end_station_m": 81.32097268875343,
+        "mean_terminal_station_m": 106.87588045232512,
+        "mean_max_abs_cte_m": 5.0099185549124226,
+        "aligned_exits": 0,
+        "planned_exits": 6,
+        "goals": 0
+      }
+    }
+  },
+  "main_by_model": {
+    "original": {
+      "runs": 6,
+      "status_counts": {
+        "intervention_cte": 6
+      },
+      "mean_first_2p2m_or_end_station_m": 15.255371969942377,
+      "mean_terminal_station_m": 34.55455439867313,
+      "mean_max_abs_cte_m": 5.032634204052997,
+      "aligned_exits": 0,
+      "planned_exits": 12,
+      "goals": 0
+    },
+    "baseline": {
+      "runs": 6,
+      "status_counts": {
+        "intervention_stalled": 2,
+        "intervention_cte": 4
+      },
+      "mean_first_2p2m_or_end_station_m": 42.84538648168881,
+      "mean_terminal_station_m": 145.99757320008467,
+      "mean_max_abs_cte_m": 4.589201084291953,
+      "aligned_exits": 0,
+      "planned_exits": 12,
+      "goals": 0
+    },
+    "turn_ordinal": {
+      "runs": 6,
+      "status_counts": {
+        "intervention_cte": 6
+      },
+      "mean_first_2p2m_or_end_station_m": 90.43051282910353,
+      "mean_terminal_station_m": 111.34982684863948,
+      "mean_max_abs_cte_m": 5.022113164856718,
+      "aligned_exits": 0,
+      "planned_exits": 12,
+      "goals": 0
+    }
+  },
+  "paired_main": [
+    {
+      "course": "command_loss_wide_1",
+      "repeat": 1,
+      "first_2p2m_delta_m": 40.39818935315669,
+      "terminal_station_delta_m": 34.80239623236233,
+      "start_position_delta_m": 0.00019301011109426145
+    },
+    {
+      "course": "command_loss_wide_1",
+      "repeat": 2,
+      "first_2p2m_delta_m": 40.37453429917956,
+      "terminal_station_delta_m": 33.97283575309832,
+      "start_position_delta_m": 0.0013203923127919884
+    },
+    {
+      "course": "command_loss_wide_1",
+      "repeat": 3,
+      "first_2p2m_delta_m": 40.13014904350543,
+      "terminal_station_delta_m": -98.38190816754432,
+      "start_position_delta_m": 0.0001220703125
+    },
+    {
+      "course": "command_loss_wide_2",
+      "repeat": 1,
+      "first_2p2m_delta_m": 57.64197193026,
+      "terminal_station_delta_m": -60.534672596845496,
+      "start_position_delta_m": 0.000244140625
+    },
+    {
+      "course": "command_loss_wide_2",
+      "repeat": 2,
+      "first_2p2m_delta_m": 52.71252367936954,
+      "terminal_station_delta_m": -59.58955952602901,
+      "start_position_delta_m": 0.00034526698300124393
+    },
+    {
+      "course": "command_loss_wide_2",
+      "repeat": 3,
+      "first_2p2m_delta_m": 54.25338977901711,
+      "terminal_station_delta_m": -58.15556980371295,
+      "start_position_delta_m": 0.0001220703125
+    }
+  ],
+  "all_status_counts": {
+    "intervention_cte": 29,
+    "intervention_stalled": 3
+  },
+  "trials": [
+    {
+      "group": "main",
+      "course": "command_loss_wide_1",
+      "repeat": 1,
+      "model": "original",
+      "status": "intervention_cte",
+      "length_m": 344.7607815347611,
+      "start_position_m": [
+        870.2092895507812,
+        -421.4569091796875
+      ],
+      "checkpoint_sha256": "d179b1c3fc9f9afd9b91c1449c1f430486631444b3e34cc9a15e26a9edbe569d",
+      "route_sha256": "803cc81799878427811717799208fdbc2218381d29d7938af16561cf86d8e1cb",
+      "cte_cutoff_m": 5.0,
+      "max_abs_cte_m": 5.061030704489557,
+      "terminal_cte_m": 5.061030704489557,
+      "terminal_station_m": 49.27073008832023,
+      "terminal_elapsed_s": 13.16563776199473,
+      "terminal_command": "follow_road",
+      "threshold_reached": true,
+      "first_5m_frame": 263,
+      "throttle_at_stop": 0.0,
+      "brake_at_stop": 1.0,
+      "first_2p2m_or_end_station_m": 19.88641527495317,
+      "threshold_2p2m_reached": true,
+      "command_at_first_2p2m": "follow_road",
+      "goal_reached": false,
+      "turns": [
+        {
+          "command": "right",
+          "link_id": "A219AS319536",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 27.65,
+          "max_abs_cte_m": null
+        },
+        {
+          "command": "straight",
+          "link_id": "A219AS319524",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": null
+        }
+      ],
+      "opposite_direction_sample": false,
+      "telemetry_rows": 264,
+      "telemetry_sha256": "2e65d8ff3b090548d45ad69c716fe851256837d4b662695159738aa3c7b9a71d",
+      "recording_sha256": "8f19a99fdd57a3fd40d76dfd63b37bf847b7b84e805198a0a6988a8ba1a73888",
+      "run": "trials/cte5_command_loss_main/command_loss_wide_1_original_1_a1"
+    },
+    {
+      "group": "main",
+      "course": "command_loss_wide_1",
+      "repeat": 1,
+      "model": "baseline",
+      "status": "intervention_stalled",
+      "length_m": 344.7607815347611,
+      "start_position_m": [
+        870.2083740234375,
+        -421.4555358886719
+      ],
+      "checkpoint_sha256": "6cb09d48fa1ce185297ca88935c996a060efb0276c8f4d123987d730cbd85498",
+      "route_sha256": "803cc81799878427811717799208fdbc2218381d29d7938af16561cf86d8e1cb",
+      "cte_cutoff_m": 5.0,
+      "max_abs_cte_m": 3.745052016175878,
+      "terminal_cte_m": 3.3951898383925228,
+      "terminal_station_m": 81.54274911551255,
+      "terminal_elapsed_s": 34.76263985299738,
+      "terminal_command": "right",
+      "threshold_reached": false,
+      "first_5m_frame": null,
+      "throttle_at_stop": 0.0,
+      "brake_at_stop": 1.0,
+      "first_2p2m_or_end_station_m": 59.23870809244776,
+      "threshold_2p2m_reached": true,
+      "command_at_first_2p2m": "follow_road",
+      "goal_reached": false,
+      "turns": [
+        {
+          "command": "right",
+          "link_id": "A219AS319536",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 27.65,
+          "max_abs_cte_m": null
+        },
+        {
+          "command": "straight",
+          "link_id": "A219AS319524",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": null
+        }
+      ],
+      "opposite_direction_sample": false,
+      "telemetry_rows": 696,
+      "telemetry_sha256": "d09613624f3d0ac935850ddb9f8152a16c8d0eb435c77913e84c2ba9bc480d3e",
+      "recording_sha256": "a1a38d492ba62302b919c096f16890d3a10778bb100bf5d8759b7e85e3931dc6",
+      "run": "trials/cte5_command_loss_main/command_loss_wide_1_baseline_1_a1"
+    },
+    {
+      "group": "main",
+      "course": "command_loss_wide_1",
+      "repeat": 1,
+      "model": "turn_ordinal",
+      "status": "intervention_cte",
+      "length_m": 344.7607815347611,
+      "start_position_m": [
+        870.2083129882812,
+        -421.4557189941406
+      ],
+      "checkpoint_sha256": "653c70e973ed796202f0ead99c4bacc3dac34ef3eb08a58528ed4c47d693d3ea",
+      "route_sha256": "803cc81799878427811717799208fdbc2218381d29d7938af16561cf86d8e1cb",
+      "cte_cutoff_m": 5.0,
+      "max_abs_cte_m": 5.049614756756651,
+      "terminal_cte_m": -5.049614756756651,
+      "terminal_station_m": 116.34514534787488,
+      "terminal_elapsed_s": 29.711165251996135,
+      "terminal_command": "right",
+      "threshold_reached": true,
+      "first_5m_frame": 594,
+      "throttle_at_stop": 0.0,
+      "brake_at_stop": 1.0,
+      "first_2p2m_or_end_station_m": 99.63689744560445,
+      "threshold_2p2m_reached": true,
+      "command_at_first_2p2m": "right",
+      "goal_reached": false,
+      "turns": [
+        {
+          "command": "right",
+          "link_id": "A219AS319536",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 27.65,
+          "max_abs_cte_m": 5.049614756756651
+        },
+        {
+          "command": "straight",
+          "link_id": "A219AS319524",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": null
+        }
+      ],
+      "opposite_direction_sample": false,
+      "telemetry_rows": 595,
+      "telemetry_sha256": "0e8fd0ff799e73109e2944705265c19291de64b2ceba93872e8b30fada650956",
+      "recording_sha256": "b5f236701768d10433ad9f42aa2c2f087e6902bd0018479736976344603c54b1",
+      "run": "trials/cte5_command_loss_main/command_loss_wide_1_turn_ordinal_1_a1"
+    },
+    {
+      "group": "main",
+      "course": "command_loss_wide_2",
+      "repeat": 1,
+      "model": "original",
+      "status": "intervention_cte",
+      "length_m": 315.5271056108293,
+      "start_position_m": [
+        1118.67333984375,
+        -1554.04833984375
+      ],
+      "checkpoint_sha256": "d179b1c3fc9f9afd9b91c1449c1f430486631444b3e34cc9a15e26a9edbe569d",
+      "route_sha256": "fe88f823e13743fb185484758744d4b75988b220a9033ca7ff074c508a5928aa",
+      "cte_cutoff_m": 5.0,
+      "max_abs_cte_m": 5.018714542077889,
+      "terminal_cte_m": 5.018714542077889,
+      "terminal_station_m": 19.80017361927621,
+      "terminal_elapsed_s": 6.606808046999504,
+      "terminal_command": "follow_road",
+      "threshold_reached": true,
+      "first_5m_frame": 132,
+      "throttle_at_stop": 0.0,
+      "brake_at_stop": 1.0,
+      "first_2p2m_or_end_station_m": 10.50937814249637,
+      "threshold_2p2m_reached": true,
+      "command_at_first_2p2m": "follow_road",
+      "goal_reached": false,
+      "turns": [
+        {
+          "command": "straight",
+          "link_id": "A219AS319478",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": null
+        },
+        {
+          "command": "left",
+          "link_id": "A219AS319464",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 19.09,
+          "max_abs_cte_m": null
+        }
+      ],
+      "opposite_direction_sample": false,
+      "telemetry_rows": 133,
+      "telemetry_sha256": "c0fca28af61d4acf44e1f7c6bce467967ee9c52056ad10e7c3eb0e9883033041",
+      "recording_sha256": "9b8e3b0e852a2401a0142e9484c2df85f951b9379ce5d2b631fef1b653f4c7d7",
+      "run": "trials/cte5_command_loss_main/command_loss_wide_2_original_1_a1"
+    },
+    {
+      "group": "main",
+      "course": "command_loss_wide_2",
+      "repeat": 1,
+      "model": "baseline",
+      "status": "intervention_cte",
+      "length_m": 315.5271056108293,
+      "start_position_m": [
+        1118.674560546875,
+        -1554.04931640625
+      ],
+      "checkpoint_sha256": "6cb09d48fa1ce185297ca88935c996a060efb0276c8f4d123987d730cbd85498",
+      "route_sha256": "fe88f823e13743fb185484758744d4b75988b220a9033ca7ff074c508a5928aa",
+      "cte_cutoff_m": 5.0,
+      "max_abs_cte_m": 5.020107561442128,
+      "terminal_cte_m": 5.020107561442128,
+      "terminal_station_m": 168.74916387357828,
+      "terminal_elapsed_s": 42.257430944999214,
+      "terminal_command": "follow_road",
+      "threshold_reached": true,
+      "first_5m_frame": 845,
+      "throttle_at_stop": 0.0,
+      "brake_at_stop": 1.0,
+      "first_2p2m_or_end_station_m": 26.348592206337514,
+      "threshold_2p2m_reached": true,
+      "command_at_first_2p2m": "follow_road",
+      "goal_reached": false,
+      "turns": [
+        {
+          "command": "straight",
+          "link_id": "A219AS319478",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": 3.555292447762645
+        },
+        {
+          "command": "left",
+          "link_id": "A219AS319464",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 19.09,
+          "max_abs_cte_m": null
+        }
+      ],
+      "opposite_direction_sample": false,
+      "telemetry_rows": 846,
+      "telemetry_sha256": "3b8d97db4b52f889f557584db79be44644e71af7ac7623c63db555ebe18009ba",
+      "recording_sha256": "bf72c2b8c36f1dbed77733ac5ba15883be79b28da715c89ae2ef3019e28ca935",
+      "run": "trials/cte5_command_loss_main/command_loss_wide_2_baseline_1_a1"
+    },
+    {
+      "group": "main",
+      "course": "command_loss_wide_2",
+      "repeat": 1,
+      "model": "turn_ordinal",
+      "status": "intervention_cte",
+      "length_m": 315.5271056108293,
+      "start_position_m": [
+        1118.674560546875,
+        -1554.049560546875
+      ],
+      "checkpoint_sha256": "653c70e973ed796202f0ead99c4bacc3dac34ef3eb08a58528ed4c47d693d3ea",
+      "route_sha256": "fe88f823e13743fb185484758744d4b75988b220a9033ca7ff074c508a5928aa",
+      "cte_cutoff_m": 5.0,
+      "max_abs_cte_m": 5.006148349956842,
+      "terminal_cte_m": -5.006148349956842,
+      "terminal_station_m": 108.21449127673279,
+      "terminal_elapsed_s": 28.55650401400635,
+      "terminal_command": "straight",
+      "threshold_reached": true,
+      "first_5m_frame": 571,
+      "throttle_at_stop": 0.0,
+      "brake_at_stop": 1.0,
+      "first_2p2m_or_end_station_m": 83.99056413659751,
+      "threshold_2p2m_reached": true,
+      "command_at_first_2p2m": "straight",
+      "goal_reached": false,
+      "turns": [
+        {
+          "command": "straight",
+          "link_id": "A219AS319478",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": 5.006148349956842
+        },
+        {
+          "command": "left",
+          "link_id": "A219AS319464",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 19.09,
+          "max_abs_cte_m": null
+        }
+      ],
+      "opposite_direction_sample": false,
+      "telemetry_rows": 572,
+      "telemetry_sha256": "cda3c05c515d5f1ee2c10fa2405ab2f5ce80e466b04df6733f3ac6c4740a195a",
+      "recording_sha256": "dcf2ebd112e6ed02f5825a6334603de04cde90b75b41499351770028b4646b5a",
+      "run": "trials/cte5_command_loss_main/command_loss_wide_2_turn_ordinal_1_a1"
+    },
+    {
+      "group": "main",
+      "course": "command_loss_wide_1",
+      "repeat": 2,
+      "model": "turn_ordinal",
+      "status": "intervention_cte",
+      "length_m": 344.7607815347611,
+      "start_position_m": [
+        870.2091674804688,
+        -421.45684814453125
+      ],
+      "checkpoint_sha256": "653c70e973ed796202f0ead99c4bacc3dac34ef3eb08a58528ed4c47d693d3ea",
+      "route_sha256": "803cc81799878427811717799208fdbc2218381d29d7938af16561cf86d8e1cb",
+      "cte_cutoff_m": 5.0,
+      "max_abs_cte_m": 5.050840569168847,
+      "terminal_cte_m": -5.050840569168847,
+      "terminal_station_m": 115.57197574261515,
+      "terminal_elapsed_s": 29.708697088994086,
+      "terminal_command": "right",
+      "threshold_reached": true,
+      "first_5m_frame": 594,
+      "throttle_at_stop": 0.0,
+      "brake_at_stop": 1.0,
+      "first_2p2m_or_end_station_m": 99.60175476845308,
+      "threshold_2p2m_reached": true,
+      "command_at_first_2p2m": "right",
+      "goal_reached": false,
+      "turns": [
+        {
+          "command": "right",
+          "link_id": "A219AS319536",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 27.65,
+          "max_abs_cte_m": 5.050840569168847
+        },
+        {
+          "command": "straight",
+          "link_id": "A219AS319524",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": null
+        }
+      ],
+      "opposite_direction_sample": false,
+      "telemetry_rows": 595,
+      "telemetry_sha256": "d147c4ef69ebaa07713348eedfe5da2eb1db0261f556bdf5ff302696f3b107f3",
+      "recording_sha256": "b9442003e458e1d3baf86f1388e7b283631f7fdf8b326e6b7751f7ccf0c8cb43",
+      "run": "trials/cte5_command_loss_main/command_loss_wide_1_turn_ordinal_2_a1"
+    },
+    {
+      "group": "main",
+      "course": "command_loss_wide_1",
+      "repeat": 2,
+      "model": "baseline",
+      "status": "intervention_stalled",
+      "length_m": 344.7607815347611,
+      "start_position_m": [
+        870.2084350585938,
+        -421.45574951171875
+      ],
+      "checkpoint_sha256": "6cb09d48fa1ce185297ca88935c996a060efb0276c8f4d123987d730cbd85498",
+      "route_sha256": "803cc81799878427811717799208fdbc2218381d29d7938af16561cf86d8e1cb",
+      "cte_cutoff_m": 5.0,
+      "max_abs_cte_m": 3.7480972792757874,
+      "terminal_cte_m": 3.4071744858302893,
+      "terminal_station_m": 81.59913998951683,
+      "terminal_elapsed_s": 34.56370642200636,
+      "terminal_command": "right",
+      "threshold_reached": false,
+      "first_5m_frame": null,
+      "throttle_at_stop": 0.0,
+      "brake_at_stop": 1.0,
+      "first_2p2m_or_end_station_m": 59.22722046927352,
+      "threshold_2p2m_reached": true,
+      "command_at_first_2p2m": "follow_road",
+      "goal_reached": false,
+      "turns": [
+        {
+          "command": "right",
+          "link_id": "A219AS319536",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 27.65,
+          "max_abs_cte_m": null
+        },
+        {
+          "command": "straight",
+          "link_id": "A219AS319524",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": null
+        }
+      ],
+      "opposite_direction_sample": false,
+      "telemetry_rows": 692,
+      "telemetry_sha256": "12eabaf9d828350e9af7c4c56f78ef324bac90f0c66fe15906e2112af2db016a",
+      "recording_sha256": "96a3b47c1791ecff9e663fa7c0b745cbf9217cebad4b433394e10321633d4d16",
+      "run": "trials/cte5_command_loss_main/command_loss_wide_1_baseline_2_a1"
+    },
+    {
+      "group": "main",
+      "course": "command_loss_wide_1",
+      "repeat": 2,
+      "model": "original",
+      "status": "intervention_cte",
+      "length_m": 344.7607815347611,
+      "start_position_m": [
+        870.208251953125,
+        -421.4556884765625
+      ],
+      "checkpoint_sha256": "d179b1c3fc9f9afd9b91c1449c1f430486631444b3e34cc9a15e26a9edbe569d",
+      "route_sha256": "803cc81799878427811717799208fdbc2218381d29d7938af16561cf86d8e1cb",
+      "cte_cutoff_m": 5.0,
+      "max_abs_cte_m": 5.018088607457501,
+      "terminal_cte_m": 5.018088607457501,
+      "terminal_station_m": 49.167262015725996,
+      "terminal_elapsed_s": 13.157419907001895,
+      "terminal_command": "follow_road",
+      "threshold_reached": true,
+      "first_5m_frame": 263,
+      "throttle_at_stop": 0.0,
+      "brake_at_stop": 1.0,
+      "first_2p2m_or_end_station_m": 20.28417795583209,
+      "threshold_2p2m_reached": true,
+      "command_at_first_2p2m": "follow_road",
+      "goal_reached": false,
+      "turns": [
+        {
+          "command": "right",
+          "link_id": "A219AS319536",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 27.65,
+          "max_abs_cte_m": null
+        },
+        {
+          "command": "straight",
+          "link_id": "A219AS319524",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": null
+        }
+      ],
+      "opposite_direction_sample": false,
+      "telemetry_rows": 264,
+      "telemetry_sha256": "b91e22bc2116602d180a719d7bbd548f4c874566c4c3d9d03727ebbf1b99a3f5",
+      "recording_sha256": "8d86dc65f79d12b73c3a5e0ffe635fab8fccc85c813d9e71c3fa5426515ef86c",
+      "run": "trials/cte5_command_loss_main/command_loss_wide_1_original_2_a1"
+    },
+    {
+      "group": "main",
+      "course": "command_loss_wide_2",
+      "repeat": 2,
+      "model": "turn_ordinal",
+      "status": "intervention_cte",
+      "length_m": 315.5271056108293,
+      "start_position_m": [
+        1118.6744384765625,
+        -1554.0491943359375
+      ],
+      "checkpoint_sha256": "653c70e973ed796202f0ead99c4bacc3dac34ef3eb08a58528ed4c47d693d3ea",
+      "route_sha256": "fe88f823e13743fb185484758744d4b75988b220a9033ca7ff074c508a5928aa",
+      "cte_cutoff_m": 5.0,
+      "max_abs_cte_m": 5.0167369421925185,
+      "terminal_cte_m": -5.0167369421925185,
+      "terminal_station_m": 105.95237031926547,
+      "terminal_elapsed_s": 27.961823278994416,
+      "terminal_command": "straight",
+      "threshold_reached": true,
+      "first_5m_frame": 559,
+      "throttle_at_stop": 0.0,
+      "brake_at_stop": 1.0,
+      "first_2p2m_or_end_station_m": 79.14574202528806,
+      "threshold_2p2m_reached": true,
+      "command_at_first_2p2m": "straight",
+      "goal_reached": false,
+      "turns": [
+        {
+          "command": "straight",
+          "link_id": "A219AS319478",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": 5.0167369421925185
+        },
+        {
+          "command": "left",
+          "link_id": "A219AS319464",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 19.09,
+          "max_abs_cte_m": null
+        }
+      ],
+      "opposite_direction_sample": false,
+      "telemetry_rows": 560,
+      "telemetry_sha256": "90910789fdbdef82d2b424fec425d2bc24c123eb7ae63c236da18d66cceec8f1",
+      "recording_sha256": "57c750d8f847aaf7b6ca9571ef91eb3e70cd12b63ffc8ae6f3263a9415ec0599",
+      "run": "trials/cte5_command_loss_main/command_loss_wide_2_turn_ordinal_2_a1"
+    },
+    {
+      "group": "main",
+      "course": "command_loss_wide_2",
+      "repeat": 2,
+      "model": "baseline",
+      "status": "intervention_cte",
+      "length_m": 315.5271056108293,
+      "start_position_m": [
+        1118.6746826171875,
+        -1554.0494384765625
+      ],
+      "checkpoint_sha256": "6cb09d48fa1ce185297ca88935c996a060efb0276c8f4d123987d730cbd85498",
+      "route_sha256": "fe88f823e13743fb185484758744d4b75988b220a9033ca7ff074c508a5928aa",
+      "cte_cutoff_m": 5.0,
+      "max_abs_cte_m": 5.0171312430303345,
+      "terminal_cte_m": 5.0171312430303345,
+      "terminal_station_m": 165.54192984529448,
+      "terminal_elapsed_s": 41.010878437999054,
+      "terminal_command": "follow_road",
+      "threshold_reached": true,
+      "first_5m_frame": 820,
+      "throttle_at_stop": 0.0,
+      "brake_at_stop": 1.0,
+      "first_2p2m_or_end_station_m": 26.433218345918522,
+      "threshold_2p2m_reached": true,
+      "command_at_first_2p2m": "follow_road",
+      "goal_reached": false,
+      "turns": [
+        {
+          "command": "straight",
+          "link_id": "A219AS319478",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": 3.9311598388731475
+        },
+        {
+          "command": "left",
+          "link_id": "A219AS319464",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 19.09,
+          "max_abs_cte_m": null
+        }
+      ],
+      "opposite_direction_sample": false,
+      "telemetry_rows": 821,
+      "telemetry_sha256": "ad415038c9477f3a0ef6e1c7d5d2babaf56e26ea188c391fcfc3b7015731397d",
+      "recording_sha256": "bea7ce8c2cbe2a5737dd8895086716112256801c242531e2100689aa1e4caa06",
+      "run": "trials/cte5_command_loss_main/command_loss_wide_2_baseline_2_a1"
+    },
+    {
+      "group": "main",
+      "course": "command_loss_wide_2",
+      "repeat": 2,
+      "model": "original",
+      "status": "intervention_cte",
+      "length_m": 315.5271056108293,
+      "start_position_m": [
+        1118.674560546875,
+        -1554.049560546875
+      ],
+      "checkpoint_sha256": "d179b1c3fc9f9afd9b91c1449c1f430486631444b3e34cc9a15e26a9edbe569d",
+      "route_sha256": "fe88f823e13743fb185484758744d4b75988b220a9033ca7ff074c508a5928aa",
+      "cte_cutoff_m": 5.0,
+      "max_abs_cte_m": 5.070512376293938,
+      "terminal_cte_m": 5.070512376293938,
+      "terminal_station_m": 19.908272989006353,
+      "terminal_elapsed_s": 6.656247766004526,
+      "terminal_command": "follow_road",
+      "threshold_reached": true,
+      "first_5m_frame": 133,
+      "throttle_at_stop": 0.0,
+      "brake_at_stop": 1.0,
+      "first_2p2m_or_end_station_m": 10.614808699935445,
+      "threshold_2p2m_reached": true,
+      "command_at_first_2p2m": "follow_road",
+      "goal_reached": false,
+      "turns": [
+        {
+          "command": "straight",
+          "link_id": "A219AS319478",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": null
+        },
+        {
+          "command": "left",
+          "link_id": "A219AS319464",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 19.09,
+          "max_abs_cte_m": null
+        }
+      ],
+      "opposite_direction_sample": false,
+      "telemetry_rows": 134,
+      "telemetry_sha256": "841cb442e3543be1f409c669532f07ca15b6647122c8becdc154feffc4d9052d",
+      "recording_sha256": "794c04d05d2cd3a2671321261eb8d11af9f0ccf7d25ac1c124a8dedfe95d186c",
+      "run": "trials/cte5_command_loss_main/command_loss_wide_2_original_2_a1"
+    },
+    {
+      "group": "main",
+      "course": "command_loss_wide_1",
+      "repeat": 3,
+      "model": "original",
+      "status": "intervention_cte",
+      "length_m": 344.7607815347611,
+      "start_position_m": [
+        870.208984375,
+        -421.45672607421875
+      ],
+      "checkpoint_sha256": "d179b1c3fc9f9afd9b91c1449c1f430486631444b3e34cc9a15e26a9edbe569d",
+      "route_sha256": "803cc81799878427811717799208fdbc2218381d29d7938af16561cf86d8e1cb",
+      "cte_cutoff_m": 5.0,
+      "max_abs_cte_m": 5.016181600576894,
+      "terminal_cte_m": 5.016181600576894,
+      "terminal_station_m": 49.03557673136698,
+      "terminal_elapsed_s": 13.107650817997637,
+      "terminal_command": "follow_road",
+      "threshold_reached": true,
+      "first_5m_frame": 262,
+      "throttle_at_stop": 0.0,
+      "brake_at_stop": 1.0,
+      "first_2p2m_or_end_station_m": 19.854222060239916,
+      "threshold_2p2m_reached": true,
+      "command_at_first_2p2m": "follow_road",
+      "goal_reached": false,
+      "turns": [
+        {
+          "command": "right",
+          "link_id": "A219AS319536",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 27.65,
+          "max_abs_cte_m": null
+        },
+        {
+          "command": "straight",
+          "link_id": "A219AS319524",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": null
+        }
+      ],
+      "opposite_direction_sample": false,
+      "telemetry_rows": 263,
+      "telemetry_sha256": "4a96c943d1f21f02f3b762e52bff0b9a607bba55314eafb44e4f2436b68c1c1f",
+      "recording_sha256": "50523219140ebb295160e602cf3e37aa101a0e3eeed2340a49a88897fcb087dc",
+      "run": "trials/cte5_command_loss_main/command_loss_wide_1_original_3_a1"
+    },
+    {
+      "group": "main",
+      "course": "command_loss_wide_1",
+      "repeat": 3,
+      "model": "baseline",
+      "status": "intervention_cte",
+      "length_m": 344.7607815347611,
+      "start_position_m": [
+        870.2083740234375,
+        -421.45556640625
+      ],
+      "checkpoint_sha256": "6cb09d48fa1ce185297ca88935c996a060efb0276c8f4d123987d730cbd85498",
+      "route_sha256": "803cc81799878427811717799208fdbc2218381d29d7938af16561cf86d8e1cb",
+      "cte_cutoff_m": 5.0,
+      "max_abs_cte_m": 5.000841495510677,
+      "terminal_cte_m": 5.000841495510677,
+      "terminal_station_m": 213.93610681191586,
+      "terminal_elapsed_s": 68.8640570280113,
+      "terminal_command": "follow_road",
+      "threshold_reached": true,
+      "first_5m_frame": 1377,
+      "throttle_at_stop": 0.0,
+      "brake_at_stop": 1.0,
+      "first_2p2m_or_end_station_m": 59.251357650797964,
+      "threshold_2p2m_reached": true,
+      "command_at_first_2p2m": "follow_road",
+      "goal_reached": false,
+      "turns": [
+        {
+          "command": "right",
+          "link_id": "A219AS319536",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 27.65,
+          "max_abs_cte_m": 3.504168594923483
+        },
+        {
+          "command": "straight",
+          "link_id": "A219AS319524",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": null
+        }
+      ],
+      "opposite_direction_sample": false,
+      "telemetry_rows": 1378,
+      "telemetry_sha256": "ec61b8c37f88f40dc368a86e4b3cedf9563a379bdb09ebbd39951fc007312ab2",
+      "recording_sha256": "5ff3483d30c90220fceef4617f63384712d6db468090ace2f2555c04905797ee",
+      "run": "trials/cte5_command_loss_main/command_loss_wide_1_baseline_3_a1"
+    },
+    {
+      "group": "main",
+      "course": "command_loss_wide_1",
+      "repeat": 3,
+      "model": "turn_ordinal",
+      "status": "intervention_cte",
+      "length_m": 344.7607815347611,
+      "start_position_m": [
+        870.2083740234375,
+        -421.4554443359375
+      ],
+      "checkpoint_sha256": "653c70e973ed796202f0ead99c4bacc3dac34ef3eb08a58528ed4c47d693d3ea",
+      "route_sha256": "803cc81799878427811717799208fdbc2218381d29d7938af16561cf86d8e1cb",
+      "cte_cutoff_m": 5.0,
+      "max_abs_cte_m": 5.002467998477543,
+      "terminal_cte_m": -5.002467998477543,
+      "terminal_station_m": 115.55419864437154,
+      "terminal_elapsed_s": 29.60655300700455,
+      "terminal_command": "right",
+      "threshold_reached": true,
+      "first_5m_frame": 592,
+      "throttle_at_stop": 0.0,
+      "brake_at_stop": 1.0,
+      "first_2p2m_or_end_station_m": 99.3815066943034,
+      "threshold_2p2m_reached": true,
+      "command_at_first_2p2m": "right",
+      "goal_reached": false,
+      "turns": [
+        {
+          "command": "right",
+          "link_id": "A219AS319536",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 27.65,
+          "max_abs_cte_m": 5.002467998477543
+        },
+        {
+          "command": "straight",
+          "link_id": "A219AS319524",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": null
+        }
+      ],
+      "opposite_direction_sample": false,
+      "telemetry_rows": 593,
+      "telemetry_sha256": "e589ce35b45691dc066be03a96e01be08c15e248407fcd898e85103eff777dd0",
+      "recording_sha256": "c60cc0fb97bbfbdd1fb576cd92464ae9bf6d29d5d7a6f9d4d5e20d575802508f",
+      "run": "trials/cte5_command_loss_main/command_loss_wide_1_turn_ordinal_3_a1"
+    },
+    {
+      "group": "main",
+      "course": "command_loss_wide_2",
+      "repeat": 3,
+      "model": "original",
+      "status": "intervention_cte",
+      "length_m": 315.5271056108293,
+      "start_position_m": [
+        1118.673095703125,
+        -1554.04833984375
+      ],
+      "checkpoint_sha256": "d179b1c3fc9f9afd9b91c1449c1f430486631444b3e34cc9a15e26a9edbe569d",
+      "route_sha256": "fe88f823e13743fb185484758744d4b75988b220a9033ca7ff074c508a5928aa",
+      "cte_cutoff_m": 5.0,
+      "max_abs_cte_m": 5.011277393422203,
+      "terminal_cte_m": 5.011277393422203,
+      "terminal_station_m": 20.145310948343052,
+      "terminal_elapsed_s": 6.705956589998095,
+      "terminal_command": "follow_road",
+      "threshold_reached": true,
+      "first_5m_frame": 134,
+      "throttle_at_stop": 0.0,
+      "brake_at_stop": 1.0,
+      "first_2p2m_or_end_station_m": 10.38322968619727,
+      "threshold_2p2m_reached": true,
+      "command_at_first_2p2m": "follow_road",
+      "goal_reached": false,
+      "turns": [
+        {
+          "command": "straight",
+          "link_id": "A219AS319478",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": null
+        },
+        {
+          "command": "left",
+          "link_id": "A219AS319464",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 19.09,
+          "max_abs_cte_m": null
+        }
+      ],
+      "opposite_direction_sample": false,
+      "telemetry_rows": 135,
+      "telemetry_sha256": "89249bf0fe73a8d3c74ff8fadd83e044dad898ce8b23ed5f5220b1bc20edde96",
+      "recording_sha256": "f9e7ec5cd903c84310101c38a9eb6b16d404c656bffb264636c41d5172ea1db6",
+      "run": "trials/cte5_command_loss_main/command_loss_wide_2_original_3_a1"
+    },
+    {
+      "group": "main",
+      "course": "command_loss_wide_2",
+      "repeat": 3,
+      "model": "baseline",
+      "status": "intervention_cte",
+      "length_m": 315.5271056108293,
+      "start_position_m": [
+        1118.674560546875,
+        -1554.04931640625
+      ],
+      "checkpoint_sha256": "6cb09d48fa1ce185297ca88935c996a060efb0276c8f4d123987d730cbd85498",
+      "route_sha256": "fe88f823e13743fb185484758744d4b75988b220a9033ca7ff074c508a5928aa",
+      "cte_cutoff_m": 5.0,
+      "max_abs_cte_m": 5.003976910316914,
+      "terminal_cte_m": 5.003976910316914,
+      "terminal_station_m": 164.61634956469004,
+      "terminal_elapsed_s": 40.85907035200216,
+      "terminal_command": "follow_road",
+      "threshold_reached": true,
+      "first_5m_frame": 817,
+      "throttle_at_stop": 0.0,
+      "brake_at_stop": 1.0,
+      "first_2p2m_or_end_station_m": 26.573222125357603,
+      "threshold_2p2m_reached": true,
+      "command_at_first_2p2m": "follow_road",
+      "goal_reached": false,
+      "turns": [
+        {
+          "command": "straight",
+          "link_id": "A219AS319478",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": 3.959100487066834
+        },
+        {
+          "command": "left",
+          "link_id": "A219AS319464",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 19.09,
+          "max_abs_cte_m": null
+        }
+      ],
+      "opposite_direction_sample": false,
+      "telemetry_rows": 818,
+      "telemetry_sha256": "ba3c5a0a0657cf642953cda62c8eea143cc6320c95cea05feecedb8aba971d54",
+      "recording_sha256": "3534c51b01b902dc0dff761d775e096ae5462a2edadfb4b2afd39465d8aff3e6",
+      "run": "trials/cte5_command_loss_main/command_loss_wide_2_baseline_3_a1"
+    },
+    {
+      "group": "main",
+      "course": "command_loss_wide_2",
+      "repeat": 3,
+      "model": "turn_ordinal",
+      "status": "intervention_cte",
+      "length_m": 315.5271056108293,
+      "start_position_m": [
+        1118.674560546875,
+        -1554.0494384765625
+      ],
+      "checkpoint_sha256": "653c70e973ed796202f0ead99c4bacc3dac34ef3eb08a58528ed4c47d693d3ea",
+      "route_sha256": "fe88f823e13743fb185484758744d4b75988b220a9033ca7ff074c508a5928aa",
+      "cte_cutoff_m": 5.0,
+      "max_abs_cte_m": 5.0068703725879065,
+      "terminal_cte_m": -5.0068703725879065,
+      "terminal_station_m": 106.46077976097709,
+      "terminal_elapsed_s": 28.200265723004122,
+      "terminal_command": "straight",
+      "threshold_reached": true,
+      "first_5m_frame": 564,
+      "throttle_at_stop": 0.0,
+      "brake_at_stop": 1.0,
+      "first_2p2m_or_end_station_m": 80.82661190437472,
+      "threshold_2p2m_reached": true,
+      "command_at_first_2p2m": "straight",
+      "goal_reached": false,
+      "turns": [
+        {
+          "command": "straight",
+          "link_id": "A219AS319478",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": 5.0068703725879065
+        },
+        {
+          "command": "left",
+          "link_id": "A219AS319464",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 19.09,
+          "max_abs_cte_m": null
+        }
+      ],
+      "opposite_direction_sample": false,
+      "telemetry_rows": 565,
+      "telemetry_sha256": "c905cf7bf1b98c9c4437894f82bd21fd8b72a0b14febe9a3f69adcf776979221",
+      "recording_sha256": "222ef7be9c2fc2a6dbbc12a765aee2eb1de50583a4dd89703666316c559a908b",
+      "run": "trials/cte5_command_loss_main/command_loss_wide_2_turn_ordinal_3_a1"
+    },
+    {
+      "group": "fork",
+      "course": "test_two_rights",
+      "repeat": 1,
+      "model": "original",
+      "status": "intervention_cte",
+      "length_m": 311.79421252446036,
+      "start_position_m": [
+        538.68359375,
+        -54.740325927734375
+      ],
+      "checkpoint_sha256": "d179b1c3fc9f9afd9b91c1449c1f430486631444b3e34cc9a15e26a9edbe569d",
+      "route_sha256": "2999eeb49be9896d8ba8a75b27de2f2a9386ad1aafeeb8c06de19868eb5aa837",
+      "cte_cutoff_m": 5.0,
+      "max_abs_cte_m": 5.038304094961198,
+      "terminal_cte_m": 5.038304094961198,
+      "terminal_station_m": 20.266138109325453,
+      "terminal_elapsed_s": 6.95670304801024,
+      "terminal_command": "follow_road",
+      "threshold_reached": true,
+      "first_5m_frame": 139,
+      "throttle_at_stop": 0.0,
+      "brake_at_stop": 1.0,
+      "first_2p2m_or_end_station_m": 11.624230975091145,
+      "threshold_2p2m_reached": true,
+      "command_at_first_2p2m": "follow_road",
+      "goal_reached": false,
+      "turns": [
+        {
+          "command": "right",
+          "link_id": "A219AS319651",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 33.1,
+          "max_abs_cte_m": null
+        },
+        {
+          "command": "right",
+          "link_id": "A219AS319636",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 45.07,
+          "max_abs_cte_m": null
+        }
+      ],
+      "opposite_direction_sample": false,
+      "telemetry_rows": 140,
+      "telemetry_sha256": "2b6b36eb45f7d8c7597d0a2d0860f44824a97cee57695cefec33caae42b7fe1c",
+      "recording_sha256": "47e24e1e76c5d087d75bde2442bd76603fb2f828774edf9c2fc0c9c1ab37a15c",
+      "run": "trials/cte5_fork/test_two_rights_original_1_a1"
+    },
+    {
+      "group": "fork",
+      "course": "test_two_rights",
+      "repeat": 1,
+      "model": "ordinal",
+      "status": "intervention_cte",
+      "length_m": 311.79421252446036,
+      "start_position_m": [
+        538.6827392578125,
+        -54.74073028564453
+      ],
+      "checkpoint_sha256": "98c90d2037a3d6066d906df084bcedbe651df51995ddf94428dc78a26e903b84",
+      "route_sha256": "2999eeb49be9896d8ba8a75b27de2f2a9386ad1aafeeb8c06de19868eb5aa837",
+      "cte_cutoff_m": 5.0,
+      "max_abs_cte_m": 5.067525821504066,
+      "terminal_cte_m": 5.067525821504066,
+      "terminal_station_m": 70.604478822859,
+      "terminal_elapsed_s": 21.95965458599676,
+      "terminal_command": "follow_road",
+      "threshold_reached": true,
+      "first_5m_frame": 439,
+      "throttle_at_stop": 0.0,
+      "brake_at_stop": 1.0,
+      "first_2p2m_or_end_station_m": 67.38794296024157,
+      "threshold_2p2m_reached": true,
+      "command_at_first_2p2m": "follow_road",
+      "goal_reached": false,
+      "turns": [
+        {
+          "command": "right",
+          "link_id": "A219AS319651",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 33.1,
+          "max_abs_cte_m": null
+        },
+        {
+          "command": "right",
+          "link_id": "A219AS319636",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 45.07,
+          "max_abs_cte_m": null
+        }
+      ],
+      "opposite_direction_sample": false,
+      "telemetry_rows": 440,
+      "telemetry_sha256": "026e4f718415388a59411d7b11e7b85bdb038e2639dc9d2945691119e8b9f75c",
+      "recording_sha256": "7cc3e0784573464b649f7f37169ae02b205ba33859214a9ba3de66fed9535d65",
+      "run": "trials/cte5_fork/test_two_rights_ordinal_1_a1"
+    },
+    {
+      "group": "arterials",
+      "course": "arterial_right_straight",
+      "repeat": 1,
+      "model": "original",
+      "status": "intervention_cte",
+      "length_m": 451.74914763447833,
+      "start_position_m": [
+        886.6390991210938,
+        -285.8443908691406
+      ],
+      "checkpoint_sha256": "d179b1c3fc9f9afd9b91c1449c1f430486631444b3e34cc9a15e26a9edbe569d",
+      "route_sha256": "677e2eaa1e2fd574adf4311b20670c44065eb8cfeb78910b7339d4d3c953514d",
+      "cte_cutoff_m": 5.0,
+      "max_abs_cte_m": 5.059088777142101,
+      "terminal_cte_m": 5.059088777142101,
+      "terminal_station_m": 61.414529004410774,
+      "terminal_elapsed_s": 16.709363665009732,
+      "terminal_command": "right",
+      "threshold_reached": true,
+      "first_5m_frame": 334,
+      "throttle_at_stop": 0.0,
+      "brake_at_stop": 1.0,
+      "first_2p2m_or_end_station_m": 55.14160854857342,
+      "threshold_2p2m_reached": true,
+      "command_at_first_2p2m": "right",
+      "goal_reached": false,
+      "turns": [
+        {
+          "command": "right",
+          "link_id": "A219AS319534",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 30.38,
+          "max_abs_cte_m": 5.059088777142101
+        },
+        {
+          "command": "straight",
+          "link_id": "A219AS319749",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": null
+        }
+      ],
+      "opposite_direction_sample": false,
+      "telemetry_rows": 335,
+      "telemetry_sha256": "81d59e922ff145d59e117a4273a73108570a364d96bac577c34cb32cfbe00671",
+      "recording_sha256": "f04ce0b5fe7c5639106afb222aed3caee18920a6ca409e55e3e22f31e6e1cdbb",
+      "run": "trials/cte5_arterials/arterial_right_straight_original_1_a1"
+    },
+    {
+      "group": "arterials",
+      "course": "arterial_right_straight",
+      "repeat": 1,
+      "model": "baseline",
+      "status": "intervention_cte",
+      "length_m": 451.74914763447833,
+      "start_position_m": [
+        886.63916015625,
+        -285.8444519042969
+      ],
+      "checkpoint_sha256": "d986aa68644478f9691624328d6545c10f947481bad28a33b6627723b0e43bbb",
+      "route_sha256": "677e2eaa1e2fd574adf4311b20670c44065eb8cfeb78910b7339d4d3c953514d",
+      "cte_cutoff_m": 5.0,
+      "max_abs_cte_m": 5.006435512809204,
+      "terminal_cte_m": 5.006435512809204,
+      "terminal_station_m": 121.31212009961972,
+      "terminal_elapsed_s": 36.71249057899695,
+      "terminal_command": "follow_road",
+      "threshold_reached": true,
+      "first_5m_frame": 734,
+      "throttle_at_stop": 0.0,
+      "brake_at_stop": 1.0,
+      "first_2p2m_or_end_station_m": 26.089917298108425,
+      "threshold_2p2m_reached": true,
+      "command_at_first_2p2m": "follow_road",
+      "goal_reached": false,
+      "turns": [
+        {
+          "command": "right",
+          "link_id": "A219AS319534",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 30.38,
+          "max_abs_cte_m": 3.881378880628869
+        },
+        {
+          "command": "straight",
+          "link_id": "A219AS319749",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": null
+        }
+      ],
+      "opposite_direction_sample": false,
+      "telemetry_rows": 735,
+      "telemetry_sha256": "bc158be2730ca0a749e86f507fec5c4cc4c39e2cc2c62f3d3a9c7ce6da9c92d5",
+      "recording_sha256": "6212812e689a6cb81c821e25a82fde72892dd31d2545f7255253654d1b279e3d",
+      "run": "trials/cte5_arterials/arterial_right_straight_baseline_1_a1"
+    },
+    {
+      "group": "arterials",
+      "course": "arterial_right_straight",
+      "repeat": 1,
+      "model": "ordinal_local",
+      "status": "intervention_cte",
+      "length_m": 451.74914763447833,
+      "start_position_m": [
+        886.6390991210938,
+        -285.84442138671875
+      ],
+      "checkpoint_sha256": "12452f6abf84fa24f77d2f0f8db87c097931af7f18f8ad96f2b2ff8497c4942a",
+      "route_sha256": "677e2eaa1e2fd574adf4311b20670c44065eb8cfeb78910b7339d4d3c953514d",
+      "cte_cutoff_m": 5.0,
+      "max_abs_cte_m": 5.117567548323171,
+      "terminal_cte_m": -5.117567548323171,
+      "terminal_station_m": 374.2742331389598,
+      "terminal_elapsed_s": 93.25710859200626,
+      "terminal_command": "straight",
+      "threshold_reached": true,
+      "first_5m_frame": 1865,
+      "throttle_at_stop": 0.0,
+      "brake_at_stop": 1.0,
+      "first_2p2m_or_end_station_m": 321.0932651555246,
+      "threshold_2p2m_reached": true,
+      "command_at_first_2p2m": "follow_road",
+      "goal_reached": false,
+      "turns": [
+        {
+          "command": "right",
+          "link_id": "A219AS319534",
+          "aligned": true,
+          "entered": true,
+          "max_heading_change_5m_deg": 30.38,
+          "max_abs_cte_m": 0.9320608165039223
+        },
+        {
+          "command": "straight",
+          "link_id": "A219AS319749",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": 5.117567548323171
+        }
+      ],
+      "opposite_direction_sample": false,
+      "telemetry_rows": 1866,
+      "telemetry_sha256": "4fb01972881130adad41a113dd2076f3f15b0c3d8e504ccf093c882e67f6cae1",
+      "recording_sha256": "3cf88edfeba99f28218cc7ac33eb23ee56ec84488d6f335d10cd9a6a0f22904e",
+      "run": "trials/cte5_arterials/arterial_right_straight_ordinal_local_1_a1"
+    },
+    {
+      "group": "arterials",
+      "course": "arterial_straight_right",
+      "repeat": 1,
+      "model": "original",
+      "status": "intervention_cte",
+      "length_m": 367.8428532323938,
+      "start_position_m": [
+        1339.646728515625,
+        -1019.509033203125
+      ],
+      "checkpoint_sha256": "d179b1c3fc9f9afd9b91c1449c1f430486631444b3e34cc9a15e26a9edbe569d",
+      "route_sha256": "8a54247639338b34e1fdfc1018004eefac724dbf3fd0220e0805f8a15b3a38bb",
+      "cte_cutoff_m": 5.0,
+      "max_abs_cte_m": 5.044540054249581,
+      "terminal_cte_m": 5.044540054249581,
+      "terminal_station_m": 53.51319580502355,
+      "terminal_elapsed_s": 14.016419634994236,
+      "terminal_command": "straight",
+      "threshold_reached": true,
+      "first_5m_frame": 280,
+      "throttle_at_stop": 0.0,
+      "brake_at_stop": 1.0,
+      "first_2p2m_or_end_station_m": 36.02474631114508,
+      "threshold_2p2m_reached": true,
+      "command_at_first_2p2m": "straight",
+      "goal_reached": false,
+      "turns": [
+        {
+          "command": "straight",
+          "link_id": "A219AS319698",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": 5.044540054249581
+        },
+        {
+          "command": "straight",
+          "link_id": "A219AS319677",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": null
+        },
+        {
+          "command": "right",
+          "link_id": "A219AS319510",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 40.22,
+          "max_abs_cte_m": null
+        }
+      ],
+      "opposite_direction_sample": false,
+      "telemetry_rows": 281,
+      "telemetry_sha256": "ed5c405f1e7d1bb1e8bad2e7fa6a703829fa91086e85bb123e748120c5df140f",
+      "recording_sha256": "30053c81f53a68bf9590a0c4882ea1fa9272a0132b1e3fde2705b1e223ea0270",
+      "run": "trials/cte5_arterials/arterial_straight_right_original_1_a1"
+    },
+    {
+      "group": "arterials",
+      "course": "arterial_straight_right",
+      "repeat": 1,
+      "model": "baseline",
+      "status": "intervention_cte",
+      "length_m": 367.8428532323938,
+      "start_position_m": [
+        1339.6468505859375,
+        -1019.5091552734375
+      ],
+      "checkpoint_sha256": "d986aa68644478f9691624328d6545c10f947481bad28a33b6627723b0e43bbb",
+      "route_sha256": "8a54247639338b34e1fdfc1018004eefac724dbf3fd0220e0805f8a15b3a38bb",
+      "cte_cutoff_m": 5.0,
+      "max_abs_cte_m": 5.018803139719132,
+      "terminal_cte_m": 5.018803139719132,
+      "terminal_station_m": 302.90114251910313,
+      "terminal_elapsed_s": 78.51181377600005,
+      "terminal_command": "follow_road",
+      "threshold_reached": true,
+      "first_5m_frame": 1570,
+      "throttle_at_stop": 0.0,
+      "brake_at_stop": 1.0,
+      "first_2p2m_or_end_station_m": 31.306681036729,
+      "threshold_2p2m_reached": true,
+      "command_at_first_2p2m": "follow_road",
+      "goal_reached": false,
+      "turns": [
+        {
+          "command": "straight",
+          "link_id": "A219AS319698",
+          "aligned": true,
+          "entered": true,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": 2.5969440673259783
+        },
+        {
+          "command": "straight",
+          "link_id": "A219AS319677",
+          "aligned": true,
+          "entered": true,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": 3.327797437919593
+        },
+        {
+          "command": "right",
+          "link_id": "A219AS319510",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 40.22,
+          "max_abs_cte_m": 2.1942646582830614
+        }
+      ],
+      "opposite_direction_sample": false,
+      "telemetry_rows": 1571,
+      "telemetry_sha256": "64e228a9008efef4f98f91dbfaac8a4832c010b7317d39a282334babcead58bf",
+      "recording_sha256": "fe9b7f26b898e50be1bd3fc65d5e38e5e21a0f5c87fb90248d698d36898e1acb",
+      "run": "trials/cte5_arterials/arterial_straight_right_baseline_1_a1"
+    },
+    {
+      "group": "arterials",
+      "course": "arterial_straight_right",
+      "repeat": 1,
+      "model": "ordinal_local",
+      "status": "intervention_cte",
+      "length_m": 367.8428532323938,
+      "start_position_m": [
+        1339.646728515625,
+        -1019.50927734375
+      ],
+      "checkpoint_sha256": "12452f6abf84fa24f77d2f0f8db87c097931af7f18f8ad96f2b2ff8497c4942a",
+      "route_sha256": "8a54247639338b34e1fdfc1018004eefac724dbf3fd0220e0805f8a15b3a38bb",
+      "cte_cutoff_m": 5.0,
+      "max_abs_cte_m": 5.0689855600781,
+      "terminal_cte_m": -5.0689855600781,
+      "terminal_station_m": 60.509417824395925,
+      "terminal_elapsed_s": 16.313457158990786,
+      "terminal_command": "straight",
+      "threshold_reached": true,
+      "first_5m_frame": 326,
+      "throttle_at_stop": 0.0,
+      "brake_at_stop": 1.0,
+      "first_2p2m_or_end_station_m": 57.55270696561188,
+      "threshold_2p2m_reached": true,
+      "command_at_first_2p2m": "straight",
+      "goal_reached": false,
+      "turns": [
+        {
+          "command": "straight",
+          "link_id": "A219AS319698",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": 5.0689855600781
+        },
+        {
+          "command": "straight",
+          "link_id": "A219AS319677",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": null
+        },
+        {
+          "command": "right",
+          "link_id": "A219AS319510",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 40.22,
+          "max_abs_cte_m": null
+        }
+      ],
+      "opposite_direction_sample": false,
+      "telemetry_rows": 327,
+      "telemetry_sha256": "c0232656c5c9bc90f1388c1431fd20ba15b7e84c3bc2918c3c8f2648ae9cea3c",
+      "recording_sha256": "6a52cb8d5817bb366cd8b8aaa94ca9ed0b5ae4691987339bdbb0ba7c9608e68e",
+      "run": "trials/cte5_arterials/arterial_straight_right_ordinal_local_1_a1"
+    },
+    {
+      "group": "arterials",
+      "course": "arterial_two_lefts",
+      "repeat": 1,
+      "model": "original",
+      "status": "intervention_stalled",
+      "length_m": 423.85689600442464,
+      "start_position_m": [
+        275.59637451171875,
+        116.8160400390625
+      ],
+      "checkpoint_sha256": "d179b1c3fc9f9afd9b91c1449c1f430486631444b3e34cc9a15e26a9edbe569d",
+      "route_sha256": "5cd715515d79e2637360ca7ed94d2067cec50cf57ffae9bff230025b9d3c0e15",
+      "cte_cutoff_m": 5.0,
+      "max_abs_cte_m": 0.30124695467104945,
+      "terminal_cte_m": -0.08072993767595271,
+      "terminal_station_m": 7.459178966686079,
+      "terminal_elapsed_s": 15.612615506004659,
+      "terminal_command": "follow_road",
+      "threshold_reached": false,
+      "first_5m_frame": null,
+      "throttle_at_stop": 0.0,
+      "brake_at_stop": 1.0,
+      "first_2p2m_or_end_station_m": 7.459178966686079,
+      "threshold_2p2m_reached": false,
+      "command_at_first_2p2m": null,
+      "goal_reached": false,
+      "turns": [
+        {
+          "command": "left",
+          "link_id": "A219AS319558",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 25.91,
+          "max_abs_cte_m": null
+        },
+        {
+          "command": "left",
+          "link_id": "A219AS319571",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 27.83,
+          "max_abs_cte_m": null
+        }
+      ],
+      "opposite_direction_sample": false,
+      "telemetry_rows": 313,
+      "telemetry_sha256": "c9a3a89e07834518e6da1b3f2f8182803b0ba465a03fe96a23b7f475bfa9b4c6",
+      "recording_sha256": "92a01de71e34e308c9e33ebbed7ca414128b4d73d9d7bc50ba80c43833056b2d",
+      "run": "trials/cte5_arterials/arterial_two_lefts_original_1_a1"
+    },
+    {
+      "group": "arterials",
+      "course": "arterial_two_lefts",
+      "repeat": 1,
+      "model": "baseline",
+      "status": "intervention_cte",
+      "length_m": 423.85689600442464,
+      "start_position_m": [
+        275.595947265625,
+        116.8173599243164
+      ],
+      "checkpoint_sha256": "d986aa68644478f9691624328d6545c10f947481bad28a33b6627723b0e43bbb",
+      "route_sha256": "5cd715515d79e2637360ca7ed94d2067cec50cf57ffae9bff230025b9d3c0e15",
+      "cte_cutoff_m": 5.0,
+      "max_abs_cte_m": 5.025685030880519,
+      "terminal_cte_m": -5.025685030880519,
+      "terminal_station_m": 218.89970470805105,
+      "terminal_elapsed_s": 71.3132192389894,
+      "terminal_command": "follow_road",
+      "threshold_reached": true,
+      "first_5m_frame": 1426,
+      "throttle_at_stop": 0.0,
+      "brake_at_stop": 1.0,
+      "first_2p2m_or_end_station_m": 102.07226394179014,
+      "threshold_2p2m_reached": true,
+      "command_at_first_2p2m": "left",
+      "goal_reached": false,
+      "turns": [
+        {
+          "command": "left",
+          "link_id": "A219AS319558",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 25.91,
+          "max_abs_cte_m": 4.95520253506325
+        },
+        {
+          "command": "left",
+          "link_id": "A219AS319571",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 27.83,
+          "max_abs_cte_m": null
+        }
+      ],
+      "opposite_direction_sample": false,
+      "telemetry_rows": 1427,
+      "telemetry_sha256": "4354c5294e6b08f7cd19fda1ed4a7a148548e36371adf58323ed3572ba84a8a5",
+      "recording_sha256": "ca28dea3842991bc4ecd8f468fe26ef551a9d233456020bd3beab9e8c166dff7",
+      "run": "trials/cte5_arterials/arterial_two_lefts_baseline_1_a1"
+    },
+    {
+      "group": "arterials",
+      "course": "arterial_two_lefts",
+      "repeat": 1,
+      "model": "ordinal_local",
+      "status": "intervention_cte",
+      "length_m": 423.85689600442464,
+      "start_position_m": [
+        275.59698486328125,
+        116.81689453125
+      ],
+      "checkpoint_sha256": "12452f6abf84fa24f77d2f0f8db87c097931af7f18f8ad96f2b2ff8497c4942a",
+      "route_sha256": "5cd715515d79e2637360ca7ed94d2067cec50cf57ffae9bff230025b9d3c0e15",
+      "cte_cutoff_m": 5.0,
+      "max_abs_cte_m": 5.041641516943461,
+      "terminal_cte_m": 5.041641516943461,
+      "terminal_station_m": 98.0517287246245,
+      "terminal_elapsed_s": 28.020339258000604,
+      "terminal_command": "left",
+      "threshold_reached": true,
+      "first_5m_frame": 560,
+      "throttle_at_stop": 0.0,
+      "brake_at_stop": 1.0,
+      "first_2p2m_or_end_station_m": 95.16007410143614,
+      "threshold_2p2m_reached": true,
+      "command_at_first_2p2m": "left",
+      "goal_reached": false,
+      "turns": [
+        {
+          "command": "left",
+          "link_id": "A219AS319558",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 25.91,
+          "max_abs_cte_m": 5.041641516943461
+        },
+        {
+          "command": "left",
+          "link_id": "A219AS319571",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 27.83,
+          "max_abs_cte_m": null
+        }
+      ],
+      "opposite_direction_sample": false,
+      "telemetry_rows": 561,
+      "telemetry_sha256": "ba068ae0c729e2274bb9a7f1ef18adb9c44ac2f8965602f51e4729c965d82b12",
+      "recording_sha256": "78c5f904d98ddd1803f69b4be6daaf559fadbbfb9d6be0444319bed5942b9627",
+      "run": "trials/cte5_arterials/arterial_two_lefts_ordinal_local_1_a1"
+    },
+    {
+      "group": "confirmation",
+      "course": "arterial_left_straight_confirmation",
+      "repeat": 1,
+      "model": "original",
+      "status": "intervention_cte",
+      "length_m": 345.2610771087544,
+      "start_position_m": [
+        420.70721435546875,
+        -943.3414306640625
+      ],
+      "checkpoint_sha256": "d179b1c3fc9f9afd9b91c1449c1f430486631444b3e34cc9a15e26a9edbe569d",
+      "route_sha256": "80663cd11c72af89d44125981b21dc72f96fa0582a096c45dc1bc046ef65adea",
+      "cte_cutoff_m": 5.0,
+      "max_abs_cte_m": 5.064193497381213,
+      "terminal_cte_m": 5.064193497381213,
+      "terminal_station_m": 27.91623486496198,
+      "terminal_elapsed_s": 8.357226387990522,
+      "terminal_command": "follow_road",
+      "threshold_reached": true,
+      "first_5m_frame": 167,
+      "throttle_at_stop": 0.0,
+      "brake_at_stop": 1.0,
+      "first_2p2m_or_end_station_m": 8.955296409154409,
+      "threshold_2p2m_reached": true,
+      "command_at_first_2p2m": "follow_road",
+      "goal_reached": false,
+      "turns": [
+        {
+          "command": "left",
+          "link_id": "A219AS319439",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 18.6,
+          "max_abs_cte_m": null
+        },
+        {
+          "command": "straight",
+          "link_id": "A219AS319443",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": null
+        }
+      ],
+      "opposite_direction_sample": false,
+      "telemetry_rows": 168,
+      "telemetry_sha256": "0bdd716bdf50e66d6a6dddda0644c22c112415aa1a5ebc13e5ee101cc3beb4fd",
+      "recording_sha256": "d96b9e77c01c3632484e0566f415339b6573413d54770399027eda5fd0531086",
+      "run": "trials/cte5_arterial_confirmation/arterial_left_straight_confirmation_original_1_a1"
+    },
+    {
+      "group": "confirmation",
+      "course": "arterial_left_straight_confirmation",
+      "repeat": 1,
+      "model": "baseline",
+      "status": "intervention_cte",
+      "length_m": 345.2610771087544,
+      "start_position_m": [
+        420.6976623535156,
+        -943.3519287109375
+      ],
+      "checkpoint_sha256": "d986aa68644478f9691624328d6545c10f947481bad28a33b6627723b0e43bbb",
+      "route_sha256": "80663cd11c72af89d44125981b21dc72f96fa0582a096c45dc1bc046ef65adea",
+      "cte_cutoff_m": 5.0,
+      "max_abs_cte_m": 5.013320575257876,
+      "terminal_cte_m": 5.013320575257876,
+      "terminal_station_m": 113.34520464995461,
+      "terminal_elapsed_s": 29.71009442200011,
+      "terminal_command": "left",
+      "threshold_reached": true,
+      "first_5m_frame": 594,
+      "throttle_at_stop": 0.0,
+      "brake_at_stop": 1.0,
+      "first_2p2m_or_end_station_m": 94.21839274197968,
+      "threshold_2p2m_reached": true,
+      "command_at_first_2p2m": "left",
+      "goal_reached": false,
+      "turns": [
+        {
+          "command": "left",
+          "link_id": "A219AS319439",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 18.6,
+          "max_abs_cte_m": 5.013320575257876
+        },
+        {
+          "command": "straight",
+          "link_id": "A219AS319443",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": null
+        }
+      ],
+      "opposite_direction_sample": false,
+      "telemetry_rows": 595,
+      "telemetry_sha256": "54a15de4e55043618cff227637be08e9914091d0bfdb2b93d909145c98ecb58d",
+      "recording_sha256": "0db4f4ad875e53741e29f9189967218f573cf37a447a0ceeee5b558d18a67cf3",
+      "run": "trials/cte5_arterial_confirmation/arterial_left_straight_confirmation_baseline_1_a1"
+    },
+    {
+      "group": "confirmation",
+      "course": "arterial_left_straight_confirmation",
+      "repeat": 1,
+      "model": "ordinal_local",
+      "status": "intervention_cte",
+      "length_m": 345.2610771087544,
+      "start_position_m": [
+        420.69805908203125,
+        -943.3519287109375
+      ],
+      "checkpoint_sha256": "12452f6abf84fa24f77d2f0f8db87c097931af7f18f8ad96f2b2ff8497c4942a",
+      "route_sha256": "80663cd11c72af89d44125981b21dc72f96fa0582a096c45dc1bc046ef65adea",
+      "cte_cutoff_m": 5.0,
+      "max_abs_cte_m": 5.022660676598966,
+      "terminal_cte_m": 5.022660676598966,
+      "terminal_station_m": 115.04006423801918,
+      "terminal_elapsed_s": 28.95883735800453,
+      "terminal_command": "left",
+      "threshold_reached": true,
+      "first_5m_frame": 579,
+      "throttle_at_stop": 0.0,
+      "brake_at_stop": 1.0,
+      "first_2p2m_or_end_station_m": 90.55671956271787,
+      "threshold_2p2m_reached": true,
+      "command_at_first_2p2m": "left",
+      "goal_reached": false,
+      "turns": [
+        {
+          "command": "left",
+          "link_id": "A219AS319439",
+          "aligned": false,
+          "entered": true,
+          "max_heading_change_5m_deg": 18.6,
+          "max_abs_cte_m": 5.022660676598966
+        },
+        {
+          "command": "straight",
+          "link_id": "A219AS319443",
+          "aligned": false,
+          "entered": false,
+          "max_heading_change_5m_deg": 0.0,
+          "max_abs_cte_m": null
+        }
+      ],
+      "opposite_direction_sample": false,
+      "telemetry_rows": 580,
+      "telemetry_sha256": "859c9d3cb65ef5c06316dfcf10e11cc8eedd0f8724ab917b308d44d19d632d15",
+      "recording_sha256": "cbce8d6052e3770acc378d687f87bf499f691aae98384aadd23e71c01b1a78ae",
+      "run": "trials/cte5_arterial_confirmation/arterial_left_straight_confirmation_ordinal_local_1_a1"
+    }
+  ]
+}
