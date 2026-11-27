@@ -73,7 +73,7 @@ https://github.com/user-attachments/assets/4e630791-cd46-4c05-bfa6-408bded24454
 
 보강 모델이 다른 도로에서도 달리는지 보려고 더 큰 MORAI 상암 맵으로 옮겼다. 기존 K-City 가중치를 그대로 적용한 초기 탐색에서는 갈림길에서 기준 경로를 벗어나 멈췄다.
 
-<!-- SANGAM_MAIN_VIDEO -->
+https://github.com/user-attachments/assets/67ab0525-58d6-400a-a07b-281a7a47ebe5
 
 이후 상암에서 시범을 모아, 학습에 쓰지 않은 두 경로에서 직진과 좌·우회전이 이어지는 주행을 시험했다. [상암 코스와 초기 주행 기록](cil/results/README.md#상암에서-어디를-달렸나)
 
@@ -97,7 +97,7 @@ https://github.com/user-attachments/assets/4e630791-cd46-4c05-bfa6-408bded24454
 
 두 모델을 같은 상암 시범으로 학습한 뒤 같은 **직진 → 좌회전 코스**에서 시험했다.
 
-<!-- SANGAM_IMPROVEMENT_VIDEO -->
+https://github.com/user-attachments/assets/3b570847-79bc-4aac-8b31-17906090eef4
 
 영상 속 첫 실행의 경로 근처 진행률은 왼쪽 기본 CIL **8.7%**, 오른쪽 제안 모델 **75.3%**. 두 코스의 전체 평균은 기본 CIL **30.1%**, 제안 모델 **52.2%**.
 
