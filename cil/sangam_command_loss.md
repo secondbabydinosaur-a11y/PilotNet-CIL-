@@ -6,19 +6,19 @@
 
 새 두 코스를 정한 뒤 가까운 수집 경로 여섯 곳의 12,869장을 제외했다. MSE와 명령별 모델을 나머지 81,208장으로 각각 다시 학습했다. 평가 경로와 학습 프레임의 최단 거리는 51.5 m였다.
 
-직진과 도로 추종 분기는 분포의 평균 조향에 MSE를 적용했다. 좌·우회전 분기는 순서형 조향 손실을 적용했다. 주행에서는 조향값 순서로 이어진 세 구간씩 훑어 확률 합이 가장 큰 묶음을 고르고, 그 안의 예측값을 확률로 가중 평균했다. 두 모델의 체크포인트는 같은 검증 기준으로 골랐다. 횡오차 5 m 기준으로 모델마다 두 코스를 세 번씩 다시 달렸다. [최종 조향값을 고르는 숫자 예시](results/README.md#회전할-때-최종-조향값을-고르는-예)
+직진과 도로 추종 분기는 분포의 평균 조향에 MSE를 적용했다. 좌·우회전 분기는 순서형 조향 손실을 적용했다. 주행에서는 조향값 순서로 이어진 세 구간씩 훑어 확률 합이 가장 큰 묶음을 고르고, 그 안의 예측값을 확률로 가중 평균했다. 두 모델의 체크포인트는 같은 검증 기준으로 골랐다. 횡오차 7 m 기준으로 모델마다 두 코스를 세 번씩 다시 달렸다. [최종 조향값을 고르는 숫자 예시](results/README.md#회전할-때-최종-조향값을-고르는-예)
 
-초기 출발 자세, 16 km/h 속도 상한, 조향 보조 0회 조건을 사용했다. 절대 횡오차가 처음 5 m 이상인 제어 프레임에서 가속 0과 최대 제동을 명령하고 종료했다. 공통 정체·후진·시간 초과 규칙도 적용했다. 목적지 판정은 마지막 1 m 구간, 종점 반경 2 m, 절대 횡오차 1.5 m 미만을 함께 요구했다. 출구 정렬은 출구 후 6 m 이내에서 절대 횡오차 1.5 m와 방향 오차 25° 기준으로 판정했다.
+초기 출발 자세, 16 km/h 속도 상한, 조향 보조 0회 조건을 사용했다. 절대 횡오차가 처음 7 m 이상인 제어 프레임에서 가속 0과 최대 제동을 명령하고 종료했다. 공통 정체·후진·시간 초과 규칙도 적용했다. 목적지 판정은 마지막 1 m 구간, 종점 반경 2 m, 절대 횡오차 1.5 m 미만을 함께 요구했다. 출구 정렬은 출구 후 6 m 이내에서 절대 횡오차 1.5 m와 방향 오차 25° 기준으로 판정했다.
 
-아래 거리는 현재 영상과 같은 5 m 재주행에서 계산했다. 2.2 m 지표는 첫 계측 위치, 종료 위치는 마지막 계측 위치의 코스별 평균이다. 두 거리 모두 기준 경로에 투영했다. 교차로 출구 정렬은 세 모델 모두 0/12회였다.
+아래 거리는 현재 영상과 같은 7 m 재주행에서 계산했다. 2.2 m 지표는 첫 계측 위치, 종료 위치는 마지막 계측 위치의 코스별 평균이다. 두 거리 모두 기준 경로에 투영했다. 교차로 출구 정렬은 K-City CIL 0/12회 · 상암 기본 CIL 0/12회 · 제안 CIL 0/12회였다.
 
 | 모델 | 첫 횡오차 2.2 m까지 평균 거리 | 우회전 → 직진 종료 위치 | 직진 → 좌회전 종료 위치 | 목적지 도달 |
 |---|---:|---:|---:|---:|
-| 기존 K-City CIL | 15.3 m | 49.2 m | 20.0 m | 0/6 |
-| 상암 MSE CIL | 42.8 m | 125.7 m | 166.3 m | 0/6 |
-| 상암 명령별 조향 손실 CIL | 90.4 m | 115.8 m | 106.9 m | 0/6 |
+| 기존 K-City CIL | 15.3 m | 57.5 m | 32.6 m | 0/6 |
+| 상암 MSE CIL | 42.9 m | 81.5 m | 196.7 m | 0/6 |
+| 상암 명령별 조향 손실 CIL | 90.8 m | 287.9 m | 210.8 m | 0/6 |
 
-[5 m 실행별 CSV](results/metrics/sangam_cte5_trials.csv) · [5 m 프레임 기록](results/metrics/sangam_cte5_telemetry.csv.gz) · [이전 15 m 조건 기록](results/metrics/sangam_repeated_evaluation.json)
+[7 m 실행별 CSV](results/metrics/sangam_cte7_trials.csv) · [7 m 프레임 기록](results/metrics/sangam_cte7_telemetry.csv.gz) · [이전 5 m 조건 기록](results/metrics/sangam_cte5_evaluation.json)
 
 ## 재현
 
@@ -31,14 +31,14 @@ bash run.sh cil drive.py \
     --config routes/experiments/sangam_distribution/config.json \
     --manifest routes/experiments/sangam_distribution/command_loss_manifest.json \
     --course command_loss_wide_2 --checkpoint checkpoints/sangam_turn_ordinal_command_loss/best.pt \
-    --speed-cap-kph 16 --max-cte 5 --goal-max-cte 1.5 --goal-radius-m 2 \
+    --speed-cap-kph 16 --max-cte 7 --goal-max-cte 1.5 --goal-radius-m 2 \
     --steering-local-mode --control --reset --record-screen
 ```
 
 ## 남은 문제
 
-직진 → 좌회전 코스에서 제안 모델의 첫 2.2 m 지점은 세 회차 모두 첫 직진 교차로 구간이었다. 5 m 중단 기준으로 재주행하자 최종 좌회전 교차로에 도달하기 전에 멈췄다. 이번에 비교한 범위는 두 경로와 한 학습 시드다.
+직진 → 좌회전 코스에서 제안 CIL은 최종 좌회전 교차로에 2/3회 진입했고, 좌회전 출구 정렬은 0/3회였다. 좌회전 명령 중 종료한 회차의 방향 오차는 92~93°였다. 이번에 비교한 범위는 두 경로와 한 학습 시드다.
 
 출력 표현, 학습 손실, 주행 때의 후보 선택을 함께 바꿨다. 후속 실험에서는 세 요소의 영향을 나눠 비교하고, 추가 경로와 학습 시드에서 첫 이탈 거리와 출구 정렬을 함께 확인할 계획이다.
 
-[초기 갈림길 5 m 비교](../README.md#한계) · [이전 2.2 m 시험의 궤적](results/images/sangam_fork_trajectory.png)
+[초기 갈림길 7 m 비교](../README.md#한계) · [이전 2.2 m 시험의 궤적](results/images/sangam_fork_trajectory.png)

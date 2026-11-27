@@ -42,44 +42,44 @@ K-City의 정면 `RIGHT` 표본에서 우조향 20° 이상인 표본 비중은 
 
 ## 본시험
 
-영상은 서술한 모델과 코스를 유지해 다시 녹화했다. 왕복 4차선 이상의 고정된 경로에서 모델별로 한 번씩 달렸고 16 km/h 상한과 **절대 횡오차 5 m 이상 즉시 중단**을 적용했다. 각 셀은 마지막 제어 프레임의 경로상 위치와 종료 이유다.
+영상은 서술한 모델과 코스를 유지해 다시 녹화했다. 왕복 4차선 이상의 고정된 경로에서 모델별로 한 번씩 달렸고 16 km/h 상한과 **절대 횡오차 7 m 이상 즉시 중단**을 적용했다. 각 셀은 마지막 제어 프레임의 경로상 위치와 종료 이유다.
 
 | 코스 | 거리 | K-City CIL | 상암 MSE CIL | 상암 조향 분포 CIL |
 |---|---:|---:|---:|---:|
-| 우회전 → 직진 | 451.7 m | 61.4 m · 횡오차 | 121.3 m · 횡오차 | 374.3 m · 횡오차 |
-| 직진 → 직진 → 우회전 | 367.8 m | 53.5 m · 횡오차 | 302.9 m · 횡오차 | 60.5 m · 횡오차 |
-| 좌회전 → 좌회전 | 423.9 m | 7.5 m · 정체 | 218.9 m · 횡오차 | 98.1 m · 횡오차 |
-| 좌회전 → 직진 | 345.3 m | 27.9 m · 횡오차 | 113.3 m · 횡오차 | 115.0 m · 횡오차 |
+| 우회전 → 직진 | 451.7 m | 184.2 m · 횡오차 | 148.4 m · 횡오차 | 376.6 m · 횡오차 |
+| 직진 → 직진 → 우회전 | 367.8 m | 63.2 m · 횡오차 | 352.4 m · 횡오차 | 61.4 m · 횡오차 |
+| 좌회전 → 좌회전 | 423.9 m | 7.4 m · 정체 | 259.7 m · 횡오차 | 361.5 m · 횡오차 |
+| 좌회전 → 직진 | 345.3 m | 32.7 m · 횡오차 | 344.5 m · 도달 | 142.9 m · 횡오차 |
 
 <details>
 <summary>우회전 → 직진 · 동일 데이터 비교</summary>
 
-https://github.com/user-attachments/assets/961c8d49-a388-4a03-a5af-570e41013fdd
+https://github.com/user-attachments/assets/5fa049bd-799d-40e8-bf1d-175e0ce950e5
 
 </details>
 
 <details>
 <summary>직진 → 직진 → 우회전 · 동일 데이터 비교</summary>
 
-https://github.com/user-attachments/assets/c89be82b-b39e-415c-abf4-271db75b7180
+https://github.com/user-attachments/assets/5e6e1ebf-e453-4263-ab92-e930dcf50bd6
 
 </details>
 
 <details>
 <summary>좌회전 → 좌회전 · 동일 데이터 비교</summary>
 
-https://github.com/user-attachments/assets/b5a13bfc-d7f2-4afb-b1eb-4e421837509a
+https://github.com/user-attachments/assets/0592e05b-bd8c-4adb-879a-724bf1a1c741
 
 </details>
 
 <details>
 <summary>우회전 → 직진 · K-City 모델과 비교</summary>
 
-https://github.com/user-attachments/assets/08041d87-ace3-4c3b-a569-ad17f7131643
+https://github.com/user-attachments/assets/09d576d0-ddac-4406-8fc2-be74726d33d8
 
 </details>
 
-[5 m 재주행 기록](results/metrics/sangam_cte5_evaluation.json) · [이전 15 m 반복 주행 기록](results/metrics/sangam_arterial_study.json)
+[7 m 재주행 기록](results/metrics/sangam_cte7_evaluation.json) · [이전 15 m 반복 주행 기록](results/metrics/sangam_arterial_study.json)
 
 ### 추가 확인
 
@@ -88,13 +88,13 @@ https://github.com/user-attachments/assets/08041d87-ace3-4c3b-a569-ad17f7131643
 <details>
 <summary>좌회전 → 직진 · 추가 코스 비교</summary>
 
-https://github.com/user-attachments/assets/f499f3cd-9319-4967-9f91-c1981fa42116
+https://github.com/user-attachments/assets/0c5df961-55fa-4f4d-9944-d0cbfbfda8cc
 
 </details>
 
 ## 남은 문제
 
-311.8 m 갈림길 경로에서 K-City 모델은 20.3 m, 초기 상암 분포 모델은 70.6 m 지점에서 횡오차 5 m 기준으로 중단했다. 갈림길의 명령 전달 시점과 연속 프레임을 활용한 복귀 동작을 후속 실험에서 확인할 부분이다. [재주행 영상](../README.md#한계) · [이전 2.2 m 시험의 궤적](results/images/sangam_fork_trajectory.png)
+횡오차 7 m 조건의 311.8 m 갈림길 경로에서 K-City 모델은 28.1 m 지점에서 횡오차로, 초기 상암 분포 모델은 71.2 m 지점에서 횡오차로 끝났다. 갈림길의 명령 전달 시점과 연속 프레임을 활용한 복귀 동작을 후속 실험에서 확인할 부분이다. [재주행 영상](../README.md#한계) · [이전 2.2 m 시험의 궤적](results/images/sangam_fork_trajectory.png)
 
 ## 재현
 
@@ -110,7 +110,7 @@ bash run.sh cil drive.py \
     --config routes/experiments/sangam_distribution/config.json \
     --manifest routes/experiments/sangam_distribution/evaluation_manifest.json \
     --course arterial_right_straight --checkpoint checkpoints/sangam_ordinal_v3/best.pt \
-    --speed-cap-kph 16 --max-cte 5 --goal-max-cte 1.5 --goal-radius-m 2 \
+    --speed-cap-kph 16 --max-cte 7 --goal-max-cte 1.5 --goal-radius-m 2 \
     --control --reset --record-screen --steering-local-mode
 ```
 
