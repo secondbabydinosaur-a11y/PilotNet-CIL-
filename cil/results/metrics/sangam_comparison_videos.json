@@ -1,0 +1,110 @@
+{
+  "videos/sangam-right-straight-reviewed.mp4": {
+    "course": "command_loss_wide_1",
+    "playback_speed": 2.0,
+    "omitted_intervals": [],
+    "layout": "baseline left, command-specific model right; first run top, second run bottom",
+    "comparison_sha256": "40ce377fc158c73f9cde61ab80a7bf43fbe732dc9d7df4f820fcf09a8a3e1132",
+    "sources": [
+      {
+        "model": "baseline",
+        "repeat": 1,
+        "sha256": "68a4b0a71cd49951e0d98bd3caf454b79580d0c8aff36260f2093403ee4c639c",
+        "retained_recording_seconds": 40.25
+      },
+      {
+        "model": "turn_ordinal",
+        "repeat": 1,
+        "sha256": "c9cd854d7d3afe2aab1f0db3e1c5ad58e59e9784e7ffc6d5debd1a16057bc8fd",
+        "retained_recording_seconds": 78.6
+      },
+      {
+        "model": "baseline",
+        "repeat": 2,
+        "sha256": "3ae85c1d8f05c53a7aee3cec230658d7984f2340c6cf157e18b21947f3c813fc",
+        "retained_recording_seconds": 92.95
+      },
+      {
+        "model": "turn_ordinal",
+        "repeat": 2,
+        "sha256": "4c507403d86976f90345e0d5d9c77356be9ea1daf728eb90843c3270c2a2a7d4",
+        "retained_recording_seconds": 79.2
+      }
+    ]
+  },
+  "videos/sangam-straight-left-reviewed.mp4": {
+    "course": "command_loss_wide_2",
+    "playback_speed": 2.0,
+    "omitted_intervals": [],
+    "layout": "baseline left, command-specific model right; first run top, second run bottom",
+    "comparison_sha256": "aa00393a4c04ff7a1674c2539fbb3a79b1b1cf4e670ab978da5b8ef02c2a5c96",
+    "sources": [
+      {
+        "model": "baseline",
+        "repeat": 1,
+        "sha256": "719444faa79dd6ede466740e20b6ac33e58f913dc8d76965fdb80ef6650b3cc9",
+        "retained_recording_seconds": 68.85
+      },
+      {
+        "model": "turn_ordinal",
+        "repeat": 1,
+        "sha256": "06310f8f17dc9794cfc3d2613632e7ba376a026b9b0948684e6c901af7577494",
+        "retained_recording_seconds": 134.3
+      },
+      {
+        "model": "baseline",
+        "repeat": 2,
+        "sha256": "752e8055d70986548b2dbcd8953b045303c3eafa40378a340e1bfcf3ece0978c",
+        "retained_recording_seconds": 68.75
+      },
+      {
+        "model": "turn_ordinal",
+        "repeat": 2,
+        "sha256": "1ecd92390dafdd5f3948db141151600226a4a28425558718a167ddbe4d077f85",
+        "retained_recording_seconds": 137.05
+      }
+    ]
+  },
+  "videos/sangam-right-straight-repeat3.mp4": {
+    "course": "command_loss_wide_1",
+    "playback_speed": 2.0,
+    "omitted_intervals": [],
+    "layout": "baseline left, command-specific model right; confirmation run",
+    "comparison_sha256": "d4fb5faad7365669c0c5b804c91cc19be12953efabab3245415c1b59e136d933",
+    "sources": [
+      {
+        "model": "baseline",
+        "repeat": 3,
+        "sha256": "bd195b343dddac518cd73c7d940c385de516001553acc36b140d072e657b6a23",
+        "retained_recording_seconds": 89.8
+      },
+      {
+        "model": "turn_ordinal",
+        "repeat": 3,
+        "sha256": "9ba46864a263624e202ab1238ed356a31a50f6ba1fca061e2ad0de420fe5ab5f",
+        "retained_recording_seconds": 77.05
+      }
+    ]
+  },
+  "videos/sangam-straight-left-repeat3.mp4": {
+    "course": "command_loss_wide_2",
+    "playback_speed": 2.0,
+    "omitted_intervals": [],
+    "layout": "baseline left, command-specific model right; confirmation run",
+    "comparison_sha256": "9163a3af4c66c5ff63650c8f7c2aed44ed11d679cfc512c1ed6cb7ab1c833590",
+    "sources": [
+      {
+        "model": "baseline",
+        "repeat": 3,
+        "sha256": "796be2bed1988c3794eb341c3b5c615c739da1e15f315de92928bdcae47552da",
+        "retained_recording_seconds": 65.0
+      },
+      {
+        "model": "turn_ordinal",
+        "repeat": 3,
+        "sha256": "fb27f8e54f5ea875658dca00a7c8d53ebebce68a8cc247ad630c642ed6bac9ed",
+        "retained_recording_seconds": 134.2
+      }
+    ]
+  }
+}

@@ -49,7 +49,7 @@ https://github.com/user-attachments/assets/8a0d8432-1fd0-4297-a44d-84c379cf6832
 <details>
 <summary>곡선 샘플링을 바꾼 모델 · 곡선과 직선 주행</summary>
 
-https://github.com/user-attachments/assets/0d5447ed-05c4-49b4-8b58-5e06ff542bfb
+[곡선 샘플링 비교 원본 영상](videos/03_more_curve_training.mp4)
 
 </details>
 
@@ -60,7 +60,7 @@ K-City 기준 경로 초반의 교차로를 실행 인자에서 `J`라고 부른
 <details>
 <summary>PilotNet 교차로 주행</summary>
 
-https://github.com/user-attachments/assets/248675d3-e24b-4e05-9902-c5ea20747ace
+[PilotNet 교차로 원본 영상](videos/04_intersection.mp4)
 
 </details>
 

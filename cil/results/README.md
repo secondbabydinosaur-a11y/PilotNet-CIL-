@@ -24,7 +24,7 @@ MORAI K-City의 곡선·교차로 시험과 K-City·상암의 연속 주행을 �
 <details>
 <summary>기본 모델의 곡선·연결도로 시험 · 중단</summary>
 
-https://github.com/user-attachments/assets/d41911e4-ea73-4870-9b94-67535cfd0919
+[곡선·연결도로 원본 영상](videos/01_curve.mp4)
 
 </details>
 
@@ -40,21 +40,21 @@ https://github.com/user-attachments/assets/6d53fb0e-0b20-41b6-929e-d573456649d6
 <details>
 <summary>시험 교차로 · 직진</summary>
 
-https://github.com/user-attachments/assets/63fbbd4e-ff00-4bc6-b5d7-b65d74dbff27
+[직진 원본 영상](videos/02_intersection_straight.mp4)
 
 </details>
 
 <details>
 <summary>시험 교차로 · 좌회전</summary>
 
-https://github.com/user-attachments/assets/b9abc75d-7825-44f3-a835-31c9f7326e68
+[좌회전 원본 영상](videos/03_intersection_left.mp4)
 
 </details>
 
 <details>
 <summary>시험 교차로 · 우회전</summary>
 
-https://github.com/user-attachments/assets/c0cd68c8-ff82-48b2-9535-f95c82ce94d7
+[우회전 원본 영상](videos/04_intersection_right.mp4)
 
 </details>
 
@@ -62,18 +62,16 @@ https://github.com/user-attachments/assets/c0cd68c8-ff82-48b2-9535-f95c82ce94d7
 
 ### K-City에서 뭐가 달라졌나
 
-첫 우회전에서 멈춘 뒤, 시험 경로 밖에서 모은 급우회전과 회전 중 복귀 시범을 보강했다.
+첫 우회전에서 멈춘 뒤, 시험 경로 밖에서 모은 급우회전, 회전 중 복귀, 직진 교차로 시범을 보강했다.
 
 ![K-City 452.2 m 코스의 출발점과 종점, 첫 우회전 부근의 초기 중단 지점과 마지막 우회전 부근의 보강 모델 중단 지점](../../docs/figures/kcity-test-course.png)
 
-https://github.com/user-attachments/assets/4e630791-cd46-4c05-bfa6-408bded24454
-
-| 영상 | 중단 지점 | 경로 진행률 | 속도 상한 | 조향 보조 |
+| 실행 | 중단 지점 | 경로 진행률 | 속도 상한 | 조향 보조 |
 |---|---|---:|---:|---|
-| 초기 모델 · 왼쪽 | 첫 우회전 | 18.9% (85.6 m) | 20 km/h | 0회 |
-| 보강 모델 · 오른쪽 | 마지막 우회전 | **95.5% (431.7 m)** | 15 km/h | 초반 좌회전 1회 |
+| 초기 모델 | 첫 우회전 | 18.9% (85.6 m) | 20 km/h | 0회 |
+| 보강 모델 | 마지막 우회전 | **95.5% (431.7 m)** | 15 km/h | 초반 좌회전 1회 |
 
-진행률은 중단 위치를 기준 경로에 투영한 거리를 [전체 코스 길이 452.2 m](../routes/test/EAST_OUTER_EXTENDED.csv)로 나눈 값이다. 영상 속 두 주행은 속도 상한과 조향 보조 조건이 다르다. [실행·체크포인트 기록](metrics/point_to_point.json)
+진행률은 중단 위치를 기준 경로에 투영한 거리를 전체 코스 길이 452.2 m로 나눈 값이다. 두 주행의 속도 상한과 조향 보조 조건이 다르다. [경로 CSV](../routes/test/EAST_OUTER_EXTENDED.csv) · [실행·체크포인트 기록](metrics/point_to_point.json)
 
 <details>
 <summary>데이터 보강과 추가 실행 기록</summary>
@@ -86,7 +84,7 @@ https://github.com/user-attachments/assets/4e630791-cd46-4c05-bfa6-408bded24454
 | 정면 `RIGHT` 시범 중 우조향 20° 이상 | 12.9% → 16.2% |
 | 이전 보강 모델 | 20 km/h 상한과 조향 보조 1회에서 84.8% (383.4 m), 후반 좌회전에서 중단 |
 
-95.5%를 기록한 모델의 Pure Pursuit 조향 보조는 107.3 m에서 시작해 139.7 m에 CIL로 돌아왔다. 마지막 우회전에서는 횡오차가 7 m에 도달해 중단했다. 같은 체크포인트는 20 km/h 상한·무보조 실행에서 첫 우회전 85.8 m 지점에 멈췄다. [실행별 기록](metrics/point_to_point.json)
+95.5%를 기록한 모델의 Pure Pursuit 조향 보조는 107.3 m에서 시작해 139.7 m에 CIL로 돌아왔다. 마지막 우회전에서는 횡오차가 7 m에 도달해 중단했다. 같은 체크포인트는 20 km/h 상한·무보조 실행에서 첫 우회전 85.8 m 지점에 멈췄다. 보강 데이터는 시험 경로와 최소 26.7 m 떨어져 있었고, 첫 우회전 실패를 확인한 뒤 보강 유형을 정해 같은 코스에서 재시험했다. [실행별 기록](metrics/point_to_point.json) · [데이터 기록](../sangam_study.md)
 
 별도 곡선 코스 `U2`에서는 시범 이미지를 26,893장에서 33,003장으로 늘린 뒤, 같은 20 km/h 상한과 무보조 조건에서 116.0 m 중단이 230.8 m 종점 구간 도달로 바뀌었다. [U2 전후 영상](#주행-영상) · [K-City 데이터 비교](../sangam_study.md) · [CIL 논문](https://arxiv.org/abs/1710.02410)
 
@@ -98,12 +96,14 @@ K-City에서 살펴본 회전 문제를 새 도로에서 확인하려고 상암�
 
 ![상암 본시험 경로 두 곳의 출발점과 목적지. 첫 코스는 우회전 후 직진, 둘째 코스는 직진 후 좌회전한다.](images/sangam-command-loss-courses.png)
 
-| 기존 본시험 | 교차로 순서 | 전체 길이 |
-|---|---|---:|
-| [코스 1](../routes/experiments/sangam_distribution/command_loss_wide_1.csv) | 우회전 → 직진 | 344.8 m |
-| [코스 2](../routes/experiments/sangam_distribution/command_loss_wide_2.csv) | 직진 → 좌회전 | 315.5 m |
+| 본시험 경로 | 교차로 순서 | 전체 길이 | 학습 프레임과 최단 거리 |
+|---|---|---:|---:|
+| [코스 1](../routes/experiments/sangam_distribution/command_loss_wide_1.csv) | 우회전 → 직진 | 344.8 m | 51.5 m |
+| [코스 2](../routes/experiments/sangam_distribution/command_loss_wide_2.csv) | 직진 → 좌회전 | 315.5 m | 524.1 m |
 
-모델마다 두 코스를 2회씩 주행했다. 두 상암 모델을 학습하기 전에 시험 경로 인근의 수집 경로 6개를 제외해, 최종 학습 프레임과 시험 경로의 거리는 최소 51.5 m였다. [경로·명령 매니페스트](../routes/experiments/sangam_distribution/command_loss_manifest.json) · [초기 상암 탐색 기록](../sangam_study.md)
+본시험은 왕복 4차선 이상 도로에서 했다. 두 상암 모델을 학습하기 전에 시험 경로 인근 수집 경로 6개를 제외했다. 모델마다 두 코스를 2회씩 주행한 뒤 같은 경로와 가중치로 1회씩 재확인했다. [경로·명령 매니페스트](../routes/experiments/sangam_distribution/command_loss_manifest.json)
+
+상암 초기 탐색은 기존 K-City 모델을 그대로 옮긴 311.8 m 별도 경로였다. 횡오차 7 m 기준으로 재촬영한 실행은 첫 갈림길 전 28.4 m에서 멈췄다. [초기 탐색 전체 영상](videos/sangam-initial-fork-cte7.mp4) · [재촬영 기록](metrics/sangam_fork_7m_replay.json)
 
 <details>
 <summary>학습·검증·본시험 구간 지도</summary>
@@ -115,6 +115,8 @@ K-City에서 살펴본 회전 문제를 새 도로에서 확인하려고 상암�
 ### 제안 모델은 뭘 바꿨나
 
 같은 회전 명령에도 도로 모양과 차량 자세에 따라 필요한 조향값이 달라, 모델이 가능한 조향값 여러 개에 확률을 매기는 방식을 시험했다.
+
+CNN과 명령별 네 분기를 유지했다. 각 분기의 마지막 선형층은 조향·가속·제동 3개에서 가속·제동 2개, 구간 점수 17개, 구간 안의 조향 보정값 17개를 내는 36개 출력으로 바꿨다. 구간 점수에는 softmax를 적용해 확률 합을 1로 맞추고, 보정값에는 tanh를 적용해 후보를 각 구간 안에 둔다. 좌·우회전 학습은 정답 구간과 구간 내 조향을 맞추고, 정답에서 먼 구간에 배정한 확률을 순서형 손실로 벌점 처리한다. 두 상암 모델은 각자의 구조로 처음부터 학습했다. [출력층 코드](../distribution_model.py) · [순서형 손실](../ordinal_model.py) · [명령별 학습 손실](../turn_ordinal_model.py)
 
 | 모델 | 조향을 정하는 방식 | 비교 목적 |
 |---|---|---|
@@ -140,26 +142,40 @@ K-City에서 살펴본 회전 문제를 새 도로에서 확인하려고 상암�
 
 ### 그래서 어디까지 갔나
 
-우회전 → 직진에서는 기존 K-City 모델, 직진 → 좌회전에서는 명령별 모델이 가장 멀리 진행했다.
+두 코스에서 **절대 횡오차가 처음 2.2 m 이상으로 기록된 위치까지의 경로 진행 거리**를 같은 방식으로 계산했다. 아래는 코스별 3회 평균이다.
 
-| 모델 | 우회전 → 직진 | 직진 → 좌회전 | 평균 | 출구 정렬 | 목적지 도달 |
-|---|---:|---:|---:|---:|---:|
-| 기존 K-City CIL | 82.7% | 3.6% | 43.2% | 0/8 | 0/4 |
-| 상암 기본 CIL | 51.6% | 8.6% | 30.1% | 0/8 | 0/4 |
-| 상암 명령별 조향 손실 CIL | 28.9% | 75.5% | **52.2%** | 0/8 | 0/4 |
+| 코스 | 기존 K-City CIL | 상암 기본 CIL | 상암 제안 CIL | 기본·제안 전체 비교 |
+|---|---:|---:|---:|---|
+| 우회전 → 직진 | 22.9 m | 59.3 m | **99.7 m** | [1·2회차](videos/sangam-right-straight-reviewed.mp4) · [3회차](videos/sangam-right-straight-repeat3.mp4) |
+| 직진 → 좌회전 | 11.2 m | 27.0 m | **83.8 m** | [1·2회차](videos/sangam-straight-left-reviewed.mp4) · [3회차](videos/sangam-straight-left-repeat3.mp4) |
+| 6회 평균 | 17.1 m | 43.2 m | **91.8 m** | |
 
-https://github.com/user-attachments/assets/18ad36e7-135e-45d1-844e-ecfd9e9eaba7
+제안 모델의 거리가 같은 데이터 기본형보다 6쌍 모두 길었다. 기존 평가의 2.2 m 기준으로 1·2회차 기록을 재분석하고, 이 지표를 정한 뒤 3회차를 추가했다. 1.5 m와 3.0 m로도 다시 계산했을 때 비교 방향은 6쌍 모두 같았다. 세 모델 모두 목적지 도달 0/6회, 교차로 출구 정렬 0/12회였다. [실행별 CSV](metrics/sangam_repeated_trials.csv) · [조건·해시·집계](metrics/sangam_repeated_evaluation.json) · [지표 산출에 사용한 프레임 기록](metrics/sangam_repeated_telemetry.csv.gz)
 
-*영상 앞부분은 K-City 가중치를 그대로 적용한 초기 갈림길 탐색이고, 뒤는 우회전 → 직진 본시험 첫 실행의 상암 모델 두 개다.*
+<details>
+<summary>회차별 수치와 종료 이유</summary>
 
-상암 진행률은 차량이 기준 경로에서 2.2 m 이내에 있었던 최장 위치를 코스 길이로 나눴다. [실행별 CSV](metrics/sangam_command_loss_trials.csv) · [실험 조건·체크포인트](metrics/sangam_command_loss_results.json)
+경로 근처 진행률은 주행 중 기준 경로의 2.2 m 이내에서 관측된 가장 먼 위치의 비율이다. 경로에서 벗어난 뒤 경로를 다시 가로지른 위치도 집계된다.
+
+| 코스 · 회차 | 첫 횡오차 2.2 m까지 · 기본 / 제안 | 경로 근처 진행률 · 기본 / 제안 | 종료 · 기본 / 제안 |
+|---|---:|---:|---|
+| 우회전 → 직진 · 1 | 59.3 / 99.9 m | 17.1% / 28.9% | 정체 / 횡오차 |
+| 우회전 → 직진 · 2 | 59.3 / 99.6 m | 86.1% / 28.8% | 횡오차 / 횡오차 |
+| 우회전 → 직진 · 3 | 59.2 / 99.7 m | 86.1% / 28.8% | 횡오차 / 횡오차 |
+| 직진 → 좌회전 · 1 | 27.6 / 80.5 m | 8.7% / 75.3% | 횡오차 / 시간 초과 |
+| 직진 → 좌회전 · 2 | 27.0 / 86.9 m | 8.5% / 75.7% | 횡오차 / 시간 초과 |
+| 직진 → 좌회전 · 3 | 26.6 / 84.0 m | 8.4% / 75.7% | 횡오차 / 시간 초과 |
+
+우회전 코스 1회차의 기본형은 정체로 먼저 멈췄고, 2·3회차는 첫 이탈 뒤 다시 경로 근처를 지나갔다. 직진 → 좌회전 코스에서 제안 모델의 첫 2.2 m 지점은 세 번 모두 첫 교차로의 직진 명령 구간이었다. 이후 좌회전 교차로에서 기준 진행 방향과 반대로 움직인 뒤 제한 시간에 걸렸다. [출구 정렬과 목적지 판정](../sangam_command_loss.md#추가-본시험) · [영상 원본과 편집 기록](metrics/sangam_comparison_videos.json)
+
+</details>
 
 <details>
 <summary>두 코스의 횡오차와 중단 기준</summary>
 
 ![상암 두 코스에서 세 모델을 두 번씩 주행한 횡오차 기록. 경로 근처 판정은 2.2 m, 횡오차 중단 기준은 15 m이다.](images/sangam_command_loss_tracking.png)
 
-2.2 m는 기준 경로 근처를 판정하는 값이고, 횡오차로 인한 주행 중단 기준은 15 m였다. 세부 시험 절차, 전체 비교 영상과 코스별 결과는 [상암 시험 원문](../sangam_command_loss.md#추가-본시험)에 있다.
+횡오차로 인한 주행 중단 기준은 15 m였다. 그림은 기존 1·2회차의 기록이다. [추가 3회차를 포함한 시험 절차와 분석](../sangam_command_loss.md#추가-본시험)
 
 </details>
 

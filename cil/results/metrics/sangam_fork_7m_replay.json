@@ -1,0 +1,19 @@
+{
+  "status": "intervention_cte",
+  "checkpoint_sha256": "d179b1c3fc9f9afd9b91c1449c1f430486631444b3e34cc9a15e26a9edbe569d",
+  "epoch": 3,
+  "elapsed_s": 8.906700116000138,
+  "terminal_station_m": 28.360649150200484,
+  "max_abs_cte_m": 7.048730092999576,
+  "terminal_heading_deg": 10.811209499499228,
+  "course": "test_two_rights",
+  "course_length_m": 311.79421252446036,
+  "speed_cap_kph": 16.0,
+  "lateral_stop_m": 7.0,
+  "route_sha256": "2999eeb49be9896d8ba8a75b27de2f2a9386ad1aafeeb8c06de19868eb5aa837",
+  "navigation_input": "command",
+  "steering_assist": false,
+  "original_capture_sha256": "0b4b8ed33b7d6a815b0859c15c210d9157489bb1f388619e9e0f054c953e9435",
+  "video_sha256": "64ae2541215e068c59a7b167c96f093b79252cc8b0130910d6855b20069f3e79",
+  "recording_note": "Full simulator recording at original speed, final observation held for 2 seconds."
+}
