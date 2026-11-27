@@ -94,7 +94,7 @@ https://github.com/user-attachments/assets/c0cd68c8-ff82-48b2-9535-f95c82ce94d7
 
 K-City에서 살펴본 회전 문제를 새 도로에서 확인하려고 상암의 두 경로를 시험했다.
 
-![상암 본시험 경로 두 곳의 출발점과 목적지. 첫 코스는 우회전 후 직진, 둘째 코스는 직진 후 좌회전한다.](images/sangam-command-loss-courses.png)
+![상암 본시험 두 코스의 출발점과 목적지, 교차로, 기본 CIL과 제안 CIL의 회차별 종료 지점.](images/sangam-command-loss-courses.png)
 
 | 본시험 경로 | 교차로 순서 | 전체 길이 | 학습 프레임과 최단 거리 |
 |---|---|---:|---:|
@@ -151,6 +151,8 @@ CNN과 명령별 네 분기를 유지했다. 각 분기의 마지막 선형층�
 | 6회 평균 | 15.3 m | 42.9 m | **90.8 m** | |
 
 첫 2.2 m까지의 거리는 제안 CIL이 6쌍 중 6쌍에서 길었고, 7 m 조건의 종료 위치는 5쌍에서 더 멀었다. 세 모델 모두 목적지 도달 **0/6회**, 계획된 교차로 출구 정렬 **0/12회**였다. [실행별 CSV](metrics/sangam_cte7_trials.csv) · [조건·해시·집계](metrics/sangam_cte7_evaluation.json)
+
+[평균 종료 위치와 향상률](../../README.md#같은-상암-데이터로-학습한-두-모델-비교)
 
 <details>
 <summary>회차별 수치와 종료 이유</summary>
